@@ -1,0 +1,349 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About us",
+    "portfolio": "Portfolio",
+    "contact": "Contact us"
+  },
+  "hero": {
+    "title": "CREATIVITY",
+    "subtitle1": "WITHOUT EDGES",
+    "subtitle2": "We do everything to make your brand work",
+    "button": "Learn more"
+  },
+  "why": {
+    "title": "WHY\nCHOOSE US?",
+    "text1": "To take the brand into work from the beginning to the growth.",
+    "text2": "To release the client from control – and to give the result.",
+    "text3": "Turn creativity into efficiency.",
+    "values": {
+      "result": "RESULT",
+      "growth": "GROWTH",
+      "transparency": "TRANSPARENCY",
+      "responsibility": "RESPONSIBILITY"
+    },
+    "tooltips": {
+      "result": "We focus on delivering measurable outcomes, not just ideas.",
+      "growth": "Helping your brand evolve, expand, and thrive over time.",
+      "transparency": "We believe in open communication and honest processes.",
+      "responsibility": "We take full ownership of our work and its impact."
+    }
+  },
+  "services": {
+    "title": "OUR SERVICES",
+    "cards": {
+      "single": "SINGLE TASK",
+      "full": "FULL PACKAGE",
+      "monthly": "MONTHLY"
+    },
+    "names": {
+      "semicircle": "Semi Circle",
+      "circle": "Circle",
+      "cycle": "Cycle"
+    },
+    "descriptions": {
+      "single": "One-time visual and digital solutions for a specific task",
+      "full": "Comprehensive solution for brand identity and presence",
+      "monthly": "Monthly subscription for visual and content support"
+    },
+    "ideal": {
+      "single": "Ideal for: small businesses, events, campaigns",
+      "full": "Ideal for: growing businesses and startups",
+      "monthly": "Ideal for: brands that want to delegate marketing and design tasks"
+    }
+  },
+  "about": {
+    "title": "ABOUT US",
+    "text1": "At Circle, we don’t just create – we co-create. With brands, people, and cultures. We believe that great ideas emerge where respect, honesty, and responsibility thrive — and we want to make sure every collaboration reflects that.",
+    "text2": "We founded this agency not just to deliver exceptional creative work, but to build a working environment and client culture we’re proud of — one that reflects our mission: to craft meaningful, human-centered creative solutions that shape culture and drive positive impact.",
+    "text3": "Our Code of Conduct is a reflection of that mission. It’s not just a set of rules — it’s our shared agreement on how we choose to do business, treat people, and show up in the world. It’s the foundation that allows creativity, trust, and innovation to flourish.",
+    "text4": "The work is divided into 5 key phases. Each phase marks an important milestone where you receive deliverables and can provide feedback.",
+    "phases": {
+      "discovery": {
+        "title": "Discovery & Research",
+        "desc": "Understanding your goals and brief.\nMarket, audience, and competitor analysis.\nCurrent brand or project audit."
+      },
+      "ideation": {
+        "title": "Ideation & Concept Development",
+        "desc": "Generating ideas aligned with your vision.\nAligning vision and style.\nCollaborative refinement and approval."
+      },
+      "production": {
+        "title": "Production & Creation",
+        "desc": "Designing visual elements.\nProducing content"
+      },
+      "implementation": {
+        "title": "Implementation & Launch",
+        "desc": "Setting up channels and platforms.\nPublishing or delivering final assets.\nCoordinating launch activities and promotion."
+      },
+      "delivery": {
+        "title": "Delivery & Support",
+        "desc": "Handing over final files and documentation.\nOffering guid."
+      }
+    }
+  },
+  "portfolio": {
+    "title": "PROJECTS",
+    "view": "View Project",
+    "projects": {
+      "1": {
+        "title": "STEPPE COFFEE",
+        "description": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
+      },
+      "2": {
+        "title": "NOMAD SPACE",
+        "description": "Creative coworking for freelancers and entrepreneurs."
+      },
+      "3": {
+        "title": "ALTYN MEDIA",
+        "description": "A digital media outlet for a new generation of thinkers."
+      },
+      "4": {
+        "title": "QAZ TECH HUB",
+        "description": "Branding for Kazakhstan’s largest startup accelerator."
+      },
+      "5": {
+        "title": "URBAN STYLE",
+        "description": "Streetwear fashion store with a social edge."
+      }
+    }
+  },
+  "footer": {
+    "address": {
+      "street": "2/2 Khodzhanova Street",
+      "city": "Almaty, Kazakhstan"
+    },
+    "phone": "+ 7 701 932 13 33",
+    "email": "Account manager: Zhanel",
+    "aboutTitle": "About the company",
+    "aboutText": "All brand materials are developed in-house and adapted for digital platforms and offline use."
+  },
+  "form": {
+    "title": "Leave a request",
+    "subtitle": "We will contact you, answer your questions and prepare a commercial offer.",
+    "namePlaceholder": "Name",
+    "phonePlaceholder": "Phone number",
+    "note": "By clicking the button, you accept the terms and privacy policy.",
+    "send": "Send",
+    "sendAnother": "Send another",
+    "success": "Thank you! We will contact you shortly.",
+    "errors": {
+      "Wrong number format": "Invalid phone number format.",
+      "Error! Try again later.": "Error! Try again later."
+    }
+  },
+  "circle": {
+    "hero": {
+      "title": "Circle Service Package",
+      "subtitle": "A full-scale brand launch package — designed to cover everything from social media to investor decks."
+    },
+    "included": {
+      "title": "What’s Included",
+      "headers": {
+        "category": "Category",
+        "services": "Services",
+        "details": "Details"
+      },
+      "launch": {
+        "title": "Launch and PR",
+        "items": [
+          "Market and competitor analysis",
+          "Brand values",
+          "Channel mapping and communication strategy",
+          "Creative concept development",
+          "Event planning",
+          "Promotional activities (barter, collaborations, influencers, offers)",
+          "Targeted advertising"
+        ]
+      },
+      "design": {
+        "title": "Design + Guidebook",
+        "items": [
+          "Logo",
+          "Color palette, fonts, patterns",
+          "Packaging, business cards, merchandise",
+          "Investor presentation",
+          "2D Animations",
+          "Visual usage guidelines",
+          "Illustrations",
+          "Mini website / landing page (if included)"
+        ],
+        "details": [
+          "3 alterations",
+          "3 alterations",
+          "Up to 18 units",
+          "Up to 15 pages",
+          "Up to 3",
+          "30-page book",
+          "Up to 15 illustrations",
+          "1 page"
+        ]
+      },
+      "social": {
+        "title": "Social Media Packaging",
+        "items": [
+          "Posts (visuals + captions + grid adaptation)",
+          "Reels (editing, covers, titles)",
+          "Stories",
+          "Full profile setup (Instagram + TikTok)",
+          "*Other platforms upon request"
+        ],
+        "details": [
+          "10 posts",
+          "10 reels",
+          "30 stories",
+          "",
+          ""
+        ]
+      }
+    },
+    "pricing": {
+      "title": "Pricing",
+      "note": "The budget for paid promotion and printed products is not included in the price of services and is paid separately.\nAll materials (designs, photos, videos) must be approved by the client before publication.\nAfter approval, changes can only be made within 2 calendar days.\nClear content deadlines are set in advance and agreed upon by both parties.",
+      "cta": "Leave a request"
+    }
+  },
+  "semicircle": {
+    "hero": {
+      "title": "Semicircle Service Package",
+      "subtitle": "A flexible package to support partnerships, mini-events, and design production."
+    },
+    "included": {
+      "title": "What’s Included",
+      "headers": {
+        "category": "Category",
+        "services": "Services",
+        "details": "Details"
+      },
+      "marketing": {
+        "title": "Marketing",
+        "items": [
+          "Concept and visual packaging of partnership/collaboration",
+          "Mini-event support (poster, story, video invitation, pop-up, welcome zone, photo/video)"
+        ],
+        "details": [
+          "80.000 ₸",
+          "120.000 ₸"
+        ]
+      },
+      "design": {
+        "title": "Design",
+        "items": [
+          "Guidebook (logo, font, palette, merch)",
+          "Presentation",
+          "Illustration",
+          "Packaging & Brand materials",
+          "2D Animation",
+          "3D Animation",
+          "Pop-up visualization",
+          "Posters / Banners",
+          "Social Media design",
+          "Web design"
+        ],
+        "details": [
+          "20 pages / 30 days — 500.000 ₸",
+          "1 page / 1 hour — 5.900 ₸",
+          "1 / 1-9 days — 9.900–25.000 ₸",
+          "1 / 4–14 days — 10.000–30.000 ₸",
+          "1 sec / 1 hour — 3.500–9.500 ₸",
+          "1 sec / 1 hour — 8.500–21.500 ₸",
+          "1 / 7 days — 35.500 ₸",
+          "1 / 2 days — 9.500 ₸",
+          "1 / 2 days — 3.500–9.500 ₸",
+          "1 / 1 month — 300.000 ₸"
+        ]
+      },
+      "smm": {
+        "title": "SMM",
+        "items": [
+          "Publication plan",
+          "Profile setup (avatar, highlights, posters)",
+          "Reels / TikTok (script, shooting, editing)",
+          "Cover designs for posts (Instagram/TikTok)",
+          "Adapting content to trends",
+          "Stories"
+        ],
+        "details": [
+          "19 days — 250.000 ₸",
+          "10 units",
+          "12 units",
+          "—",
+          "—",
+          "20 stories"
+        ]
+      },
+      "production": {
+        "title": "Production",
+        "items": [
+          "Video production (review, promo, interview)",
+          "Photo production (product, team, lifestyle)"
+        ],
+        "details": [
+          "1 / 1 hour — 35.000 ₸",
+          "1 / 1 hour — 20.000 ₸"
+        ]
+      }
+    },
+    "pricing": {
+      "note": "The budget for paid promotion and printed products is not included in the price of services and is paid separately.\nAll materials (designs, photos, videos) must be approved by the client before publication.\nAfter approval, changes can only be made within 2 calendar days.\nClear content deadlines are set in advance and agreed upon by both parties.\nIf your desired service isn’t listed, we’re open to custom formats.",
+      "cta": "Leave a request"
+    }
+  },
+  "cycle": {
+    "hero": {
+      "title": "Cycle Service Package",
+      "subtitle": "Monthly design and promotion support — ideal for retaining brand activity across social media."
+    },
+    "included": {
+      "title": "What’s Included",
+      "headers": {
+        "category": "Category",
+        "services": "Services",
+        "details": "Details"
+      },
+      "social": {
+        "title": "Social Media",
+        "items": [
+          "Posts for Instagram, TikTok (photos/videos)",
+          "Designed stories",
+          "Full profile setup"
+        ],
+        "details": [
+          "10",
+          "30",
+          ""
+        ]
+      },
+      "design": {
+        "title": "Design",
+        "items": [
+          "Posts and animations for social media",
+          "Updating printed products"
+        ],
+        "details": [
+          "10",
+          "10"
+        ]
+      },
+      "promotion": {
+        "title": "Promotion",
+        "items": [
+          "Collaboration ideas per month (concept + design)",
+          "Targeted advertising",
+          "Monthly report (results, feedback, recommendations)"
+        ],
+        "details": [
+          "up to 4",
+          "",
+          ""
+        ]
+      }
+    },
+    "pricing": {
+      "title": "Pricing",
+      "amount": "580.000 ₸ / monthly",
+      "note": "Discount for purchasing “Circle” — 380.000 ₸\n\n• The budget for paid promotion and printed products is not included in the price of services and is paid separately.\n• All materials (designs, photos, videos) must be approved by the client before publication.\n• After approval, changes can only be made within 2 calendar days.\n• Clear content deadlines are set in advance and agreed upon by both parties.\n• If your desired service isn't listed, we're open to custom solutions and new formats.",
+      "cta": "Leave a request"
+    }
+  }
+}

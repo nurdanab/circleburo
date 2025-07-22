@@ -1,0 +1,216 @@
+.services-section {
+  padding-bottom: 50px;
+  padding-top: 100px;
+  // background-color: aqua;
+}
+
+// .services-title-wrapper {
+
+//   background-color: rgb(182, 74, 74);
+
+// }
+.services-title {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  overflow: visible;
+  line-height: 1.2;
+
+  span {
+    display: inline-block;
+    transform: translateY(30px);
+    filter: blur(6px);
+    transition: all 0.6s ease;
+  }
+}
+
+.services-cards-wrapper {
+  position: relative;
+  text-align: center;
+  padding-bottom: 50px;
+  padding-top: 100px;
+  // background-color: #324424;
+}
+.services-cards a {
+  all: unset;
+  display: block;
+}
+
+.services-cards {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+  position: relative;
+
+  &:hover .service-card {
+    transform: scale(0.95);
+    opacity: 1;
+    filter: brightness(0.9);
+    transition: all 0.3s ease;
+  }
+  a > .service-card {
+    text-decoration: none !important;
+  
+    * {
+      text-decoration: none !important;
+    }
+  }
+  .service-card {
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 336px;
+    height: 492px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(56, 56, 56, 0.6);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    text-align: left;
+
+    &:hover {
+      transform: scale(1.05) translateY(-10px);
+      z-index: 1;
+      filter: none;
+      opacity: 1;
+      color: black;
+
+      .card-ideal,
+      .card-arrow {
+        color: black;
+      }
+    }
+
+    &.semi-card {
+      background-image: url('/img/semi-decor.png');
+      
+
+      &:hover {
+        background-image: url('/img/semi-decor-hover.png');
+      }
+    }
+
+    &.circle-card {
+      background-image: url('/img/circle-decor.png');
+
+      &:hover {
+        background-image: url('/img/circle-decor-hover.png');
+      }
+    }
+
+    &.cycle-card {
+      background-image: url('/img/cycle-decor.png');
+
+      &:hover {
+        background-image: url('/img/cycle-decor-hover.png');
+      }
+    }
+
+    .card-type {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      font-size: 14px;
+      font-weight: 350;
+    }
+
+    .card-title {
+      margin-top: 90px;
+      font-size: 32px;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      min-height: 60px;
+    }
+
+    .card-desc {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+    .card-ideal {
+      margin-bottom: 50px;
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    .card-arrow {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      font-size: 1.7rem;
+      transition: color 0.3s ease;
+      color: white;
+
+      .arrow-icon {
+        display: block;
+      }
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-bottom: 3px;
+      transition: all 0.3s ease;
+      display: inline-block;
+
+      &.semi {
+        background: white;
+        position: relative;
+        border: 1px solid rgb(255, 255, 255);
+
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          border-top: 20px solid #1F1F1F;
+        }
+      }
+
+      &.circle-1 {
+        background: rgb(255, 255, 255);
+        border: 1px solid rgb(255, 255, 255);
+        position: relative;
+      }
+
+      &.cycle {
+        border: 2px solid white;
+      }
+    }
+
+    &:hover .icon.semi {
+      background: black;
+      width: 80px;
+      height: 80px;
+
+      &::before {
+        border-top: 40px solid white;
+      }
+    }
+
+    &:hover .icon.circle-1 {
+      background: black;
+      border-color: black;
+      width: 80px;
+      height: 80px;
+    }
+
+    &:hover .icon.cycle {
+      border-color: black;
+      width: 80px;
+      height: 80px;
+    }
+  }
+}

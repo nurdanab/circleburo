@@ -1,0 +1,129 @@
+.portfolio-section {
+  background-color: #121112;
+  padding: 100px 0;
+  color: #fff;
+
+  .portfolio-title {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 60px;
+  }
+
+  .card-container {
+
+    display: flex;
+    gap: 40px;
+    overflow-x: auto;
+    padding: 40px;
+    margin: 30px -100px;
+
+    &::-webkit-scrollbar {
+      height: 6px;
+      display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #555;
+      border-radius: 10px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+  }
+
+  .project-card {
+    min-width: 300px;
+    max-width: 300px;
+    background-color: #0C0C0C;
+    border: 2px solid #504F50;
+    border-radius: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transform: translateY(var(--y-offset));
+    transition: transform 0.3s ease;
+  
+    &:hover {
+      transform: translateY(0) scale(1.05);
+      box-shadow: 0 10px 20px rgba(146, 146, 146, 0.15);
+    }
+  
+    &:nth-child(odd) {
+      flex-direction: column-reverse;
+      --y-offset: 30px; // ↓ вниз (раньше было -20px)
+    }
+  
+    &:nth-child(even) {
+      --y-offset: -30px; // ↑ вверх (раньше было 20px)
+    }
+
+    .project-image {
+      height: 300px;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center;
+      transition: filter 0.4s ease;
+      filter: grayscale(100%);
+      position: relative;
+
+      &:hover {
+        filter: grayscale(0%);
+      }
+
+      .image-overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        .view-button {
+          background-color: transparent;
+          color: #fff;
+          border: 1px solid #fff;
+          padding: 8px 16px;
+          font-size: 14px;
+          border-radius: 8px;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+        }
+      }
+
+      &:hover .image-overlay {
+        opacity: 1;
+      }
+    }
+
+    .project-content {
+      padding: 20px;
+
+      .project-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 30px;
+      }
+
+      .project-description {
+        font-size: 14px;
+        font-weight: 300;
+        color: #ccc;
+        line-height: 1.4;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .project-image .image-overlay {
+    display: none;
+  }
+}
