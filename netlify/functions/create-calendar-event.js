@@ -15,13 +15,13 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 function validateEnvironment() {
   const required = [
     'VITE_SUPABASE_URL',
-    'SUPABASE_SERVICE_ROLE_KEY', 
+    'SUPABASE_SERVICE_ROLE_KEY',
     'G_CAL_ID',
     'G_CAL_SERVICE_ACCOUNT_KEY'
   ];
-  
+
   const missing = required.filter(key => !process.env[key]);
-  
+
   if (missing.length > 0) {
     throw new Error(`Missing environment variables: ${missing.join(', ')}`);
   }
@@ -36,6 +36,7 @@ function getServiceAccountKey() {
   }
 }
 
+// === ОБНОВЛЁННАЯ ФУНКЦИЯ ===
 function safeBuildDateTime(dateStr, timeStr) {
   console.log("Raw meeting_date:", dateStr);
   console.log("Raw meeting_time:", timeStr);
@@ -44,23 +45,25 @@ function safeBuildDateTime(dateStr, timeStr) {
     throw new Error(`Missing date or time. date=${dateStr}, time=${timeStr}`);
   }
 
-  // timeStr уже содержит секунды (например "12:00:00"), поэтому просто добавляем таймзону
-  const isoString = `${dateStr}T${timeStr}+06:00`; // Алматы = UTC+6
-  const dt = new Date(isoString);
+  // Создаём строку в формате ISO 8601 без временной зоны.
+  // Google Calendar API сам определит время, используя timeZone.
+  const isoString = `${dateStr}T${timeStr}:00`;
 
-  if (isNaN(dt.getTime())) {
+  // Проверяем, является ли это валидной датой.
+  // new Date() здесь используется только для проверки, а не для форматирования.
+  if (isNaN(new Date(isoString).getTime())) {
     throw new Error(`Invalid datetime format: ${isoString}`);
   }
 
-  console.log("Parsed datetime:", dt.toISOString());
-  return dt;
+  console.log("Parsed datetime:", isoString);
+  return isoString;
 }
 
 exports.handler = async (event) => {
   console.log('🔥 Function started');
   console.log('HTTP Method:', event.httpMethod);
   console.log('Headers:', JSON.stringify(event.headers, null, 2));
-  
+
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -68,7 +71,7 @@ exports.handler = async (event) => {
   try {
     // Проверяем переменные окружения
     validateEnvironment();
-    
+
     let payload;
     try {
       payload = JSON.parse(event.body);
@@ -79,7 +82,7 @@ exports.handler = async (event) => {
         body: JSON.stringify({ error: 'Invalid JSON format' })
       };
     }
-    
+
     const newRecord = payload.record;
     const oldRecord = payload.old_record;
 
@@ -140,10 +143,15 @@ exports.handler = async (event) => {
     if (newRecord.status === 'confirmed') {
       const notesContent = newRecord.notes ? `\nЗаметки: ${newRecord.notes}` : '';
 
-      let startDate, endDate;
+      let startDateStr, endDateStr;
       try {
-        startDate = safeBuildDateTime(newRecord.meeting_date, newRecord.meeting_time);
-        endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 час
+        startDateStr = safeBuildDateTime(newRecord.meeting_date, newRecord.meeting_time);
+
+        // Используем объект Date только для вычисления endDate
+        const startDate = new Date(startDateStr);
+        const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 час
+        endDateStr = endDate.toISOString();
+
       } catch (dateError) {
         console.error('Date parsing error:', dateError);
         return {
@@ -159,11 +167,11 @@ exports.handler = async (event) => {
         summary: `Клиент: ${newRecord.name}`,
         description: `Телефон: ${newRecord.phone}${notesContent}`,
         start: {
-          dateTime: startDate.toISOString(),
+          dateTime: startDateStr,
           timeZone: 'Asia/Almaty',
         },
         end: {
-          dateTime: endDate.toISOString(),
+          dateTime: endDateStr,
           timeZone: 'Asia/Almaty',
         },
       };
