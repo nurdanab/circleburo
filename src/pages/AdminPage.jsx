@@ -429,15 +429,16 @@ ${statusEmoji[newStatus]} new!
               <p className="text-gray-400">Попробуйте изменить фильтры поиска</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full table-fixed"> {/* Добавляем table-fixed, чтобы контролировать ширину столбцов */}
+            <div className="overflow-x-auto"> 
+              <table className="w-full"> 
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <SortableHeader field="name">Клиент</SortableHeader>
                     <SortableHeader field="phone">Контакты</SortableHeader>
                     <SortableHeader field="meeting_date">Встреча</SortableHeader>
                     <SortableHeader field="status">Статус</SortableHeader>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    {/* Добавляем w-80 для увеличения ширины колонки "Заметки" */}
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-80">
                       Заметки
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -509,7 +510,7 @@ ${statusEmoji[newStatus]} new!
                       <td className="px-6 py-4">
                         {/* Изменяем класс, чтобы сделать поле шире и разрешить перенос текста */}
                         <textarea
-                          className="w-48 h-20 text-sm border border-gray-300 rounded-md p-2 resize-y overflow-auto"
+                          className="w-full h-20 text-sm border border-gray-300 rounded-md p-2 resize-y"
                           value={editNotes[lead.id]}
                           onChange={(e) => setEditNotes({ ...editNotes, [lead.id]: e.target.value })}
                           placeholder="Заметки..."
