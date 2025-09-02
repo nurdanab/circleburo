@@ -31,15 +31,14 @@ exports.handler = async (event) => {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
-    const event = {
+    const calendarEvent = {
       summary: `Бронирование от: ${newRecord.name}`,
       description: `Телефон: ${newRecord.phone}\nID бронирования: ${newRecord.id}`,
       start: {
         dateTime: `${newRecord.meeting_date}T${newRecord.meeting_time}:00`,
-        timeZone: 'Asia/Almaty', // Обновленный часовой пояс
+        timeZone: 'Asia/Almaty',
       },
       end: {
-        // Длительность события - 60 минут
         dateTime: new Date(new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}:00`).getTime() + 60 * 60 * 1000).toISOString(),
         timeZone: 'Asia/Almaty',
       },
@@ -47,7 +46,7 @@ exports.handler = async (event) => {
 
     const response = await calendar.events.insert({
       calendarId: calendarId,
-      resource: event,
+      resource: calendarEvent,
     });
 
     console.log('Event created:', response.data.htmlLink);
