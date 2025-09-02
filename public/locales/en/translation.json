@@ -214,9 +214,9 @@
       "marketing": {
         "title": "Marketing",
         "item1": "Concept and visual packaging of the partnership/collaboration",
-        "item1Price": "80.000",
+        "item1Price": "80.000 KZT",
         "item2": "Mini-event support: poster, story, video invitation, pop-up or welcome zone design, photo/video shooting",
-        "item2Price": "120.000"
+        "item2Price": "120.000 KZT"
       },
       "smm": {
         "title": "SMM",
@@ -229,22 +229,24 @@
         "item4": "Adapting visual and text to current trends or recommwndations",
         "item5": "Stories",
         "item5Count": "20",
-        "totalPrice": "250.000",
+        "totalPrice": "250.000 KZT",
         "days": "19 days"
       },
       "design": {
         "title": "Design",
         "items": [
-          { "service": "Guidebook (logo, font, color palette, merch, etc.)", "pages": "20 pages", "time": "30 days", "price": "500.000" },
-          { "service": "Presentation", "pages": "1 page", "time": "1 hour", "price": "5.900" },
-          { "service": "Illustration", "pages": "1", "time": "1-9 days", "price": "9.900-25.000" },
-          { "service": "Packaging and Brand materials", "pages": "1", "time": "4-14 days", "price": "10.000-30.000" },
-          { "service": "2D animation", "pages": "1 sec.", "time": "1 hour", "price": "3.500-9.500" },
-          { "service": "3D animation", "pages": "1 sec.", "time": "1 hour", "price": "8.500-21.500" },
-          { "service": "Pop-up visualization", "pages": "1", "time": "7 days", "price": "35.500" },
-          { "service": "Poster / Banners", "pages": "1", "time": "2 days", "price": "9.500" },
-          { "service": "Social Media design", "pages": "1", "time": "2 days", "price": "3.500-9.500" },
-          { "service": "Web design", "pages": "1", "time": "1 month", "price": "300.000" }
+          { "service": "Guidebook (logo, font, color palette, merch, etc.)", "pages": "20 pages", "time": "30 days", "price": "500.000 KZT" },
+          { "service": "Presentation", "pages": "1 page", "time": "1 hour", "price": "5.900 KZT" },
+          { "service": "Illustration", "pages": "1", "time": "1-9 days", "price": "9.900-25.000 KZT" },
+          { "service": "Packaging and Brand materials", "pages": "1", "time": "4-14 days", "price": "10.000-30.000 KZT" },
+          { "service": "2D animation", "pages": "1 sec.", "time": "1 hour", "price": "3.500-9.500 KZT" },
+          { "service": "3D animation", "pages": "1 sec.", "time": "1 hour", "price": "8.500-21.500 KZT" },
+          { "service": "Pop-up visualization", "pages": "1", "time": "7 days", "price": "35.500 KZT" },
+          { "service": "Poster / Banners", "pages": "1", "time": "2 days", "price": "9.500 KZT" },
+          { "service": "Social Media design", "pages": "1", "time": "2 days", "price": "3.500-9.500 KZT" },
+          { "service": "Web design and development", "pages": "1", "time": "1 month", "price": "500.000 KZT" },
+          { "service": "Interior design", "pages": "1 m^2", "time": "1-14 days", "price": "5.900-10.000 KZT" }
+
         ]
       },
       "production": {
@@ -252,11 +254,11 @@
         "item1": "Video production (review, promo, interview)",
         "item1Count": "1",
         "item1Time": "1 hour",
-        "item1Price": "35.000",
+        "item1Price": "35.000 KZT",
         "item2": "Photo production (product, team, lifestyle)",
         "item2Count": "1",
         "item2Time": "1 hour",
-        "item2Price": "20.000"
+        "item2Price": "20.000 KZT"
       },
       "notes": {
         "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
