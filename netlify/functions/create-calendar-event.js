@@ -44,13 +44,15 @@ function safeBuildDateTime(dateStr, timeStr) {
     throw new Error(`Missing date or time. date=${dateStr}, time=${timeStr}`);
   }
 
-  const isoString = `${dateStr}T${timeStr}:00+06:00`; // Алматы = UTC+6
+  // timeStr уже содержит секунды (например "12:00:00"), поэтому просто добавляем таймзону
+  const isoString = `${dateStr}T${timeStr}+06:00`; // Алматы = UTC+6
   const dt = new Date(isoString);
 
   if (isNaN(dt.getTime())) {
     throw new Error(`Invalid datetime format: ${isoString}`);
   }
 
+  console.log("Parsed datetime:", dt.toISOString());
   return dt;
 }
 
