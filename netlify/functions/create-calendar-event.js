@@ -32,7 +32,7 @@ exports.handler = async (event) => {
     const calendar = google.calendar({ version: 'v3', auth });
 
     const calendarEvent = {
-      summary: `Бронирование от: ${newRecord.name}`,
+      summary: `Клиент: ${newRecord.name}`,
       description: `Телефон: ${newRecord.phone}\nID бронирования: ${newRecord.id}`,
       start: {
         dateTime: `${newRecord.meeting_date}T${newRecord.meeting_time}`,
