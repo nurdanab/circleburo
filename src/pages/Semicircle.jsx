@@ -8,9 +8,10 @@ import useSEO from '../hooks/useSEO';
 
 const SemiCircle = () => {
   const seoData = useSEO('semicircle'); 
-
   const { t } = useTranslation();
 
+  // 🔧 Получаем данные для designItems из i18n
+  // Опция { returnObjects: true } позволяет получить массив объектов
   const designItems = t('semicircle.design.items', { returnObjects: true });
 
   return (
@@ -109,7 +110,7 @@ const SemiCircle = () => {
                       <div className="flex items-start space-x-3">
                         <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
+                      </svg>
                         <p className="text-gray-300">{t('semicircle.smm.item5')}</p>
                       </div>
                       <span className="text-2xl font-bold text-white">{t('semicircle.smm.item5Count')}</span>
@@ -134,9 +135,10 @@ const SemiCircle = () => {
               >
                 <h2 className="text-3xl font-bold mb-6">{t('semicircle.design.title')}</h2>
                 <div className="grid gap-6">
-                  {designItems.map((item, index) => (
+                  {designItems && Array.isArray(designItems) && designItems.map((item, index) => (
                     <div key={index} className="flex justify-between items-start text-gray-300">
                       <div className="flex-1 max-w-[45%]">
+                        {/* ⚠️ Примечание: Мы напрямую используем item.service, потому что i18next уже вернул нам готовый объект */}
                         <p>{item.service}</p>
                       </div>
                       <div className="flex justify-between items-start flex-1">
