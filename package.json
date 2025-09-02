@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.1.12",
     "cleave.js": "^1.6.0",
     "framer-motion": "^12.23.12",
+    "googleapis": "^159.0.0",
     "gsap": "^3.13.0",
     "i18next": "^25.4.2",
     "i18next-browser-languagedetector": "^8.2.0",
