@@ -23,7 +23,8 @@ const CursorTrail = ({ children, isActive = true }) => {
     "/img/company/employee10.webp",
     "/img/company/employee11.webp",
     "/img/company/employee12.webp",
-    "/img/company/employee13.webp"
+    "/img/company/employee13.webp",
+    "/img/company/employee14.webp"
   ];
 
   // Запускаем показ фотографий после основной анимации
@@ -244,7 +245,8 @@ const AboutSection = () => {
     "/img/company/employee10.webp",
     "/img/company/employee11.webp",
     "/img/company/employee12.webp",
-    "/img/company/employee13.webp"
+    "/img/company/employee13.webp",
+    "/img/company/employee14.webp"
   ];
 
   return (

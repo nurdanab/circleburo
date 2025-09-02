@@ -3,6 +3,7 @@ import React from 'react';
 import SEOHead from '../components/SEOHead';
 import useSEO from '../hooks/useSEO';
 import AboutSection from '../components/sectionsAboutPage/AboutSection';
+import EmployeeCards from '../components/sectionsAboutPage/EmployeeCards';
 import AboutSectionGallery from '../components/sectionsAboutPage/AboutSectionGallery';
 
 
@@ -12,6 +13,7 @@ function AboutPage() {
     <>
     {seoData && <SEOHead {...seoData} />}
       <AboutSection />
+      <EmployeeCards />
       <AboutSectionGallery /> 
     </>
   );

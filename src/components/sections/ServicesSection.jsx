@@ -75,7 +75,9 @@ const ServiceCard = ({ service, index }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link to={service.link} className="block w-full h-full">
+      <Link to={service.link} onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }} className="block w-full h-full">
         <motion.div
           className="absolute inset-0 bg-cover bg-center transition-all duration-300 ease-in-out"
           style={{ backgroundImage: `url(${isHovered ? service.hoverBgImage : service.bgImage})` }}

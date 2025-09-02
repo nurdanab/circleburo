@@ -340,5 +340,100 @@
         "button_start": "Get Started Now",
         "button_restart": "Take Quiz Again"
       }
-    }
+    },
+    "employeeCards": {
+        "title": "Our Team",
+        "subtitle": "We are a group of dedicated professionals with diverse skills and a shared passion for our work.",
+        "employee1": {
+          "name": "Ozbek Zhansaya",
+          "specialty": "Graphic Designer",
+          "email": "mrvlsdesign@mail.ru",
+          "bio": "“Graphic design is when your layers in Photoshop are clearer than a brief”",
+          "image": "/img/company/employee10.webp"
+        },
+        "employee2": {
+          "name": "Shugyla Madikhan",
+          "specialty": "Account Manager",
+          "email": "shugyla.madikhan@mail.ru",
+          "bio": "“I make sure the team and the client speak the same language”",
+          "image": "/img/company/employee11.webp"
+        },
+        "employee3": {
+          "name": "Mauletova Madina",
+          "specialty": "Designer",
+          "email": "mltvmdn@mail.ru",
+          "bio": "“Shaping ideas”",
+          "image": "/img/company/employee6.webp"
+        },
+        "employee4": {
+          "name": "Nurdana Bakytzhan",
+          "specialty": "Web Developer",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "“Process second. Result first.”",
+          "image": "/img/company/employee5.webp"
+        },
+        "employee5": {
+          "name": "Sundetova Aruzhan",
+          "specialty": "Marketing specialist",
+          "email": "sundetova.aruzhan10@gmail.com",
+          "bio": "“Always look for depth - even in the simplest things”",
+          "image": "/img/company/employee4.webp"
+        },
+        "employee6": {
+          "name": "Zhumasheva Alina",
+          "specialty": "Marketing specialist",
+          "email": "Zhumashevaalina@mail.ru",
+          "bio": "“The best people are those who bring the most good to others”",
+          "image": "/img/company/employee14.webp"
+        },
+        "employee7": {
+          "name": "Adesh Dana",
+          "specialty": "Marketing specialist",
+          "email": "Dadeshova@mail.ru",
+          "bio": "“I don’t wait for inspiration — I create it myself”",
+          "image": "/img/company/employee13.webp"
+        },
+        "employee8": {
+          "name": "Murtazina Alina",
+          "specialty": "Architect",
+          "email": "almurlum@mail.ru",
+          "bio": "“Architecture is the form, design is the soul”",
+          "image": "/img/company/employee12.webp"
+        },
+        "employee9": {
+          "name": "Atabayeva Adina",
+          "specialty": "Account Manager",
+          "email": "atabaeva.adina27@gmail.com",
+          "bio": "“Creativity is my courage to be myself”",
+          "image": "/img/company/employee2.webp"
+        },
+        "employee10": {
+          "name": "Lessaly Aidana",
+          "specialty": "Designer",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "“aidana.kenzhina15@gmail.com”",
+          "image": "/img/company/employee3.webp"
+        },
+        "employee11": {
+          "name": "Nurdana Bakytzhan",
+          "specialty": "Web Developer",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          "image": "/img/company/employee5.webp"
+        },
+        "employee12": {
+          "name": "Nurdana Bakytzhan",
+          "specialty": "Web Developer",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          "image": "/img/company/employee5.webp"
+        },
+        "employee13": {
+          "name": "Nurdana Bakytzhan",
+          "specialty": "Web Developer",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          "image": "/img/company/employee5.webp"
+        }
+      }
   }

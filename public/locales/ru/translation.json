@@ -349,5 +349,100 @@
         "button_start": "Начать",
         "button_restart": "Пройти тест заново"
       }
+    },
+    "employeeCards": {
+        "title": "Наша команда",
+        "subtitle": "Мы — это группа профессионалов с разнообразными навыками и общей страстью к своему делу.",
+        "employee1": {
+          "name": "Узбек Жансая",
+          "specialty": "Графический дизайнер",
+          "email": "mrvlsdesign@mail.ru",
+          "bio": "“Графический дизайн — это когда твои слои в Photoshop понятнее, чем бриф”",
+          "image": "/img/company/employee10.webp"
+        },
+        "employee2": {
+          "name": "Шугыла Мадихан",
+          "specialty": "Аккаунт менеджер",
+          "email": "shugyla.madikhan@mail.ru",
+          "bio": "“Делаю так, чтобы команда и клиент говорили на одном языке.”",
+          "image": "/img/company/employee11.webp"
+        },
+        "employee3": {
+          "name": "Маулетова Мадина",
+          "specialty": "Дизайнер",
+          "email": "mltvmdn@mail.ru",
+          "bio": "“Придаю форму идеям”",
+          "image": "/img/company/employee6.webp"
+        },
+        "employee4": {
+          "name": "Нурдана Бакытжан",
+          "specialty": "Веб разработчик",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "“Процесс вторичен. Результат первичен.”",
+          "image": "/img/company/employee5.webp"
+        },
+        "employee5": {
+          "name": "Сундетова Аружан",
+          "specialty": "Маркетолог",
+          "email": "sundetova.aruzhan10@gmail.com",
+          "bio": "“Всегда ищу глубину - даже в самых простых вещах”",
+          "image": "/img/company/employee4.webp"
+        },
+        "employee6": {
+          "name": "Жумашева Алина",
+          "specialty": "Маркетолог",
+          "email": "Zhumashevaalina@mail.ru",
+          "bio": "“Лучший из людей тот, кто больше всего приносит пользы людям”",
+          "image": "/img/company/employee14.webp"
+        },
+        "employee7": {
+          "name": "Адеш Дана",
+          "specialty": "Маркетолог",
+          "email": "Dadeshova@mail.ru",
+          "bio": "“Я не жду вдохновения, я создаю его сама”",
+          "image": "/img/company/employee13.webp"
+        },
+        "employee8": {
+          "name": "Муртазина Алина",
+          "specialty": "Архитектор",
+          "email": "almurlum@mail.ru",
+          "bio": "“Архитектура — это форма, дизайн — это душа”",
+          "image": "/img/company/employee12.webp"
+        },
+        "employee9": {
+          "name": "Атабаева Адина",
+          "specialty": "Аккаунт менеджер",
+          "email": "atabaeva.adina27@gmail.com",
+          "bio": "“Творчество - моя храбрость быть собой”",
+          "image": "/img/company/employee2.webp"
+        },
+        "employee10": {
+          "name": "Лесалы Айдана",
+          "specialty": "Дизайнер",
+          "email": "aidana.kenzhina15@gmail.com",
+          "bio": "“Every line is my step toward sincerity”",
+          "image": "/img/company/employee3.webp"
+        },
+        "employee11": {
+          "name": "Нурдана Бакытжан",
+          "specialty": "Веб разработчик",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "Lorem Ipsum — это просто текст-заглушка, используемый в полиграфии и наборе. ",
+          "image": "/img/company/employee1.webp"
+        },
+        "employee12": {
+          "name": "Нурдана Бакытжан",
+          "specialty": "Веб разработчик",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "Lorem Ipsum — это просто текст-заглушка, используемый в полиграфии и наборе. ",
+          "image": "/img/company/employee1.webp"
+        },
+        "employee13": {
+          "name": "Нурдана Бакытжан",
+          "specialty": "Веб разработчик",
+          "email": "nurdana.b@circleburo.kz",
+          "bio": "Lorem Ipsum — это просто текст-заглушка, используемый в полиграфии и наборе. ",
+          "image": "/img/company/employee1.webp"
+        }
     }
   }

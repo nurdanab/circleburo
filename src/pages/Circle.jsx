@@ -7,11 +7,10 @@ import SEOHead from '../components/SEOHead';
 import useSEO from '../hooks/useSEO';
 
 const Circle = () => {
-  const seoData = useSEO('circle'); // или 'circle', 'semicircle', 'cycle', 'project'
+  const seoData = useSEO('circle'); 
 
   const { t } = useTranslation();
 
-  // 🔧 Добавляем массив, чтобы не было ошибки
   const designGuidebookItems = t('circle.designGuidebook.items', { returnObjects: true });
 
   return (

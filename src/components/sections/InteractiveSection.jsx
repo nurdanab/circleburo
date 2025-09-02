@@ -356,7 +356,7 @@ const InteractiveSection = () => {
                   <motion.button
                     onClick={() =>
                       document
-                        .getElementById("contact-form")
+                        .getElementById("contact")
                         ?.scrollIntoView({ behavior: "smooth" })
                     }
                     className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden"

@@ -293,7 +293,6 @@ const Header = () => {
               {t('nav.home')}
             </Link>
 
-            {/* !!! ИЗМЕНЕНИЕ: Эта кнопка теперь ведет на '/about' */}
             <button
               onClick={() => {
                 navigateToProject('/about');
