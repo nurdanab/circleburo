@@ -4,7 +4,6 @@ const { JWT } = require('google-auth-library');
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
@@ -24,7 +23,7 @@ exports.handler = async (event) => {
     const newRecord = payload.record;
     const oldRecord = payload.old_record;
 
-    console.log('Processing booking:', newRecord);
+    console.log('📌 Incoming booking record:', newRecord);
 
     const auth = new JWT({
       email: serviceAccountKey.client_email,
@@ -34,17 +33,23 @@ exports.handler = async (event) => {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
-    if (newRecord.status === 'cancelled' && oldRecord.status !== 'cancelled' && oldRecord.calendar_event_id) {
+    if (newRecord.status === 'cancelled' && oldRecord?.status !== 'cancelled' && oldRecord?.calendar_event_id) {
       console.log('Booking cancelled. Deleting event...');
+
       await calendar.events.delete({
-        calendarId: calendarId,
+        calendarId,
         eventId: oldRecord.calendar_event_id,
       });
 
-      await supabase
+      const { error } = await supabase
         .from('leads')
         .update({ calendar_event_id: null })
         .eq('id', newRecord.id);
+
+      if (error) {
+        console.error('Failed to clear calendar_event_id in DB:', error);
+        throw new Error('Event deleted, but database update failed');
+      }
 
       return { statusCode: 200, body: 'Event deleted' };
     }
@@ -52,47 +57,52 @@ exports.handler = async (event) => {
     if (newRecord.status === 'confirmed') {
       const notesContent = newRecord.notes ? `\nЗаметки: ${newRecord.notes}` : '';
 
-      const startDate = new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}:00+06:00`); // Almaty +6
-      const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+      const startDate = new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}:00+06:00`); // Almaty = UTC+6
+      const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 час
 
-        const calendarEvent = {
+      const calendarEvent = {
         summary: `Клиент: ${newRecord.name}`,
         description: `Телефон: ${newRecord.phone}${notesContent}`,
         start: {
-            dateTime: startDate.toISOString(),
-            timeZone: 'Asia/Almaty',
+          dateTime: startDate.toISOString(),
+          timeZone: 'Asia/Almaty',
         },
         end: {
-            dateTime: endDate.toISOString(),
-            timeZone: 'Asia/Almaty',
+          dateTime: endDate.toISOString(),
+          timeZone: 'Asia/Almaty',
         },
-        };
+      };
 
-      // Проверяем, есть ли уже ID события в базе
+      // === Обновление существующего события ===
       if (newRecord.calendar_event_id) {
-        // Если есть, обновляем существующее событие
-        console.log('Event already exists. Updating it...');
+        console.log('Updating existing event...');
         const response = await calendar.events.update({
-          calendarId: calendarId,
+          calendarId,
           eventId: newRecord.calendar_event_id,
           resource: calendarEvent,
         });
         console.log('Event updated:', response.data.htmlLink);
+
+      // === Создание нового события ===
       } else {
-        // Если нет, создаем новое событие
-        console.log('Creating a new event...');
+        console.log('Creating new event...');
         const response = await calendar.events.insert({
-          calendarId: calendarId,
+          calendarId,
           resource: calendarEvent,
         });
 
         console.log('Event created:', response.data.htmlLink);
 
-        // Сохраняем ID созданного события в базу данных
-        await supabase
+        // Сохраняем event_id в базу
+        const { error } = await supabase
           .from('leads')
           .update({ calendar_event_id: response.data.id })
           .eq('id', newRecord.id);
+
+        if (error) {
+          console.error('⚠️ Failed to save calendar_event_id:', error);
+          throw new Error('Event created but not linked to booking');
+        }
       }
 
       return {
@@ -101,15 +111,17 @@ exports.handler = async (event) => {
       };
     }
 
-    // Если статус не "confirmed" и не "cancelled"
-    console.log('Booking status is not confirmed or cancelled, no action needed.');
-    return { statusCode: 200, body: 'Status not relevant' };
+    console.log('Booking status not relevant, skipping...');
+    return { statusCode: 200, body: 'No action needed' };
 
   } catch (error) {
     console.error('Error handling calendar event:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to handle event', details: error.message }),
+      body: JSON.stringify({
+        error: 'Failed to handle event',
+        details: error.message,
+      }),
     };
   }
 };
