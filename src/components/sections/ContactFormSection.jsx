@@ -210,18 +210,13 @@ const ContactFormSection = () => {
     for (const slot of slots) {
       if ([BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED].includes(slot.status)) {
         const bookedTimeMinutes = getTimeInMinutes(slot.meeting_time);
-        if (
-          slotTimeMinutes === bookedTimeMinutes ||
-          slotTimeMinutes === bookedTimeMinutes - 60 ||
-          slotTimeMinutes === bookedTimeMinutes + 60
-        ) {
+        if (slotTimeMinutes === bookedTimeMinutes) {
           return false;
         }
       }
     }
     return true;
   }, [selectedDate]);
-
 
   const validatePhone = (phone) => {
     const cleaned = phone.replace(/\D/g, '');
