@@ -62,6 +62,8 @@ const AdminPage = () => {
   const [updating, setUpdating] = useState(null);
   const [sortField, setSortField] = useState('created_at');
   const [sortDirection, setSortDirection] = useState('desc');
+  // ИСПРАВЛЕНО: Добавлен state для заметок
+  const [editNotes, setEditNotes] = useState({});
 
   // Функция сортировки
   const handleSort = (field) => {
@@ -84,6 +86,12 @@ const AdminPage = () => {
 
       if (error) throw error;
       setLeads(data || []);
+      // ИСПРАВЛЕНО: При загрузке лидов, инициализируем заметки
+      const initialNotes = {};
+      data.forEach(lead => {
+        initialNotes[lead.id] = lead.notes || '';
+      });
+      setEditNotes(initialNotes);
     } catch (err) {
       console.error('Error loading leads:', err);
       setError('Ошибка загрузки данных');
@@ -92,13 +100,14 @@ const AdminPage = () => {
     }
   };
 
-  // Обновление статуса лида
-  const updateLeadStatus = async (leadId, newStatus) => {
+  // ИСПРАВЛЕНО: Новая функция для обновления статуса и заметок
+  const updateLeadData = async (leadId, newStatus) => {
     setUpdating(leadId);
     try {
+      const notesToUpdate = editNotes[leadId];
       const { error } = await supabase
         .from('leads')
-        .update({ status: newStatus })
+        .update({ status: newStatus, notes: notesToUpdate, updated_at: new Date() })
         .eq('id', leadId);
 
       if (error) throw error;
@@ -106,7 +115,7 @@ const AdminPage = () => {
       // Обновляем локальное состояние
       setLeads(prev => prev.map(lead => 
         lead.id === leadId 
-          ? { ...lead, status: newStatus }
+          ? { ...lead, status: newStatus, notes: notesToUpdate }
           : lead
       ));
 
@@ -146,6 +155,7 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
 Дата: ${new Date(lead.meeting_date).toLocaleDateString('ru-RU')}
 Время: ${lead.meeting_time}
 Новый статус: ${STATUS_LABELS[newStatus]}
+Заметка: ${lead.notes || 'Нет'}
       `.trim();
 
       await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -234,12 +244,13 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
       'Дата встречи': lead.meeting_date,
       'Время встречи': lead.meeting_time,
       'Статус': STATUS_LABELS[lead.status],
-      'Создано': new Date(lead.created_at).toLocaleString('ru-RU')
+      'Создано': new Date(lead.created_at).toLocaleString('ru-RU'),
+      'Заметки': lead.notes || ''
     }));
 
     const csv = [
       Object.keys(csvData[0]).join(','),
-      ...csvData.map(row => Object.values(row).join(','))
+      ...csvData.map(row => Object.values(row).map(value => `"${String(value).replace(/"/g, '""')}"`).join(','))
     ].join('\n');
 
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -400,6 +411,7 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
                     <SortableHeader field="phone">Контакты</SortableHeader>
                     <SortableHeader field="meeting_date">Встреча</SortableHeader>
                     <SortableHeader field="status">Статус</SortableHeader>
+                    <SortableHeader field="notes">Заметки</SortableHeader>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Действия
                     </th>
@@ -465,12 +477,21 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
                           {STATUS_LABELS[lead.status]}
                         </div>
                       </td>
+
+                      <td className="px-6 py-4">
+                        <textarea
+                          className="w-full text-sm border border-gray-300 rounded-md p-2"
+                          value={editNotes[lead.id]}
+                          onChange={(e) => setEditNotes({ ...editNotes, [lead.id]: e.target.value })}
+                          placeholder="Заметки..."
+                        />
+                      </td>
                       
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex gap-2">
                           {lead.status !== BOOKING_STATUSES.CONFIRMED && (
                             <motion.button
-                              onClick={() => updateLeadStatus(lead.id, BOOKING_STATUSES.CONFIRMED)}
+                              onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CONFIRMED)}
                               disabled={updating === lead.id}
                               className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                               whileHover={{ scale: 1.02 }}
@@ -487,7 +508,7 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
                           
                           {lead.status !== BOOKING_STATUSES.CANCELLED && (
                             <motion.button
-                              onClick={() => updateLeadStatus(lead.id, BOOKING_STATUSES.CANCELLED)}
+                              onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CANCELLED)}
                               disabled={updating === lead.id}
                               className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white text-xs rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                               whileHover={{ scale: 1.02 }}
@@ -504,7 +525,7 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
 
                           {lead.status === BOOKING_STATUSES.CANCELLED && (
                             <motion.button
-                              onClick={() => updateLeadStatus(lead.id, BOOKING_STATUSES.PENDING)}
+                              onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.PENDING)}
                               disabled={updating === lead.id}
                               className="flex items-center gap-1 px-3 py-1 bg-yellow-600 text-white text-xs rounded-md hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                               whileHover={{ scale: 1.02 }}

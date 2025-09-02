@@ -31,9 +31,12 @@ exports.handler = async (event) => {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
+    // Добавляем заметку в описание события
+    const notesContent = newRecord.notes ? `\nЗаметка: ${newRecord.notes}` : '';
+
     const calendarEvent = {
-      summary: `Клиент: ${newRecord.name}`,
-      description: `Телефон: ${newRecord.phone}\nID бронирования: ${newRecord.id}`,
+      summary: `Бронирование от: ${newRecord.name}`,
+      description: `Телефон: ${newRecord.phone}\nID бронирования: ${newRecord.id}${notesContent}`,
       start: {
         dateTime: `${newRecord.meeting_date}T${newRecord.meeting_time}`,
         timeZone: 'Asia/Almaty',
