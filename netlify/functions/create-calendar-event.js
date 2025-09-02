@@ -3,7 +3,6 @@ const { google } = require('googleapis');
 const { JWT } = require('google-auth-library');
 const { createClient } = require('@supabase/supabase-js');
 
-// Создаем клиент Supabase для обновления данных
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -35,8 +34,6 @@ exports.handler = async (event) => {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
-    // Обработка отмененного статуса
-    // Если статус изменился на "cancelled" и у нас есть ID события
     if (newRecord.status === 'cancelled' && oldRecord.status !== 'cancelled' && oldRecord.calendar_event_id) {
       console.log('Booking cancelled. Deleting event...');
       await calendar.events.delete({
@@ -44,7 +41,6 @@ exports.handler = async (event) => {
         eventId: oldRecord.calendar_event_id,
       });
 
-      // Также очищаем ID события в базе данных
       await supabase
         .from('leads')
         .update({ calendar_event_id: null })
@@ -53,22 +49,24 @@ exports.handler = async (event) => {
       return { statusCode: 200, body: 'Event deleted' };
     }
 
-    // Обработка подтвержденного статуса
     if (newRecord.status === 'confirmed') {
       const notesContent = newRecord.notes ? `\nЗаметки: ${newRecord.notes}` : '';
 
-      const calendarEvent = {
+      const startDate = new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}:00+06:00`); // Almaty +6
+      const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+
+        const calendarEvent = {
         summary: `Клиент: ${newRecord.name}`,
-        description: `Телефон: ${newRecord.phone}\n${notesContent}`,
+        description: `Телефон: ${newRecord.phone}${notesContent}`,
         start: {
-          dateTime: `${newRecord.meeting_date}T${newRecord.meeting_time}`,
-          timeZone: 'Asia/Almaty',
+            dateTime: startDate.toISOString(),
+            timeZone: 'Asia/Almaty',
         },
         end: {
-          dateTime: new Date(new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}`).getTime() + 60 * 60 * 1000).toISOString(),
-          timeZone: 'Asia/Almaty',
+            dateTime: endDate.toISOString(),
+            timeZone: 'Asia/Almaty',
         },
-      };
+        };
 
       // Проверяем, есть ли уже ID события в базе
       if (newRecord.calendar_event_id) {
