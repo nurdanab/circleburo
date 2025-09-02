@@ -11,12 +11,7 @@ const SemiCircle = () => {
 
   const { t } = useTranslation();
 
-  // 🔧 Добавляем массив designItems, чтобы не было ошибки
-  const designItems = [
-    { service: "Landing page", pages: "1 page", time: "3 days", price: "300" },
-    { service: "Corporate site", pages: "5–7 pages", time: "7 days", price: "800" },
-    { service: "Online store", pages: "15+ pages", time: "14 days", price: "2000" },
-  ];
+  const designItems = t('semicircle.design.items', { returnObjects: true });
 
   return (
     <>
