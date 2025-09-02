@@ -13,6 +13,25 @@ const serviceAccountKey = JSON.parse(process.env.G_CAL_SERVICE_ACCOUNT_KEY);
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
+
+function safeBuildDateTime(dateStr, timeStr) {
+  console.log("Raw meeting_date:", dateStr);
+  console.log("Raw meeting_time:", timeStr);
+
+  if (!dateStr || !timeStr) {
+    throw new Error(`Missing date or time. date=${dateStr}, time=${timeStr}`);
+  }
+
+  const isoString = `${dateStr}T${timeStr}:00+06:00`; // Алматы = UTC+6
+  const dt = new Date(isoString);
+
+  if (isNaN(dt.getTime())) {
+    throw new Error(`Invalid datetime format: ${isoString}`);
+  }
+
+  return dt;
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -36,10 +55,14 @@ exports.handler = async (event) => {
     if (newRecord.status === 'cancelled' && oldRecord?.status !== 'cancelled' && oldRecord?.calendar_event_id) {
       console.log('Booking cancelled. Deleting event...');
 
-      await calendar.events.delete({
-        calendarId,
-        eventId: oldRecord.calendar_event_id,
-      });
+      try {
+        await calendar.events.delete({
+          calendarId,
+          eventId: oldRecord.calendar_event_id,
+        });
+      } catch (err) {
+        console.warn('Event already deleted from calendar:', err.message);
+      }
 
       const { error } = await supabase
         .from('leads')
@@ -57,7 +80,7 @@ exports.handler = async (event) => {
     if (newRecord.status === 'confirmed') {
       const notesContent = newRecord.notes ? `\nЗаметки: ${newRecord.notes}` : '';
 
-      const startDate = new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}:00+06:00`); // Almaty = UTC+6
+      const startDate = safeBuildDateTime(newRecord.meeting_date, newRecord.meeting_time);
       const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 час
 
       const calendarEvent = {
@@ -73,19 +96,57 @@ exports.handler = async (event) => {
         },
       };
 
-      // === Обновление существующего события ===
       if (newRecord.calendar_event_id) {
-        console.log('Updating existing event...');
-        const response = await calendar.events.update({
-          calendarId,
-          eventId: newRecord.calendar_event_id,
-          resource: calendarEvent,
-        });
-        console.log('Event updated:', response.data.htmlLink);
+        try {
+          console.log('Checking existing event in Google Calendar...');
+          const existingEvent = await calendar.events.get({
+            calendarId,
+            eventId: newRecord.calendar_event_id,
+          });
 
-      // === Создание нового события ===
+          const gEvent = existingEvent.data;
+
+          // Проверяем различия
+          const needUpdate =
+            gEvent.summary !== calendarEvent.summary ||
+            gEvent.description !== calendarEvent.description ||
+            gEvent.start.dateTime !== calendarEvent.start.dateTime ||
+            gEvent.end.dateTime !== calendarEvent.end.dateTime;
+
+          if (needUpdate) {
+            console.log('Updating event to sync with Supabase...');
+            const response = await calendar.events.update({
+              calendarId,
+              eventId: newRecord.calendar_event_id,
+              resource: calendarEvent,
+            });
+            console.log('Event updated:', response.data.htmlLink);
+          } else {
+            console.log('Event already up to date, no changes needed.');
+          }
+        } catch (err) {
+          console.warn('⚠️ Event not found in calendar, creating new one...');
+          const response = await calendar.events.insert({
+            calendarId,
+            resource: calendarEvent,
+          });
+
+          console.log('Event recreated:', response.data.htmlLink);
+
+          const { error } = await supabase
+            .from('leads')
+            .update({ calendar_event_id: response.data.id })
+            .eq('id', newRecord.id);
+
+          if (error) {
+            console.error('⚠️ Failed to update calendar_event_id in DB:', error);
+            throw new Error('Event recreated but not linked to booking');
+          }
+        }
+
+      // === Если события ещё нет ===
       } else {
-        console.log('Creating new event...');
+        console.log('✨ Creating new event...');
         const response = await calendar.events.insert({
           calendarId,
           resource: calendarEvent,
@@ -93,7 +154,6 @@ exports.handler = async (event) => {
 
         console.log('Event created:', response.data.htmlLink);
 
-        // Сохраняем event_id в базу
         const { error } = await supabase
           .from('leads')
           .update({ calendar_event_id: response.data.id })
@@ -107,7 +167,7 @@ exports.handler = async (event) => {
 
       return {
         statusCode: 200,
-        body: JSON.stringify({ message: 'Event handled successfully!' }),
+        body: JSON.stringify({ message: 'Event handled and synced successfully!' }),
       };
     }
 
