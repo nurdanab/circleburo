@@ -36,28 +36,26 @@ function getServiceAccountKey() {
   }
 }
 
-// === ОБНОВЛЁННАЯ ФУНКЦИЯ ===
 function safeBuildDateTime(dateStr, timeStr) {
-  console.log("Raw meeting_date:", dateStr);
-  console.log("Raw meeting_time:", timeStr);
-
-  if (!dateStr || !timeStr) {
-    throw new Error(`Missing date or time. date=${dateStr}, time=${timeStr}`);
+    console.log("Raw meeting_date:", dateStr);
+    console.log("Raw meeting_time:", timeStr);
+  
+    if (!dateStr || !timeStr) {
+      throw new Error(`Missing date or time. date=${dateStr}, time=${timeStr}`);
+    }
+  
+    // Создаём строку в формате ISO 8601 без временной зоны.
+    // timeStr уже содержит секунды (например "12:00:00").
+    const isoString = `${dateStr}T${timeStr}`;
+  
+    // Проверяем, является ли это валидной датой.
+    if (isNaN(new Date(isoString).getTime())) {
+      throw new Error(`Invalid datetime format: ${isoString}`);
+    }
+  
+    console.log("Parsed datetime:", isoString);
+    return isoString;
   }
-
-  // Создаём строку в формате ISO 8601 без временной зоны.
-  // Google Calendar API сам определит время, используя timeZone.
-  const isoString = `${dateStr}T${timeStr}:00`;
-
-  // Проверяем, является ли это валидной датой.
-  // new Date() здесь используется только для проверки, а не для форматирования.
-  if (isNaN(new Date(isoString).getTime())) {
-    throw new Error(`Invalid datetime format: ${isoString}`);
-  }
-
-  console.log("Parsed datetime:", isoString);
-  return isoString;
-}
 
 exports.handler = async (event) => {
   console.log('🔥 Function started');
