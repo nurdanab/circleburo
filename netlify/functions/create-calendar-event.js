@@ -9,10 +9,32 @@ const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 const calendarId = process.env.G_CAL_ID;
-const serviceAccountKey = JSON.parse(process.env.G_CAL_SERVICE_ACCOUNT_KEY);
-
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
+// Добавляем проверку переменных окружения
+function validateEnvironment() {
+  const required = [
+    'VITE_SUPABASE_URL',
+    'SUPABASE_SERVICE_ROLE_KEY', 
+    'G_CAL_ID',
+    'G_CAL_SERVICE_ACCOUNT_KEY'
+  ];
+  
+  const missing = required.filter(key => !process.env[key]);
+  
+  if (missing.length > 0) {
+    throw new Error(`Missing environment variables: ${missing.join(', ')}`);
+  }
+}
+
+function getServiceAccountKey() {
+  try {
+    return JSON.parse(process.env.G_CAL_SERVICE_ACCOUNT_KEY);
+  } catch (error) {
+    console.error('Failed to parse G_CAL_SERVICE_ACCOUNT_KEY:', error);
+    throw new Error('Invalid service account key JSON format');
+  }
+}
 
 function safeBuildDateTime(dateStr, timeStr) {
   console.log("Raw meeting_date:", dateStr);
@@ -33,16 +55,36 @@ function safeBuildDateTime(dateStr, timeStr) {
 }
 
 exports.handler = async (event) => {
+  console.log('🔥 Function started');
+  console.log('HTTP Method:', event.httpMethod);
+  console.log('Headers:', JSON.stringify(event.headers, null, 2));
+  
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
-    const payload = JSON.parse(event.body);
+    // Проверяем переменные окружения
+    validateEnvironment();
+    
+    let payload;
+    try {
+      payload = JSON.parse(event.body);
+    } catch (error) {
+      console.error('Invalid JSON in request body:', error);
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid JSON format' })
+      };
+    }
+    
     const newRecord = payload.record;
     const oldRecord = payload.old_record;
 
     console.log('📌 Incoming booking record:', newRecord);
+
+    // Получаем ключ сервисного аккаунта
+    const serviceAccountKey = getServiceAccountKey();
 
     const auth = new JWT({
       email: serviceAccountKey.client_email,
@@ -52,6 +94,21 @@ exports.handler = async (event) => {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
+    // Проверяем подключение к Google Calendar
+    try {
+      await auth.authorize();
+      console.log('✅ Successfully authenticated with Google Calendar');
+    } catch (authError) {
+      console.error('❌ Google Calendar authentication failed:', authError);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: 'Google Calendar authentication failed',
+          details: authError.message
+        })
+      };
+    }
+
     if (newRecord.status === 'cancelled' && oldRecord?.status !== 'cancelled' && oldRecord?.calendar_event_id) {
       console.log('Booking cancelled. Deleting event...');
 
@@ -60,8 +117,9 @@ exports.handler = async (event) => {
           calendarId,
           eventId: oldRecord.calendar_event_id,
         });
+        console.log('✅ Event deleted successfully');
       } catch (err) {
-        console.warn('Event already deleted from calendar:', err.message);
+        console.warn('⚠️ Event already deleted from calendar:', err.message);
       }
 
       const { error } = await supabase
@@ -80,8 +138,20 @@ exports.handler = async (event) => {
     if (newRecord.status === 'confirmed') {
       const notesContent = newRecord.notes ? `\nЗаметки: ${newRecord.notes}` : '';
 
-      const startDate = safeBuildDateTime(newRecord.meeting_date, newRecord.meeting_time);
-      const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 час
+      let startDate, endDate;
+      try {
+        startDate = safeBuildDateTime(newRecord.meeting_date, newRecord.meeting_time);
+        endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 час
+      } catch (dateError) {
+        console.error('Date parsing error:', dateError);
+        return {
+          statusCode: 400,
+          body: JSON.stringify({
+            error: 'Invalid date/time format',
+            details: dateError.message
+          })
+        };
+      }
 
       const calendarEvent = {
         summary: `Клиент: ${newRecord.name}`,
@@ -120,18 +190,18 @@ exports.handler = async (event) => {
               eventId: newRecord.calendar_event_id,
               resource: calendarEvent,
             });
-            console.log('Event updated:', response.data.htmlLink);
+            console.log('✅ Event updated:', response.data.htmlLink);
           } else {
             console.log('Event already up to date, no changes needed.');
           }
         } catch (err) {
-          console.warn('⚠️ Event not found in calendar, creating new one...');
+          console.warn('⚠️ Event not found in calendar, creating new one...', err.message);
           const response = await calendar.events.insert({
             calendarId,
             resource: calendarEvent,
           });
 
-          console.log('Event recreated:', response.data.htmlLink);
+          console.log('✅ Event recreated:', response.data.htmlLink);
 
           const { error } = await supabase
             .from('leads')
@@ -147,21 +217,32 @@ exports.handler = async (event) => {
       // === Если события ещё нет ===
       } else {
         console.log('✨ Creating new event...');
-        const response = await calendar.events.insert({
-          calendarId,
-          resource: calendarEvent,
-        });
+        try {
+          const response = await calendar.events.insert({
+            calendarId,
+            resource: calendarEvent,
+          });
 
-        console.log('Event created:', response.data.htmlLink);
+          console.log('✅ Event created:', response.data.htmlLink);
 
-        const { error } = await supabase
-          .from('leads')
-          .update({ calendar_event_id: response.data.id })
-          .eq('id', newRecord.id);
+          const { error } = await supabase
+            .from('leads')
+            .update({ calendar_event_id: response.data.id })
+            .eq('id', newRecord.id);
 
-        if (error) {
-          console.error('⚠️ Failed to save calendar_event_id:', error);
-          throw new Error('Event created but not linked to booking');
+          if (error) {
+            console.error('⚠️ Failed to save calendar_event_id:', error);
+            throw new Error('Event created but not linked to booking');
+          }
+        } catch (createError) {
+          console.error('❌ Failed to create calendar event:', createError);
+          return {
+            statusCode: 500,
+            body: JSON.stringify({
+              error: 'Failed to create calendar event',
+              details: createError.message
+            })
+          };
         }
       }
 
@@ -175,12 +256,13 @@ exports.handler = async (event) => {
     return { statusCode: 200, body: 'No action needed' };
 
   } catch (error) {
-    console.error('Error handling calendar event:', error);
+    console.error('❌ Error handling calendar event:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({
         error: 'Failed to handle event',
         details: error.message,
+        stack: error.stack
       }),
     };
   }
