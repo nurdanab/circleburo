@@ -15,7 +15,8 @@ import {
   Download,
   RefreshCw,
   ChevronUp,
-  ChevronDown
+  ChevronDown,
+  Save
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 
@@ -60,9 +61,9 @@ const AdminPage = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('all');
   const [updating, setUpdating] = useState(null);
+  const [savingNotes, setSavingNotes] = useState(null);
   const [sortField, setSortField] = useState('created_at');
   const [sortDirection, setSortDirection] = useState('desc');
-  // ИСПРАВЛЕНО: Добавлен state для заметок
   const [editNotes, setEditNotes] = useState({});
 
   // Функция сортировки
@@ -86,7 +87,6 @@ const AdminPage = () => {
 
       if (error) throw error;
       setLeads(data || []);
-      // ИСПРАВЛЕНО: При загрузке лидов, инициализируем заметки
       const initialNotes = {};
       data.forEach(lead => {
         initialNotes[lead.id] = lead.notes || '';
@@ -100,14 +100,12 @@ const AdminPage = () => {
     }
   };
 
-  // ИСПРАВЛЕНО: Новая функция для обновления статуса и заметок
   const updateLeadData = async (leadId, newStatus) => {
     setUpdating(leadId);
     try {
-      const notesToUpdate = editNotes[leadId];
       const { error } = await supabase
         .from('leads')
-        .update({ status: newStatus, notes: notesToUpdate, updated_at: new Date() })
+        .update({ status: newStatus, updated_at: new Date() })
         .eq('id', leadId);
 
       if (error) throw error;
@@ -115,7 +113,7 @@ const AdminPage = () => {
       // Обновляем локальное состояние
       setLeads(prev => prev.map(lead => 
         lead.id === leadId 
-          ? { ...lead, status: newStatus, notes: notesToUpdate }
+          ? { ...lead, status: newStatus }
           : lead
       ));
 
@@ -127,6 +125,35 @@ const AdminPage = () => {
       setError('Ошибка обновления статуса');
     } finally {
       setUpdating(null);
+    }
+  };
+  
+  // Новая функция для сохранения только заметок
+  const saveNotes = async (leadId) => {
+    setSavingNotes(leadId); 
+    try {
+      const notesToUpdate = editNotes[leadId];
+      const { error } = await supabase
+        .from('leads')
+        .update({ notes: notesToUpdate, updated_at: new Date() })
+        .eq('id', leadId);
+
+      if (error) throw error;
+
+      // Обновляем локальное состояние только для заметок
+      setLeads(prev => prev.map(lead => 
+        lead.id === leadId 
+          ? { ...lead, notes: notesToUpdate }
+          : lead
+      ));
+      
+      console.log(`Notes for lead ${leadId} saved successfully.`);
+      
+    } catch (err) {
+      console.error('Error saving notes:', err);
+      setError('Ошибка сохранения заметок');
+    } finally {
+      setSavingNotes(null); // Скрываем индикатор сохранения
     }
   };
 
@@ -148,14 +175,13 @@ const AdminPage = () => {
       };
 
       const message = `
-${statusEmoji[newStatus]} Статус заявки обновлен
+${statusEmoji[newStatus]} new!
 
 Имя: ${lead.name}
 Телефон: +${lead.phone}
 Дата: ${new Date(lead.meeting_date).toLocaleDateString('ru-RU')}
 Время: ${lead.meeting_time}
-Новый статус: ${STATUS_LABELS[newStatus]}
-Заметка: ${lead.notes || 'Нет'}
+Статус: ${STATUS_LABELS[newStatus]}
       `.trim();
 
       await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -404,14 +430,16 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full table-fixed"> {/* Добавляем table-fixed, чтобы контролировать ширину столбцов */}
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <SortableHeader field="name">Клиент</SortableHeader>
                     <SortableHeader field="phone">Контакты</SortableHeader>
                     <SortableHeader field="meeting_date">Встреча</SortableHeader>
                     <SortableHeader field="status">Статус</SortableHeader>
-                    <SortableHeader field="notes">Заметки</SortableHeader>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Заметки
+                    </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Действия
                     </th>
@@ -479,21 +507,38 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
                       </td>
 
                       <td className="px-6 py-4">
+                        {/* Изменяем класс, чтобы сделать поле шире и разрешить перенос текста */}
                         <textarea
-                          className="w-full text-sm border border-gray-300 rounded-md p-2"
+                          className="w-48 h-20 text-sm border border-gray-300 rounded-md p-2 resize-y overflow-auto"
                           value={editNotes[lead.id]}
                           onChange={(e) => setEditNotes({ ...editNotes, [lead.id]: e.target.value })}
                           placeholder="Заметки..."
                         />
                       </td>
                       
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex gap-2">
+                      <td className="px-6 py-4">
+                        <div className="flex gap-2 flex-col items-start">
+                          {/* Новая кнопка для сохранения заметок */}
+                          <motion.button
+                            onClick={() => saveNotes(lead.id)}
+                            disabled={savingNotes === lead.id}
+                            className="flex items-center gap-1 px-3 py-1 bg-gray-600 text-white text-xs rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            {savingNotes === lead.id ? (
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                            ) : (
+                                <Save className="w-3 h-3" />
+                            )}
+                            Сохранить заметки
+                          </motion.button>
+                          
                           {lead.status !== BOOKING_STATUSES.CONFIRMED && (
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CONFIRMED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                              className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -510,7 +555,7 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CANCELLED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white text-xs rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                              className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white text-xs rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -527,7 +572,7 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.PENDING)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-1 px-3 py-1 bg-yellow-600 text-white text-xs rounded-md hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                              className="flex items-center gap-1 px-3 py-1 bg-yellow-600 text-white text-xs rounded-md hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
