@@ -13,7 +13,9 @@ import {
   Search,
   Filter,
   Download,
-  RefreshCw
+  RefreshCw,
+  ChevronUp,
+  ChevronDown
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 
@@ -58,6 +60,18 @@ const AdminPage = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('all');
   const [updating, setUpdating] = useState(null);
+  const [sortField, setSortField] = useState('created_at');
+  const [sortDirection, setSortDirection] = useState('desc');
+
+  // Функция сортировки
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
 
   // Загрузка лидов
   const loadLeads = async () => {
@@ -147,37 +161,69 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
     }
   };
 
-  // Фильтрация лидов
-  const filteredLeads = leads.filter(lead => {
-    const matchesSearch = lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         lead.phone.includes(searchTerm);
-    
-    const matchesStatus = statusFilter === 'all' || lead.status === statusFilter;
-    
-    const matchesDate = dateFilter === 'all' || (() => {
-      const leadDate = new Date(lead.meeting_date);
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
-      const weekFromNow = new Date(today);
-      weekFromNow.setDate(today.getDate() + 7);
+  // Фильтрация и сортировка лидов
+  const filteredLeads = leads
+    .filter(lead => {
+      const matchesSearch = lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           lead.phone.includes(searchTerm);
+      
+      const matchesStatus = statusFilter === 'all' || lead.status === statusFilter;
+      
+      const matchesDate = dateFilter === 'all' || (() => {
+        const leadDate = new Date(lead.meeting_date);
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        const weekFromNow = new Date(today);
+        weekFromNow.setDate(today.getDate() + 7);
 
-      switch (dateFilter) {
-        case 'today':
-          return leadDate.toDateString() === today.toDateString();
-        case 'tomorrow':
-          return leadDate.toDateString() === tomorrow.toDateString();
-        case 'week':
-          return leadDate >= today && leadDate <= weekFromNow;
-        case 'past':
-          return leadDate < today;
+        switch (dateFilter) {
+          case 'today':
+            return leadDate.toDateString() === today.toDateString();
+          case 'tomorrow':
+            return leadDate.toDateString() === tomorrow.toDateString();
+          case 'week':
+            return leadDate >= today && leadDate <= weekFromNow;
+          case 'past':
+            return leadDate < today;
+          default:
+            return true;
+        }
+      })();
+
+      return matchesSearch && matchesStatus && matchesDate;
+    })
+    .sort((a, b) => {
+      let aValue, bValue;
+
+      switch (sortField) {
+        case 'name':
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+          break;
+        case 'phone':
+          aValue = a.phone;
+          bValue = b.phone;
+          break;
+        case 'meeting_date':
+          aValue = new Date(a.meeting_date + 'T' + a.meeting_time);
+          bValue = new Date(b.meeting_date + 'T' + b.meeting_time);
+          break;
+        case 'status':
+          aValue = a.status;
+          bValue = b.status;
+          break;
+        case 'created_at':
         default:
-          return true;
+          aValue = new Date(a.created_at);
+          bValue = new Date(b.created_at);
+          break;
       }
-    })();
 
-    return matchesSearch && matchesStatus && matchesDate;
-  });
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
 
   // Экспорт данных в CSV
   const exportToCSV = () => {
@@ -204,6 +250,23 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
     a.click();
     window.URL.revokeObjectURL(url);
   };
+
+  // Компонент для заголовка с сортировкой
+  const SortableHeader = ({ field, children }) => (
+    <th 
+      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+      onClick={() => handleSort(field)}
+    >
+      <div className="flex items-center gap-1">
+        {children}
+        {sortField === field && (
+          sortDirection === 'asc' ? 
+            <ChevronUp className="w-4 h-4" /> : 
+            <ChevronDown className="w-4 h-4" />
+        )}
+      </div>
+    </th>
+  );
 
   useEffect(() => {
     loadLeads();
@@ -333,18 +396,10 @@ ${statusEmoji[newStatus]} Статус заявки обновлен
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Клиент
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Контакты
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Встреча
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Статус
-                    </th>
+                    <SortableHeader field="name">Клиент</SortableHeader>
+                    <SortableHeader field="phone">Контакты</SortableHeader>
+                    <SortableHeader field="meeting_date">Встреча</SortableHeader>
+                    <SortableHeader field="status">Статус</SortableHeader>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Действия
                     </th>
