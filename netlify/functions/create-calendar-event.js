@@ -35,11 +35,11 @@ exports.handler = async (event) => {
       summary: `Бронирование от: ${newRecord.name}`,
       description: `Телефон: ${newRecord.phone}\nID бронирования: ${newRecord.id}`,
       start: {
-        dateTime: `${newRecord.meeting_date}T${newRecord.meeting_time}:00`,
+        dateTime: `${newRecord.meeting_date}T${newRecord.meeting_time}`,
         timeZone: 'Asia/Almaty',
       },
       end: {
-        dateTime: new Date(new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}:00`).getTime() + 60 * 60 * 1000).toISOString(),
+        dateTime: new Date(new Date(`${newRecord.meeting_date}T${newRecord.meeting_time}`).getTime() + 60 * 60 * 1000).toISOString(),
         timeZone: 'Asia/Almaty',
       },
     };
