@@ -29,6 +29,40 @@
   font-display: swap;
 }
 
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent CLS for common elements */
+img, video, canvas, svg {
+  max-width: 100%;
+}
+
+/* Fixed dimensions for common containers */
+.model-container {
+  min-height: 384px;
+  width: 100%;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+
 /* body {
   cursor: none;
 } */

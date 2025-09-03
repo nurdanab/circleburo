@@ -2,7 +2,7 @@
 import "tailwindcss";
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import BlenderModel from '../BlenderModel';
+import LazyBlenderModel from '../LazyBlenderModel';
 
 const HeroSection = () => {
   // Scroll анимации
@@ -207,8 +207,12 @@ const HeroSection = () => {
       </motion.div>
 
       {/* 3D модель остается на месте */}
-      <div className="absolute inset-0 z-10 pointer-events-none opacity-100">
-        <BlenderModel />
+      <div className="absolute inset-0 z-10 pointer-events-none opacity-100 flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center"> {/* Полный размер контейнера, но центрируем модель */}
+          <div className="flex items-center justify-center w-full h-full transform translate-y-8"> {/* Опускаем контейнер ниже */}
+            <LazyBlenderModel />
+          </div>
+        </div>
       </div>
 
       {/* Главный контент */}

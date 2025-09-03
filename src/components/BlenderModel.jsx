@@ -1,5 +1,5 @@
 // src/components/BlenderModel.jsx
-import React, { useRef, Suspense, useEffect } from 'react';
+import React, { useRef, Suspense, useEffect, useMemo, useCallback } from 'react';
 import { useGLTF, Environment } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -8,45 +8,51 @@ function AnimatedModel() {
   const { scene } = useGLTF('/abstract-circle.glb');
   
   const meshRef = useRef();
-  const clonedScene = scene.clone();
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
 
-  // Создаем разные материалы для разных элементов
+  // Мемоизируем материалы для предотвращения пересоздания
+  const materials = useMemo(() => {
+    const darkMetallicMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0.15, 0.15, 0.2),
+      metalness: 0.95,
+      roughness: 0.2,
+      envMapIntensity: 1.8,
+      emissive: new THREE.Color(0.02, 0.02, 0.05),
+      transparent: true,
+      opacity: 0.95
+    });
+
+    const blueMetallicMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0.3, 0.7, 1.0),
+      metalness: 0.9,
+      roughness: 0.1,
+      envMapIntensity: 2.5,
+      emissive: new THREE.Color(0.1, 0.2, 0.3),
+      transparent: true,
+      opacity: 0.95
+    });
+
+    return { darkMetallicMaterial, blueMetallicMaterial };
+  }, []);
+
+  // Применяем материалы только один раз
   useEffect(() => {
     let meshIndex = 0;
     
     clonedScene.traverse((child) => {
       if (child.isMesh) {
         if (meshIndex === 0) {
-          // Первый элемент (внешний) - темный металлический
-          const darkMetallicMaterial = new THREE.MeshStandardMaterial({
-            color: new THREE.Color(0.15, 0.15, 0.2), // Темно-серый с синеватым оттенком
-            metalness: 0.95,  // Очень высокая металличность
-            roughness: 0.2,   // Низкая шероховатость для блеска
-            envMapIntensity: 1.8, // Хорошее отражение окружения
-            emissive: new THREE.Color(0.02, 0.02, 0.05), // Очень слабое темное свечение
-            transparent: true,
-            opacity: 0.95
-          });
-          child.material = darkMetallicMaterial;
+          child.material = materials.darkMetallicMaterial;
         } else {
-          // Второй элемент (внутренний) - голубой металлический
-          const blueMetallicMaterial = new THREE.MeshStandardMaterial({
-            color: new THREE.Color(0.3, 0.7, 1.0), // Яркий голубой
-            metalness: 0.9,  // Высокая металличность
-            roughness: 0.1,  // Низкая шероховатость для блеска
-            envMapIntensity: 2.5, // Усиленное отражение
-            emissive: new THREE.Color(0.1, 0.2, 0.3), // Голубоватое свечение
-            transparent: true,
-            opacity: 0.95
-          });
-          child.material = blueMetallicMaterial;
+          child.material = materials.blueMetallicMaterial;
         }
         meshIndex++;
       }
     });
-  }, [clonedScene]);
+  }, [clonedScene, materials]);
 
-  useFrame((state) => {
+  // Оптимизированная анимация с useCallback
+  const animateModel = useCallback((state) => {
     if (meshRef.current) {
       // Основная анимация вращения
       meshRef.current.rotation.y += 0.005;
@@ -64,7 +70,7 @@ function AnimatedModel() {
             const rotationFactor = meshRef.current.rotation.y * 0.3;
             
             // Замедляем переходы между цветами
-            const colorPhase = time * 0.3 + rotationFactor; // Уменьшили скорость с 0.8 до 0.3
+            const colorPhase = time * 0.3 + rotationFactor;
             
             // Светлые, мягкие металлические цвета
             const colors = [
@@ -98,103 +104,59 @@ function AnimatedModel() {
             
             // Очень мягкое emissive свечение
             child.material.emissive.setRGB(
-              finalR * 0.1, 
-              finalG * 0.1, 
-              finalB * 0.1
+              finalR * 0.1,
+              finalG * 0.15,
+              finalB * 0.2
             );
           }
           meshIndex++;
         }
       });
     }
-  });
+  }, []);
+
+  useFrame(animateModel);
 
   return (
     <primitive 
       ref={meshRef} 
       object={clonedScene} 
-      scale={[0.7, 0.7, 0.7]}
-      position={[0, -1.0, 0]}
-      rotation={[0, 0, 0]}
+      position={[0, 0, 0]}
+      scale={[0.8, 0.8, 0.8]}
     />
   );
 }
 
-function ModelError() {
+// Оптимизированный Canvas с настройками производительности
+const BlenderModel = () => {
   return (
-    <mesh>
-      <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial 
-        color="#ff6b6b" 
-        transparent 
-        opacity={0.3}
-        metalness={0.8}
-        roughness={0.2}
-      />
-    </mesh>
-  );
-}
-
-function ModelLoader() {
-  return (
-    <mesh>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial 
-        color="#4ecdc4" 
-        transparent 
-        opacity={0.5}
-        metalness={0.5}
-        roughness={0.3}
-      />
-    </mesh>
-  );
-}
-
-export default function BlenderModel() {
-  return (
-    <Canvas 
-      className="w-full h-full"
-      camera={{ position: [0, 0, 5], fov: 30 }}
-      gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
-    >
-      {/* Усиленное освещение для лучшего эффекта сверкания */}
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[10, 10, 5]} intensity={1.2} castShadow />
-      <pointLight position={[-10, -10, -5]} intensity={0.6} color="#ffffff" />
-      <pointLight position={[5, 5, 5]} intensity={0.4} color="#add8e6" />
-      
-      <Suspense fallback={<ModelLoader />}>
-        <ErrorBoundary fallback={<ModelError />}>
+    <div className="w-full h-full"> {/* Убираю лишнее центрирование */}
+      <Canvas
+        className="w-full h-full"
+        camera={{ position: [0, 0, 5], fov: 30 }}
+        gl={{ 
+          antialias: true, 
+          toneMapping: THREE.ACESFilmicToneMapping,
+          powerPreference: "high-performance"
+        }}
+        dpr={[1, 2]} // Responsive pixel ratio
+        performance={{ min: 0.5 }} // Performance optimization
+      >
+        <Suspense fallback={null}>
           <AnimatedModel />
-        </ErrorBoundary>
-      </Suspense>
-      
-      <Environment preset="studio" />
-    </Canvas>
+          <Environment preset="studio" />
+          {/* Усиленное освещение для лучшего эффекта сверкания */}
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[10, 10, 5]} intensity={1.2} castShadow />
+          <pointLight position={[-10, -10, -5]} intensity={0.6} color="#ffffff" />
+          <pointLight position={[5, 5, 5]} intensity={0.4} color="#add8e6" />
+        </Suspense>
+      </Canvas>
+    </div>
   );
-}
+};
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.log('3D Model Error:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || <ModelError />;
-    }
-
-    return this.props.children;
-  }
-}
-
+// Preload the 3D model for better performance
 useGLTF.preload('/abstract-circle.glb');
+
+export default BlenderModel;

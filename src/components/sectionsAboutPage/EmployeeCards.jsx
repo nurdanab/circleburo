@@ -156,6 +156,7 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
                     src={employee.image}
                     alt={employee.name}
                     className="w-full h-full object-cover rounded-full"
+                    style={{ width: '100%', height: '100%' }}
                     loading="lazy"
                   />
                 </div>

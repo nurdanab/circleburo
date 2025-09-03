@@ -162,7 +162,8 @@ const AboutSectionGallery = () => {
             <img
               src={item.src}
               alt={`Gallery item ${index + 1}`}
-              className="w-full h-full object-cover block"
+              className="w-full h-full object-cover"
+              style={{ width: '100%', height: '100%' }}
               loading="lazy"
               onLoad={(e) => {
                 console.log(`✅ Successfully loaded: ${item.src}`);

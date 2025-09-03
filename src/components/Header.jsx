@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import logo from '/img/logo-header.png';
+import OptimizedImage from './OptimizedImage';
 import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -102,7 +102,7 @@ const Header = () => {
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <img src={logo} alt="Circle Buro" style={{ height: '2.5rem' }} />
+            <img src="/img/logo-header.png" alt="Circle Buro" style={{ height: '2.5rem' }} />
           </Link>
         </div>
 

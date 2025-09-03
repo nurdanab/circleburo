@@ -1,20 +1,23 @@
 // src/App.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { initGA, logPageView } from './analytics';
 
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import CasePage from './pages/CasePage';
-import Circle from './pages/Circle';
-import Cycle from './pages/Cycle';
-import Semicircle from './pages/Semicircle';
-import AdminPage from './pages/AdminPage';
-import LoginPage from './pages/LoginPage';
+// Lazy load pages for better performance
+const HomePage = lazy(() => import('./pages/HomePage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const CasePage = lazy(() => import('./pages/CasePage'));
+const Circle = lazy(() => import('./pages/Circle'));
+const Cycle = lazy(() => import('./pages/Cycle'));
+const Semicircle = lazy(() => import('./pages/Semicircle'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
 
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SplashCursor from './components/SplashCursor';
+import LazyPage from './components/LazyPage';
+import PerformanceMeta from './components/PerformanceMeta';
 
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
@@ -35,23 +38,24 @@ function AppContent() {
 
   return (
     <>
+      <PerformanceMeta />
       <SplashCursor />
       {!isAdminRoute && <Header />}
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/project" element={<CasePage />} />
-        <Route path="/circle" element={<Circle />} />
-        <Route path="/cycle" element={<Cycle />} />
-        <Route path="/semicircle" element={<Semicircle />} /> 
+        <Route path="/" element={<LazyPage component={HomePage} />} />
+        <Route path="/about" element={<LazyPage component={AboutPage} />} />
+        <Route path="/project" element={<LazyPage component={CasePage} />} />
+        <Route path="/circle" element={<LazyPage component={Circle} />} />
+        <Route path="/cycle" element={<LazyPage component={Cycle} />} />
+        <Route path="/semicircle" element={<LazyPage component={Semicircle} />} /> 
         
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LazyPage component={LoginPage} />} />
 
         <Route 
           path="/admin" 
           element={
             <ProtectedRoute>
-              <AdminPage />
+              <LazyPage component={AdminPage} />
             </ProtectedRoute>
           } 
         />

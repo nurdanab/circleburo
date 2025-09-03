@@ -3,24 +3,9 @@
 User-agent: *
 Allow: /
 
-# Запрещаем индексацию админки и служебных страниц
+# Sitemap
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Performance hints
 Disallow: /admin
 Disallow: /login
-Disallow: /api/
-
-# Разрешаем основные ресурсы
-Allow: /img/
-Allow: /fonts/
-Allow: /*.css
-Allow: /*.js
-
-# Указываем расположение sitemap
-Sitemap: https://circleburo.kz/sitemap.xml
-
-# Специальные правила для поисковиков
-User-agent: Yandex
-Allow: /
-Crawl-delay: 1
-
-User-agent: Googlebot
-Allow: /
