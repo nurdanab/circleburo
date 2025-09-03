@@ -1,7 +1,7 @@
 'use strict'
 
 exports.config = {
-  app_name: ['circle-buro-project'], 
+  app_name: [process.env.NEW_RELIC_APP_NAME || 'circle-buro-project'],
   license_key: process.env.NEW_RELIC_LICENSE_KEY, 
   logging: {
     level: 'info'
