@@ -1,6 +1,8 @@
 // src/App.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { initGA, logPageView } from './analytics';
+
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import CasePage from './pages/CasePage';
@@ -14,11 +16,9 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import SplashCursor from './components/SplashCursor';
 
-// Компонент для защиты маршрута
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
   if (!isAdminLoggedIn) {
-    // Если пользователь не авторизован, перенаправляем на страницу входа
     return <Navigate to="/login" replace />;
   }
   return children;
@@ -26,7 +26,11 @@ const ProtectedRoute = ({ children }) => {
 
 function AppContent() {
   const location = useLocation();
-  // Теперь нам нужно скрывать шапку и футер и на странице входа тоже
+
+  useEffect(() => {
+    logPageView();
+  }, [location]);
+
   const isAdminRoute = location.pathname === '/admin' || location.pathname === '/login';
 
   return (
@@ -41,10 +45,8 @@ function AppContent() {
         <Route path="/cycle" element={<Cycle />} />
         <Route path="/semicircle" element={<Semicircle />} /> 
         
-        {/* Новый маршрут для страницы входа */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Защищённый маршрут для админ-панели */}
         <Route 
           path="/admin" 
           element={
@@ -60,6 +62,10 @@ function AppContent() {
 }
 
 function App() {
+  useEffect(() => {
+    initGA();
+  }, []);
+
   return (
     <BrowserRouter>
       <AppContent />
