@@ -18,8 +18,7 @@ const ModelSkeleton = () => (
 
 const LazyBlenderModel = ({ className = "" }) => {
   return (
-    <div className={`w-[40rem] h-[40rem] mx-auto flex items-center justify-center ${className}`}> {/* Контейнер с центрированием модели */}
-      <Suspense fallback={<ModelSkeleton />}>
+    <div className={`w-[40rem] h-[40rem] mx-auto flex items-center justify-center ${className}`}> {/* Контейнер с центрированием модели */}      <Suspense fallback={<ModelSkeleton />}>
         <BlenderModel />
       </Suspense>
     </div>
