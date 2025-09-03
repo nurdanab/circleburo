@@ -19,3 +19,4 @@ package = "@newrelic/netlify-plugin"
 
 [plugins.inputs]
 newrelicLicenseKey = "${NEW_RELIC_LICENSE_KEY}"
+newrelicAccountId = "1007086135"
