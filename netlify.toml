@@ -13,3 +13,9 @@
 
   [functions]
   directory = "netlify/functions"
+
+  [[plugins]]
+package = "@newrelic/netlify-plugin"
+
+[plugins.inputs]
+licenseKey = "${NEW_RELIC_LICENSE_KEY}"

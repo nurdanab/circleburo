@@ -12,7 +12,6 @@ const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 const calendarId = process.env.G_CAL_ID;
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
-// Добавляем проверку переменных окружения
 function validateEnvironment() {
   const required = [
     'VITE_SUPABASE_URL',
@@ -83,7 +82,6 @@ exports.handler = async (event) => {
 
     console.log('📌 Incoming booking record:', newRecord);
 
-    // Получаем ключ сервисного аккаунта
     const serviceAccountKey = getServiceAccountKey();
 
     const auth = new JWT({
@@ -94,7 +92,6 @@ exports.handler = async (event) => {
 
     const calendar = google.calendar({ version: 'v3', auth });
 
-    // Проверяем подключение к Google Calendar
     try {
       await auth.authorize();
       console.log('✅ Successfully authenticated with Google Calendar');
@@ -142,15 +139,12 @@ exports.handler = async (event) => {
         try {
           startDateStr = safeBuildDateTime(newRecord.meeting_date, newRecord.meeting_time);
   
-          // === ИСПРАВЛЕННЫЙ БЛОК ДЛЯ ВРЕМЕНИ ОКОНЧАНИЯ ===
-          // Разбиваем строку времени на часы, минуты, секунды
+
           const [datePart, timePart] = startDateStr.split('T');
           const [hours, minutes, seconds] = timePart.split(':');
   
-          // Вычисляем новое время, добавляя 1 час
           const newHours = parseInt(hours) + 1;
   
-          // Форматируем строку времени окончания
           endDateStr = `${datePart}T${newHours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
   
         } catch (dateError) {
@@ -187,7 +181,6 @@ exports.handler = async (event) => {
   
             const gEvent = existingEvent.data;
   
-            // Проверяем различия
             const needUpdate =
               gEvent.summary !== calendarEvent.summary ||
               gEvent.description !== calendarEvent.description ||
@@ -225,7 +218,6 @@ exports.handler = async (event) => {
             }
           }
   
-        // === Если события ещё нет ===
         } else {
           console.log('✨ Creating new event...');
           try {
