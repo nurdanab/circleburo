@@ -1,14 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Instagram, Youtube, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FaTiktok, FaThreads } from 'react-icons/fa6'; // Импортируем иконки TikTok и Threads
+import { FaTiktok, FaThreads } from 'react-icons/fa6'; 
+
 
 const FooterSection = () => {
   const { t } = useTranslation();
 
-  // Генерируем звёздочки для фона
   const stars = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     size: Math.random() * 2 + 1,
