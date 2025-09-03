@@ -1,4 +1,6 @@
 // netlify/functions/create-calendar-event.js
+require('newrelic');
+
 const { google } = require('googleapis');
 const { JWT } = require('google-auth-library');
 const { createClient } = require('@supabase/supabase-js');
