@@ -48,11 +48,12 @@ const SEOHead = ({
         <link rel="shortcut icon" href="/img/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
         <link rel="manifest" href="/img/site.webmanifest" />
+        <meta name="theme-color" content="#000000" />
+
 {/* 
       <link rel="icon" type="image/png" sizes="32x32" href="/img/circle-fill.webp" />
       <link rel="icon" type="image/png" sizes="16x16" href="/img/circle-fill.webp" />
       <link rel="apple-touch-icon" href="/img/circle-fill.webp" /> */}
-      <meta name="theme-color" content="#000000" />
       
       {/* Язык документа */}
       <html lang={language} />
