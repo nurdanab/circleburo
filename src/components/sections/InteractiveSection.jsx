@@ -49,7 +49,7 @@ const questions = [
 const StartLogo = () => (
   <motion.div className="w-24 h-24 mx-auto mb-8 relative">
     <motion.img
-      src="/img/circle-logo.png"
+      src="/img/logo-fill.webp"
       alt="Circle Logo"
       className="w-full h-full object-contain filter drop-shadow-lg"
       initial={{ scale: 0, opacity: 0 }}
