@@ -324,11 +324,7 @@
       },
       "options": {
         "yes": "Да",
-        "no_just_starting": "Нет",
-        "no_full_branding": "Нет",
-        "no_quick_start": "Нет",
-        "no_basics": "Нет",
-        "no_one_time": "Нет"
+        "no": "Нет"
       },
       "results": {
         "semi_circle": {

@@ -8,7 +8,7 @@ const questions = [
     text: "quiz.questions.1",
     options: [
       { textKey: "quiz.options.yes", next: 2 },
-      { textKey: "quiz.options.no_just_starting", next: 3 },
+      { textKey: "quiz.options.no", next: 3 },
     ],
   },
   {
@@ -16,7 +16,7 @@ const questions = [
     text: "quiz.questions.2",
     options: [
       { textKey: "quiz.options.yes", next: 4 },
-      { textKey: "quiz.options.no_full_branding", next: 5 },
+      { textKey: "quiz.options.no", next: 5 },
     ],
   },
   {
@@ -24,7 +24,7 @@ const questions = [
     text: "quiz.questions.3",
     options: [
       { textKey: "quiz.options.yes", next: 2 },
-      { textKey: "quiz.options.no_quick_start", next: 5 },
+      { textKey: "quiz.options.no", next: 5 },
     ],
   },
   {
@@ -32,15 +32,15 @@ const questions = [
     text: "quiz.questions.4",
     options: [
       { textKey: "quiz.options.yes", result: "Cycle" },
-      { textKey: "quiz.options.no_basics", result: "Semicircle" },
+      { textKey: "quiz.options.no", result: "Semi Circle" },
     ],
   },
   {
     id: 5,
     text: "quiz.questions.5",
     options: [
-      { textKey: "quiz.options.yes", result: "Semicircle" },
-      { textKey: "quiz.options.no_one_time", result: "Circle" },
+      { textKey: "quiz.options.yes", result: "Semi Circle" },
+      { textKey: "quiz.options.no", result: "Circle" },
     ],
   },
 ];

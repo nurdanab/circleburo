@@ -315,11 +315,7 @@
       },
       "options": {
         "yes": "Yes",
-        "no_just_starting": "No",
-        "no_full_branding": "No",
-        "no_quick_start": "No",
-        "no_basics": "No",
-        "no_one_time": "No"
+        "no": "No"
       },
       "results": {
         "semi_circle": {
