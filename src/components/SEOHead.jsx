@@ -43,9 +43,15 @@ const SEOHead = ({
       
       
       {/* Favicon и иконки */}
+        <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+        <link rel="shortcut icon" href="/img/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+        <link rel="manifest" href="/img/site.webmanifest" />
+{/* 
       <link rel="icon" type="image/png" sizes="32x32" href="/img/circle-fill.webp" />
       <link rel="icon" type="image/png" sizes="16x16" href="/img/circle-fill.webp" />
-      <link rel="apple-touch-icon" href="/img/circle-fill.webp" />
+      <link rel="apple-touch-icon" href="/img/circle-fill.webp" /> */}
       <meta name="theme-color" content="#000000" />
       
       {/* Язык документа */}

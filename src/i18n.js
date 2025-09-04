@@ -8,36 +8,29 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en', // запасной язык
+    fallbackLng: 'en', 
     
-    // Отладка (можно отключить в продакшене)
     debug: false,
     
-    // Настройки детектора языка
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
     },
     
-    // Настройки загрузки переводов
     backend: {
       loadPath: '/locales/{{lng}}/translation.json',
     },
     
-    // Интерполяция
     interpolation: {
-      escapeValue: false, // React уже безопасен от XSS
+      escapeValue: false, 
     },
     
-    // Настройки React
     react: {
-      useSuspense: false, // отключаем Suspense для простоты
+      useSuspense: false, 
     },
     
-    // Доступные языки
     supportedLngs: ['en', 'ru'],
     
-    // Настройки пространств имен
     ns: ['translation'],
     defaultNS: 'translation',
   });
