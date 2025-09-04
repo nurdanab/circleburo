@@ -307,19 +307,19 @@
         "button": "Start Quiz"
       },
       "questions": {
-        "1": "Do you already have an existing business?",
-        "2": "Do you need a one-time solution (like a website, campaign, or visuals)?",
-        "3": "Is creating a strong brand identity important for your launch?",
-        "4": "Do you plan to run ongoing marketing campaigns and social media content?",
-        "5": "Would you prefer a monthly subscription where our team supports your brand continuously?"
+        "1": "Do you have an existing business?",
+        "2": "Do you have a corporate style or identity?",
+        "3": "Are you interested in a monthly subscription?",
+        "4": "Does your team manage social media?",
+        "5": "Do you have a budget constraint?"
       },
       "options": {
         "yes": "Yes",
-        "no_just_starting": "No, I'm just starting",
-        "no_full_branding": "No, I want a full branding package",
-        "no_quick_start": "No, I just need something quick to start",
-        "no_basics": "No, I only need the basics",
-        "no_one_time": "No, I prefer a one-time or full-package solution"
+        "no_just_starting": "No",
+        "no_full_branding": "No",
+        "no_quick_start": "No",
+        "no_basics": "No",
+        "no_one_time": "No"
       },
       "results": {
         "semi_circle": {
