@@ -8,7 +8,7 @@ const SEOHead = ({
   ogDescription, 
   canonicalUrl,
   language = 'ru',
-  ogImage = '/img/logo-fill.webp',
+  ogImage = '/img/circle-fill.webp',
   alternateUrls = []
 }) => {
   const baseUrl = 'https://circleburo.kz/'; 
