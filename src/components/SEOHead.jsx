@@ -43,9 +43,9 @@ const SEOHead = ({
       
       
       {/* Favicon и иконки */}
-      <link rel="icon" type="image/png" sizes="32x32" href="/img/logo-fill.webp" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/img/logo-fill.webp" />
-      <link rel="apple-touch-icon" href="/img/logo-fill.webp" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/img/circle-fill.webp" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/img/circle-fill.webp" />
+      <link rel="apple-touch-icon" href="/img/circle-fill.webp" />
       <meta name="theme-color" content="#000000" />
       
       {/* Язык документа */}
