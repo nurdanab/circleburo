@@ -40,7 +40,7 @@ const FooterSection = () => {
   ];
 
   const socialLinks = [
-    { icon: FaTiktok, href: 'https://www.tiktok.com/@circlemadeit8?_t=ZM-8zFtz1xNdeX', label: 'TikTok' },
+    { icon: FaTiktok, href: 'https://www.tiktok.com/@madebycircle?_t=ZM-8zT1mZUDsS0&_r=1', label: 'TikTok' },
     { icon: Instagram, href: 'https://www.instagram.com/circlemadeit?igsh=MThramN1bDZyNzd5Mw==', label: 'Instagram' },
     { icon: FaThreads, href: 'https://www.threads.com/@circlemadeit?igshid=NTc4MTIwNjQ2YQ==', label: 'Threads' },
   ];
