@@ -43,21 +43,15 @@ const SEOHead = ({
       
       
       {/* Favicon и иконки */}
-      <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
-<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
-<link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
-<link rel="icon" href="/img/favicon.ico" />
-<link rel="manifest" href="/img/site.webmanifest" />
-<meta name="theme-color" content="#000000" />
+        <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+        <link rel="icon" href="/img/favicon.ico" />
+        <link rel="manifest" href="/img/site.webmanifest" />
+        <meta name="theme-color" content="#000000" />
 
-{/* 
-      <link rel="icon" type="image/png" sizes="32x32" href="/img/circle-fill.webp" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/img/circle-fill.webp" />
-      <link rel="apple-touch-icon" href="/img/circle-fill.webp" /> */}
-      
-      {/* Язык документа */}
       <html lang={language} />
       
       {/* Дополнительные мета-теги для Казахстана */}

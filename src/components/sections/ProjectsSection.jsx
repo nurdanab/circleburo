@@ -7,28 +7,27 @@ const ProjectsSection = () => {
   const { t } = useTranslation();
   const scrollRef = useRef(null);
   
-  // Добавлен новый массив данных
   const projectsData = [
     { 
       id: 1, 
-      media: '/img/projects/case1.webp', // Путь к изображению
-      mediaType: 'image', // Тип контента: изображение
+      media: '/img/projects/case1.webp',  
+      mediaType: 'image',  
       title: t('projects.before'), 
-      link: '/projects/project-name' 
+      link: '/project' 
     },
     { 
       id: 2, 
-      media: '/img/projects/case2.mp4', // Путь к видео
-      mediaType: 'video', // Тип контента: видео
+      media: '/img/projects/case2.mp4',  
+      mediaType: 'video',  
       title: t('projects.process'), 
-      link: '/projects/project-name' 
+      link: '/project' 
     },
     { 
       id: 3, 
-      media: '/img/projects/3case.webp', // Путь к изображению
-      mediaType: 'image', // Тип контента: изображение
+      media: '/img/projects/3case.webp',  
+      mediaType: 'image', 
       title: t('projects.after'), 
-      link: '/projects/project-name' 
+      link: '/project' 
     },
   ];
   const totalCards = projectsData.length;
@@ -52,7 +51,6 @@ const ProjectsSection = () => {
       style={{ height: sectionHeight }}
       className="relative bg-black text-white"
     >
-      {/* sticky контейнер */}
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         {/* Заголовок */}
         <motion.div
@@ -87,10 +85,9 @@ const ProjectsSection = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true, amount: 0.5 }}
             >
-              {/* Условный рендеринг: если это видео, показываем <video>, если изображение — <img> */}
               {project.mediaType === 'video' ? (
                 <video
-                  src={project.media} // Используем новое поле `media`
+                  src={project.media}
                   autoPlay
                   loop
                   muted
@@ -99,7 +96,7 @@ const ProjectsSection = () => {
                 />
               ) : (
                 <img
-                  src={project.media} // Используем новое поле `media`
+                  src={project.media} 
                   alt={project.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                 />

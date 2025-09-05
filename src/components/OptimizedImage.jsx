@@ -16,7 +16,7 @@ const OptimizedImage = ({
   const observerRef = useRef(null);
 
   useEffect(() => {
-    if (priority) return; // Skip intersection observer for priority images
+    if (priority) return; 
 
     observerRef.current = new IntersectionObserver(
       ([entry]) => {

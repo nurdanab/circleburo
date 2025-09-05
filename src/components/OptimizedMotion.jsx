@@ -2,9 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Optimized motion components with reduced motion support
 const OptimizedMotion = {
-  // Container with optimized animations
   Container: ({ children, className = "", ...props }) => (
     <motion.div
       className={className}
