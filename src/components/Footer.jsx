@@ -37,11 +37,12 @@ const FooterSection = () => {
     { icon: Phone, text: '+7 776 153 60 92', href: 'tel:+7 776 153 60 92' },
     { icon: Phone, text: '+7 775 420 18 40', href: 'tel:+7 775 420 18 40' },
     { icon: MapPin, text: '2/2 Khodzhanova Street Almaty, Kazakhstan', href: 'https://go.2gis.com/6P5z3' },
+    { icon: Mail, text: 'info@circleburo.kz', href: 'mailto:info@circleburo.kz' },
   ];
 
   const socialLinks = [
     { icon: FaTiktok, href: 'https://www.tiktok.com/@madebycircle?_t=ZM-8zT1mZUDsS0&_r=1', label: 'TikTok' },
-    { icon: Instagram, href: 'https://www.instagram.com/circlemadeit?igsh=MThramN1bDZyNzd5Mw==', label: 'Instagram' },
+    { icon: Instagram, href: 'https://www.instagram.com/circlemade.it/', label: 'Instagram' },
     { icon: FaThreads, href: 'https://www.threads.com/@circlemadeit?igshid=NTc4MTIwNjQ2YQ==', label: 'Threads' },
   ];
 
