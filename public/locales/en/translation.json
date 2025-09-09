@@ -169,11 +169,12 @@
         "currency": "KZT"
       },
       "notes": {
-        "note1": "• We don't take a commission for printing, you only pay for the production itself.",
-        "note2": "• You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-        "note3": "• All materials (designs, photos, videos) must be approved by the client before publication.",
-        "note4": "• After approval, changes can only be made within 2 calendar days.",
-        "note5": "• Clear content deadlines are set in advance and agreed upon by both parties."
+        "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
+        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
+        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note4": "✦ After approval, changes can only be made within 2 calendar days.",
+        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
+        "note6": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
     "cycle": {
@@ -202,12 +203,13 @@
         "discount": "Discount for purchasing 'Circle' - 380 000 KZT"
       },
       "notes": {
-        "note1": "• We don't take a commission for printing, you only pay for the production itself.",
-        "note2": "• You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-        "note3": "• All materials (designs, photos, videos) must be approved by the client before publication.",
-        "note4": "• After approval, changes can only be made within 2 calendar days.",
-        "note5": "• Clear content deadlines are set in advance and agreed upon by both parties.",
-        "note6": "• If your desired service isn't listed, we're open to custom solutions and new formats."
+        "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
+        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
+        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note4": "✦ After approval, changes can only be made within 2 calendar days.",
+        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
+        "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
+        "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
     "semicircle": {
@@ -216,7 +218,9 @@
         "item1": "Concept and visual packaging of the partnership/collaboration",
         "item1Price": "80.000 KZT",
         "item2": "Mini-event support: poster, story, video invitation, pop-up or welcome zone design, photo/video shooting",
-        "item2Price": "120.000 KZT"
+        "item2Price": "120.000 KZT",
+        "item3": "Audit and analysis",
+        "item3Price": "100.000 KZT"
       },
       "smm": {
         "title": "SMM",
@@ -258,7 +262,9 @@
         "item2": "Photo production (product, team, lifestyle)",
         "item2Count": "1",
         "item2Time": "1 hour",
-        "item2Price": "20.000 KZT"
+        "item2Price": "20.000 KZT",
+        "item3": "Creative consulting",
+        "item3Price": "Defined individually"
       },
       "notes": {
         "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
@@ -266,7 +272,8 @@
         "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
         "note4": "✦ After approval, changes can only be made within 2 calendar days.",
         "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
-        "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats."
+        "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
+        "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
     "aboutPage": {

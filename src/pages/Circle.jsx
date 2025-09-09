@@ -142,6 +142,7 @@ const Circle = () => {
               <p>{t('circle.notes.note3')}</p>
               <p>{t('circle.notes.note4')}</p>
               <p>{t('circle.notes.note5')}</p>
+              <p>{t('circle.notes.note6')}</p>
               
               <div className="mt-8 pt-4">
               <Link 

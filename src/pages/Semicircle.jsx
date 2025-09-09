@@ -10,7 +10,6 @@ const SemiCircle = () => {
   const seoData = useSEO('semicircle'); 
   const { t } = useTranslation();
 
-  // 🔧 Получаем данные для designItems из i18n
   // Опция { returnObjects: true } позволяет получить массив объектов
   const designItems = t('semicircle.design.items', { returnObjects: true });
 
@@ -59,6 +58,10 @@ const SemiCircle = () => {
                   <div className="flex justify-between items-start space-x-4">
                     <p className="text-gray-300">{t('semicircle.marketing.item2')}</p>
                     <span className="text-2xl font-bold text-white">{t('semicircle.marketing.item2Price')}</span>
+                  </div>
+                  <div className="flex justify-between items-start space-x-4">
+                    <p className="text-gray-300">{t('semicircle.marketing.item3')}</p>
+                    <span className="text-2xl font-bold text-white">{t('semicircle.marketing.item3Price')}</span>
                   </div>
                 </div>
               </motion.div>
@@ -180,6 +183,16 @@ const SemiCircle = () => {
                       <span className="text-white text-2xl font-bold flex-1 text-right">{t('semicircle.production.item2Price')}</span>
                     </div>
                   </div>
+                  <div className="flex justify-between items-start text-gray-300">
+                    <div className="flex-1 max-w-[50%]">
+                      <p>{t('semicircle.production.item3')}</p>
+                    </div>
+                    <div className="flex justify-between items-center flex-1">
+                      {/* <span className="flex-1 text-center">{t('semicircle.production.item2Count')}</span>
+                      <span className="flex-1 text-center">{t('semicircle.production.item2Time')}</span> */}
+                      <span className="text-white text-2xl font-bold flex-1 text-right">{t('semicircle.production.item3Price')}</span>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -250,6 +263,7 @@ const SemiCircle = () => {
               <p>{t('semicircle.notes.note4')}</p>
               <p>{t('semicircle.notes.note5')}</p>
               <p>{t('semicircle.notes.note6')}</p>
+              <p>{t('semicircle.notes.note7')}</p>
               
               <div className="mt-8 pt-4">
               <Link 

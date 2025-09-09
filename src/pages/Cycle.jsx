@@ -136,6 +136,7 @@ const Cycle = () => {
               <p>{t('cycle.notes.note4')}</p>
               <p>{t('cycle.notes.note5')}</p>
               <p>{t('cycle.notes.note6')}</p>
+              <p>{t('cycle.notes.note7')}</p>
               
               <div className="mt-8 pt-4">
                 <Link 
