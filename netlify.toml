@@ -11,14 +11,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Vary = "Accept-Encoding"
-    Content-Encoding = "br, gzip"
 
 [[headers]]
   for = "/assets/css/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
     Vary = "Accept-Encoding"
-    Content-Encoding = "br, gzip"
 
 [[headers]]
   for = "/assets/images/*"
