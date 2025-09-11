@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next'; 
-// Встроенный компонент CursorTrail
 const CursorTrail = ({ children, isActive = true }) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const [photos, setPhotos] = useState([]);
@@ -24,7 +23,6 @@ const CursorTrail = ({ children, isActive = true }) => {
     "/img/company/employee11.webp",
     "/img/company/employee12.webp",
     "/img/company/employee13.webp"
-    // "/img/company/employee14.webp"
   ];
 
   // Запускаем показ фотографий после основной анимации

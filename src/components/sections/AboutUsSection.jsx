@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // Добавили импорт
+import { useTranslation } from 'react-i18next';
+import OptimizedImage from '../OptimizedImage';
 
 const AboutUsSection = () => {
-  const { t } = useTranslation(); // Инициализировали хук
+  const { t } = useTranslation();
   const circleRef = useRef(null);
   const desktopCircleRef = useRef(null);
   const sectionRef = useRef(null);
@@ -43,10 +44,12 @@ const AboutUsSection = () => {
             className="relative w-full h-full translate-x-1/2"
             style={{ rotate: rotateValue }}
           >
-            <img
+            <OptimizedImage
               src="/img/circle-vectorrr-w.png"
+              webpSrc="/img/circle-vectorrr-w.webp"
               alt="Circle Logo"
               className="w-full h-full object-contain filter drop-shadow-2xl"
+              priority={false}
             />
           </motion.div>
         </div>
@@ -55,16 +58,18 @@ const AboutUsSection = () => {
       <motion.div 
         className="hidden lg:block absolute top-1/2 right-0 transform -translate-y-1/2 z-0"
       >
-        <div className="relative w-[50rem] h-[50rem] xl:w-[60rem] xl:h-[60rem] overflow-hidden">
+        <div className="relative w-[40rem] h-[40rem] xl:w-[50rem] xl:h-[50rem] overflow-hidden">
           <motion.div
             ref={desktopCircleRef}
             className="relative w-full h-full translate-x-1/2"
             style={{ rotate: rotateValue }}
           >
-            <img
+            <OptimizedImage
               src="/img/circle-vectorrr-w.png"
+              webpSrc="/img/circle-vectorrr-w.webp"
               alt="Circle Logo"
               className="w-full h-full object-contain filter drop-shadow-2xl"
+              priority={false}
             />
           </motion.div>
         </div>

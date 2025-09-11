@@ -1,5 +1,6 @@
 // src/components/OptimizedImage.jsx
 import React, { useState, useRef, useEffect } from 'react';
+import MediaLoader from './MediaLoader';
 
 const OptimizedImage = ({ 
   src, 
@@ -58,14 +59,9 @@ const OptimizedImage = ({
     >
       {/* Placeholder */}
       {!isLoaded && (
-        <div 
-          className="absolute inset-0 bg-gray-200 animate-pulse"
-          style={{ 
-            backgroundImage: `url(${placeholder})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <MediaLoader size="default" variant="dots" />
+        </div>
       )}
       
       {/* Actual image */}

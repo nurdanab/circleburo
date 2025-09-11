@@ -76,15 +76,15 @@ const ProjectsSection = () => {
           style={{ x, width: `${totalCards * 100}vw` }}
         >
           {projectsData.map((project) => (
-            <motion.a
+            <motion.div
               key={project.id}
-              href={project.link}
               className="group relative w-[80vw] h-full rounded-[30px] overflow-hidden flex-shrink-0"
               initial={{ opacity: 0.5, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true, amount: 0.5 }}
             >
+              <Link to={project.link} className="absolute inset-0 z-20">
               {project.mediaType === 'video' ? (
                 <video
                   src={project.media}
@@ -108,7 +108,8 @@ const ProjectsSection = () => {
                   {project.title}
                 </h3>
               </div>
-            </motion.a>
+              </Link>
+            </motion.div>
           ))}
         </motion.div>
       </div>

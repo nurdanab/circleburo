@@ -1,13 +1,29 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Instagram} from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FaTiktok, FaThreads } from 'react-icons/fa6'; 
 
 
 const FooterSection = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Функция для навигации к секциям (как в Header)
+  const scrollToSection = (sectionId) => {
+    if (location.pathname !== '/') {
+      // Если не на главной странице, перейти на главную с якорем
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      // Если уже на главной странице, просто скролл
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
 
   const stars = Array.from({ length: 20 }, (_, i) => ({
     id: i,
@@ -22,9 +38,9 @@ const FooterSection = () => {
   const navigationLinks = [
     { name: t('nav.home'), to: '/', isLink: true },
     { name: t('nav.about'), to: '/about', isLink: true },
-    { name: t('nav.services'), href: '#services', isLink: false },
-    { name: t('nav.portfolio'), href: '#projects', isLink: false },
-    { name: t('nav.contact'), href: '#contact', isLink: false },
+    { name: t('nav.services'), sectionId: 'services', isLink: false },
+    { name: t('nav.portfolio'), sectionId: 'projects', isLink: false },
+    { name: t('nav.contact'), sectionId: 'contact', isLink: false },
   ];
 
   const services = [
@@ -42,8 +58,8 @@ const FooterSection = () => {
 
   const socialLinks = [
     { icon: FaTiktok, href: 'https://www.tiktok.com/@madebycircle?_t=ZM-8zT1mZUDsS0&_r=1', label: 'TikTok' },
-    { icon: Instagram, href: 'https://www.instagram.com/circlemadeit?igsh=MThramN1bDZyNzd5Mw==', label: 'Instagram' },
-    { icon: FaThreads, href: 'https://www.threads.com/@circlemadeit?igshid=NTc4MTIwNjQ2YQ==', label: 'Threads' },
+    { icon: Instagram, href: 'https://www.instagram.com/circlemade.it/', label: 'Instagram' },
+    { icon: FaThreads, href: 'https://www.threads.com/@circlemade.it', label: 'Threads' },
   ];
 
   return (
@@ -156,34 +172,56 @@ const FooterSection = () => {
                 <h4 className="text-xl font-semibold mb-6 text-white">{t('footer.navigation')}</h4>
                 <ul className="space-y-4">
                   {navigationLinks.map((link, index) => {
-                    const Component = link.isLink ? Link : 'a';
-                    const props = link.isLink ? { to: link.to, onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) } : { href: link.href };
                     return (
                       <li key={index}>
-                        <Component
-                          {...props}
-                          className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
-                          // whileHover={{ x: 5 }}
-                          // transition={{ duration: 0.2 }}
-                        >
-                          {link.name}
-                          <motion.svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            initial={{ x: -10 }}
-                            whileHover={{ x: 0 }}
+                        {link.isLink ? (
+                          <Link
+                            to={link.to}
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
                           >
-                            <path d="M7 17L17 7" />
-                            <path d="M7 7h10v10" />
-                          </motion.svg>
-                        </Component>
+                            {link.name}
+                            <motion.svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              initial={{ x: -10 }}
+                              whileHover={{ x: 0 }}
+                            >
+                              <path d="M7 17L17 7" />
+                              <path d="M7 7h10v10" />
+                            </motion.svg>
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => scrollToSection(link.sectionId)}
+                            className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center bg-transparent border-none cursor-pointer"
+                          >
+                            {link.name}
+                            <motion.svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              initial={{ x: -10 }}
+                              whileHover={{ x: 0 }}
+                            >
+                              <path d="M7 17L17 7" />
+                              <path d="M7 7h10v10" />
+                            </motion.svg>
+                          </button>
+                        )}
                       </li>
                     );
                   })}

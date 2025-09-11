@@ -1,12 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Diamond, Rocket, Lightbulb } from 'lucide-react';
-import { useTranslation } from 'react-i18next'; // Добавили импорт
+import { useTranslation } from 'react-i18next'; 
 
 const WhyUsSection = () => {
-  const { t } = useTranslation(); // Инициализировали хук
+  const { t } = useTranslation(); 
 
-  // Обновили массив с данными, чтобы он использовал ключи переводов
   const reasons = [
     {
       icon: <Diamond className="text-4xl w-10 h-10" />,
@@ -37,7 +36,6 @@ const WhyUsSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: false, amount: 0.3 }}
         >
-          {/* Заменили текст на вызов t() */}
           <h2 className="text-4xl md:text-5xl lg:text-8xl font-bold leading-tight">
             {t('whyUs.title')}
           </h2>

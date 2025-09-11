@@ -15,6 +15,12 @@
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
     },
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.",
+      "goHome": "Back to Home",
+      "aboutUs": "About Us"
+    },
     "whyUs": {
       "title": "WORKING PRINCIPLES",
       "reasons": {
@@ -342,6 +348,132 @@
         "title": "Perfect! We recommend {{result}}",
         "button_start": "Get Started Now",
         "button_restart": "Take Quiz Again"
+      }
+    },
+    "casePage": {
+      "hero": {
+        "title": "STEPPE COFFEE",
+        "subtitle": "Full cycle of brand creation: from strategy to implementation",
+        "fullCycle": "Full cycle",
+        "scrollDown": "Scroll down"
+      },
+      "content": {
+        "brandPositioning": {
+          "title": "Brand Positioning",
+          "description": "We created a unique value proposition where Steppe Coffee is not just a coffee shop, but a ",
+          "fourthSpace": "fourth space",
+          "descriptionContinued": " where meanings are born, creativity gathers, coffee and culture come together."
+        },
+        "targetAudience": {
+          "title": "Target Audience",
+          "description": "During the target audience analysis, the main segments of potential visitors were identified:",
+          "professionals": {
+            "title": "Professionals",
+            "description": "who value convenient space for work and meetings"
+          },
+          "creativeYouth": {
+            "title": "Creative Youth",
+            "description": "students looking for atmosphere for inspiration"
+          },
+          "urbanResidents": {
+            "title": "Urban Residents",
+            "description": "who consider the coffee shop as a place for quality relaxation"
+          }
+        },
+        "competitiveAnalysis": {
+          "title": "Competitive Analysis",
+          "description": "We conducted a comparative analysis of direct and indirect competitors to determine a unique position.",
+          "directCompetitors": {
+            "title": "Direct Competitors",
+            "description": "local coffee shops with specialty coffee and cozy atmosphere"
+          },
+          "indirectCompetitors": {
+            "title": "Indirect Competitors",
+            "description": "chain coffee shops, restaurants with coffee menu, coworking spaces"
+          }
+        },
+        "toneOfVoice": {
+          "title": "Tone of Voice",
+          "description": "A tone of voice has been developed for the Steppe Coffee brand, reflecting the values and character of the establishment:",
+          "friendly": {
+            "title": "Friendly and inspiring",
+            "description": "creates a sense of openness and support"
+          },
+          "modern": {
+            "title": "Modern, but with local accents",
+            "description": "maintains closeness to the culture and identity of the city"
+          },
+          "informal": {
+            "title": "Informal, lively style",
+            "description": "helps communicate with the audience in the same language"
+          }
+        }
+      },
+      "marketing": {
+        "title": "MARKETING",
+        "socialMedia": {
+          "title": "Social Media",
+          "contentPlan": "Developed content plan for:",
+          "profileSetup": "Set up profiles and conduct shoots for social media",
+          "analytics": "Weekly statistics tracking and format improvement"
+        },
+        "offlineActivities": {
+          "title": "Offline Activities",
+          "partnerships": "Accept partnership offers",
+          "community": "Organize community meetings",
+          "events": "Develop events"
+        }
+      },
+      "design": {
+        "title": "DESIGN",
+        "guidebook": {
+          "title": "Guidebook",
+          "description": "Our team of designers developed:",
+          "mascot": "Mascot character",
+          "colors": "Brand colors",
+          "logo": "Logo",
+          "patterns": "Patterns",
+          "fonts": "Fonts"
+        },
+        "menu": {
+          "title": "Menu",
+          "description": "Following a unified style, a new menu design was created"
+        },
+        "decoration": {
+          "title": "Coffee Shop Decoration",
+          "description": "To maintain coziness, our team created printed materials for our client:",
+          "labels": "Labels",
+          "flyers": "Flyers",
+          "cupDesign": "Cup design",
+          "mockup": "Mockup"
+        },
+        "baristaManual": {
+          "title": "Barista Manual",
+          "description": "To improve work inside the coffee shop, a document was created for training new employees (internal training wrapper)"
+        },
+        "advertising": {
+          "title": "Advertising Materials",
+          "description": "We also developed advertising banners, lightboxes and brochures"
+        },
+        "uniform": {
+          "title": "Uniform",
+          "description": "Uniform for baristas was also developed"
+        }
+      },
+      "webDevelopment": {
+        "title": "WEB DEVELOPMENT",
+        "newDesign": {
+          "title": "New Website Design",
+          "description": "Developed new website design with adaptation for different devices"
+        },
+        "adminPanel": {
+          "title": "Admin Panel",
+          "description": "Also developed admin panel with automation for filling Google sheets"
+        },
+        "cms": {
+          "title": "Content Management System",
+          "description": "Developed modern CMS for content management with intuitive interface"
+        }
       }
     },
     "employeeCards": {

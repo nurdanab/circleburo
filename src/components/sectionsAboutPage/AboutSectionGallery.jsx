@@ -165,11 +165,7 @@ const AboutSectionGallery = () => {
               className="w-full h-full object-cover"
               style={{ width: '100%', height: '100%' }}
               loading="lazy"
-              onLoad={(e) => {
-                console.log(`✅ Successfully loaded: ${item.src}`);
-              }}
               onError={(e) => {
-                console.error(`❌ Failed to load image: ${item.src}`);
                 if (e.target.parentElement) {
                   e.target.style.display = 'none';
                   e.target.parentElement.innerHTML = `

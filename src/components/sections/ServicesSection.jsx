@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // Добавили импорт
+import { useTranslation } from 'react-i18next';
 
 const ServicesSection = () => {
-  const { t } = useTranslation(); // Инициализировали хук
+  const { t } = useTranslation();
 
-  // Обновили массив с данными, чтобы он использовал ключи переводов
   const servicesData = [
     {
       id: 1,

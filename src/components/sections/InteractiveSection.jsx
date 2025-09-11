@@ -45,7 +45,6 @@ const questions = [
   },
 ];
 
-// Компоненты анимированных логотипов
 const StartLogo = () => (
   <motion.div className="w-24 h-24 mx-auto mb-8 relative">
     <motion.img
@@ -155,7 +154,6 @@ const InteractiveSection = () => {
   return (
     <section className="bg-black text-white py-20 px-4 relative overflow-hidden min-h-screen flex items-center">
       
-      {/* Анимированные звёздочки на фоне */}
       <motion.div className="absolute inset-0 z-0">
         {stars.map((star) => (
           <motion.div

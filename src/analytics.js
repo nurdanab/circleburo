@@ -1,13 +1,46 @@
 // src/analytics.js
-import ReactGA from 'react-ga4';
-
 const TRACKING_ID = 'G-29PQZ4K7ZP';
 
-export const initGA = () => {
-  console.log('Инициализация Google Analytics');
-  ReactGA.initialize(TRACKING_ID);
+let ReactGA = null;
+let isInitialized = false;
+
+// Polyfill for requestIdleCallback
+const requestIdleCallbackPolyfill = (callback) => {
+  if (typeof requestIdleCallback !== 'undefined') {
+    return requestIdleCallback(callback);
+  }
+  return setTimeout(callback, 100);
 };
 
-export const logPageView = () => {
-  ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+// Асинхронная загрузка аналитики
+const loadGA = async () => {
+  if (!ReactGA) {
+    try {
+      const module = await import('react-ga4');
+      ReactGA = module.default;
+    } catch (error) {
+      console.warn('Failed to load analytics:', error);
+    }
+  }
+  return ReactGA;
+};
+
+export const initGA = async () => {
+  if (isInitialized) return;
+  
+  // Отложенная инициализация
+  requestIdleCallbackPolyfill(async () => {
+    const GA = await loadGA();
+    if (GA) {
+      GA.initialize(TRACKING_ID);
+      isInitialized = true;
+    }
+  });
+};
+
+export const logPageView = async () => {
+  const GA = await loadGA();
+  if (GA && isInitialized) {
+    GA.send({ hitType: 'pageview', page: window.location.pathname });
+  }
 };

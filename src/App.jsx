@@ -12,6 +12,7 @@ const Cycle = lazy(() => import('./pages/Cycle'));
 const Semicircle = lazy(() => import('./pages/Semicircle'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -59,6 +60,8 @@ function AppContent() {
             </ProtectedRoute>
           } 
         />
+        
+        <Route path="*" element={<LazyPage component={NotFoundPage} />} />
       </Routes>
       {!isAdminRoute && <Footer />}
     </>

@@ -19,6 +19,9 @@ const SEOHead = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="robots" content="index, follow" />
+      <meta name="author" content="Circle Creative Buro" />
+      <meta name="keywords" content="веб-разработка алматы, дизайн алматы, маркетинг алматы, smm алматы, креативное агентство" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       
       {/* Open Graph */}
       <meta property="og:title" content={ogTitle || title} />
@@ -26,6 +29,9 @@ const SEOHead = ({
       <meta property="og:type" content="website" />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={`${baseUrl}${ogImage}`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Circle Creative Buro - Креативное агентство в Алматы" />
       <meta property="og:locale" content={language === 'ru' ? 'ru_KZ' : 'en_US'} />
       <meta property="og:site_name" content="Circle Creative Buro" />
       
@@ -34,6 +40,9 @@ const SEOHead = ({
       <meta name="twitter:title" content={ogTitle || title} />
       <meta name="twitter:description" content={ogDescription || description} />
       <meta name="twitter:image" content={`${baseUrl}${ogImage}`} />
+      <meta name="twitter:image:alt" content="Circle Creative Buro - Креативное агентство в Алматы" />
+      <meta name="twitter:creator" content="@circleburo" />
+      <meta name="twitter:site" content="@circleburo" />
       
       {/* Canonical и языковые альтернативы */}
       <link rel="canonical" href={canonicalUrl} />

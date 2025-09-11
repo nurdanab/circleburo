@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from "../components/Header";
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/SEOHead';
@@ -8,8 +8,18 @@ import useSEO from '../hooks/useSEO';
 
 const Circle = () => {
   const seoData = useSEO('circle'); 
-
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  // Прокрутка к началу страницы при загрузке
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Функция для навигации к секции контактов на главной странице
+  const scrollToSection = (sectionId) => {
+    navigate('/', { state: { scrollTo: sectionId } });
+  };
 
   const designGuidebookItems = t('circle.designGuidebook.items', { returnObjects: true });
 
@@ -145,13 +155,12 @@ const Circle = () => {
               <p>{t('circle.notes.note6')}</p>
               
               <div className="mt-8 pt-4">
-              <Link 
-              onClick={() => scrollToSection('contact')}
-              to="/#">
-                  <button className="bg-white text-black px-12 py-4 rounded-full text-xl font-bold hover:bg-gray-200 transition-colors duration-300">
+                <button 
+                  onClick={() => scrollToSection('contact')}
+                  className="bg-white text-black px-12 py-4 rounded-full text-xl font-bold hover:bg-gray-200 transition-colors duration-300"
+                >
                   {t('nav.contact')}
-                  </button>
-                </Link>
+                </button>
               </div>
             </motion.div>
           </div>

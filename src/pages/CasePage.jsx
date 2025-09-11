@@ -1,14 +1,15 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/SEOHead';
 import LazyImage from '../components/LazyImage';
 import useSEO from '../hooks/useSEO';
-import '../styles/CasePage.css';
 
 
 // Первая секция: Hero - полностью адаптивная с улучшенной производительностью
 const HeroSection = React.memo(() => {
+  const { t } = useTranslation();
   const titleVariants = useMemo(() => ({
     hidden: { opacity: 0, y: 50, scale: 0.9 },
     visible: { 
@@ -45,12 +46,19 @@ const HeroSection = React.memo(() => {
           animate="visible"
           className="text-center"
         >
-          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black text-yellow-200 leading-[0.9] tracking-tight"
+          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black text-yellow-200 leading-[0.85] tracking-tighter"
             style={{
-              textShadow: '2px 2px 0px rgba(0, 0, 0, 0.8), 4px 4px 8px rgba(0, 0, 0, 0.3)',
-              fontFamily: 'Montserrat, sans-serif'
+              textShadow: '3px 3px 0px rgba(0, 0, 0, 0.9), 6px 6px 12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(252, 211, 77, 0.3)',
+              fontFamily: 'Montserrat, Arial, sans-serif',
+              fontWeight: 900,
+              letterSpacing: '-0.02em'
             }}>
-            STEPPE<br />COFFEE
+{t('casePage.hero.title').split(' ').map((word, index) => (
+              <React.Fragment key={index}>
+                {word}
+                {index === 0 && <br />}
+              </React.Fragment>
+            ))}
           </h1>
         </motion.div>
       </div>
@@ -62,60 +70,112 @@ const HeroSection = React.memo(() => {
         initial="hidden"
         animate="visible"
       >
-        <div className="bg-black/20 backdrop-blur-sm rounded-lg p-2 xs:p-3 sm:p-4 border border-white/10">
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 leading-relaxed font-light font-montserrat">
-            <span className="text-yellow-200 font-medium">Полный цикл</span> создания бренда:<br />
-            от стратегии до реализации
+        <div className="bg-black/30 backdrop-blur-md rounded-xl p-3 xs:p-4 sm:p-5 border border-white/20 shadow-2xl">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white leading-relaxed font-normal tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+            <span className="text-yellow-300 font-semibold bg-yellow-300/10 px-2 py-1 rounded-md">{t('casePage.hero.fullCycle')}</span> <span className="font-light">{t('casePage.hero.subtitle').replace('Полный цикл ', '')}</span>
           </p>
         </div>
       </motion.div>
 
-      {/* Печать в правом нижнем углу - увеличенная */}
+      {/* Печать в правом нижнем углу - улучшенная анимация */}
       <motion.div
         className="absolute bottom-4 right-4 xs:bottom-6 xs:right-6 sm:bottom-8 sm:right-8 md:bottom-12 md:right-12 lg:bottom-16 lg:right-16 xl:bottom-20 xl:right-20 z-10"
-        initial={{ opacity: 0, scale: 0.7, rotate: -10 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        initial={{ opacity: 0, scale: 0.5, rotate: -20, y: 50 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
         transition={{ 
-          duration: 0.8, 
-          delay: 0.5,
+          duration: 1.2, 
+          delay: 0.8,
           type: "spring",
-          stiffness: 200,
-          damping: 20
+          stiffness: 120,
+          damping: 12,
+          ease: [0.25, 0.46, 0.45, 0.94]
         }}
-        whileHover={{ scale: 1.15, rotate: 5 }}
+        whileHover={{ 
+          scale: 1.2, 
+          rotate: 8, 
+          y: -5,
+          transition: { duration: 0.3, ease: "easeOut" }
+        }}
+        whileTap={{ scale: 0.95 }}
       >
         <div className="relative">
-          <div className="absolute inset-0 bg-yellow-200/30 rounded-full blur-xl scale-110"></div>
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-r from-yellow-200/40 to-yellow-300/40 rounded-full blur-2xl"
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
           <LazyImage 
             src="/img/projects/stamp.webp" 
             alt="Stamp" 
-            className="relative w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 2xl:w-56 2xl:h-56 object-contain filter drop-shadow-2xl"
+            className="relative w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 2xl:w-56 2xl:h-56 object-contain filter drop-shadow-2xl hover:drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] transition-all duration-300"
             priority={false}
           />
         </div>
       </motion.div>
 
-      {/* Индикатор прокрутки - улучшенный */}
+      {/* Индикатор прокрутки - улучшенные анимации */}
       <motion.div
         className="absolute bottom-8 xs:bottom-10 sm:bottom-12 md:bottom-16 lg:bottom-20 left-1/2 transform -translate-x-1/2 z-10"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
+        initial={{ opacity: 0, y: 30, scale: 0.8 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ 
+          delay: 1.5, 
+          duration: 0.8,
+          type: "spring",
+          stiffness: 100,
+          damping: 10
+        }}
       >
-        <div className="flex flex-col items-center space-y-2 sm:space-y-3">
-          <span className="text-sm text-white/60 font-light tracking-wider uppercase font-montserrat">
-            Прокрутите вниз
-          </span>
+        <div className="flex flex-col items-center space-y-3 sm:space-y-4">
+          <motion.span 
+            className="text-sm text-white/90 font-medium tracking-[0.2em] uppercase" 
+            style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontSize: '0.8rem' }}
+            animate={{ opacity: [0.7, 1, 0.7] }}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            {t('casePage.hero.scrollDown')}
+          </motion.span>
           <motion.div
-            animate={{ y: [0, 12, 0] }}
+            animate={{ 
+              y: [0, 15, 0],
+              scale: [1, 1.05, 1]
+            }}
             transition={{ 
               duration: 2.5, 
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="bg-white/10 backdrop-blur-sm rounded-full p-2 sm:p-3"
+            className="bg-white/25 backdrop-blur-lg rounded-full p-3 sm:p-4 border-2 border-white/20 shadow-xl hover:bg-white/35 hover:border-white/30 hover:shadow-2xl transition-all duration-300 cursor-pointer group"
+            whileHover={{ 
+              scale: 1.1,
+              y: -3,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ scale: 0.95 }}
           >
-            <ChevronDown className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-yellow-200" />
+            <motion.div
+              animate={{ 
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <ChevronDown className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-yellow-300 drop-shadow-lg group-hover:text-yellow-200 transition-colors duration-300" />
+            </motion.div>
           </motion.div>
         </div>
       </motion.div>
@@ -125,6 +185,7 @@ const HeroSection = React.memo(() => {
 
 // ContentSection - оптимизированная и адаптивная
 const ContentSection = React.memo(() => {
+  const { t } = useTranslation();
   const sectionVariants = useMemo(() => ({
     hidden: { opacity: 0, x: -60 },
     visible: { 
@@ -168,14 +229,14 @@ const ContentSection = React.memo(() => {
             <div className="mb-4 xs:mb-6 sm:mb-8 md:mb-10">
               <div className="space-y-3 xs:space-y-4 sm:space-y-6">
                 <div>
-                  <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-tight mb-3 xs:mb-4 sm:mb-6 font-montserrat">
-                    Позиционирование бренда
+                  <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-tight mb-4 xs:mb-5 sm:mb-6 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 800 }}>
+                    {t('casePage.content.brandPositioning.title')}
                   </h2>
-                  <div className="bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl p-3 xs:p-4 sm:p-6 border-l-4 border-yellow-300 shadow-sm">
-                    <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed font-normal font-montserrat">
-                      Мы составили уникальное торговое предложение, где Steppe Coffee не просто кофейня, а 
-                      <span className="font-semibold text-gray-900 bg-yellow-100 px-2 py-1 rounded-md mx-1 whitespace-nowrap">"четвертое пространство"</span>, 
-                      где рождаются смыслы, собирается креатив, кофе и культура.
+                  <div className="bg-gradient-to-r from-gray-50 to-gray-100/80 rounded-2xl p-4 xs:p-5 sm:p-6 lg:p-7 border-l-4 border-yellow-400 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed font-normal tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.7' }}>
+                      {t('casePage.content.brandPositioning.description')}
+                      <span className="font-semibold text-gray-900 bg-yellow-200/70 px-3 py-1.5 rounded-lg mx-1 whitespace-nowrap shadow-sm border border-yellow-300/50">"{t('casePage.content.brandPositioning.fourthSpace')}"</span>
+                      {t('casePage.content.brandPositioning.descriptionContinued')}
                     </p>
                   </div>
                 </div>
@@ -184,50 +245,50 @@ const ContentSection = React.memo(() => {
             
             {/* Целевая аудитория - улучшенная */}
             <div className="space-y-3 xs:space-y-4 sm:space-y-6">
-              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 font-montserrat">
-                Целевая аудитория
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 700 }}>
+                {t('casePage.content.targetAudience.title')}
               </h3>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed font-normal font-montserrat">
-                В ходе анализа целевой аудитории были выявлены основные сегменты потенциальных посетителей:
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed font-normal tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+                {t('casePage.content.targetAudience.description')}
               </p>
               
               {/* Список аудитории с серым дизайном */}
               <div className="space-y-3 xs:space-y-4 sm:space-y-5">
                 <motion.div 
-                  className="bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl p-3 xs:p-4 sm:p-5 border-l-4 border-gray-300 hover:shadow-md transition-all duration-300 group"
+                  className="bg-gradient-to-r from-gray-50 to-gray-100/80 rounded-2xl p-4 xs:p-5 sm:p-6 border-l-4 border-gray-400 hover:shadow-lg hover:border-yellow-400 transition-all duration-300 group"
                   whileHover={{ x: 5 }}
                 >
                   <div className="flex items-start gap-3 xs:gap-4">
                     <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover:scale-125 transition-transform"></div>
-                    <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed font-montserrat">
-                      <span className="font-semibold text-gray-800 text-base sm:text-lg md:text-xl">Профессионалы</span><br />
-                      <span className="text-gray-600">ценящие удобное пространство для работы и встреч</span>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+                      <span className="font-semibold text-gray-900 text-base sm:text-lg md:text-xl tracking-tight" style={{ fontWeight: 600 }}>{t('casePage.content.targetAudience.professionals.title')}</span><br />
+                      <span className="text-gray-600 font-light" style={{ lineHeight: '1.5' }}>{t('casePage.content.targetAudience.professionals.description')}</span>
                     </p>
                   </div>
                 </motion.div>
                 
                 <motion.div 
-                  className="bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl p-3 xs:p-4 sm:p-5 border-l-4 border-gray-300 hover:shadow-md transition-all duration-300 group"
+                  className="bg-gradient-to-r from-gray-50 to-gray-100/80 rounded-2xl p-4 xs:p-5 sm:p-6 border-l-4 border-gray-400 hover:shadow-lg hover:border-yellow-400 transition-all duration-300 group"
                   whileHover={{ x: 5 }}
                 >
                   <div className="flex items-start gap-3 xs:gap-4">
                     <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover:scale-125 transition-transform"></div>
-                    <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed font-montserrat">
-                      <span className="font-semibold text-gray-800 text-base sm:text-lg md:text-xl">Творческая молодежь</span><br />
-                      <span className="text-gray-600">студенты, ищущие атмосферу для вдохновения</span>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+                      <span className="font-semibold text-gray-900 text-base sm:text-lg md:text-xl tracking-tight" style={{ fontWeight: 600 }}>{t('casePage.content.targetAudience.creativeYouth.title')}</span><br />
+                      <span className="text-gray-600 font-light" style={{ lineHeight: '1.5' }}>{t('casePage.content.targetAudience.creativeYouth.description')}</span>
                     </p>
                   </div>
                 </motion.div>
                 
                 <motion.div 
-                  className="bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl p-3 xs:p-4 sm:p-5 border-l-4 border-gray-300 hover:shadow-md transition-all duration-300 group"
+                  className="bg-gradient-to-r from-gray-50 to-gray-100/80 rounded-2xl p-4 xs:p-5 sm:p-6 border-l-4 border-gray-400 hover:shadow-lg hover:border-yellow-400 transition-all duration-300 group"
                   whileHover={{ x: 5 }}
                 >
                   <div className="flex items-start gap-3 xs:gap-4">
                     <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 flex-shrink-0 group-hover:scale-125 transition-transform"></div>
-                    <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed font-montserrat">
-                      <span className="font-semibold text-gray-800 text-base sm:text-lg md:text-xl">Городские жители</span><br />
-                      <span className="text-gray-600">рассматривающие кофейню как место качественного отдыха</span>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+                      <span className="font-semibold text-gray-900 text-base sm:text-lg md:text-xl tracking-tight" style={{ fontWeight: 600 }}>{t('casePage.content.targetAudience.urbanResidents.title')}</span><br />
+                      <span className="text-gray-600 font-light" style={{ lineHeight: '1.5' }}>{t('casePage.content.targetAudience.urbanResidents.description')}</span>
                     </p>
                   </div>
                 </motion.div>
@@ -254,11 +315,11 @@ const ContentSection = React.memo(() => {
             <div className="mb-4 xs:mb-6 md:mb-8">
               <div className="flex items-start gap-2 xs:gap-3 mb-3 xs:mb-4">
                 <div className="flex-1">
-                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-tight mb-2 xs:mb-3 font-montserrat">
-                    Конкурентный анализ
+                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-tight mb-2 xs:mb-3 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 700 }}>
+                    {t('casePage.content.competitiveAnalysis.title')}
                   </h2>
-                  <p className="text-sm sm:text-base md:text-lg text-gray-800 leading-relaxed font-normal font-montserrat">
-                    Провели сравнительный анализ прямых и косвенных конкурентов для определения уникальной позиции.
+                  <p className="text-sm sm:text-base md:text-lg text-gray-800 leading-relaxed font-normal tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+                    {t('casePage.content.competitiveAnalysis.description')}
                   </p>
                 </div>
               </div>
@@ -266,60 +327,60 @@ const ContentSection = React.memo(() => {
             
             {/* Блоки конкурентов */}
             <div className="space-y-3 xs:space-y-4 mb-4 xs:mb-6 md:mb-8">
-              <div className="bg-black/5 hover:bg-black/8 rounded-lg p-2 xs:p-3 md:p-4 border-l-2 border-gray-700 transition-all duration-200">
-                <h4 className="font-medium text-gray-900 mb-1 xs:mb-2 text-xs xs:text-sm md:text-base flex items-center gap-2 font-montserrat">
-                  <span className="w-1 h-1 bg-gray-700 rounded-full flex-shrink-0"></span>
-                  Прямые конкуренты
+              <div className="bg-black/8 hover:bg-black/12 rounded-xl p-3 xs:p-4 md:p-5 border-l-3 border-gray-800 hover:border-yellow-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                <h4 className="font-medium text-gray-900 mb-1 xs:mb-2 text-xs xs:text-sm md:text-base flex items-center gap-2 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}>
+                  <span className="w-1.5 h-1.5 bg-gray-800 rounded-full flex-shrink-0"></span>
+                  {t('casePage.content.competitiveAnalysis.directCompetitors.title')}
                 </h4>
-                <p className="text-xs xs:text-xs md:text-sm text-gray-700 leading-relaxed font-normal pl-2 xs:pl-3 font-montserrat">
-                  локальные кофейни с авторским кофе и уютной атмосферой
+                <p className="text-xs xs:text-xs md:text-sm text-gray-700 leading-relaxed font-normal pl-3 xs:pl-4 tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.5' }}>
+                  {t('casePage.content.competitiveAnalysis.directCompetitors.description')}
                 </p>
               </div>
               
-              <div className="bg-black/5 hover:bg-black/8 rounded-lg p-2 xs:p-3 md:p-4 border-l-2 border-gray-700 transition-all duration-200">
-                <h4 className="font-medium text-gray-900 mb-1 xs:mb-2 text-xs xs:text-sm md:text-base flex items-center gap-2 font-montserrat">
-                  <span className="w-1 h-1 bg-gray-700 rounded-full flex-shrink-0"></span>
-                  Косвенные конкуренты
+              <div className="bg-black/8 hover:bg-black/12 rounded-xl p-3 xs:p-4 md:p-5 border-l-3 border-gray-800 hover:border-yellow-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                <h4 className="font-medium text-gray-900 mb-1 xs:mb-2 text-xs xs:text-sm md:text-base flex items-center gap-2 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}>
+                  <span className="w-1.5 h-1.5 bg-gray-800 rounded-full flex-shrink-0"></span>
+                  {t('casePage.content.competitiveAnalysis.indirectCompetitors.title')}
                 </h4>
-                <p className="text-xs xs:text-xs md:text-sm text-gray-700 leading-relaxed font-normal pl-2 xs:pl-3 font-montserrat">
-                  сетевые кофейни, рестораны с кофейным меню, коворкинги
+                <p className="text-xs xs:text-xs md:text-sm text-gray-700 leading-relaxed font-normal pl-3 xs:pl-4 tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.5' }}>
+                  {t('casePage.content.competitiveAnalysis.indirectCompetitors.description')}
                 </p>
               </div>
             </div>
 
             {/* Tone of Voice секция */}
-            <h3 className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-2 xs:mb-3 md:mb-4 font-montserrat">
-              Tone of Voice
+            <h3 className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-2 xs:mb-3 md:mb-4 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 700 }}>
+              {t('casePage.content.toneOfVoice.title')}
             </h3>
-            <p className="text-xs xs:text-xs sm:text-xs md:text-sm text-gray-800 leading-relaxed font-normal mb-3 xs:mb-4 font-montserrat">
-              Для бренда Steppe Coffee разработан tone of voice, отражающий ценности и характер заведения:
+            <p className="text-xs xs:text-xs sm:text-xs md:text-sm text-gray-800 leading-relaxed font-normal mb-3 xs:mb-4 tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+              {t('casePage.content.toneOfVoice.description')}
             </p>
             
             <div className="space-y-2 xs:space-y-3">
-              <div className="bg-black/5 hover:bg-black/8 rounded-lg p-2 xs:p-3 transition-all duration-200">
-                <h5 className="font-medium text-gray-900 mb-1 text-xs xs:text-xs md:text-sm font-montserrat">
-                  Дружелюбный и вдохновляющий
+              <div className="bg-black/8 hover:bg-black/12 rounded-xl p-3 xs:p-4 transition-all duration-300 border border-black/5 hover:border-yellow-300/50 shadow-sm hover:shadow-md">
+                <h5 className="font-medium text-gray-900 mb-1 text-xs xs:text-xs md:text-sm tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}>
+                  {t('casePage.content.toneOfVoice.friendly.title')}
                 </h5>
-                <p className="text-xs text-gray-700 leading-relaxed font-montserrat">
-                  создает ощущение открытости и поддержки
+                <p className="text-xs text-gray-700 leading-relaxed tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.4' }}>
+                  {t('casePage.content.toneOfVoice.friendly.description')}
                 </p>
               </div>
               
-              <div className="bg-black/5 hover:bg-black/8 rounded-lg p-2 xs:p-3 transition-all duration-200">
-                <h5 className="font-medium text-gray-900 mb-1 text-xs xs:text-xs md:text-sm font-montserrat">
-                  Современный, но с локальными акцентами
+              <div className="bg-black/8 hover:bg-black/12 rounded-xl p-3 xs:p-4 transition-all duration-300 border border-black/5 hover:border-yellow-300/50 shadow-sm hover:shadow-md">
+                <h5 className="font-medium text-gray-900 mb-1 text-xs xs:text-xs md:text-sm tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}>
+                  {t('casePage.content.toneOfVoice.modern.title')}
                 </h5>
-                <p className="text-xs text-gray-700 leading-relaxed font-montserrat">
-                  сохраняет близость к культуре и идентичности города
+                <p className="text-xs text-gray-700 leading-relaxed tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.4' }}>
+                  {t('casePage.content.toneOfVoice.modern.description')}
                 </p>
               </div>
               
-              <div className="bg-black/5 hover:bg-black/8 rounded-lg p-2 xs:p-3 transition-all duration-200">
-                <h5 className="font-medium text-gray-900 mb-1 text-xs xs:text-xs md:text-sm font-montserrat">
-                  Неформальный, живой стиль
+              <div className="bg-black/8 hover:bg-black/12 rounded-xl p-3 xs:p-4 transition-all duration-300 border border-black/5 hover:border-yellow-300/50 shadow-sm hover:shadow-md">
+                <h5 className="font-medium text-gray-900 mb-1 text-xs xs:text-xs md:text-sm tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}>
+                  {t('casePage.content.toneOfVoice.informal.title')}
                 </h5>
-                <p className="text-xs text-gray-700 leading-relaxed font-montserrat">
-                  помогает общаться с аудиторией на одном языке
+                <p className="text-xs text-gray-700 leading-relaxed tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.4' }}>
+                  {t('casePage.content.toneOfVoice.informal.description')}
                 </p>
               </div>
             </div>
@@ -332,18 +393,20 @@ const ContentSection = React.memo(() => {
 
 // Маркетинговая секция
 const MarketingSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="bg-white relative flex flex-col md:flex-row min-h-screen">
       {/* Заголовок по центру с улучшенной адаптивностью */}
-      <div className="absolute top-2 xs:top-3 sm:top-4 md:top-6 lg:top-8 xl:top-12 left-1/2 transform -translate-x-1/2 z-50">
+      <div className="absolute top-4 xs:top-6 sm:top-8 md:top-10 lg:top-12 xl:top-16 left-1/2 transform -translate-x-1/2 z-50">
         <motion.h2 
-          className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-black text-gray-900 mb-2 xs:mb-4 sm:mb-6 leading-none text-center px-2 xs:px-3 sm:px-5"
+          className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-black text-gray-900 mb-3 xs:mb-4 sm:mb-6 lg:mb-8 leading-none text-center px-3 xs:px-4 sm:px-6 md:px-8 tracking-tight"
+          style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 900 }}
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          МАРКЕТИНГ
+          {t('casePage.marketing.title')}
         </motion.h2>
       </div>
       
@@ -351,41 +414,41 @@ const MarketingSection = () => {
       <div className="w-full md:w-1/2 relative z-40 min-h-[50vh] md:min-h-full" style={{ backgroundColor: '#E8C5A0' }}>
         <div className="absolute inset-0 bg-gradient-to-br from-orange-200/95 to-orange-300/95 backdrop-blur-sm"></div>
         
-        <div className="relative z-10 p-3 xs:p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 flex flex-col justify-between h-full">
+        <div className="relative z-10 p-4 xs:p-5 sm:p-6 md:p-8 lg:p-12 xl:p-16 2xl:p-20 flex flex-col justify-between h-full">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="pt-8 xs:pt-10 sm:pt-12 md:pt-16 lg:pt-20"
+            className="pt-10 xs:pt-12 sm:pt-14 md:pt-18 lg:pt-22 xl:pt-26"
           >
-            <div className="p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 xs:mb-4 md:mb-6">
-                Социальные сети
+            <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8 xl:p-10">
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-4 xs:mb-5 md:mb-6 lg:mb-8 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 800 }}>
+                {t('casePage.marketing.socialMedia.title')}
               </h3>
               
-              <div className="space-y-2 xs:space-y-3 md:space-y-4 text-sm sm:text-base md:text-lg">
-                <div className="bg-white/30 backdrop-blur-sm rounded-xl p-2 xs:p-3 md:p-4 border border-white/20">
-                  <p className="font-medium text-gray-900 mb-1 xs:mb-2 md:mb-3">
-                    Разработали контент-план для:
+              <div className="space-y-3 xs:space-y-4 md:space-y-5 lg:space-y-6 text-sm sm:text-base md:text-lg lg:text-xl">
+                <div className="bg-white/40 backdrop-blur-md rounded-2xl p-4 xs:p-5 md:p-6 lg:p-7 border border-white/30 shadow-lg hover:shadow-xl hover:bg-white/50 transition-all duration-300">
+                  <p className="font-semibold text-gray-900 mb-2 xs:mb-3 md:mb-4 tracking-tight" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}>
+                    {t('casePage.marketing.socialMedia.contentPlan')}
                   </p>
-                  <div className="grid grid-cols-2 gap-1 xs:gap-2 text-gray-800">
-                    <span className="bg-white/40 px-1 xs:px-2 py-1 rounded-lg text-center text-sm font-medium">Instagram</span>
-                    <span className="bg-white/40 px-1 xs:px-2 py-1 rounded-lg text-center text-sm font-medium">TikTok</span>
-                    <span className="bg-white/40 px-1 xs:px-2 py-1 rounded-lg text-center text-sm font-medium">LinkedIn</span>
-                    <span className="bg-white/40 px-1 xs:px-2 py-1 rounded-lg text-center text-sm font-medium">Threads</span>
+                  <div className="grid grid-cols-2 gap-2 xs:gap-3 text-gray-800">
+                    <span className="bg-white/60 px-2 xs:px-3 py-2 rounded-xl text-center text-sm sm:text-base font-semibold shadow-sm border border-white/40 hover:bg-white/70 transition-all duration-200">Instagram</span>
+                    <span className="bg-white/60 px-2 xs:px-3 py-2 rounded-xl text-center text-sm sm:text-base font-semibold shadow-sm border border-white/40 hover:bg-white/70 transition-all duration-200">TikTok</span>
+                    <span className="bg-white/60 px-2 xs:px-3 py-2 rounded-xl text-center text-sm sm:text-base font-semibold shadow-sm border border-white/40 hover:bg-white/70 transition-all duration-200">LinkedIn</span>
+                    <span className="bg-white/60 px-2 xs:px-3 py-2 rounded-xl text-center text-sm sm:text-base font-semibold shadow-sm border border-white/40 hover:bg-white/70 transition-all duration-200">Threads</span>
                   </div>
                 </div>
                 
-                <div className="bg-white/30 backdrop-blur-sm rounded-xl p-2 xs:p-3 md:p-4 border border-white/20">
-                  <p className="text-gray-900 text-sm sm:text-base md:text-lg">
-                    Настроили профили и проводим съемки для социальных сетей
+                <div className="bg-white/40 backdrop-blur-md rounded-2xl p-4 xs:p-5 md:p-6 lg:p-7 border border-white/30 shadow-lg hover:shadow-xl hover:bg-white/50 transition-all duration-300">
+                  <p className="text-gray-900 text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+                    {t('casePage.marketing.socialMedia.profileSetup')}
                   </p>
                 </div>
                 
-                <div className="bg-white/30 backdrop-blur-sm rounded-xl p-2 xs:p-3 md:p-4 border border-white/20">
-                  <p className="text-gray-900 text-sm sm:text-base md:text-lg">
-                    Еженедельно отслеживаем статистику и улучшаем форматы
+                <div className="bg-white/40 backdrop-blur-md rounded-2xl p-4 xs:p-5 md:p-6 lg:p-7 border border-white/30 shadow-lg hover:shadow-xl hover:bg-white/50 transition-all duration-300">
+                  <p className="text-gray-900 text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>
+                    {t('casePage.marketing.socialMedia.analytics')}
                   </p>
                 </div>
               </div>
@@ -409,10 +472,10 @@ const MarketingSection = () => {
       </div>
 
       {/* Правая часть - Offline активности */}
-      <div className="w-full md:w-1/2 bg-gray-100 relative z-40 min-h-[50vh] md:min-h-full">
-        <div className="relative z-10 p-3 xs:p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 flex flex-col justify-between h-full">
+      <div className="w-full md:w-1/2 bg-gradient-to-br from-gray-50 to-gray-100 relative z-40 min-h-[50vh] md:min-h-full">
+        <div className="relative z-10 p-4 xs:p-5 sm:p-6 md:p-8 lg:p-12 xl:p-16 2xl:p-20 flex flex-col justify-between h-full">
           <motion.div
-            className="flex justify-center pt-6 xs:pt-8 sm:pt-10 md:pt-12 lg:pt-16 mb-3 xs:mb-4 md:mb-6"
+            className="flex justify-center pt-8 xs:pt-10 sm:pt-12 md:pt-16 lg:pt-20 xl:pt-24 mb-4 xs:mb-5 md:mb-6 lg:mb-8"
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -421,7 +484,7 @@ const MarketingSection = () => {
             <LazyImage 
               src="/img/projects/social.webp" 
               alt="Социальные сети Steppe Coffee" 
-              className="w-44 xs:w-52 sm:w-60 md:w-72 lg:w-80 xl:w-96 h-auto"
+              className="w-48 xs:w-56 sm:w-64 md:w-76 lg:w-84 xl:w-96 2xl:w-[28rem] h-auto drop-shadow-lg hover:drop-shadow-xl transition-all duration-300 hover:scale-105"
             />
           </motion.div>
           
@@ -431,22 +494,22 @@ const MarketingSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-3 xs:p-4 md:p-6 lg:p-8 border border-white/50 shadow-lg">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-3 xs:mb-4 md:mb-6" style={{ color: '#C17B3A' }}>
-                Offline активности
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-5 xs:p-6 md:p-8 lg:p-10 xl:p-12 border-2 border-white/60 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 xs:mb-5 md:mb-6 lg:mb-8 tracking-tight text-amber-700" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 800 }}>
+                {t('casePage.marketing.offlineActivities.title')}
               </h3>
               
-              <div className="space-y-2 xs:space-y-3 md:space-y-4 text-sm sm:text-base md:text-lg">
-                <div className="bg-white/50 backdrop-blur-sm rounded-xl p-2 xs:p-3 md:p-4 border border-white/30 hover:bg-white/60 transition-all duration-300">
-                  <p className="text-gray-800 font-medium">Принимаем партнерские предложения</p>
+              <div className="space-y-3 xs:space-y-4 md:space-y-5 lg:space-y-6 text-sm sm:text-base md:text-lg lg:text-xl">
+                <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 xs:p-5 md:p-6 lg:p-7 border-2 border-white/40 hover:bg-white/80 hover:border-amber-200 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                  <p className="text-gray-800 font-semibold tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>{t('casePage.marketing.offlineActivities.partnerships')}</p>
                 </div>
                 
-                <div className="bg-white/50 backdrop-blur-sm rounded-xl p-2 xs:p-3 md:p-4 border border-white/30 hover:bg-white/60 transition-all duration-300">
-                  <p className="text-gray-800 font-medium">Устраиваем встречи с комьюнити</p>
+                <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 xs:p-5 md:p-6 lg:p-7 border-2 border-white/40 hover:bg-white/80 hover:border-amber-200 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                  <p className="text-gray-800 font-semibold tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>{t('casePage.marketing.offlineActivities.community')}</p>
                 </div>
                 
-                <div className="bg-white/50 backdrop-blur-sm rounded-xl p-2 xs:p-3 md:p-4 border border-white/30 hover:bg-white/60 transition-all duration-300">
-                  <p className="text-gray-800 font-medium">Разрабатываем мероприятия</p>
+                <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 xs:p-5 md:p-6 lg:p-7 border-2 border-white/40 hover:bg-white/80 hover:border-amber-200 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                  <p className="text-gray-800 font-semibold tracking-wide" style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', lineHeight: '1.6' }}>{t('casePage.marketing.offlineActivities.events')}</p>
                 </div>
               </div>
             </div>
@@ -459,6 +522,7 @@ const MarketingSection = () => {
 
 // Дизайн секция
 const DesignSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="bg-white relative flex flex-col md:flex-row min-h-screen">
       {/* Заголовок по центру с адаптивностью */}
@@ -470,7 +534,7 @@ const DesignSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          ДИЗАЙН
+          {t('casePage.design.title')}
         </motion.h2>
       </div>
       
@@ -487,48 +551,74 @@ const DesignSection = () => {
             {/* Гайдбук секция */}
             <div className="space-y-2 xs:space-y-4">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900">
-                Гайдбук
+                {t('casePage.design.guidebook.title')}
               </h3>
               <p className="text-sm sm:text-base md:text-lg text-gray-800 mb-2 xs:mb-4">
-                Наша команда дизайнеров разработала:
+                {t('casePage.design.guidebook.description')}
               </p>
               <div className="space-y-1 xs:space-y-2 text-sm sm:text-base md:text-lg text-gray-700">
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Персонаж-маскот</span>
+                  <span>{t('casePage.design.guidebook.mascot')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Фирменные цвета</span>
+                  <span>{t('casePage.design.guidebook.colors')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Логотип</span>
+                  <span>{t('casePage.design.guidebook.logo')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Паттерны</span>
+                  <span>{t('casePage.design.guidebook.patterns')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Шрифты</span>
+                  <span>{t('casePage.design.guidebook.fonts')}</span>
                 </div>
               </div>
             </div>
 
-            {/* Фотографии кружек - увеличенные */}
-            <div className="flex gap-3 xs:gap-4 md:gap-6 justify-center">
-              <LazyImage 
-                src="/img/projects/design-cup-decor2.webp" 
-                alt="Design cup decoration 2" 
-                className="w-20 xs:w-24 sm:w-28 md:w-32 lg:w-36 xl:w-40 h-auto object-contain transform rotate-12 hover:rotate-6 transition-transform duration-300"
-              />
-              <LazyImage 
-                src="/img/projects/design-cup.webp" 
-                alt="Design cup" 
-                className="w-20 xs:w-24 sm:w-28 md:w-32 lg:w-36 xl:w-40 h-auto object-contain transform -rotate-6 hover:-rotate-3 transition-transform duration-300"
-              />
-            </div>
+            {/* Фотографии кружек - с улучшенными анимациями */}
+            <motion.div 
+              className="flex gap-4 xs:gap-6 md:gap-8 justify-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <motion.div
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: 6, 
+                  y: -10,
+                  transition: { duration: 0.3, ease: "easeOut" }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <LazyImage 
+                  src="/img/projects/design-cup-decor2.webp" 
+                  alt="Design cup decoration 2" 
+                  className="w-22 xs:w-26 sm:w-30 md:w-36 lg:w-40 xl:w-44 h-auto object-contain transform rotate-12 drop-shadow-lg hover:drop-shadow-xl transition-all duration-300 cursor-pointer"
+                />
+              </motion.div>
+              <motion.div
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: -3, 
+                  y: -10,
+                  transition: { duration: 0.3, ease: "easeOut" }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <LazyImage 
+                  src="/img/projects/design-cup.webp" 
+                  alt="Design cup" 
+                  className="w-22 xs:w-26 sm:w-30 md:w-36 lg:w-40 xl:w-44 h-auto object-contain transform -rotate-6 drop-shadow-lg hover:drop-shadow-xl transition-all duration-300 cursor-pointer"
+                />
+              </motion.div>
+            </motion.div>
 
             {/* Мануал изображение - увеличенное */}
             <div className="flex justify-center">
@@ -542,10 +632,10 @@ const DesignSection = () => {
             {/* Меню секция */}
             <div className="space-y-2 xs:space-y-4">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900">
-                Меню
+                {t('casePage.design.menu.title')}
               </h3>
               <p className="text-sm sm:text-base md:text-lg text-gray-800">
-                Придерживаясь единого стиля, было создано новое оформление меню
+                {t('casePage.design.menu.description')}
               </p>
             </div>
 
@@ -571,27 +661,27 @@ const DesignSection = () => {
             {/* Оформление в кофейне */}
             <div className="space-y-2 xs:space-y-4">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900">
-                Оформление в кофейне
+                {t('casePage.design.decoration.title')}
               </h3>
               <p className="text-sm sm:text-base md:text-lg text-gray-800 mb-2 xs:mb-4">
-                Для поддержания уюта наша команда создала печатную продукцию для нашего клиента:
+                {t('casePage.design.decoration.description')}
               </p>
               <div className="space-y-1 xs:space-y-2 text-sm sm:text-base md:text-lg text-gray-700">
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Этикетки</span>
+                  <span>{t('casePage.design.decoration.labels')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Флаеры</span>
+                  <span>{t('casePage.design.decoration.flyers')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Оформление стаканчиков</span>
+                  <span>{t('casePage.design.decoration.cupDesign')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Мокап</span>
+                  <span>{t('casePage.design.decoration.mockup')}</span>
                 </div>
               </div>
             </div>
@@ -630,11 +720,11 @@ const DesignSection = () => {
             {/* Мануал для бариста */}
             <div className="space-y-2 xs:space-y-4">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900">
-                Мануал для бариста
+                {t('casePage.design.baristaManual.title')}
               </h3>
               <div className="bg-black/10 backdrop-blur-sm rounded-xl p-2 xs:p-3 sm:p-4 border border-black/20">
                 <p className="text-sm sm:text-base md:text-lg text-gray-900">
-                  Для улучшения работы внутри кофейни был создан документ для обучения новых сотрудников (внутренняя обертка-обучение)
+                  {t('casePage.design.baristaManual.description')}
                 </p>
               </div>
             </div>
@@ -651,11 +741,11 @@ const DesignSection = () => {
             {/* Рекламный материал */}
             <div className="space-y-2 xs:space-y-4">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900">
-                Рекламный материал
+                {t('casePage.design.advertising.title')}
               </h3>
               <div className="bg-black/10 backdrop-blur-sm rounded-xl p-2 xs:p-3 sm:p-4 border border-black/20">
                 <p className="text-sm sm:text-base md:text-lg text-gray-900">
-                  Мы также разработали рекламные баннеры, лайтбоксы и брошюры
+                  {t('casePage.design.advertising.description')}
                 </p>
               </div>
             </div>
@@ -672,11 +762,11 @@ const DesignSection = () => {
             {/* Униформа */}
             <div className="space-y-2 xs:space-y-4">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900">
-                Униформа
+                {t('casePage.design.uniform.title')}
               </h3>
               <div className="bg-black/10 backdrop-blur-sm rounded-xl p-2 xs:p-3 sm:p-4 border border-black/20">
                 <p className="text-sm sm:text-base md:text-lg text-gray-900">
-                  Также были разработана униформа для бариста
+                  {t('casePage.design.uniform.description')}
                 </p>
               </div>
             </div>
@@ -698,6 +788,7 @@ const DesignSection = () => {
 
 // Веб разработка секция
 const WebDevelopmentSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="bg-white relative flex flex-col lg:flex-row min-h-screen">
       {/* Заголовок по центру с увеличенными отступами */}
@@ -714,7 +805,7 @@ const WebDevelopmentSection = () => {
             marginBottom: '2rem'
           }}
         >
-          ВЕБ РАЗРАБОТКА
+          {t('casePage.webDevelopment.title')}
         </motion.h2>
       </div>
       
@@ -731,11 +822,11 @@ const WebDevelopmentSection = () => {
             {/* Новый дизайн для сайта */}
             <div className="space-y-2 xs:space-y-3 sm:space-y-4 md:space-y-6">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 font-montserrat">
-                Новый дизайн для сайта
+                {t('casePage.webDevelopment.newDesign.title')}
               </h3>
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-2 xs:p-3 sm:p-4 md:p-6 border border-orange-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed font-montserrat">
-                  Разработан новый дизайн для веб сайта с адаптацией на разных устройствах
+                  {t('casePage.webDevelopment.newDesign.description')}
                 </p>
               </div>
             </div>
@@ -771,11 +862,11 @@ const WebDevelopmentSection = () => {
             {/* Админ панель секция с улучшенным дизайном */}
             <div className="space-y-2 xs:space-y-3 sm:space-y-4 md:space-y-6">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 font-montserrat">
-                Админ панель
+                {t('casePage.webDevelopment.adminPanel.title')}
               </h3>
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-2 xs:p-3 sm:p-4 md:p-6 border border-orange-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed font-montserrat">
-                  Также разработана админ панель с автоматизацией заполнения в google таблицах
+                  {t('casePage.webDevelopment.adminPanel.description')}
                 </p>
               </div>
             </div>
@@ -815,11 +906,11 @@ const WebDevelopmentSection = () => {
             {/* Система управления контентом с улучшенным дизайном */}
             <div className="space-y-2 xs:space-y-3 sm:space-y-4 md:space-y-6">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 font-montserrat">
-                Система управления контентом
+                {t('casePage.webDevelopment.cms.title')}
               </h3>
               <div className="bg-gray-50/80 backdrop-blur-sm rounded-2xl p-2 xs:p-3 sm:p-4 md:p-6 border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-300">
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed font-montserrat">
-                  Разработана современная CMS для управления контентом с интуитивным интерфейсом
+                  {t('casePage.webDevelopment.cms.description')}
                 </p>
               </div>
             </div>
@@ -853,23 +944,30 @@ const CasePage = () => {
   const containerRef = useRef(null);
   const seoData = useSEO('project');
 
+  // Прокрутка к началу страницы при загрузке
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       {seoData && <SEOHead {...seoData} />}
       
-      {/* Основная структура страницы */}
-      <div className="min-h-screen flex flex-col case-page-container">
-        <div ref={containerRef} className="relative flex-1 bg-gradient-to-b from-gray-50 to-gray-100 performance-optimized">
-          {/* Контент-слои */}
-          <div className="relative z-10">
+      {/* Основная структура страницы - оптимизированная */}
+      <div className="min-h-screen flex flex-col overflow-hidden scroll-smooth">
+        <div ref={containerRef} className="relative flex-1 bg-gradient-to-b from-gray-50 via-white to-gray-100">
+          {/* Контент-слои с улучшенным spacing */}
+          <div className="relative z-10 space-y-0">
             {/* Hero секция */}
             <HeroSection />
             
-            {/* Остальные секции */}
-            <ContentSection />
-            <MarketingSection />
-            <DesignSection />
-            <WebDevelopmentSection />
+            {/* Остальные секции с оптимальными отступами */}
+            <div className="space-y-0">
+              <ContentSection />
+              <MarketingSection />
+              <DesignSection />
+              <WebDevelopmentSection />
+            </div>
           </div>
         </div>
       </div>

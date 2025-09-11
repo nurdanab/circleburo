@@ -1,23 +1,36 @@
 // src/components/sections/HeroSection.jsx
 import "tailwindcss";
-import React, { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import LazyBlenderModel from '../LazyBlenderModel';
+import React, { useEffect, useState, useMemo, Suspense } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import VideoHero from '../VideoHero';
 
 const HeroSection = () => {
-  // Scroll анимации
+  // Проверяем предпочтения пользователя по анимациям
+  const prefersReducedMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Трансформации для скролла
-  const titleOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const titleScale = useTransform(scrollY, [0, 300], [1, 0.8]);
-  const titleY = useTransform(scrollY, [0, 300], [0, -100]);
-  const starsOpacity = useTransform(scrollY, [0, 200], [1, 0]);
-  const starsScale = useTransform(scrollY, [0, 200], [1, 1.2]);
+  // Отключаем скролл анимации для производительности если пользователь предпочитает меньше анимаций
+  const shouldAnimate = !prefersReducedMotion && !isMobile;
+  
+  // Трансформации для скролла (оптимизированы для производительности)
+  const titleOpacity = useTransform(scrollY, [0, 300], shouldAnimate ? [1, 0] : [1, 1]);
+  const titleScale = useTransform(scrollY, [0, 300], shouldAnimate ? [1, 0.8] : [1, 1]);
+  const titleY = useTransform(scrollY, [0, 300], shouldAnimate ? [0, -100] : [0, 0]);
+  // На мобильных отключаем сложные скролл-анимации для звезд
+  const starsOpacity = useTransform(scrollY, [0, 200], shouldAnimate ? [1, 0] : [1, 1]);
+  const starsScale = useTransform(scrollY, [0, 200], shouldAnimate ? [1, 1.2] : [1, 1]);
 
   useEffect(() => {
     setMounted(true);
+    // Определяем мобильное устройство для оптимизации
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const containerVariants = {
@@ -59,8 +72,8 @@ const HeroSection = () => {
     },
   };
 
-  // Генерируем массив звездочек для фона
-  const stars = Array.from({ length: 50 }, (_, i) => ({
+  // Мемоизируем массив звездочек для фона (адаптивно под устройство)
+  const stars = useMemo(() => Array.from({ length: isMobile ? 10 : 25 }, (_, i) => ({
     id: i,
     size: Math.random() * 3 + 1, // размер от 1 до 4px
     x: Math.random() * 100, // позиция по X в процентах
@@ -69,18 +82,21 @@ const HeroSection = () => {
     duration: Math.random() * 3 + 2, // длительность мерцания
     opacity: Math.random() * 0.8 + 0.2, // прозрачность от 0.2 до 1
     twinkleDelay: Math.random() * 4, // задержка мерцания
-  }));
+  })), [isMobile]);
 
-  // Генерируем массив больших светящихся кружочков
-  const glowDots = Array.from({ length: 8 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 100 + 40, // размер от 40 до 140px
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: Math.random() * 8 + 10, // медленная пульсация
-    opacity: Math.random() * 0.1 + 0.05, // очень слабая прозрачность
-  }));
+  // Мемоизируем массив больших светящихся кружочков (отключаем на мобильных)
+  const glowDots = useMemo(() => {
+    if (isMobile) return []; // На мобильных отключаем для производительности
+    return Array.from({ length: 4 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 100 + 40, // размер от 40 до 140px
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 3,
+      duration: Math.random() * 8 + 10, // медленная пульсация
+      opacity: Math.random() * 0.1 + 0.05, // очень слабая прозрачность
+    }));
+  }, [isMobile]);
 
   const starVariants = {
     hidden: { 
@@ -146,6 +162,7 @@ const HeroSection = () => {
                 width: `${star.size}px`,
                 height: `${star.size}px`,
                 boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, 0.5)`,
+                willChange: 'opacity, transform',
               }}
               animate={{
                 opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
@@ -190,6 +207,7 @@ const HeroSection = () => {
               className="absolute inset-2 rounded-full"
               style={{
                 background: 'radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 60%)',
+                willChange: 'opacity, transform',
               }}
               animate={{
                 scale: [1, 1.1, 1],
@@ -206,11 +224,11 @@ const HeroSection = () => {
         ))}
       </motion.div>
 
-      {/* 3D модель остается на месте */}
+      {/* 3D анимация видео остается на месте */}
       <div className="absolute inset-0 z-10 pointer-events-none opacity-100 flex items-center justify-center">
-        <div className="w-full h-full flex items-center justify-center"> {/* Полный размер контейнера, но центрируем модель */}
-          <div className="flex items-center justify-center w-full h-full transform translate-y-8"> {/* Опускаем контейнер ниже */}
-            <LazyBlenderModel />
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="flex items-center justify-center w-full h-full transform translate-y-8">
+            <VideoHero />
           </div>
         </div>
       </div>
@@ -231,6 +249,8 @@ const HeroSection = () => {
             opacity: mounted ? titleOpacity : 1,
             scale: mounted ? titleScale : 1,
             y: mounted ? titleY : 0,
+            willChange: 'opacity, transform',
+            transform: 'translateZ(0)', // Активируем аппаратное ускорение
           }}
           variants={titleVariants}
         >
@@ -262,6 +282,7 @@ const HeroSection = () => {
         <motion.div
           className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center relative overflow-hidden"
           whileHover={{ borderColor: 'rgba(255, 255, 255, 0.6)' }}
+          style={{ willChange: 'border-color' }}
         >
           <motion.div
             className="w-1 h-3 bg-white/60 rounded-full mt-2"
@@ -274,6 +295,7 @@ const HeroSection = () => {
               repeat: Infinity,
               ease: "easeInOut",
             }}
+            style={{ willChange: 'transform, opacity' }}
           />
         </motion.div>
         

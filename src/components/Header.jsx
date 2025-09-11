@@ -36,15 +36,8 @@ const Header = () => {
   // Функция для навигации к секции на главной странице
   const scrollToSection = (sectionId) => {
     if (location.pathname !== '/') {
-      // Если не на главной странице, сначала перейти на главную
-      navigate('/', { replace: true });
-      // Небольшая задержка для загрузки страницы, затем скролл
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
+      // Если не на главной странице, перейти на главную с якорем
+      navigate('/', { state: { scrollTo: sectionId } });
     } else {
       // Если уже на главной странице, просто скролл
       const element = document.getElementById(sectionId);
@@ -169,7 +162,7 @@ const Header = () => {
                   className="w-full text-left px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white transition-colors duration-150"
                   style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
                 >
-                  {t('nav.services')} Section
+                  {t('nav.services')}
                 </button>
                 <div className="border-t border-white/10"></div>
                 {serviceItems.map((service) => (
@@ -295,7 +288,7 @@ const Header = () => {
 
             <button
               onClick={() => {
-                navigateToProject('/about');
+                scrollToSection('services');
                 toggleMenu();
               }}
               style={{

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import MediaLoader from './MediaLoader';
 
 const LazyImage = ({ 
   src, 
@@ -54,7 +55,7 @@ const LazyImage = ({
     <div ref={imgRef} className={`relative overflow-hidden ${className}`} {...props}>
       {/* Placeholder пока изображение загружается */}
       {!isLoaded && !hasError && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse">
+        <div className="absolute inset-0">
           {blurDataURL && (
             <img 
               src={blurDataURL}
@@ -63,11 +64,9 @@ const LazyImage = ({
               aria-hidden="true"
             />
           )}
-          {placeholder && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              {placeholder}
-            </div>
-          )}
+          <div className="absolute inset-0 flex items-center justify-center">
+            {placeholder || <MediaLoader size="default" variant="circle" />}
+          </div>
         </div>
       )}
 
