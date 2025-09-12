@@ -20,7 +20,7 @@ function sendToAnalytics(metric, options) {
   );
 
   const body = {
-    dsn: process.env.NODE_ENV === 'production' ? 'your-analytics-id' : 'development',
+    dsn: import.meta.env.VITE_VERCEL_ANALYTICS_ID || 'development',
     id: metric.id,
     page: page.path,
     href: window.location.href,
@@ -33,8 +33,10 @@ function sendToAnalytics(metric, options) {
     console.log('[Web Vitals]', metric.name, Math.round(metric.value), 'ms', body);
   }
 
-  // Send to analytics in production
-  if (import.meta.env.PROD) {
+  // Analytics disabled - no valid Vercel Analytics ID configured
+  // Uncomment and set VITE_VERCEL_ANALYTICS_ID when ready to enable
+  /*
+  if (import.meta.env.PROD && body.dsn && body.dsn !== 'development') {
     const blob = new Blob([new URLSearchParams(body).toString()], {
       type: 'application/x-www-form-urlencoded',
     });
@@ -50,6 +52,7 @@ function sendToAnalytics(metric, options) {
       }).catch(() => {});
     }
   }
+  */
 }
 
 export function reportWebVitals() {

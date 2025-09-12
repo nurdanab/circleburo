@@ -2,22 +2,8 @@
 
 export const preloadCriticalResources = () => {
   const criticalResources = [
-    // Critical Inter fonts
-    { 
-      href: 'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2', 
-      as: 'font', 
-      type: 'font/woff2', 
-      crossorigin: 'anonymous' 
-    },
-    { 
-      href: 'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2', 
-      as: 'font', 
-      type: 'font/woff2', 
-      crossorigin: 'anonymous' 
-    },
-    // Hero video poster
-    { href: '/img/hero-poster.webp', as: 'image' },
     // Critical images
+    { href: '/img/hero-poster.webp', as: 'image' },
     { href: '/img/circle-fill.webp', as: 'image' },
   ];
 
