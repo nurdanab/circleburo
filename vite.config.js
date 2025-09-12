@@ -54,10 +54,10 @@ export default defineConfig({
           if (id.includes('node_modules/react-router-dom') || id.includes('node_modules/react-i18next') || id.includes('node_modules/i18next')) {
             return 'routing-i18n';
           }
-          // Supabase (heavy)
-          if (id.includes('node_modules/@supabase')) {
-            return 'supabase';
-          }
+          // Remove Supabase chunking to avoid module resolution issues
+          // if (id.includes('node_modules/@supabase')) {
+          //   return 'supabase';
+          // }
           // Analytics (should be async)
           if (id.includes('node_modules/react-ga4') || id.includes('node_modules/newrelic')) {
             return 'analytics';
@@ -131,6 +131,16 @@ export default defineConfig({
     sourcemap: false
   },
   optimizeDeps: {
-    include: ['react', 'react-dom']
-  }
+    include: [
+      'react', 
+      'react-dom',
+      'react-router-dom',
+      'framer-motion',
+      'gsap',
+      '@supabase/supabase-js'
+    ],
+    exclude: [
+      'web-vitals'
+    ]
+  },
 });

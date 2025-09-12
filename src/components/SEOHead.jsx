@@ -1,5 +1,6 @@
 // src/components/SEOHead.jsx
 import { Helmet } from 'react-helmet-async';
+import StructuredData from './StructuredData';
 
 const SEOHead = ({ 
   title, 
@@ -9,12 +10,20 @@ const SEOHead = ({
   canonicalUrl,
   language = 'ru',
   ogImage = '/img/circle-fill.webp',
-  alternateUrls = []
+  alternateUrls = [],
+  structuredData = true,
+  breadcrumbs = null
 }) => {
   const baseUrl = 'https://circleburo.kz/'; 
   
   return (
-    <Helmet>
+    <>
+      {/* Structured Data */}
+      {structuredData && <StructuredData type="organization" />}
+      {structuredData && <StructuredData type="website" />}
+      {breadcrumbs && <StructuredData type="breadcrumb" data={breadcrumbs} />}
+      
+      <Helmet>
       {/* Основные мета-теги */}
       <title>{title}</title>
       <meta name="description" content={description} />
@@ -44,22 +53,35 @@ const SEOHead = ({
       <meta name="twitter:creator" content="@circleburo" />
       <meta name="twitter:site" content="@circleburo" />
       
+      {/* Performance optimizations */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+      <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+      
+      {/* Google Fonts - Inter with font-display: swap */}
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+      
       {/* Canonical и языковые альтернативы */}
       <link rel="canonical" href={canonicalUrl} />
       {alternateUrls.map(({ href, hreflang }) => (
         <link key={hreflang} rel="alternate" href={href} hrefLang={hreflang} />
       ))}
       
+      {/* PWA Manifest */}
+      <link rel="manifest" href="/manifest.json" />
+      <meta name="theme-color" content="#000000" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="apple-mobile-web-app-title" content="Circle Buro" />
       
       {/* Favicon и иконки */}
-        <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
-        <link rel="icon" href="/img/favicon.ico" />
-        <link rel="manifest" href="/img/site.webmanifest" />
-        <meta name="theme-color" content="#000000" />
+      <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+      <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+      <link rel="icon" href="/img/favicon.ico" />
 
       <html lang={language} />
       
@@ -69,6 +91,7 @@ const SEOHead = ({
       <meta name="geo.position" content="43.238949;76.889709" />
       <meta name="ICBM" content="43.238949, 76.889709" />
     </Helmet>
+    </>
   );
 };
 

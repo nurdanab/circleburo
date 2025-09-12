@@ -1,0 +1,104 @@
+import { onCLS, onFCP, onLCP, onTTFB, onINP } from 'web-vitals';
+
+const vitalsUrl = 'https://vitals.vercel-analytics.com/v1/vitals';
+
+function getConnectionSpeed() {
+  return 'connection' in navigator &&
+    'effectiveType' in navigator.connection
+    ? navigator.connection.effectiveType
+    : '';
+}
+
+function sendToAnalytics(metric, options) {
+  const page = Object.assign(
+    {
+      path: window.location.pathname,
+      referrer: document.referrer,
+      connection: getConnectionSpeed(),
+    },
+    options
+  );
+
+  const body = {
+    dsn: process.env.NODE_ENV === 'production' ? 'your-analytics-id' : 'development',
+    id: metric.id,
+    page: page.path,
+    href: window.location.href,
+    event_name: metric.name,
+    value: metric.value.toString(),
+    speed: page.connection,
+  };
+
+  if (import.meta.env.DEV) {
+    console.log('[Web Vitals]', metric.name, Math.round(metric.value), 'ms', body);
+  }
+
+  // Send to analytics in production
+  if (import.meta.env.PROD) {
+    const blob = new Blob([new URLSearchParams(body).toString()], {
+      type: 'application/x-www-form-urlencoded',
+    });
+    
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(vitalsUrl, blob);
+    } else {
+      fetch(vitalsUrl, {
+        body: blob,
+        method: 'POST',
+        credentials: 'omit',
+        keepalive: true,
+      }).catch(() => {});
+    }
+  }
+}
+
+export function reportWebVitals() {
+  try {
+    // Core Web Vitals
+    onCLS(sendToAnalytics);
+    onFCP(sendToAnalytics);
+    onLCP(sendToAnalytics);
+    onTTFB(sendToAnalytics);
+    
+    // New metric - INP replaces FID
+    if (onINP) {
+      onINP(sendToAnalytics);
+    }
+    
+  } catch (err) {
+    console.error('Error reporting web vitals:', err);
+  }
+}
+
+// Performance observer for additional metrics
+export function observePerformance() {
+  if ('PerformanceObserver' in window) {
+    // Long tasks observer
+    try {
+      const longTaskObserver = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.duration > 50) {
+            console.log('[Long Task]', entry.duration, 'ms');
+          }
+        }
+      });
+      longTaskObserver.observe({ entryTypes: ['longtask'] });
+    } catch (err) {
+      console.warn('Long task observer not supported:', err);
+    }
+
+    // Layout shift observer
+    try {
+      const layoutShiftObserver = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput && entry.value > 0.1) {
+            console.log('[Layout Shift]', entry.value, entry.sources);
+          }
+        }
+      });
+      layoutShiftObserver.observe({ entryTypes: ['layout-shift'] });
+    } catch (err) {
+      console.warn('Layout shift observer not supported:', err);
+    }
+  }
+}

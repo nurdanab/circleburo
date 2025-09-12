@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Instagram} from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FaTiktok, FaThreads } from 'react-icons/fa6'; 
+import { FaTiktok, FaThreads } from 'react-icons/fa6';
+import { navigateToSection } from '../utils/navigation'; 
 
 
 const FooterSection = () => {
@@ -11,18 +12,13 @@ const FooterSection = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Функция для навигации к секциям (как в Header)
+  // Функция для навигации к секциям (используем улучшенную утилиту)
   const scrollToSection = (sectionId) => {
-    if (location.pathname !== '/') {
-      // Если не на главной странице, перейти на главную с якорем
-      navigate('/', { state: { scrollTo: sectionId } });
-    } else {
-      // Если уже на главной странице, просто скролл
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+    navigateToSection(navigate, location.pathname, '/', sectionId, {
+      maxAttempts: 15,
+      delay: 150,
+      offset: 80 // Account for fixed header
+    });
   };
 
   const stars = Array.from({ length: 20 }, (_, i) => ({
@@ -44,7 +40,7 @@ const FooterSection = () => {
   ];
 
   const services = [
-    { name: 'Semi Circle', to: '/semicircle' },
+    { name: 'Semicircle', to: '/semicircle' },
     { name: 'Circle', to: '/circle' },
     { name: 'Cycle', to: '/cycle' },
   ];

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import StructuredData from '../StructuredData';
 
 const employeeKeys = [
   'employee1', 'employee2', 'employee3', 'employee4', 'employee5',
@@ -233,6 +234,23 @@ const AnimatedEmployeeCards = () => {
 
   return (
     <section className="bg-black py-20 text-white relative overflow-hidden">
+      {/* Structured Data for each employee */}
+      {employeeKeys.map((employeeKey) => {
+        const employee = {
+          name: t(`employeeCards.${employeeKey}.name`),
+          specialty: t(`employeeCards.${employeeKey}.specialty`),
+          email: t(`employeeCards.${employeeKey}.email`),
+          bio: t(`employeeCards.${employeeKey}.bio`),
+          image: t(`employeeCards.${employeeKey}.image`),
+        };
+        return (
+          <StructuredData 
+            key={employeeKey}
+            type="person" 
+            data={employee} 
+          />
+        );
+      })}
      
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4">

@@ -62,7 +62,7 @@ export const measurePerformance = (name, fn) => {
   const result = fn();
   const end = performance.now();
   
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.DEV) {
     console.log(`${name} took ${end - start}ms`);
   }
   
@@ -70,7 +70,7 @@ export const measurePerformance = (name, fn) => {
 };
 
 // Optimize scroll events
-export const optimizeScroll = (callback, delay = 16) => {
+export const optimizeScroll = (callback) => {
   let ticking = false;
   
   return function() {
@@ -103,7 +103,7 @@ export const optimizeResize = (callback, delay = 250) => {
 
 // Memory usage monitoring (development only)
 export const logMemoryUsage = () => {
-  if (process.env.NODE_ENV === 'development' && 'memory' in performance) {
+  if (import.meta.env.DEV && 'memory' in performance) {
     const memory = performance.memory;
     console.log('Memory Usage:', {
       used: Math.round(memory.usedJSHeapSize / 1048576 * 100) / 100 + ' MB',

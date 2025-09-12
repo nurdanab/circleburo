@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { scrollToElement } from '../../utils/navigation';
 
 const questions = [
   {
@@ -353,9 +354,12 @@ const InteractiveSection = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <motion.button
                     onClick={() =>
-                      document
-                        .getElementById("contact")
-                        ?.scrollIntoView({ behavior: "smooth" })
+                      scrollToElement("contact", {
+                        maxAttempts: 15,
+                        delay: 150,
+                        offset: 80,
+                        behavior: 'smooth'
+                      })
                     }
                     className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden"
                     whileHover={{ scale: 1.02, y: -2 }}

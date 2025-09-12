@@ -15,16 +15,25 @@ const VideoHero = memo(({ className = "" }) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
-          // Загружаем видео только когда оно видно + небольшая задержка
+          // Проверяем connection speed
+          const connection = navigator.connection;
+          const slowConnection = connection && (
+            connection.effectiveType === 'slow-2g' || 
+            connection.effectiveType === '2g' ||
+            connection.saveData
+          );
+          
+          // Загружаем видео с задержкой в зависимости от соединения
+          const delay = slowConnection ? 2000 : 500;
           const timer = setTimeout(() => {
             setShouldLoadVideo(true);
-          }, 1000);
+          }, delay);
           
           return () => clearTimeout(timer);
         }
       },
       {
-        rootMargin: '50px',
+        rootMargin: '100px',
         threshold: 0.1
       }
     );
@@ -75,14 +84,14 @@ const VideoHero = memo(({ className = "" }) => {
 
   // Fallback loading skeleton
   const LoadingSkeleton = () => (
-    <div className="w-[40rem] h-[40rem] flex items-center justify-center mx-auto">
+    <div className="w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[95vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] flex items-center justify-center mx-auto px-1 sm:px-0">
       <MediaLoader size="large" variant="circle" />
     </div>
   );
 
   // Error fallback
   const ErrorFallback = () => (
-    <div className="w-[40rem] h-[40rem] flex items-center justify-center mx-auto">
+    <div className="w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[95vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] flex items-center justify-center mx-auto px-1 sm:px-0">
       <MediaLoader size="large" variant="bars" />
     </div>
   );
@@ -94,7 +103,7 @@ const VideoHero = memo(({ className = "" }) => {
   return (
     <div 
       data-video-hero
-      className={`w-[40rem] h-[40rem] mx-auto flex items-center justify-center ${className}`}
+      className={`w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[95vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] mx-auto flex items-center justify-center px-1 sm:px-0 ${className}`}
     >
       {!isLoaded && <LoadingSkeleton />}
       
@@ -115,8 +124,7 @@ const VideoHero = memo(({ className = "" }) => {
           filter: 'contrast(1.1) brightness(1.05)',
         }}
       >
-        <source src="/videos/hero-animation.webm" type="video/webm" />
-        <source src="/videos/hero-animation.mp4" type="video/mp4" />
+        <source src="/videos/circle-optimized.mp4" type="video/mp4" />
         
         {/* Fallback for browsers that don't support video */}
           <div className="w-full h-full flex items-center justify-center">

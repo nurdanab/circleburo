@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from "../components/Header";
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/SEOHead';
 import useSEO from '../hooks/useSEO';
+import { navigateToSection } from '../utils/navigation';
 
 const Circle = () => {
   const seoData = useSEO('circle'); 
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
   // Прокрутка к началу страницы при загрузке
@@ -18,7 +20,11 @@ const Circle = () => {
 
   // Функция для навигации к секции контактов на главной странице
   const scrollToSection = (sectionId) => {
-    navigate('/', { state: { scrollTo: sectionId } });
+    navigateToSection(navigate, location.pathname, '/', sectionId, {
+      maxAttempts: 15,
+      delay: 150,
+      offset: 80
+    });
   };
 
   const designGuidebookItems = t('circle.designGuidebook.items', { returnObjects: true });

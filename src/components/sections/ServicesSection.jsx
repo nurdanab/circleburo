@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import StructuredData from '../StructuredData';
 
 const ServicesSection = () => {
   const { t } = useTranslation();
@@ -38,6 +39,15 @@ const ServicesSection = () => {
 
   return (
     <section id="services" className="bg-black text-white py-20 px-4">
+      {/* Structured Data for services */}
+      {servicesData.map((service) => (
+        <StructuredData 
+          key={service.id}
+          type="service" 
+          data={service} 
+        />
+      ))}
+      
       <div className="max-w-7xl mx-auto">
         <motion.h2
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-16"

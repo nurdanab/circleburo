@@ -3,22 +3,32 @@ import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { initGA, logPageView } from './analytics';
 
-// Lazy load pages for better performance
-const HomePage = lazy(() => import('./pages/HomePage'));
-const AboutPage = lazy(() => import('./pages/AboutPage'));
-const CasePage = lazy(() => import('./pages/CasePage'));
-const Circle = lazy(() => import('./pages/Circle'));
-const Cycle = lazy(() => import('./pages/Cycle'));
-const Semicircle = lazy(() => import('./pages/Semicircle'));
-const AdminPage = lazy(() => import('./pages/AdminPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+// Lazy load pages with retry mechanism for better reliability
+const createLazyComponent = (importFn, name) => {
+  return lazy(() => 
+    importFn().catch(err => {
+      console.error(`Failed to load ${name}, retrying...`, err);
+      return importFn();
+    })
+  );
+};
+
+const HomePage = createLazyComponent(() => import('./pages/HomePage'), 'HomePage');
+const AboutPage = createLazyComponent(() => import('./pages/AboutPage'), 'AboutPage');
+const CasePage = createLazyComponent(() => import('./pages/CasePage'), 'CasePage');
+const Circle = createLazyComponent(() => import('./pages/Circle'), 'Circle');
+const Cycle = createLazyComponent(() => import('./pages/Cycle'), 'Cycle');
+const Semicircle = createLazyComponent(() => import('./pages/Semicircle'), 'Semicircle');
+const AdminPage = createLazyComponent(() => import('./pages/AdminPage'), 'AdminPage');
+const LoginPage = createLazyComponent(() => import('./pages/LoginPage'), 'LoginPage');
+const NotFoundPage = createLazyComponent(() => import('./pages/NotFoundPage'), 'NotFoundPage');
 
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SplashCursor from './components/SplashCursor';
 import LazyPage from './components/LazyPage';
 import PerformanceMeta from './components/PerformanceMeta';
+import AccessibilityHelper from './components/AccessibilityHelper';
 
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
@@ -41,6 +51,7 @@ function AppContent() {
     <>
       <PerformanceMeta />
       <SplashCursor />
+      <AccessibilityHelper />
       {!isAdminRoute && <Header />}
       <Routes>
         <Route path="/" element={<LazyPage component={HomePage} />} />

@@ -942,7 +942,7 @@ const WebDevelopmentSection = () => {
 
 const CasePage = () => {
   const containerRef = useRef(null);
-  const seoData = useSEO('project');
+  const seoData = useSEO('case');
 
   // Прокрутка к началу страницы при загрузке
   useEffect(() => {

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import OptimizedImage from './OptimizedImage';
 import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import LanguageSwitcher from './LanguageSwitcher';
+import { navigateToSection } from '../utils/navigation';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -35,16 +36,12 @@ const Header = () => {
 
   // Функция для навигации к секции на главной странице
   const scrollToSection = (sectionId) => {
-    if (location.pathname !== '/') {
-      // Если не на главной странице, перейти на главную с якорем
-      navigate('/', { state: { scrollTo: sectionId } });
-    } else {
-      // Если уже на главной странице, просто скролл
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+    navigateToSection(navigate, location.pathname, '/', sectionId, {
+      maxAttempts: 15,
+      delay: 150,
+      offset: 80 // Account for fixed header
+    });
+    
     setIsMenuOpen(false);
     setIsServicesOpen(false);
   };

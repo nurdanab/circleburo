@@ -5,90 +5,139 @@ import { useTranslation } from 'react-i18next';
 const seoData = {
   ru: {
     home: {
-      title: "CIRCLE BURO | Рекламное агентство в городе Алматы | Маркетинговое агентство полного цикла",
-      description: "Создаём и работает с брэндами под ключ: от стратегии до креатива. Помогаем брендам быть заметными и расти.",
-      ogTitle: "Circle Creative Buro — креативное бюро полного цикла",
-      ogDescription: "Маркетинг, креативный дизайн, брендинг и SMM – полный цикл услуг для роста вашей компании.",
-      url: "/"
+      title:
+        "CIRCLE BURO — креативное и маркетинговое агентство в Алматы | Полный цикл",
+      description:
+        "Креатив, брендинг, стратегия и SMM под ключ. Помогаем брендам в Алматы выделяться, расти и масштабироваться за счёт сильной идеи и системного маркетинга.",
+      ogTitle:
+        "CIRCLE BURO — креативное бюро полного цикла в Алматы",
+      ogDescription:
+        "Стратегия, брендинг, дизайн, продакшн и SMM. Полный цикл услуг для роста бизнеса.",
+      url: 
+        "/"
     },
     about: {
-      title: "О компании Circle – опытная команда маркетологов и дизайнеров",
-      description: "Мы – рекламное агентство полного цикла, которое разрабатывает стратегии, креатив и продвижение для брендов и компаний любого масштаба под ключ.",
-      ogTitle: "Circle Creative Buro — рекламное агентство полного цикла",
-      ogDescription: "Маркетинг, креативный дизайн, брендинг и SMM – полный цикл услуг для роста вашей компании.",
+      title:
+        "О компании CIRCLE BURO — опытная команда маркетологов и дизайнеров",
+      description:
+        "Мы — рекламное агентство полного цикла из Алматы. Соединяем стратегию, данные и креатив, чтобы создавать бренды и кампании, которые работают.",
+      ogTitle:
+        "О CIRCLE BURO — креативное бюро полного цикла",
+      ogDescription:
+        "Команда стратегов, дизайнеров и продакшна. Делаем бренды заметными и эффективными.",
       url: "/about"
     },
     circle: {
-      title: "Circle – комплексное продвижение бренда или ребрендинг от агентства Circle",
-      description: "Полный цикл работ: анализ, стратегия, креатив и реализация для вашего бизнеса.",
-      ogTitle: "Circle Creative Buro — рекламное агентство полного цикла",
-      ogDescription: "Маркетинг, креативный дизайн, брендинг и SMM – полный цикл услуг для роста вашей компании.",
+      title:
+        "Услуга CIRCLE — комплексное продвижение и ребрендинг под ключ",
+      description:
+        "Полный цикл: исследование, стратегия, брендинг, дизайн, контент и запуск. Для компаний, которым нужен сильный рывок на рынке Алматы.",
+      ogTitle:
+        "CIRCLE — полный цикл работ: от стратегии до запуска",
+      ogDescription:
+        "Аналитика, платформа бренда, визуальная система, коммуникации и рост.",
       url: "/circle"
     },
     semicircle: {
-      title: "Semicircle – гибкие решения для вашего бизнеса",
-      description: "Частичный пакет услуг: только то, что нужно именно вам, без лишних затрат.",
-      ogTitle: "Circle Creative Buro — рекламное агентство полного цикла",
-      ogDescription: "Маркетинг, креативный дизайн, брендинг и SMM – полный цикл услуг для роста вашей компании.",
+      title:
+        "Услуга SEMICIRCLE — гибкий пакет: только нужные маркетинговые услуги",
+      description:
+        "Конструктор услуг: стратегия, дизайн, креатив, SMM или продакшн — выбирайте то, что даст быстрый результат для вашего бизнеса в Алматы.",
+      ogTitle:
+        "SEMICIRCLE — гибкие решения под задачи бизнеса",
+      ogDescription:
+        "Выбирайте модули: исследование, креатив, дизайн, контент, медиа.",
       url: "/semicircle"
     },
     cycle: {
-      title: "Cycle — непрерывное развитие вашего бренда вместе с Circle",
-      description: "Постоянное сопровождение: маркетинг, дизайн, SMM и поддержка для долгосрочного роста.",
-      ogTitle: "Circle Creative Buro — рекламное агентство полного цикла",
-      ogDescription: "Маркетинг, креативный дизайн, брендинг и SMM – полный цикл услуг для роста вашей компании.",
+      title:
+        "Услуга CYCLE — непрерывное развитие бренда и SMM-сопровождение",
+      description:
+        "Долгосрочное партнёрство: ежемесячная стратегия, контент, дизайн, производство и аналитика для стабильного роста в Алматы.",
+      ogTitle:
+        "CYCLE — постоянное сопровождение маркетинга и дизайна",
+      ogDescription:
+        "Команда на стороне бренда: план, контент, оптимизация и отчётность.",
       url: "/cycle"
     },
-    project: {
-      title: "Кейсы и проекты Circle | Портфолио рекламного агентства",
-      description: "Успешные проекты и кейсы от рекламного агентства Circle в Алматы. Примеры работ по брендингу, дизайну и маркетингу.",
-      ogTitle: "Circle Creative Buro — рекламное агентство полного цикла",
-      ogDescription: "Маркетинг, креативный дизайн, брендинг и SMM – полный цикл услуг для роста вашей компании.",
-      url: "/project"
+    case: {
+      title:
+        "Кейс: полный ребрендинг Steppe Coffee (Алматы) — CIRCLE BURO",
+      description:
+        "Редизайн айдентики и визуальной системы, тональность бренда и контент для Steppe Coffee в Алматы. Результат: узнаваемость и рост показателей.",
+      ogTitle:
+        "Кейс CIRCLE BURO: ребрендинг Steppe Coffee в Алматы",
+      ogDescription:
+        "Айдентика, упаковка, коммуникации и запуск. Полный цикл работ.",
+      url: "/case"
     }
   },
   en: {
     home: {
-      title: "Circle Advertising Agency in Almaty | Full-Cycle Creative Agency",
-      description: "We create and manage brands from A to Z: from strategy to creative. Helping brands stand out and grow.",
-      ogTitle: "Circle Creative Buro — full-cycle advertising agency",
-      ogDescription: "Marketing, creative design, branding, and SMM — a complete set of services to grow your business.",
+      title:
+        "CIRCLE BURO — Creative & Marketing Agency in Almaty | Full-Cycle",
+      description:
+        "Brand strategy, creative, design, and SMM from A to Z. We help brands in Almaty stand out, grow, and scale through clear strategy and strong ideas.",
+      ogTitle:
+        "CIRCLE BURO — full-cycle creative bureau in Almaty",
+      ogDescription:
+        "Strategy, branding, design, production, and SMM — everything for growth.",
       url: "/en"
     },
     about: {
-      title: "About Circle – an experienced team of marketers and designers",
-      description: "We are a full-cycle advertising agency that develops strategies, creativity, and brand promotion for companies of any scale.",
-      ogTitle: "Circle Creative Buro — full-cycle advertising agency",
-      ogDescription: "Marketing, creative design, branding, and SMM — a complete set of services to grow your business.",
+      title:
+        "About CIRCLE BURO — experienced team of marketers and designers",
+      description:
+        "We’re a full-cycle advertising agency from Almaty. We blend strategy, data, and creativity to build brands and campaigns that perform.",
+      ogTitle:
+        "About CIRCLE BURO — full-cycle creative bureau",
+      ogDescription:
+        "Strategists, designers, and production under one roof. We make brands distinctive and effective.",
       url: "/en/about"
     },
     circle: {
-      title: "Circle – comprehensive brand promotion or rebranding by Circle Agency",
-      description: "A full cycle of work: analysis, strategy, creativity, and implementation for your business.",
-      ogTitle: "Circle Creative Buro — full-cycle advertising agency",
-      ogDescription: "Marketing, creative design, branding, and SMM — a complete set of services to grow your business.",
+      title:
+        "CIRCLE Service — end-to-end brand promotion & rebranding",
+      description:
+        "Full cycle: research, strategy, branding, design, content, and launch. Ideal for companies seeking a step-change in Almaty.",
+      ogTitle:
+        "CIRCLE — full pipeline from strategy to launch",
+      ogDescription:
+        "Brand platform, visual system, communications, content, and growth.",
       url: "/en/circle"
     },
     semicircle: {
-      title: "Semicircle – flexible solutions for your business",
-      description: "A partial service package: only what you really need, without extra costs.",
-      ogTitle: "Circle Creative Buro — full-cycle advertising agency",
-      ogDescription: "Marketing, creative design, branding, and SMM — a complete set of services to grow your business.",
+      title:
+        "SEMICIRCLE Service — flexible package: only what you need",
+      description:
+        "Modular services: strategy, design, creative, SMM, or production — pick what drives quick results for your business in Almaty.",
+      ogTitle:
+        "SEMICIRCLE — agile solutions for business tasks",
+      ogDescription:
+        "Choose modules: research, creative, design, content, media.",
       url: "/en/semicircle"
     },
     cycle: {
-      title: "Cycle – continuous brand development with Circle",
-      description: "Ongoing support: marketing, design, SMM, and long-term brand growth.",
-      ogTitle: "Circle Creative Buro — full-cycle advertising agency",
-      ogDescription: "Marketing, creative design, branding, and SMM — a complete set of services to grow your business.",
+      title:
+        "CYCLE Service — ongoing brand development & SMM support",
+      description:
+        "Long-term partnership: monthly strategy, content, design, production, and analytics for steady growth in Almaty.",
+      ogTitle:
+        "CYCLE — continuous marketing and design support",
+      ogDescription:
+        "An embedded team: planning, content, optimization, and reporting.",
       url: "/en/cycle"
     },
-    project: {
-      title: "Circle Cases and Projects | Advertising Agency Portfolio",
-      description: "Successful projects and cases from Circle advertising agency in Almaty. Examples of branding, design and marketing work.",
-      ogTitle: "Circle Creative Buro — full-cycle advertising agency",
-      ogDescription: "Marketing, creative design, branding, and SMM — a complete set of services to grow your business.",
-      url: "/en/project"
+    case: {
+      title:
+        "Case Study: Steppe Coffee Rebranding (Almaty) — CIRCLE BURO",
+      description:
+        "Identity redesign, brand voice, and content system for Steppe Coffee in Almaty. Outcomes: distinct look, clearer messaging, and growth.",
+      ogTitle:
+        "CIRCLE BURO Case Study — Steppe Coffee Rebranding",
+      ogDescription:
+        "End-to-end work: strategy, visual identity, packaging, and launch.",
+      url: "/en/case"
     }
   }
 };

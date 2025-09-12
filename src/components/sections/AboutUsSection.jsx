@@ -45,8 +45,7 @@ const AboutUsSection = () => {
             style={{ rotate: rotateValue }}
           >
             <OptimizedImage
-              src="/img/circle-vectorrr-w.png"
-              webpSrc="/img/circle-vectorrr-w.webp"
+              src="/img/circle-vectorrr-w.webp"
               alt="Circle Logo"
               className="w-full h-full object-contain filter drop-shadow-2xl"
               priority={false}
@@ -65,8 +64,7 @@ const AboutUsSection = () => {
             style={{ rotate: rotateValue }}
           >
             <OptimizedImage
-              src="/img/circle-vectorrr-w.png"
-              webpSrc="/img/circle-vectorrr-w.webp"
+              src="/img/circle-vectorrr-w.webp"
               alt="Circle Logo"
               className="w-full h-full object-contain filter drop-shadow-2xl"
               priority={false}

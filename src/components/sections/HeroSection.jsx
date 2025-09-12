@@ -225,11 +225,9 @@ const HeroSection = () => {
       </motion.div>
 
       {/* 3D анимация видео остается на месте */}
-      <div className="absolute inset-0 z-10 pointer-events-none opacity-100 flex items-center justify-center">
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="flex items-center justify-center w-full h-full transform translate-y-8">
-            <VideoHero />
-          </div>
+      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
+        <div className="transform translate-y-0 sm:-translate-y-12 lg:-translate-y-14 xl:-translate-y-14 2xl:-translate-y-18">
+          <VideoHero />
         </div>
       </div>
 
@@ -241,7 +239,7 @@ const HeroSection = () => {
         animate="visible"
       >
         <motion.h1
-          className="text-[28vw] sm:text-[24vw] md:text-[20vw] lg:text-[18vw] xl:text-[16vw] 2xl:text-[14vw] font-black leading-none tracking-wider select-none"
+          className="text-[20vw] sm:text-[18vw] md:text-[16vw] lg:text-[14vw] xl:text-[12vw] 2xl:text-[10vw] font-black leading-none tracking-wider select-none"
           style={{ 
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
             textShadow: '0 0 40px rgba(255, 255, 255, 0.1), 0 0 80px rgba(255, 255, 255, 0.05)',
