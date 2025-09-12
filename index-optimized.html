@@ -62,17 +62,5 @@
     <!-- Load main JS -->
     <script type="module" src="/src/main.jsx"></script>
     
-    <!-- Load NewRelic asynchronously after page load -->
-    <script>
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                var script = document.createElement('script');
-                script.src = '/newrelic-async.js';
-                script.async = true;
-                script.defer = true;
-                document.head.appendChild(script);
-            }, 1000);
-        });
-    </script>
 </body>
 </html>
