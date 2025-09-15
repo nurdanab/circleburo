@@ -13,41 +13,46 @@ import { optimizeResourceLoading, loadNonCriticalResources } from './utils/resou
 
 // Start performance optimizations
 if (typeof window !== 'undefined') {
-  // Critical resource optimization
-  optimizeResourceLoading(window.location.pathname);
-  
-  // Start performance monitoring
-  reportWebVitals();
-  observePerformance();
-  
-  // Register Service Worker only in production
-  if ('serviceWorker' in navigator && import.meta.env.PROD) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('SW registered: ', registration);
-          
-          // Проверяем обновления
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // Новый SW установлен, можно обновить страницу
-                if (confirm('Доступно обновление сайта. Обновить сейчас?')) {
-                  window.location.reload();
+  try {
+    // Critical resource optimization
+    optimizeResourceLoading(window.location.pathname);
+    
+    // Start performance monitoring
+    reportWebVitals();
+    observePerformance();
+    
+    // Register Service Worker only in production
+    if ('serviceWorker' in navigator && import.meta.env.PROD) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+            
+            // Проверяем обновления
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // Новый SW установлен, можно обновить страницу
+                  if (confirm('Доступно обновление сайта. Обновить сейчас?')) {
+                    window.location.reload();
+                  }
                 }
-              }
+              });
             });
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
           });
-        })
-        .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
-        });
-    });
+      });
+    }
+    
+    // Load non-critical resources
+    loadNonCriticalResources();
+  } catch (error) {
+    console.error('Error in main.jsx initialization:', error);
+    // Continue with app initialization even if optimizations fail
   }
-  
-  // Load non-critical resources
-  loadNonCriticalResources();
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(

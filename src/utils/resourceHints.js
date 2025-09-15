@@ -88,12 +88,25 @@ export const optimizeResourceLoading = (pathname) => {
 
 export const loadNonCriticalResources = () => {
   // Load non-critical resources after initial render
-  requestIdleCallback(() => {
-    // Analytics
-    import('../analytics.js').then(({ initGA }) => {
-      initGA();
-    });
-    
-    // Other non-critical scripts
-  }, { timeout: 5000 });
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      // Analytics
+      import('../analytics.js').then(({ initGA }) => {
+        initGA();
+      }).catch(err => {
+        console.warn('Failed to load analytics:', err);
+      });
+      
+      // Other non-critical scripts
+    }, { timeout: 5000 });
+  } else {
+    // Fallback for browsers that don't support requestIdleCallback
+    setTimeout(() => {
+      import('../analytics.js').then(({ initGA }) => {
+        initGA();
+      }).catch(err => {
+        console.warn('Failed to load analytics:', err);
+      });
+    }, 2000);
+  }
 };
