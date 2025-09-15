@@ -159,8 +159,6 @@ const ContactFormSection = () => {
     const dateStr = dateNoTimezone.toISOString().split('T')[0];
 
     try {
-      console.log('Loading booked slots for date:', dateStr);
-      
       const { data, error } = await supabase
         .from('leads')
         .select('meeting_time, status, id, name')
@@ -168,33 +166,14 @@ const ContactFormSection = () => {
         .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
         .order('meeting_time', { ascending: true });
 
-      if (error) {
-        console.error('Supabase error:', error);
-        throw error;
-      }
+      if (error) throw error;
 
       const normalized = (data || []).map(slot => ({
         ...slot,
         meeting_time: slot.meeting_time.slice(0,5)
       }));
 
-      console.log('Loaded booked slots for', dateStr, ':', normalized);
-      console.log('Total active slots found:', normalized.length);
-      console.log('Slots with pending status:', normalized.filter(slot => slot.status === BOOKING_STATUSES.PENDING));
-      console.log('Slots with confirmed status:', normalized.filter(slot => slot.status === BOOKING_STATUSES.CONFIRMED));
-      
-      // Принудительно обновляем состояние
       setBookedSlots(normalized);
-      
-      // Дополнительная проверка через небольшую задержку
-      setTimeout(() => {
-        console.log('Delayed verification - current bookedSlots state:', normalized);
-        // Принудительно обновляем состояние еще раз для надежности
-        setBookedSlots(prev => {
-          console.log('Force updating bookedSlots state:', normalized);
-          return normalized;
-        });
-      }, 100);
       
     } catch (err) {
       console.error('Error loading booked slots:', err);
@@ -221,29 +200,24 @@ const ContactFormSection = () => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    // Проверяем, не прошел ли уже выбранный слот (для сегодняшнего дня)
     if (selectedDate && selectedDate.toDateString() === today.toDateString()) {
       const [slotHours, slotMinutes] = timeSlot.split(':').map(Number);
       if (now.getHours() > slotHours || (now.getHours() === slotHours && now.getMinutes() >= slotMinutes)) {
-        console.log(`Slot ${timeSlot} is in the past for today`);
         return false;
       }
     }
 
     const slotTimeMinutes = getTimeInMinutes(timeSlot);
 
-    // Проверяем, забронирован ли слот со статусами pending или confirmed
     for (const slot of slots) {
       if ([BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED].includes(slot.status)) {
         const bookedTimeMinutes = getTimeInMinutes(slot.meeting_time);
         if (slotTimeMinutes === bookedTimeMinutes) {
-          console.log(`Slot ${timeSlot} is already booked with status: ${slot.status} by ${slot.name || 'Unknown'}`);
           return false;
         }
       }
     }
     
-    console.log(`Slot ${timeSlot} is available`);
     return true;
   }, [selectedDate]);
 
@@ -268,13 +242,6 @@ const ContactFormSection = () => {
       }
 
       const isBooked = data && data.length > 0;
-      console.log(`Server check for slot ${timeSlot} on ${dateStr}:`, isBooked ? 'BOOKED' : 'AVAILABLE');
-      console.log(`Server check data:`, data);
-      
-      if (isBooked) {
-        console.log(`Slot ${timeSlot} is booked by:`, data.map(booking => `${booking.name} (${booking.status})`));
-      }
-      
       return !isBooked;
     } catch (err) {
       console.error('Error in checkSlotAvailabilityFromServer:', err);
@@ -323,16 +290,11 @@ const ContactFormSection = () => {
         meeting_time: slot.meeting_time.slice(0, 5)
       }));
 
-      console.log('Checking slot availability for:', selectedTime, 'against slots:', normalizedSlots);
-      console.log('Current bookedSlots state:', bookedSlots);
-
       // Проверяем доступность слота локально
       const isAvailableLocally = isSlotAvailable(selectedTime, normalizedSlots);
-      console.log(`Slot ${selectedTime} local availability check result:`, isAvailableLocally);
 
       // Дополнительная проверка с сервера для надежности
       const isAvailableOnServer = await checkSlotAvailabilityFromServer(selectedTime, selectedDate);
-      console.log(`Slot ${selectedTime} server availability check result:`, isAvailableOnServer);
 
       if (!isAvailableLocally || !isAvailableOnServer) {
         setError('Выбранное время больше недоступно. Пожалуйста, выберите другой слот.');
@@ -364,29 +326,18 @@ const ContactFormSection = () => {
 
       await sendTelegramNotification(bookingData, data[0]?.id);
 
-      // Сначала обновляем локальное состояние сразу
+      // Обновляем локальное состояние сразу
       const newBookedSlot = {
         meeting_time: selectedTime,
         status: BOOKING_STATUSES.PENDING,
         id: data[0]?.id,
         name: formData.name.trim()
       };
-      setBookedSlots(prev => {
-        const updated = [...prev, newBookedSlot];
-        console.log('Updated bookedSlots state:', updated);
-        return updated;
-      });
+      setBookedSlots(prev => [...prev, newBookedSlot]);
 
-      // Затем обновляем список забронированных слотов с сервера
+      // Обновляем список забронированных слотов с сервера
       if (selectedDate) {
-        console.log('Refreshing slots from server after booking...');
         await loadBookedSlots(selectedDate);
-        
-        // Дополнительная проверка через небольшую задержку
-        setTimeout(async () => {
-          console.log('Final verification - refreshing slots again...');
-          await loadBookedSlots(selectedDate);
-        }, 500);
       }
 
       setFormStep(3);
@@ -456,7 +407,7 @@ ID: ${recordId}
     setFormData({ ...formData, phone: formatted });
   };
 
-  const resetForm = async () => {
+  const resetForm = () => {
     setFormStep(1);
     setFormData({ name: '', phone: '+7 ' });
     setSelectedDate(null);
@@ -465,9 +416,6 @@ ID: ${recordId}
     setError('');
     setBookingId(null);
     setBookingStatus(BOOKING_STATUSES.PENDING);
-    
-    // Принудительно обновляем данные о слотах при сбросе формы
-    console.log('Form reset, clearing slots...');
   };
 
   const checkBookingStatus = useCallback(async () => {
@@ -496,14 +444,13 @@ ID: ${recordId}
     }
   }, [selectedDate, loadBookedSlots]);
 
-  // Периодическое обновление данных о слотах для обеспечения актуальности
+  // Периодическое обновление данных о слотах
   useEffect(() => {
     if (!selectedDate) return;
 
     const interval = setInterval(() => {
-      console.log('Periodic update of booked slots...');
       loadBookedSlots(selectedDate);
-    }, 10000); // Обновляем каждые 10 секунд для более быстрого обновления
+    }, 30000); // Обновляем каждые 30 секунд
 
     return () => clearInterval(interval);
   }, [selectedDate, loadBookedSlots]);
@@ -781,8 +728,6 @@ ID: ${recordId}
                                 setSelectedDate(date);
                                 setSelectedTime(null);
                                 setError('');
-                                // Принудительно обновляем данные о слотах при выборе новой даты
-                                console.log('Date selected, refreshing slots...');
                                 await loadBookedSlots(date);
                               }
                             }}
@@ -833,20 +778,6 @@ ID: ${recordId}
               {/* Выбор времени */}
               <div>
               <h4 className="text-lg font-semibold text-gray-300 mb-4">{t('contactForm.availableTimes')}</h4>
-              
-              {/* Отладочная информация о забронированных слотах */}
-              {bookedSlots.length > 0 && (
-                <div className="mb-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
-                  <p className="text-yellow-300 text-sm font-medium mb-2">Забронированные слоты:</p>
-                  <div className="space-y-1">
-                    {bookedSlots.map((slot, index) => (
-                      <div key={index} className="text-yellow-200 text-xs">
-                        {slot.meeting_time} - {slot.status} ({slot.name || 'Unknown'})
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
                 {loadingSlots ? (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="w-8 h-8 animate-spin text-white" />
@@ -854,22 +785,11 @@ ID: ${recordId}
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {timeSlots
-                        .filter((time) => {
-                          const isAvailable = isSlotAvailable(time, bookedSlots);
-                          console.log(`Filtering slot ${time}: available=${isAvailable}, bookedSlots=`, bookedSlots);
-                          console.log(`Slot ${time} details:`, bookedSlots.filter(slot => slot.meeting_time === time));
-                          return isAvailable;
-                        })
+                        .filter((time) => isSlotAvailable(time, bookedSlots))
                         .map((time, index) => (
                         <motion.button
                           key={time}
-                          onClick={async () => {
-                            // Принудительно обновляем данные перед выбором слота
-                            if (selectedDate) {
-                              await loadBookedSlots(selectedDate);
-                            }
-                            setSelectedTime(time);
-                          }}
+                          onClick={() => setSelectedTime(time)}
                           className={`px-4 py-3 rounded-xl border font-semibold transition-all duration-300 ${
                             selectedTime === time
                               ? 'bg-gradient-to-r from-white to-gray-100 text-black border-white shadow-lg shadow-white/20'

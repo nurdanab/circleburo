@@ -370,9 +370,8 @@ ${statusEmoji[newStatus]} new!
   // Периодическое обновление данных в админ панели
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log('Admin panel: Periodic update of leads...');
       loadLeads();
-    }, 15000); // Обновляем каждые 15 секунд
+    }, 30000); // Обновляем каждые 30 секунд
 
     return () => clearInterval(interval);
   }, []);
