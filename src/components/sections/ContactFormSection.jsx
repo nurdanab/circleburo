@@ -159,6 +159,8 @@ const ContactFormSection = () => {
     const dateStr = dateNoTimezone.toISOString().split('T')[0];
 
     try {
+      console.log('Loading booked slots for date:', dateStr);
+      
       const { data, error } = await supabase
         .from('leads')
         .select('meeting_time, status, id, name')
@@ -166,7 +168,10 @@ const ContactFormSection = () => {
         .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
         .order('meeting_time', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
       const normalized = (data || []).map(slot => ({
         ...slot,
@@ -177,7 +182,15 @@ const ContactFormSection = () => {
       console.log('Total active slots found:', normalized.length);
       console.log('Slots with pending status:', normalized.filter(slot => slot.status === BOOKING_STATUSES.PENDING));
       console.log('Slots with confirmed status:', normalized.filter(slot => slot.status === BOOKING_STATUSES.CONFIRMED));
+      
+      // Принудительно обновляем состояние
       setBookedSlots(normalized);
+      
+      // Дополнительная проверка через небольшую задержку
+      setTimeout(() => {
+        console.log('Delayed verification - current bookedSlots state:', bookedSlots);
+      }, 100);
+      
     } catch (err) {
       console.error('Error loading booked slots:', err);
       setError('Error loading available slots');
@@ -185,7 +198,7 @@ const ContactFormSection = () => {
     } finally {
       setLoadingSlots(false);
     }
-  }, []);
+  }, [bookedSlots]);
 
   // Функция для получения времени слота в минутах с начала дня
   const getTimeInMinutes = (timeStr) => {
@@ -228,6 +241,36 @@ const ContactFormSection = () => {
     console.log(`Slot ${timeSlot} is available`);
     return true;
   }, [selectedDate]);
+
+  // Новая функция для проверки доступности слота с актуальными данными с сервера
+  const checkSlotAvailabilityFromServer = useCallback(async (timeSlot, date) => {
+    if (!date) return true;
+
+    const dateNoTimezone = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dateStr = dateNoTimezone.toISOString().split('T')[0];
+
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('meeting_time, status, id, name')
+        .eq('meeting_date', dateStr)
+        .eq('meeting_time', timeSlot)
+        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED]);
+
+      if (error) {
+        console.error('Error checking slot availability:', error);
+        return false; // В случае ошибки считаем слот недоступным
+      }
+
+      const isBooked = data && data.length > 0;
+      console.log(`Server check for slot ${timeSlot} on ${dateStr}:`, isBooked ? 'BOOKED' : 'AVAILABLE');
+      
+      return !isBooked;
+    } catch (err) {
+      console.error('Error in checkSlotAvailabilityFromServer:', err);
+      return false; // В случае ошибки считаем слот недоступным
+    }
+  }, []);
 
   const validatePhone = (phone) => {
     const cleaned = phone.replace(/\D/g, '');
@@ -273,11 +316,15 @@ const ContactFormSection = () => {
       console.log('Checking slot availability for:', selectedTime, 'against slots:', normalizedSlots);
       console.log('Current bookedSlots state:', bookedSlots);
 
-      // Проверяем доступность слота
-      const isAvailable = isSlotAvailable(selectedTime, normalizedSlots);
-      console.log(`Slot ${selectedTime} availability check result:`, isAvailable);
+      // Проверяем доступность слота локально
+      const isAvailableLocally = isSlotAvailable(selectedTime, normalizedSlots);
+      console.log(`Slot ${selectedTime} local availability check result:`, isAvailableLocally);
 
-      if (!isAvailable) {
+      // Дополнительная проверка с сервера для надежности
+      const isAvailableOnServer = await checkSlotAvailabilityFromServer(selectedTime, selectedDate);
+      console.log(`Slot ${selectedTime} server availability check result:`, isAvailableOnServer);
+
+      if (!isAvailableLocally || !isAvailableOnServer) {
         setError('Выбранное время больше недоступно. Пожалуйста, выберите другой слот.');
         setLoading(false);
         return;
@@ -388,7 +435,7 @@ ID: ${recordId}
     setFormData({ ...formData, phone: formatted });
   };
 
-  const resetForm = () => {
+  const resetForm = async () => {
     setFormStep(1);
     setFormData({ name: '', phone: '+7 ' });
     setSelectedDate(null);
@@ -397,6 +444,9 @@ ID: ${recordId}
     setError('');
     setBookingId(null);
     setBookingStatus(BOOKING_STATUSES.PENDING);
+    
+    // Принудительно обновляем данные о слотах при сбросе формы
+    console.log('Form reset, clearing slots...');
   };
 
   const checkBookingStatus = useCallback(async () => {
@@ -423,6 +473,18 @@ ID: ${recordId}
     } else {
       setBookedSlots([]); 
     }
+  }, [selectedDate, loadBookedSlots]);
+
+  // Периодическое обновление данных о слотах для обеспечения актуальности
+  useEffect(() => {
+    if (!selectedDate) return;
+
+    const interval = setInterval(() => {
+      console.log('Periodic update of booked slots...');
+      loadBookedSlots(selectedDate);
+    }, 30000); // Обновляем каждые 30 секунд
+
+    return () => clearInterval(interval);
   }, [selectedDate, loadBookedSlots]);
 
   useEffect(() => {
@@ -693,7 +755,16 @@ ID: ${recordId}
                       >
                         {date ? (
                           <motion.button
-                            onClick={() => isAvailable && setSelectedDate(date)}
+                            onClick={async () => {
+                              if (isAvailable) {
+                                setSelectedDate(date);
+                                setSelectedTime(null);
+                                setError('');
+                                // Принудительно обновляем данные о слотах при выборе новой даты
+                                console.log('Date selected, refreshing slots...');
+                                await loadBookedSlots(date);
+                              }
+                            }}
                             disabled={!isAvailable}
                             className={`w-full h-full rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center relative ${
                               isSelected
@@ -770,7 +841,13 @@ ID: ${recordId}
                         .map((time, index) => (
                         <motion.button
                           key={time}
-                          onClick={() => setSelectedTime(time)}
+                          onClick={async () => {
+                            // Принудительно обновляем данные перед выбором слота
+                            if (selectedDate) {
+                              await loadBookedSlots(selectedDate);
+                            }
+                            setSelectedTime(time);
+                          }}
                           className={`px-4 py-3 rounded-xl border font-semibold transition-all duration-300 ${
                             selectedTime === time
                               ? 'bg-gradient-to-r from-white to-gray-100 text-black border-white shadow-lg shadow-white/20'
