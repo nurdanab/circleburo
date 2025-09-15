@@ -163,7 +163,7 @@ const Circle = () => {
               <div className="mt-8 pt-4">
                 <button 
                   onClick={() => scrollToSection('contact')}
-                  className="bg-white text-black px-12 py-4 rounded-full text-xl font-bold hover:bg-gray-200 transition-colors duration-300"
+                  className="bg-white text-black px-12 py-4 rounded-full text-xl font-bold hover:bg-gray-200 transition-colors duration-300 btn-dark-theme"
                 >
                   {t('nav.contact')}
                 </button>

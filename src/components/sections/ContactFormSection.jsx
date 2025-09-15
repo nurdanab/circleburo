@@ -734,7 +734,7 @@ ID: ${recordId}
                             disabled={!isAvailable}
                             className={`w-full h-full rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center relative ${
                               isSelected
-                                ? 'bg-gradient-to-r from-white to-gray-100 text-black shadow-lg shadow-white/20'
+                                ? 'bg-gradient-to-r from-white to-gray-100 text-black shadow-lg shadow-white/20 btn-dark-theme'
                                 : isAvailable
                                   ? 'bg-white/5 text-white border border-white/20 hover:bg-white/10 hover:border-white/40 hover:shadow-md'
                                   : 'bg-white/5 text-gray-600 cursor-not-allowed border border-white/10'
@@ -792,7 +792,7 @@ ID: ${recordId}
                           onClick={() => setSelectedTime(time)}
                           className={`px-4 py-3 rounded-xl border font-semibold transition-all duration-300 ${
                             selectedTime === time
-                              ? 'bg-gradient-to-r from-white to-gray-100 text-black border-white shadow-lg shadow-white/20'
+                              ? 'bg-gradient-to-r from-white to-gray-100 text-black border-white shadow-lg shadow-white/20 btn-dark-theme'
                               : 'bg-white/5 text-white border-white/20 hover:bg-white/10 hover:border-white/40 hover:shadow-md'
                           }`}
                           initial={{ opacity: 0, scale: 0.9 }}
@@ -902,7 +902,7 @@ ID: ${recordId}
                 className={`mt-8 w-full px-6 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2
                   ${loading 
                     ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed' 
-                    : 'bg-gradient-to-r from-white to-gray-200 text-black shadow-lg hover:shadow-xl hover:scale-101'
+                    : 'bg-gradient-to-r from-white to-gray-200 text-black shadow-lg hover:shadow-xl hover:scale-101 btn-dark-theme'
                   }`}
                 whileHover={!loading ? { scale: 1.01, y: -2 } : {}}
                 whileTap={!loading ? { scale: 0.98 } : {}}

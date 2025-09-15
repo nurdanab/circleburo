@@ -67,3 +67,58 @@ h1,h2,h3{margin:0;font-weight:600}
   opacity:1;
   transform:translateY(0);
 }
+
+/* Focus styles - убираем желтую обводку полностью */
+*:focus,
+*:active,
+*:visited {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-focus-ring-color: transparent !important;
+  -webkit-appearance: none;
+}
+
+button, a, input, textarea, select, [role="button"] {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  -webkit-focus-ring-color: transparent !important;
+}
+
+/* Улучшенные accessibility фокус стили только для клавиатурной навигации */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6) !important;
+  outline-offset: 2px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Улучшенные стили для кнопок в темной теме */
+.btn-dark-theme {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+  color: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.025em !important;
+}
+
+.btn-dark-theme:hover {
+  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25), 0 4px 15px rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+.btn-dark-theme:active {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15) !important;
+}
+
+.btn-dark-theme:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3), 0 8px 25px rgba(255, 255, 255, 0.2) !important;
+}

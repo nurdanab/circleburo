@@ -27,8 +27,20 @@ export default {
       },
       fontSize: {
         '7xl': '70px',
+        'responsive-xs': 'clamp(0.875rem, 2.5vw, 1rem)',
+        'responsive-sm': 'clamp(1rem, 3vw, 1.25rem)',
+        'responsive-base': 'clamp(1rem, 4vw, 1.5rem)',
+        'responsive-lg': 'clamp(1.125rem, 4.5vw, 1.75rem)',
+        'responsive-xl': 'clamp(1.25rem, 5vw, 2rem)',
+        'responsive-2xl': 'clamp(1.5rem, 6vw, 2.5rem)',
+        'responsive-3xl': 'clamp(1.875rem, 7vw, 3rem)',
+        'responsive-4xl': 'clamp(2.25rem, 8vw, 4rem)',
+        'responsive-5xl': 'clamp(3rem, 10vw, 5rem)',
+        'responsive-6xl': 'clamp(3.75rem, 12vw, 6rem)',
+        'responsive-7xl': 'clamp(4.5rem, 14vw, 7rem)',
       },
       screens: {
+        'xs': '475px',
         'sm': '640px',
         'md': '768px',
         'lg': '1024px',
@@ -58,6 +70,23 @@ export default {
         }
       },
       mixBlendMode: ['normal', 'difference'],
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+        '128': '32rem',
+        '144': '36rem',
+      },
+      maxWidth: {
+        '8xl': '88rem',
+        '9xl': '96rem',
+      },
+      zIndex: {
+        '60': '60',
+        '70': '70',
+        '80': '80',
+        '90': '90',
+        '100': '100',
+      },
       
     },
     

@@ -127,7 +127,7 @@ const AboutUsSection = () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}>
                 <motion.button 
-                  className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden"
+                  className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden btn-dark-theme"
                   whileHover={{ 
                     scale: 1.02,
                     y: -2

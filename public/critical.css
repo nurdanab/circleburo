@@ -130,10 +130,20 @@ img, video, canvas, svg {
   white-space: normal;
 }
 
-/* Focus styles */
+/* Focus styles - убираем желтую обводку */
 *:focus {
-  outline: 2px solid #fbbf24;
+  outline: none;
+}
+
+/* Кастомные стили фокуса для кнопок */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* High contrast mode */

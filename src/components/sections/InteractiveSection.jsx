@@ -153,7 +153,7 @@ const InteractiveSection = () => {
   }));
 
   return (
-    <section className="bg-black text-white py-20 px-4 relative overflow-hidden min-h-screen flex items-center">
+    <section id="quiz" className="quiz-section bg-black text-white py-20 px-4 relative overflow-hidden min-h-screen flex items-center">
       
       <motion.div className="absolute inset-0 z-0">
         {stars.map((star) => (
@@ -191,7 +191,7 @@ const InteractiveSection = () => {
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <motion.h2
-          className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 leading-tight"
+          className="quiz-title text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-center"
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -201,7 +201,7 @@ const InteractiveSection = () => {
         </motion.h2>
 
         <motion.p
-          className="text-lg md:text-xl text-gray-400 mb-16 max-w-2xl mx-auto"
+          className="text-lg md:text-xl text-gray-400 mb-20 max-w-2xl mx-auto text-center"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -211,7 +211,7 @@ const InteractiveSection = () => {
         </motion.p>
 
         {/* Карточка с вопросами */}
-        <div className="relative min-h-[400px]">
+        <div className="quiz-content relative min-h-[400px] mt-8">
           {!isStarted ? (
             // Стартовый экран
             <motion.div
@@ -229,7 +229,7 @@ const InteractiveSection = () => {
               </p>
               <motion.button
                 onClick={handleStart}
-                className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden"
+                className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden btn-dark-theme"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -279,7 +279,7 @@ const InteractiveSection = () => {
                   </div>
                 </div>
 
-                <h3 className="text-2xl md:text-3xl font-semibold mb-8 leading-tight">
+                <h3 className="text-2xl md:text-3xl font-semibold mb-8 leading-tight text-center">
                   {t(currentQuestion.text)}
                 </h3>
                 
@@ -361,7 +361,7 @@ const InteractiveSection = () => {
                         behavior: 'smooth'
                       })
                     }
-                    className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden"
+                    className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-white/20 overflow-hidden btn-dark-theme"
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >

@@ -218,16 +218,17 @@ const Header = () => {
         }}>
           <button
             onClick={() => scrollToSection('contact')}
+            className="btn-dark-theme"
             style={{
               margin: '0rem 1.4rem',
               padding: '0.5rem 1.4rem',
               backgroundColor: '#FFFFFF',
               color: '#282729',
-              fontWeight: 400,
+              fontWeight: 600,
               fontSize: '1rem',
               borderRadius: '9999px',
-              transition: 'transform 0.25s ease',
-              border: 'none',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
               cursor: 'pointer',
             }}
           >
@@ -361,16 +362,18 @@ const Header = () => {
             {/* Контакты */}
             <button
               onClick={() => scrollToSection('contact')}
+              className="btn-dark-theme"
               style={{
                 padding: '0.5rem 1.2rem',
                 backgroundColor: '#FFFFFF',
                 color: '#282729',
-                fontWeight: 400,
+                fontWeight: 600,
                 fontSize: '1rem',
                 borderRadius: '9999px',
                 marginTop: '1rem',
-                border: 'none',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               }}
             >
               {t('nav.contact')}
