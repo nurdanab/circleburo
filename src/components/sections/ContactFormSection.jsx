@@ -174,7 +174,7 @@ const ContactFormSection = () => {
       }));
 
       setBookedSlots(normalized);
-      
+
     } catch (err) {
       console.error('Error loading booked slots:', err);
       setError(t('contactForm.loadingSlots'));
@@ -182,7 +182,7 @@ const ContactFormSection = () => {
     } finally {
       setLoadingSlots(false);
     }
-  }, []);
+  }, [t]);
 
   // Функция для получения времени слота в минутах с начала дня
   const getTimeInMinutes = (timeStr) => {
@@ -200,6 +200,7 @@ const ContactFormSection = () => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
+    // Проверка на прошедшее время
     if (selectedDate && selectedDate.toDateString() === today.toDateString()) {
       const [slotHours, slotMinutes] = timeSlot.split(':').map(Number);
       if (now.getHours() > slotHours || (now.getHours() === slotHours && now.getMinutes() >= slotMinutes)) {
@@ -209,15 +210,19 @@ const ContactFormSection = () => {
 
     const slotTimeMinutes = getTimeInMinutes(timeSlot);
 
+    // Проверка забронированных слотов
     for (const slot of slots) {
       if ([BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED].includes(slot.status)) {
         const bookedTimeMinutes = getTimeInMinutes(slot.meeting_time);
         if (slotTimeMinutes === bookedTimeMinutes) {
+          if (import.meta.env.DEV) {
+            console.log(`Slot ${timeSlot} is blocked by booking:`, slot);
+          }
           return false;
         }
       }
     }
-    
+
     return true;
   }, [selectedDate]);
 
@@ -333,9 +338,16 @@ const ContactFormSection = () => {
         id: data[0]?.id,
         name: formData.name.trim()
       };
-      setBookedSlots(prev => [...prev, newBookedSlot]);
+      setBookedSlots(prev => {
+        const updated = [...prev, newBookedSlot];
+        if (import.meta.env.DEV) {
+          console.log('Added new booking slot:', newBookedSlot);
+          console.log('Updated booked slots:', updated);
+        }
+        return updated;
+      });
 
-      // Обновляем список забронированных слотов с сервера
+      // Обновляем список забронированных слотов с сервера для синхронизации
       if (selectedDate) {
         await loadBookedSlots(selectedDate);
       }
@@ -412,7 +424,7 @@ ID: ${recordId}
     setFormData({ name: '', phone: '+7 ' });
     setSelectedDate(null);
     setSelectedTime(null);
-    setBookedSlots([]);
+    // НЕ очищаем bookedSlots - они должны остаться для предотвращения повторной брони
     setError('');
     setBookingId(null);
     setBookingStatus(BOOKING_STATUSES.PENDING);
