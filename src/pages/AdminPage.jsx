@@ -160,6 +160,61 @@ const AdminPage = () => {
     }
   };
 
+  // Функция удаления лида
+  const deleteLead = async (leadId) => {
+    setUpdating(leadId);
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .delete()
+        .eq('id', leadId);
+
+      if (error) throw error;
+
+      console.log('Lead deleted successfully');
+
+      // Удаляем из локального состояния
+      setLeads(prev => prev.filter(lead => lead.id !== leadId));
+
+      // Отправляем уведомление об удалении в Telegram
+      await sendDeletionNotification(leadId);
+
+    } catch (err) {
+      console.error('Error deleting lead:', err);
+      setError('Ошибка удаления заявки');
+    } finally {
+      setUpdating(null);
+    }
+  };
+
+  // Отправка уведомления об удалении в Telegram
+  const sendDeletionNotification = async (leadId) => {
+    const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+    const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+
+    try {
+      const message = `
+🗑️ Заявка удалена!
+
+ID: ${leadId}
+Время удаления: ${new Date().toLocaleString('ru-RU')}
+      `.trim();
+
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+        }),
+      });
+    } catch (err) {
+      console.error('Error sending deletion notification:', err);
+    }
+  };
+
   // Отправка уведомления об изменении статуса в Telegram
   const sendStatusUpdateNotification = async (leadId, newStatus) => {
     const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
@@ -521,73 +576,96 @@ ${statusEmoji[newStatus]} new!
                       </td>
                       
                       <td className="px-6 py-4">
-                        <div className="flex gap-2 flex-col items-start">
-                          {/* Новая кнопка для сохранения заметок */}
+                        <div className="flex gap-2 flex-col items-start min-w-[200px]">
+                          {/* Кнопка для сохранения заметок */}
                           <motion.button
                             onClick={() => saveNotes(lead.id)}
                             disabled={savingNotes === lead.id}
-                            className="flex items-center gap-1 px-3 py-1 bg-gray-600 text-white text-xs rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
+                            className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
                             {savingNotes === lead.id ? (
-                                <Loader2 className="w-3 h-3 animate-spin" />
+                                <Loader2 className="w-4 h-4 animate-spin" />
                             ) : (
-                                <Save className="w-3 h-3" />
+                                <Save className="w-4 h-4" />
                             )}
                             Сохранить заметки
                           </motion.button>
                           
+                          {/* Кнопка подтверждения */}
                           {lead.status !== BOOKING_STATUSES.CONFIRMED && (
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CONFIRMED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
+                              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
                               {updating === lead.id ? (
-                                <Loader2 className="w-3 h-3 animate-spin" />
+                                <Loader2 className="w-4 h-4 animate-spin" />
                               ) : (
-                                <CheckCircle2 className="w-3 h-3" />
+                                <CheckCircle2 className="w-4 h-4" />
                               )}
                               Подтвердить
                             </motion.button>
                           )}
                           
+                          {/* Кнопка отмены */}
                           {lead.status !== BOOKING_STATUSES.CANCELLED && (
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CANCELLED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white text-xs rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
+                              className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
                               {updating === lead.id ? (
-                                <Loader2 className="w-3 h-3 animate-spin" />
+                                <Loader2 className="w-4 h-4 animate-spin" />
                               ) : (
-                                <XCircle className="w-3 h-3" />
+                                <XCircle className="w-4 h-4" />
                               )}
                               Отменить
                             </motion.button>
                           )}
 
+                          {/* Кнопка восстановления */}
                           {lead.status === BOOKING_STATUSES.CANCELLED && (
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.PENDING)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-1 px-3 py-1 bg-yellow-600 text-white text-xs rounded-md hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full justify-center"
+                              className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
                               {updating === lead.id ? (
-                                <Loader2 className="w-3 h-3 animate-spin" />
+                                <Loader2 className="w-4 h-4 animate-spin" />
                               ) : (
-                                <RefreshCw className="w-3 h-3" />
+                                <RefreshCw className="w-4 h-4" />
                               )}
                               Восстановить
                             </motion.button>
                           )}
+
+                          {/* Кнопка удаления */}
+                          <motion.button
+                            onClick={() => {
+                              if (window.confirm('Вы уверены, что хотите удалить эту заявку? Это действие нельзя отменить.')) {
+                                deleteLead(lead.id);
+                              }
+                            }}
+                            disabled={updating === lead.id}
+                            className="flex items-center gap-2 px-4 py-2 bg-red-800 text-white text-sm rounded-lg hover:bg-red-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            {updating === lead.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <XCircle className="w-4 h-4" />
+                            )}
+                            Удалить
+                          </motion.button>
                         </div>
                       </td>
                     </motion.tr>

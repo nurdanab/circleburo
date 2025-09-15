@@ -161,9 +161,10 @@ const ContactFormSection = () => {
     try {
       const { data, error } = await supabase
         .from('leads')
-        .select('meeting_time, status')
+        .select('meeting_time, status, id, name')
         .eq('meeting_date', dateStr)
-        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED]);
+        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
+        .order('meeting_time', { ascending: true });
 
       if (error) throw error;
 
@@ -173,6 +174,7 @@ const ContactFormSection = () => {
       }));
 
       console.log('Loaded booked slots for', dateStr, ':', normalized);
+      console.log('Total active slots found:', normalized.length);
       setBookedSlots(normalized);
     } catch (err) {
       console.error('Error loading booked slots:', err);
@@ -202,6 +204,7 @@ const ContactFormSection = () => {
     if (selectedDate && selectedDate.toDateString() === today.toDateString()) {
       const [slotHours, slotMinutes] = timeSlot.split(':').map(Number);
       if (now.getHours() > slotHours || (now.getHours() === slotHours && now.getMinutes() >= slotMinutes)) {
+        console.log(`Slot ${timeSlot} is in the past for today`);
         return false;
       }
     }
@@ -212,10 +215,13 @@ const ContactFormSection = () => {
       if ([BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED].includes(slot.status)) {
         const bookedTimeMinutes = getTimeInMinutes(slot.meeting_time);
         if (slotTimeMinutes === bookedTimeMinutes) {
+          console.log(`Slot ${timeSlot} is already booked with status: ${slot.status}`);
           return false;
         }
       }
     }
+    
+    console.log(`Slot ${timeSlot} is available`);
     return true;
   }, [selectedDate]);
 
@@ -248,9 +254,10 @@ const ContactFormSection = () => {
       // Загружаем актуальные слоты и используем их для проверки
       const { data: currentSlotsData, error: fetchError } = await supabase
         .from('leads')
-        .select('meeting_time, status')
+        .select('meeting_time, status, id, name')
         .eq('meeting_date', dateStr) 
-        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED]);
+        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
+        .order('meeting_time', { ascending: true });
 
       if (fetchError) throw fetchError;
       
@@ -259,8 +266,10 @@ const ContactFormSection = () => {
         meeting_time: slot.meeting_time.slice(0, 5)
       }));
 
+      console.log('Checking slot availability for:', selectedTime, 'against slots:', normalizedSlots);
+
       if (!isSlotAvailable(selectedTime, normalizedSlots)) {
-        setError('The selected time is no longer available. Please select another slot.');
+        setError('Выбранное время больше недоступно. Пожалуйста, выберите другой слот.');
         setLoading(false);
         return;
       }

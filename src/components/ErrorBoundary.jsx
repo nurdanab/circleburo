@@ -227,3 +227,4 @@ ${fetchError ? `\nFallback triggered due to: ${fetchError.message}` : ''}
 }
 
 export default ErrorBoundary;
+
