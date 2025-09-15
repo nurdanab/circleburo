@@ -162,7 +162,7 @@ const ContactFormSection = () => {
       const { data, error } = await supabase
         .from('leads')
         .select('meeting_time, status')
-        .eq('meeting_date', dateStr) 
+        .eq('meeting_date', dateStr)
         .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED]);
 
       if (error) throw error;
@@ -172,11 +172,12 @@ const ContactFormSection = () => {
         meeting_time: slot.meeting_time.slice(0,5)
       }));
 
+      console.log('Loaded booked slots for', dateStr, ':', normalized);
       setBookedSlots(normalized);
     } catch (err) {
       console.error('Error loading booked slots:', err);
       setError('Error loading available slots');
-      setBookedSlots([]); 
+      setBookedSlots([]);
     } finally {
       setLoadingSlots(false);
     }
@@ -287,6 +288,12 @@ const ContactFormSection = () => {
       }
 
       await sendTelegramNotification(bookingData, data[0]?.id);
+
+      // Обновляем список забронированных слотов
+      if (selectedDate) {
+        await loadBookedSlots(selectedDate);
+      }
+
       setFormStep(3);
     } catch (err) {
       console.error('Error submitting form:', err);

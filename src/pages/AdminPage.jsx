@@ -101,6 +101,7 @@ const AdminPage = () => {
   };
 
   const updateLeadData = async (leadId, newStatus) => {
+    console.log('Updating lead:', leadId, 'to status:', newStatus);
     setUpdating(leadId);
     try {
       const { error } = await supabase
@@ -110,9 +111,11 @@ const AdminPage = () => {
 
       if (error) throw error;
 
+      console.log('Lead status updated successfully');
+
       // Обновляем локальное состояние
-      setLeads(prev => prev.map(lead => 
-        lead.id === leadId 
+      setLeads(prev => prev.map(lead =>
+        lead.id === leadId
           ? { ...lead, status: newStatus }
           : lead
       ));
