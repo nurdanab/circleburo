@@ -3,26 +3,24 @@ import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 // Analytics will be loaded dynamically for better performance
 
-// Enhanced lazy loading with caching and retry mechanism
-const componentCache = new Map();
-
+// Enhanced lazy loading with retry mechanism
 const createLazyComponent = (importFn, name) => {
-  if (componentCache.has(name)) {
-    return componentCache.get(name);
-  }
-  
-  const LazyComponent = lazy(() => 
+  return lazy(() =>
     importFn().catch(err => {
       console.error(`Failed to load ${name}, retrying...`, err);
-      // Wait a bit and retry once
-      return new Promise(resolve => {
-        setTimeout(() => resolve(importFn()), 1000);
+      // Clear any potential cache and retry once
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          importFn()
+            .then(resolve)
+            .catch(retryErr => {
+              console.error(`Failed to load ${name} after retry:`, retryErr);
+              reject(retryErr);
+            });
+        }, 500);
       });
     })
   );
-  
-  componentCache.set(name, LazyComponent);
-  return LazyComponent;
 };
 
 const HomePage = createLazyComponent(() => import('./pages/HomePage'), 'HomePage');
@@ -60,6 +58,32 @@ function AppContent() {
       logPageView();
     }).catch(err => console.error('Failed to load analytics:', err));
   }, [location]);
+
+  // Handle scroll to section from navigation state
+  useEffect(() => {
+    const scrollToSection = () => {
+      const scrollTarget = location.state?.scrollTo || sessionStorage.getItem('scrollToSection');
+
+      if (scrollTarget) {
+        // Clear sessionStorage
+        sessionStorage.removeItem('scrollToSection');
+
+        // Import navigation utility and scroll to section
+        import('./utils/navigation.js').then(({ scrollToElement }) => {
+          // Wait a bit for the page to render
+          setTimeout(() => {
+            scrollToElement(scrollTarget, {
+              maxAttempts: 20,
+              delay: 150,
+              offset: 80
+            });
+          }, 300);
+        }).catch(err => console.error('Failed to load navigation utility:', err));
+      }
+    };
+
+    scrollToSection();
+  }, [location.pathname, location.state]);
 
   const isAdminRoute = location.pathname === '/admin' || location.pathname === '/login';
 

@@ -5,8 +5,7 @@ export const scrollToElement = (elementId, options = {}) => {
     maxAttempts = 20,
     delay = 200,
     offset = 0,
-    behavior = 'smooth',
-    block = 'start'
+    behavior = 'smooth'
   } = options;
 
   const attemptScroll = (attempts = 0) => {
@@ -87,7 +86,7 @@ export const waitForElement = (elementId, timeout = 5000) => {
       return;
     }
 
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(() => {
       if (elementExists(elementId)) {
         observer.disconnect();
         resolve(document.getElementById(elementId));
