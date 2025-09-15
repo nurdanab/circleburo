@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import StructuredData from '../StructuredData';
 

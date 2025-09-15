@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next'; 
 const CursorTrail = ({ children, isActive = true }) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
@@ -9,7 +9,7 @@ const CursorTrail = ({ children, isActive = true }) => {
   const lastPhotoPositionRef = useRef({ x: 0, y: 0 });
   const sectionRef = useRef(null);
 
-  const employeeImages = [
+  const employeeImages = useMemo(() => [
     "/img/company/employee1.webp",
     "/img/company/employee2.webp",
     "/img/company/employee3.webp",
@@ -23,7 +23,7 @@ const CursorTrail = ({ children, isActive = true }) => {
     "/img/company/employee11.webp",
     "/img/company/employee12.webp",
     "/img/company/employee13.webp"
-  ];
+  ], []);
 
   // Запускаем показ фотографий после основной анимации
   useEffect(() => {
@@ -141,7 +141,7 @@ const CursorTrail = ({ children, isActive = true }) => {
     setPhotos(prev => [...prev, newPhoto]);
     lastPhotoTimeRef.current = now;
     lastPhotoPositionRef.current = { x: cursor.x, y: cursor.y };
-  }, [isAnimationComplete, cursor.x, cursor.y, isMoving, isActive]);
+  }, [isAnimationComplete, cursor.x, cursor.y, isMoving, isActive, employeeImages]);
 
   return (
     <div ref={sectionRef} className="relative">
@@ -230,7 +230,7 @@ const AboutSection = () => {
     };
   });
 
-  const employeeImages = [
+  const employeeImages = useMemo(() => [
     "/img/company/employee1.webp",
     "/img/company/employee2.webp",
     "/img/company/employee3.webp",
@@ -244,7 +244,7 @@ const AboutSection = () => {
     "/img/company/employee11.webp",
     "/img/company/employee12.webp",
     "/img/company/employee13.webp"
-  ];
+  ], []);
 
   return (
     <>

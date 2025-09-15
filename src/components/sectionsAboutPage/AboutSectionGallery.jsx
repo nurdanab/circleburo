@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next'; 
 
 
@@ -98,44 +97,6 @@ const AboutSectionGallery = () => {
     { type: 'image', src: imagePaths[10], size: 'large' }, // gallery-11.webp
   ];
 
-  // Варианты анимации для Framer Motion
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 30,
-      scale: 0.9
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    }
-  };
-
-  const hoverVariants = {
-    hover: {
-      scale: 1.02,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    }
-  };
 
   // Функция для получения классов высоты
   const getSizeClasses = (size, type) => {

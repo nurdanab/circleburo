@@ -7,14 +7,12 @@ const VideoHero = memo(({ className = "" }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-  const [isInView, setIsInView] = useState(false);
 
   // Intersection Observer для lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true);
           // Проверяем connection speed
           const connection = navigator.connection;
           const slowConnection = connection && (

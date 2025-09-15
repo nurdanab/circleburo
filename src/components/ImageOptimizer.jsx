@@ -1,21 +1,19 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
 import MediaLoader from './MediaLoader';
 
-const ImageOptimizer = memo(({ 
-  src, 
-  alt, 
-  width, 
-  height, 
-  className = "", 
+const ImageOptimizer = memo(({
+  src,
+  alt,
+  width,
+  height,
+  className = "",
   priority = false,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
-  quality = 75,
   formats = ['avif', 'webp', 'jpg'],
   placeholder = true,
-  ...props 
+  ...props
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(priority);
   const [hasError, setHasError] = useState(false);
   const [currentSrc, setCurrentSrc] = useState(null);
   const imgRef = useRef(null);
@@ -90,12 +88,11 @@ const ImageOptimizer = memo(({
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true);
           setCurrentSrc(src);
           observerRef.current?.disconnect();
         }
       },
-      { 
+      {
         threshold: 0.1,
         rootMargin: '100px'
       }

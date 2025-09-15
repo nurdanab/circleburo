@@ -52,8 +52,8 @@ function sendToAnalytics(metric, options) {
   }
   
   // Also send to Google Analytics 4
-  if (typeof gtag !== 'undefined') {
-    gtag('event', metric.name, {
+  if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+    window.gtag('event', metric.name, {
       event_category: 'Web Vitals',
       event_label: metric.id,
       value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),

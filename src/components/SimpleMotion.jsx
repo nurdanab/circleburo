@@ -35,17 +35,6 @@ const useInView = (options = {}) => {
   return [ref, inView];
 };
 
-// CSS animations classes (will be added to index.css)
-const animations = {
-  fadeIn: 'animate-fade-in',
-  slideUp: 'animate-slide-up',
-  slideDown: 'animate-slide-down',
-  slideLeft: 'animate-slide-left',
-  slideRight: 'animate-slide-right',
-  scaleIn: 'animate-scale-in',
-  stagger: 'animate-stagger'
-};
-
 export const SimpleMotion = {
   // Fade in animation
   FadeIn: ({ children, className = '', delay = 0, once = true, ...props }) => {

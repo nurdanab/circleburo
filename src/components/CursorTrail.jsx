@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 const CursorTrail = ({ children, isActive = true }) => {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
@@ -10,7 +10,7 @@ const CursorTrail = ({ children, isActive = true }) => {
   const lastPhotoPositionRef = useRef({ x: 0, y: 0 });
   const sectionRef = useRef(null);
 
-  const employeeImages = [
+  const employeeImages = useMemo(() => [
     "/img/company/employee1.webp",
     "/img/company/employee2.webp",
     "/img/company/employee3.webp",
@@ -24,7 +24,7 @@ const CursorTrail = ({ children, isActive = true }) => {
     "/img/company/employee11.webp",
     "/img/company/employee12.webp",
     "/img/company/employee13.webp"
-  ];
+  ], []);
 
   // Запускаем показ фотографий после основной анимации
   useEffect(() => {
@@ -37,30 +37,31 @@ const CursorTrail = ({ children, isActive = true }) => {
 
   // Отслеживаем, находится ли курсор в секции
   useEffect(() => {
+    const moveTimeout = { current: null };
+
     const checkIfInSection = (e) => {
       if (!sectionRef.current) return;
-      
+
       const rect = sectionRef.current.getBoundingClientRect();
-      const isInside = e.clientX >= rect.left && 
-                      e.clientX <= rect.right && 
-                      e.clientY >= rect.top && 
+      const isInside = e.clientX >= rect.left &&
+                      e.clientX <= rect.right &&
+                      e.clientY >= rect.top &&
                       e.clientY <= rect.bottom;
-      
+
       setIsInSection(isInside);
     };
 
     const handleMouseMove = (e) => {
       setCursor({ x: e.clientX, y: e.clientY });
       checkIfInSection(e);
-      
+
       setIsMoving(true);
       clearTimeout(moveTimeout.current);
       moveTimeout.current = setTimeout(() => setIsMoving(false), 200);
     };
 
-    const moveTimeout = { current: null };
     window.addEventListener('mousemove', handleMouseMove);
-    
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       clearTimeout(moveTimeout.current);
@@ -154,7 +155,7 @@ const CursorTrail = ({ children, isActive = true }) => {
     setPhotos(prev => [...prev, newPhoto]);
     lastPhotoTimeRef.current = now;
     lastPhotoPositionRef.current = { x: cursor.x, y: cursor.y };
-  }, [isAnimationComplete, cursor.x, cursor.y, isMoving, isInSection, isActive]);
+  }, [isAnimationComplete, cursor.x, cursor.y, isMoving, isInSection, isActive, employeeImages]);
 
   return (
     <div ref={sectionRef} className="relative">

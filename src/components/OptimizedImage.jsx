@@ -2,14 +2,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import MediaLoader from './MediaLoader';
 
-const OptimizedImage = ({ 
-  src, 
-  alt, 
-  width, 
-  height, 
-  className = "", 
+const OptimizedImage = ({
+  src,
+  alt,
+  width,
+  height,
+  className = "",
   priority = false,
-  placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23f3f4f6'/%3E%3C/svg%3E",
   formats = ['webp', 'avif'] // Modern formats to try
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);

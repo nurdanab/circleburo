@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/SEOHead';

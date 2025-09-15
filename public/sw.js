@@ -89,17 +89,32 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  
+
   // Пропускаем не-GET запросы
   if (request.method !== 'GET') {
     return;
   }
-  
+
   // Пропускаем chrome-extension и другие протоколы
   if (!url.protocol.startsWith('http')) {
     return;
   }
-  
+
+  // Пропускаем внешние домены, которые могут конфликтовать с CSP
+  const externalDomains = [
+    'fonts.googleapis.com',
+    'fonts.gstatic.com',
+    'www.googletagmanager.com',
+    'www.google-analytics.com',
+    'api.telegram.org',
+    'www.googleapis.com',
+    'accounts.google.com'
+  ];
+
+  if (externalDomains.some(domain => url.hostname.includes(domain))) {
+    return; // Не кэшируем внешние ресурсы
+  }
+
   event.respondWith(handleRequest(request));
 });
 
@@ -253,7 +268,7 @@ self.addEventListener('notificationclick', (event) => {
   
   if (event.action === 'explore') {
     event.waitUntil(
-      clients.openWindow('/')
+      self.clients.openWindow('/')
     );
   }
 });

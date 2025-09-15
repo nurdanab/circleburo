@@ -11,7 +11,7 @@ class ErrorBoundary extends React.Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     // Обновляем состояние для отображения fallback UI
     return { hasError: true };
   }
@@ -19,7 +19,7 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     // Логируем ошибку
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
     this.setState({
       error: error,
       errorInfo: errorInfo
@@ -53,8 +53,8 @@ class ErrorBoundary extends React.Component {
     };
 
     // Отправка в Google Analytics
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'exception', {
+    if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+      window.gtag('event', 'exception', {
         description: error.toString(),
         fatal: false,
         custom_map: {
@@ -66,8 +66,8 @@ class ErrorBoundary extends React.Component {
     }
 
     // Отправка в New Relic (если доступен)
-    if (typeof newrelic !== 'undefined') {
-      newrelic.noticeError(error, errorData);
+    if (typeof window !== 'undefined' && typeof window.newrelic !== 'undefined') {
+      window.newrelic.noticeError(error, errorData);
     }
 
     // Отправка в Netlify Functions для логирования
