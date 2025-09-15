@@ -27,7 +27,10 @@ const OptimizedImage = ({
           observerRef.current?.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px' // Start loading 50px before entering viewport
+      }
     );
 
     if (imgRef.current) {
@@ -97,13 +100,15 @@ const OptimizedImage = ({
             alt={alt}
             width={width}
             height={height}
-            className={`transition-opacity duration-300 ${
+            className={`img-optimized transition-opacity duration-300 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ 
               width: '100%',
               height: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              contentVisibility: 'auto',
+              containIntrinsicSize: width && height ? `${width}px ${height}px` : '300px 200px'
             }}
             onLoad={handleLoad}
             onError={handleError}

@@ -3,9 +3,34 @@
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemap location
 Sitemap: https://circleburo.kz/sitemap.xml
 
-# Performance hints
+# Optimize crawling
+Crawl-delay: 1
+
+# Block admin areas
 Disallow: /admin
 Disallow: /login
+Disallow: /.netlify/
+
+# Block unnecessary files
+Disallow: /sw.js
+Disallow: /manifest.json
+
+# Allow important resources
+Allow: /img/
+Allow: /fonts/
+Allow: /assets/
+Allow: /locales/
+
+# Popular search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1

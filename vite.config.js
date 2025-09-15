@@ -2,25 +2,15 @@
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import viteImagemin from 'vite-plugin-imagemin'
+// import viteImagemin from 'vite-plugin-imagemin' // Removed due to security vulnerabilities
 import compression from 'vite-plugin-compression'
 
 export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
-    viteImagemin({
-      gifsicle: { optimizationLevel: 7, interlaced: false },
-      mozjpeg: { quality: 80 },
-      pngquant: { quality: [0.65, 0.8], speed: 4 },
-      svgo: {
-        plugins: [
-          { name: 'removeViewBox', active: false },
-          { name: 'removeEmptyAttrs', active: false }
-        ]
-      },
-      webp: { quality: 75 }
-    }),
+    // Image optimization removed due to security vulnerabilities in vite-plugin-imagemin
+    // Consider using @squoosh/lib or sharp for image optimization in build process
     // Включаем сжатие для улучшения производительности
     compression({
       algorithm: 'gzip',

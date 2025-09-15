@@ -1,7 +1,6 @@
 // src/components/LazyImage.jsx
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import MediaLoader from './MediaLoader';
 
 const LazyImage = ({ 
@@ -72,18 +71,20 @@ const LazyImage = ({
 
       {/* Основное изображение */}
       {isInView && !hasError && (
-        <motion.img
+        <img
           src={src}
           alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
+          className={`img-optimized w-full h-full object-cover transition-opacity duration-300 ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={handleLoad}
           onError={handleError}
           loading={priority ? 'eager' : 'lazy'}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isLoaded ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
+          decoding="async"
+          style={{
+            contentVisibility: 'auto',
+            containIntrinsicSize: '300px 200px'
+          }}
         />
       )}
 

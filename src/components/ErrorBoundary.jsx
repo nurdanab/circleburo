@@ -30,45 +30,100 @@ class ErrorBoundary extends React.Component {
   }
 
   reportError = (error, errorInfo) => {
+    // Enhanced error data
+    const errorData = {
+      error: error.toString(),
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+      url: window.location.href,
+      userAgent: navigator.userAgent,
+      timestamp: new Date().toISOString(),
+      retryCount: this.state.retryCount,
+      userId: localStorage.getItem('userId') || 'anonymous',
+      sessionId: sessionStorage.getItem('sessionId') || 'unknown',
+      viewport: {
+        width: window.innerWidth,
+        height: window.innerHeight
+      },
+      connection: navigator.connection ? {
+        effectiveType: navigator.connection.effectiveType,
+        downlink: navigator.connection.downlink,
+        rtt: navigator.connection.rtt
+      } : null
+    };
+
     // Отправка в Google Analytics
     if (typeof gtag !== 'undefined') {
       gtag('event', 'exception', {
         description: error.toString(),
         fatal: false,
         custom_map: {
-          error_info: errorInfo.componentStack
+          error_component: errorInfo.componentStack.split('\n')[1] || 'unknown',
+          retry_count: this.state.retryCount,
+          user_agent: navigator.userAgent.substring(0, 100)
         }
       });
     }
 
     // Отправка в New Relic (если доступен)
     if (typeof newrelic !== 'undefined') {
-      newrelic.noticeError(error, {
-        componentStack: errorInfo.componentStack,
-        retryCount: this.state.retryCount
-      });
+      newrelic.noticeError(error, errorData);
     }
 
-    // Отправка в собственную систему мониторинга
+    // Отправка в Netlify Functions для логирования
     if (import.meta.env.PROD) {
-      fetch('/api/errors', {
+      fetch('/.netlify/functions/log-error', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          error: error.toString(),
-          stack: error.stack,
-          componentStack: errorInfo.componentStack,
-          url: window.location.href,
-          userAgent: navigator.userAgent,
-          timestamp: new Date().toISOString(),
-          retryCount: this.state.retryCount
-        })
-      }).catch(() => {
-        // Игнорируем ошибки отправки
+        body: JSON.stringify(errorData)
+      }).catch((fetchError) => {
+        // Fallback - отправка в Telegram
+        this.reportToTelegram(errorData, fetchError);
       });
+    } else {
+      // В разработке выводим в консоль
+      console.group('🚨 Error Boundary Report');
+      console.error('Error:', error);
+      console.error('Component Stack:', errorInfo.componentStack);
+      console.table(errorData);
+      console.groupEnd();
     }
+  };
+
+  reportToTelegram = (errorData, fetchError = null) => {
+    const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+    const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+
+    const message = `
+🚨 Frontend Error Alert
+
+Error: ${errorData.error}
+URL: ${errorData.url}
+Retry Count: ${errorData.retryCount}
+User Agent: ${errorData.userAgent.substring(0, 100)}
+Time: ${errorData.timestamp}
+
+${fetchError ? `\nFallback triggered due to: ${fetchError.message}` : ''}
+    `.trim();
+
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'HTML'
+      }),
+    }).catch(() => {
+      // Последний fallback - сохранение в localStorage
+      const errors = JSON.parse(localStorage.getItem('unsentErrors') || '[]');
+      errors.push({ ...errorData, timestamp: Date.now() });
+      localStorage.setItem('unsentErrors', JSON.stringify(errors.slice(-10))); // Keep only last 10
+    });
   };
 
   handleRetry = () => {
