@@ -175,6 +175,8 @@ const ContactFormSection = () => {
 
       console.log('Loaded booked slots for', dateStr, ':', normalized);
       console.log('Total active slots found:', normalized.length);
+      console.log('Slots with pending status:', normalized.filter(slot => slot.status === BOOKING_STATUSES.PENDING));
+      console.log('Slots with confirmed status:', normalized.filter(slot => slot.status === BOOKING_STATUSES.CONFIRMED));
       setBookedSlots(normalized);
     } catch (err) {
       console.error('Error loading booked slots:', err);
@@ -201,6 +203,7 @@ const ContactFormSection = () => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
+    // Проверяем, не прошел ли уже выбранный слот (для сегодняшнего дня)
     if (selectedDate && selectedDate.toDateString() === today.toDateString()) {
       const [slotHours, slotMinutes] = timeSlot.split(':').map(Number);
       if (now.getHours() > slotHours || (now.getHours() === slotHours && now.getMinutes() >= slotMinutes)) {
@@ -211,11 +214,12 @@ const ContactFormSection = () => {
 
     const slotTimeMinutes = getTimeInMinutes(timeSlot);
 
+    // Проверяем, забронирован ли слот со статусами pending или confirmed
     for (const slot of slots) {
       if ([BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED].includes(slot.status)) {
         const bookedTimeMinutes = getTimeInMinutes(slot.meeting_time);
         if (slotTimeMinutes === bookedTimeMinutes) {
-          console.log(`Slot ${timeSlot} is already booked with status: ${slot.status}`);
+          console.log(`Slot ${timeSlot} is already booked with status: ${slot.status} by ${slot.name || 'Unknown'}`);
           return false;
         }
       }
@@ -267,8 +271,13 @@ const ContactFormSection = () => {
       }));
 
       console.log('Checking slot availability for:', selectedTime, 'against slots:', normalizedSlots);
+      console.log('Current bookedSlots state:', bookedSlots);
 
-      if (!isSlotAvailable(selectedTime, normalizedSlots)) {
+      // Проверяем доступность слота
+      const isAvailable = isSlotAvailable(selectedTime, normalizedSlots);
+      console.log(`Slot ${selectedTime} availability check result:`, isAvailable);
+
+      if (!isAvailable) {
         setError('Выбранное время больше недоступно. Пожалуйста, выберите другой слот.');
         setLoading(false);
         return;
@@ -302,6 +311,15 @@ const ContactFormSection = () => {
       if (selectedDate) {
         await loadBookedSlots(selectedDate);
       }
+
+      // Также обновляем локальное состояние сразу
+      const newBookedSlot = {
+        meeting_time: selectedTime,
+        status: BOOKING_STATUSES.PENDING,
+        id: data[0]?.id,
+        name: formData.name.trim()
+      };
+      setBookedSlots(prev => [...prev, newBookedSlot]);
 
       setFormStep(3);
     } catch (err) {
@@ -723,6 +741,20 @@ ID: ${recordId}
               {/* Выбор времени */}
               <div>
               <h4 className="text-lg font-semibold text-gray-300 mb-4">{t('contactForm.availableTimes')}</h4>
+              
+              {/* Отладочная информация о забронированных слотах */}
+              {bookedSlots.length > 0 && (
+                <div className="mb-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+                  <p className="text-yellow-300 text-sm font-medium mb-2">Забронированные слоты:</p>
+                  <div className="space-y-1">
+                    {bookedSlots.map((slot, index) => (
+                      <div key={index} className="text-yellow-200 text-xs">
+                        {slot.meeting_time} - {slot.status} ({slot.name || 'Unknown'})
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
                 {loadingSlots ? (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="w-8 h-8 animate-spin text-white" />
@@ -730,7 +762,11 @@ ID: ${recordId}
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {timeSlots
-                        .filter((time) => isSlotAvailable(time, bookedSlots))
+                        .filter((time) => {
+                          const isAvailable = isSlotAvailable(time, bookedSlots);
+                          console.log(`Filtering slot ${time}: available=${isAvailable}, bookedSlots=`, bookedSlots);
+                          return isAvailable;
+                        })
                         .map((time, index) => (
                         <motion.button
                           key={time}
