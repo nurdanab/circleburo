@@ -367,6 +367,16 @@ ${statusEmoji[newStatus]} new!
     loadLeads();
   }, []);
 
+  // Периодическое обновление данных в админ панели
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log('Admin panel: Periodic update of leads...');
+      loadLeads();
+    }, 15000); // Обновляем каждые 15 секунд
+
+    return () => clearInterval(interval);
+  }, []);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">

@@ -188,7 +188,12 @@ const ContactFormSection = () => {
       
       // Дополнительная проверка через небольшую задержку
       setTimeout(() => {
-        console.log('Delayed verification - current bookedSlots state:', bookedSlots);
+        console.log('Delayed verification - current bookedSlots state:', normalized);
+        // Принудительно обновляем состояние еще раз для надежности
+        setBookedSlots(prev => {
+          console.log('Force updating bookedSlots state:', normalized);
+          return normalized;
+        });
       }, 100);
       
     } catch (err) {
@@ -264,6 +269,11 @@ const ContactFormSection = () => {
 
       const isBooked = data && data.length > 0;
       console.log(`Server check for slot ${timeSlot} on ${dateStr}:`, isBooked ? 'BOOKED' : 'AVAILABLE');
+      console.log(`Server check data:`, data);
+      
+      if (isBooked) {
+        console.log(`Slot ${timeSlot} is booked by:`, data.map(booking => `${booking.name} (${booking.status})`));
+      }
       
       return !isBooked;
     } catch (err) {
@@ -354,19 +364,30 @@ const ContactFormSection = () => {
 
       await sendTelegramNotification(bookingData, data[0]?.id);
 
-      // Обновляем список забронированных слотов
-      if (selectedDate) {
-        await loadBookedSlots(selectedDate);
-      }
-
-      // Также обновляем локальное состояние сразу
+      // Сначала обновляем локальное состояние сразу
       const newBookedSlot = {
         meeting_time: selectedTime,
         status: BOOKING_STATUSES.PENDING,
         id: data[0]?.id,
         name: formData.name.trim()
       };
-      setBookedSlots(prev => [...prev, newBookedSlot]);
+      setBookedSlots(prev => {
+        const updated = [...prev, newBookedSlot];
+        console.log('Updated bookedSlots state:', updated);
+        return updated;
+      });
+
+      // Затем обновляем список забронированных слотов с сервера
+      if (selectedDate) {
+        console.log('Refreshing slots from server after booking...');
+        await loadBookedSlots(selectedDate);
+        
+        // Дополнительная проверка через небольшую задержку
+        setTimeout(async () => {
+          console.log('Final verification - refreshing slots again...');
+          await loadBookedSlots(selectedDate);
+        }, 500);
+      }
 
       setFormStep(3);
     } catch (err) {
@@ -482,7 +503,7 @@ ID: ${recordId}
     const interval = setInterval(() => {
       console.log('Periodic update of booked slots...');
       loadBookedSlots(selectedDate);
-    }, 30000); // Обновляем каждые 30 секунд
+    }, 10000); // Обновляем каждые 10 секунд для более быстрого обновления
 
     return () => clearInterval(interval);
   }, [selectedDate, loadBookedSlots]);
@@ -836,6 +857,7 @@ ID: ${recordId}
                         .filter((time) => {
                           const isAvailable = isSlotAvailable(time, bookedSlots);
                           console.log(`Filtering slot ${time}: available=${isAvailable}, bookedSlots=`, bookedSlots);
+                          console.log(`Slot ${time} details:`, bookedSlots.filter(slot => slot.meeting_time === time));
                           return isAvailable;
                         })
                         .map((time, index) => (
