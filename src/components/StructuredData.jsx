@@ -131,7 +131,10 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
       "@type": "SearchAction",
       "target": `${baseUrl}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string"
-    }
+    },
+    "inLanguage": ["ru", "en"],
+    "copyrightYear": new Date().getFullYear(),
+    "dateModified": new Date().toISOString()
   });
 
   const getBreadcrumbData = (breadcrumbs) => ({
@@ -142,6 +145,46 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
       "position": index + 1,
       "name": crumb.name,
       "item": `${baseUrl}${crumb.url}`
+    }))
+  });
+
+  const getLocalBusinessData = () => ({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Circle Creative Buro",
+    "description": "Креативное агентство полного цикла в Алматы",
+    "url": baseUrl,
+    "telephone": "+7 (727) 000-00-00",
+    "email": "info@circleburo.kz",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Сейфуллина, 458",
+      "addressLocality": "Алматы",
+      "addressRegion": "Алматинская область",
+      "postalCode": "050000",
+      "addressCountry": "KZ"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "43.238949",
+      "longitude": "76.889709"
+    },
+    "openingHours": "Mo-Fr 09:00-18:00",
+    "priceRange": "$$",
+    "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+    "currenciesAccepted": "KZT, USD, EUR"
+  });
+
+  const getFAQData = (faqs) => ({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
     }))
   });
 
@@ -162,6 +205,12 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
       break;
     case 'breadcrumb':
       structuredData = getBreadcrumbData(data);
+      break;
+    case 'localBusiness':
+      structuredData = getLocalBusinessData();
+      break;
+    case 'faq':
+      structuredData = getFAQData(data);
       break;
     default:
       structuredData = getOrganizationData();

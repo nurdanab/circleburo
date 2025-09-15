@@ -118,11 +118,20 @@ const AccessibilityHelper = () => {
         }
       `}</style>
 
-      <div className="accessibility-panel" role="dialog" aria-labelledby="accessibility-title">
+      <div 
+        className="accessibility-panel" 
+        role="dialog" 
+        aria-labelledby="accessibility-title"
+        aria-describedby="accessibility-description"
+        aria-modal="true"
+      >
         <div className="flex justify-between items-center mb-4">
           <h3 id="accessibility-title" className="font-semibold text-lg">
             Настройки доступности
           </h3>
+          <p id="accessibility-description" className="sr-only">
+            Панель настроек доступности для улучшения восприятия сайта
+          </p>
           <button
             className="text-gray-500 hover:text-gray-700 text-xl font-bold"
             onClick={() => setIsVisible(false)}
@@ -138,25 +147,33 @@ const AccessibilityHelper = () => {
               className="accessibility-button w-full"
               onClick={toggleHighContrast}
               aria-pressed={highContrast}
+              aria-describedby="contrast-description"
             >
               {highContrast ? 'Отключить' : 'Включить'} высокий контраст
             </button>
+            <p id="contrast-description" className="sr-only">
+              {highContrast ? 'Высокий контраст включен' : 'Включить высокий контраст для лучшей читаемости'}
+            </p>
           </div>
 
-          <div className="font-controls">
-            <span className="text-sm">Размер текста:</span>
+          <div className="font-controls" role="group" aria-labelledby="font-size-label">
+            <span id="font-size-label" className="text-sm">Размер текста:</span>
             <button
               className="accessibility-button"
               onClick={() => changeFontSize(-0.1)}
               aria-label="Уменьшить размер текста"
+              disabled={fontSize <= 0.8}
             >
               А-
             </button>
-            <span className="text-sm px-2">{Math.round(fontSize * 100)}%</span>
+            <span className="text-sm px-2" aria-live="polite" aria-atomic="true">
+              {Math.round(fontSize * 100)}%
+            </span>
             <button
               className="accessibility-button"
               onClick={() => changeFontSize(0.1)}
               aria-label="Увеличить размер текста"
+              disabled={fontSize >= 1.4}
             >
               А+
             </button>

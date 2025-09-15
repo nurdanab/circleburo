@@ -1,8 +1,5 @@
 /* src/index.css */
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* Styles from fonts.css */
 @font-face {

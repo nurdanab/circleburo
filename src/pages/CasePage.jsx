@@ -37,7 +37,11 @@ const HeroSection = React.memo(() => {
   }), []);
 
   return (
-    <section className="relative h-screen bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden flex flex-col justify-center items-center">
+    <section 
+      className="relative h-screen bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden flex flex-col justify-center items-center"
+      aria-labelledby="hero-title"
+      role="banner"
+    >
       {/* Заголовок в центре с улучшенной адаптивностью */}
       <div className="relative z-10 flex-1 flex items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8">
         <motion.div
@@ -46,7 +50,9 @@ const HeroSection = React.memo(() => {
           animate="visible"
           className="text-center"
         >
-          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black text-yellow-200 leading-[0.85] tracking-tighter"
+          <h1 
+            id="hero-title"
+            className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black text-yellow-200 leading-[0.85] tracking-tighter"
             style={{
               textShadow: '3px 3px 0px rgba(0, 0, 0, 0.9), 6px 6px 12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(252, 211, 77, 0.3)',
               fontFamily: 'Montserrat, Arial, sans-serif',

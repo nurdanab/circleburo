@@ -9,7 +9,8 @@ const OptimizedImage = ({
   height, 
   className = "", 
   priority = false,
-  placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23f3f4f6'/%3E%3C/svg%3E"
+  placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23f3f4f6'/%3E%3C/svg%3E",
+  formats = ['webp', 'avif'] // Modern formats to try
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
@@ -47,6 +48,21 @@ const OptimizedImage = ({
     setIsLoaded(true);
   };
 
+  // Generate optimized source URLs
+  const getOptimizedSrc = (originalSrc, format) => {
+    if (format === 'original') return originalSrc;
+    const ext = originalSrc.split('.').pop();
+    return originalSrc.replace(`.${ext}`, `.${format}`);
+  };
+
+  // Check if browser supports format
+  const supportsFormat = (format) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 1;
+    return canvas.toDataURL(`image/${format}`).indexOf(`data:image/${format}`) === 0;
+  };
+
   return (
     <div 
       ref={imgRef}
@@ -64,26 +80,37 @@ const OptimizedImage = ({
         </div>
       )}
       
-      {/* Actual image */}
+      {/* Actual image with modern format support */}
       {isInView && (
-        <img
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          className={`transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{ 
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover'
-          }}
-          onLoad={handleLoad}
-          onError={handleError}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-        />
+        <picture>
+          {formats.map(format => 
+            supportsFormat(format) && (
+              <source 
+                key={format}
+                srcSet={getOptimizedSrc(src, format)} 
+                type={`image/${format}`} 
+              />
+            )
+          )}
+          <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            className={`transition-opacity duration-300 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{ 
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+            onLoad={handleLoad}
+            onError={handleError}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+        </picture>
       )}
     </div>
   );

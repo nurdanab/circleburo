@@ -33,9 +33,7 @@ function sendToAnalytics(metric, options) {
     console.log('[Web Vitals]', metric.name, Math.round(metric.value), 'ms', body);
   }
 
-  // Analytics disabled - no valid Vercel Analytics ID configured
-  // Uncomment and set VITE_VERCEL_ANALYTICS_ID when ready to enable
-  /*
+  // Send to analytics if configured
   if (import.meta.env.PROD && body.dsn && body.dsn !== 'development') {
     const blob = new Blob([new URLSearchParams(body).toString()], {
       type: 'application/x-www-form-urlencoded',
@@ -52,7 +50,16 @@ function sendToAnalytics(metric, options) {
       }).catch(() => {});
     }
   }
-  */
+  
+  // Also send to Google Analytics 4
+  if (typeof gtag !== 'undefined') {
+    gtag('event', metric.name, {
+      event_category: 'Web Vitals',
+      event_label: metric.id,
+      value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+      non_interaction: true,
+    });
+  }
 }
 
 export function reportWebVitals() {

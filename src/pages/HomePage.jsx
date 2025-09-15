@@ -58,46 +58,46 @@ function HomePage() {
   }, [location.state, location.pathname]); // Добавляем pathname в зависимости
 
   return (
-    <>
+    <main>
       {seoData && <SEOHead {...seoData} />}
       <HeroSection />
       
       <LazySection>
-        <Suspense fallback={<div style={{ height: '200px' }} />}>
+        <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <WhyUsSection />
         </Suspense>
       </LazySection>
       
       <LazySection>
-        <Suspense fallback={<div style={{ height: '200px' }} />}>
+        <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <ServicesSection />
         </Suspense>
       </LazySection>
       
       <LazySection>
-        <Suspense fallback={<div style={{ height: '200px' }} />}>
+        <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <AboutUsSection />
         </Suspense>
       </LazySection>
       
       <LazySection>
-        <Suspense fallback={<div style={{ height: '200px' }} />}>
+        <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <ProjectsSection />
         </Suspense>
       </LazySection>
       
       <LazySection>
-        <Suspense fallback={<div style={{ height: '200px' }} />}>
+        <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <InteractiveSection />
         </Suspense>
       </LazySection>
       
       <LazySection priority={true} rootMargin="200px">
-        <Suspense fallback={<div style={{ height: '200px' }} />}>
+        <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <ContactFormSection />
         </Suspense>
       </LazySection>
-    </>
+    </main>
   );
 }
 

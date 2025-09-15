@@ -21,16 +21,27 @@ const SEOHead = ({
       {/* Structured Data */}
       {structuredData && <StructuredData type="organization" />}
       {structuredData && <StructuredData type="website" />}
+      {structuredData && <StructuredData type="localBusiness" />}
       {breadcrumbs && <StructuredData type="breadcrumb" data={breadcrumbs} />}
       
       <Helmet>
       {/* Основные мета-теги */}
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="robots" content="index, follow" />
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="author" content="Circle Creative Buro" />
-      <meta name="keywords" content="веб-разработка алматы, дизайн алматы, маркетинг алматы, smm алматы, креативное агентство" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="keywords" content="веб-разработка алматы, дизайн алматы, маркетинг алматы, smm алматы, креативное агентство, брендинг алматы, digital маркетинг" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+      
+      {/* Дополнительные SEO мета-теги */}
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="apple-mobile-web-app-title" content="Circle Buro" />
+      <meta name="application-name" content="Circle Buro" />
+      <meta name="msapplication-TileColor" content="#000000" />
+      <meta name="msapplication-config" content="/browserconfig.xml" />
       
       {/* Open Graph */}
       <meta property="og:title" content={ogTitle || title} />
@@ -41,8 +52,17 @@ const SEOHead = ({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content="Circle Creative Buro - Креативное агентство в Алматы" />
+      <meta property="og:image:type" content="image/webp" />
       <meta property="og:locale" content={language === 'ru' ? 'ru_KZ' : 'en_US'} />
       <meta property="og:site_name" content="Circle Creative Buro" />
+      <meta property="og:updated_time" content={new Date().toISOString()} />
+      
+      {/* Open Graph для бизнеса */}
+      <meta property="business:contact_data:street_address" content="ул. Сейфуллина, 458" />
+      <meta property="business:contact_data:locality" content="Алматы" />
+      <meta property="business:contact_data:region" content="Алматинская область" />
+      <meta property="business:contact_data:postal_code" content="050000" />
+      <meta property="business:contact_data:country_name" content="Казахстан" />
       
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -65,7 +85,7 @@ const SEOHead = ({
       {/* Canonical и языковые альтернативы */}
       <link rel="canonical" href={canonicalUrl} />
       {alternateUrls.map(({ href, hreflang }) => (
-        <link key={hreflang} rel="alternate" href={href} hrefLang={hreflang} />
+        <link key={hreflang} rel="alternate" href={href} hreflang={hreflang} />
       ))}
       
       {/* PWA Manifest */}

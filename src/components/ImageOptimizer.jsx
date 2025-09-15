@@ -10,7 +10,7 @@ const ImageOptimizer = memo(({
   priority = false,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   quality = 75,
-  formats = ['webp', 'jpg'],
+  formats = ['avif', 'webp', 'jpg'],
   placeholder = true,
   ...props 
 }) => {
@@ -21,26 +21,61 @@ const ImageOptimizer = memo(({
   const imgRef = useRef(null);
   const observerRef = useRef(null);
 
-  // Generate responsive image sources
+  // Generate responsive image sources with WebP and AVIF support
   const generateSources = (baseSrc) => {
     if (!baseSrc) return [];
     
     const baseName = baseSrc.split('.').slice(0, -1).join('.');
     const sources = [];
     
-    formats.forEach(format => {
-      const srcSet = [
-        `${baseName}-small.${format} 480w`,
-        `${baseName}-medium.${format} 768w`,
-        `${baseName}-large.${format} 1200w`,
-        `${baseName}-xlarge.${format} 1920w`
+    // AVIF format (best compression)
+    if (formats.includes('avif')) {
+      const avifSrcSet = [
+        `${baseName}-small.avif 480w`,
+        `${baseName}-medium.avif 768w`,
+        `${baseName}-large.avif 1200w`,
+        `${baseName}-xlarge.avif 1920w`
       ].join(', ');
       
       sources.push({
-        srcSet,
-        type: `image/${format}`,
+        srcSet: avifSrcSet,
+        type: 'image/avif',
         sizes
       });
+    }
+    
+    // WebP format (good compression, wide support)
+    if (formats.includes('webp')) {
+      const webpSrcSet = [
+        `${baseName}-small.webp 480w`,
+        `${baseName}-medium.webp 768w`,
+        `${baseName}-large.webp 1200w`,
+        `${baseName}-xlarge.webp 1920w`
+      ].join(', ');
+      
+      sources.push({
+        srcSet: webpSrcSet,
+        type: 'image/webp',
+        sizes
+      });
+    }
+    
+    // Fallback formats
+    ['jpg', 'jpeg', 'png'].forEach(format => {
+      if (formats.includes(format)) {
+        const srcSet = [
+          `${baseName}-small.${format} 480w`,
+          `${baseName}-medium.${format} 768w`,
+          `${baseName}-large.${format} 1200w`,
+          `${baseName}-xlarge.${format} 1920w`
+        ].join(', ');
+        
+        sources.push({
+          srcSet,
+          type: `image/${format}`,
+          sizes
+        });
+      }
     });
     
     return sources;

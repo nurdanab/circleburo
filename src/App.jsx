@@ -1,16 +1,28 @@
 // src/App.jsx
 import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { initGA, logPageView } from './analytics';
+// Analytics will be loaded dynamically for better performance
 
-// Lazy load pages with retry mechanism for better reliability
+// Enhanced lazy loading with caching and retry mechanism
+const componentCache = new Map();
+
 const createLazyComponent = (importFn, name) => {
-  return lazy(() => 
+  if (componentCache.has(name)) {
+    return componentCache.get(name);
+  }
+  
+  const LazyComponent = lazy(() => 
     importFn().catch(err => {
       console.error(`Failed to load ${name}, retrying...`, err);
-      return importFn();
+      // Wait a bit and retry once
+      return new Promise(resolve => {
+        setTimeout(() => resolve(importFn()), 1000);
+      });
     })
   );
+  
+  componentCache.set(name, LazyComponent);
+  return LazyComponent;
 };
 
 const HomePage = createLazyComponent(() => import('./pages/HomePage'), 'HomePage');
@@ -29,6 +41,7 @@ import SplashCursor from './components/SplashCursor';
 import LazyPage from './components/LazyPage';
 import PerformanceMeta from './components/PerformanceMeta';
 import AccessibilityHelper from './components/AccessibilityHelper';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
@@ -42,18 +55,22 @@ function AppContent() {
   const location = useLocation();
 
   useEffect(() => {
-    logPageView();
+    // Load and execute analytics dynamically for better performance
+    import('./analytics.js').then(({ logPageView }) => {
+      logPageView();
+    }).catch(err => console.error('Failed to load analytics:', err));
   }, [location]);
 
   const isAdminRoute = location.pathname === '/admin' || location.pathname === '/login';
 
   return (
-    <>
+    <ErrorBoundary>
       <PerformanceMeta />
       <SplashCursor />
       <AccessibilityHelper />
       {!isAdminRoute && <Header />}
       <Routes>
+        {/* Russian routes (default) */}
         <Route path="/" element={<LazyPage component={HomePage} />} />
         <Route path="/about" element={<LazyPage component={AboutPage} />} />
         <Route path="/project" element={<LazyPage component={CasePage} />} />
@@ -61,8 +78,16 @@ function AppContent() {
         <Route path="/cycle" element={<LazyPage component={Cycle} />} />
         <Route path="/semicircle" element={<LazyPage component={Semicircle} />} /> 
         
+        {/* English routes */}
+        <Route path="/en" element={<LazyPage component={HomePage} />} />
+        <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
+        <Route path="/en/project" element={<LazyPage component={CasePage} />} />
+        <Route path="/en/circle" element={<LazyPage component={Circle} />} />
+        <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
+        <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />
+        
+        {/* Admin routes */}
         <Route path="/login" element={<LazyPage component={LoginPage} />} />
-
         <Route 
           path="/admin" 
           element={
@@ -75,13 +100,16 @@ function AppContent() {
         <Route path="*" element={<LazyPage component={NotFoundPage} />} />
       </Routes>
       {!isAdminRoute && <Footer />}
-    </>
+    </ErrorBoundary>
   );
 }
 
 function App() {
   useEffect(() => {
-    initGA();
+    // Load and initialize analytics asynchronously
+    import('./analytics.js').then(({ initGA }) => {
+      initGA();
+    }).catch(err => console.error('Failed to initialize analytics:', err));
   }, []);
 
   return (

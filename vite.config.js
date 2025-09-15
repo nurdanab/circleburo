@@ -21,16 +21,26 @@ export default defineConfig({
       },
       webp: { quality: 75 }
     }),
-    // Убираем компрессию из Vite, чтобы не конфликтовать с Netlify
-    // compression({
-    //   algorithm: 'gzip',
-    //   ext: '.gz',
-    //   threshold: 1024
-    // })
+    // Включаем сжатие для улучшения производительности
+    compression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 1024,
+      deleteOriginalAssets: false
+    }),
+    compression({
+      algorithm: 'brotliCompress',
+      ext: '.br', 
+      threshold: 1024,
+      deleteOriginalAssets: false
+    })
   ],
   server: {
     headers: {
       'Cache-Control': 'public, max-age=0'
+    },
+    hmr: {
+      clientPort: 5176, // Use same port as dev server
     }
   },
   preview: {
@@ -42,30 +52,80 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Core React libs
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'react-vendor';
+          // Vendor chunks - stable dependencies that rarely change
+          if (id.includes('node_modules/react/') && !id.includes('react-dom')) {
+            return 'vendor-react';
           }
-          // Animation libs
-          if (id.includes('node_modules/framer-motion') || id.includes('node_modules/gsap') || id.includes('node_modules/motion')) {
-            return 'animation';
+          if (id.includes('node_modules/react-dom/')) {
+            return 'vendor-react-dom';
           }
+          
+          // Framer Motion - разделяем по функциональности
+          if (id.includes('node_modules/framer-motion/dist/es/components/AnimatePresence')) {
+            return 'framer-presence';
+          }
+          if (id.includes('node_modules/framer-motion/dist/es/components/') && !id.includes('AnimatePresence')) {
+            return 'framer-components';
+          }
+          if (id.includes('node_modules/framer-motion/dist/es/gestures/')) {
+            return 'framer-gestures';
+          }
+          if (id.includes('node_modules/framer-motion/dist/es/layout/')) {
+            return 'framer-layout';
+          }
+          if (id.includes('node_modules/framer-motion') && !id.includes('components') && !id.includes('gestures') && !id.includes('layout')) {
+            return 'framer-core';
+          }
+          
+          // GSAP отдельно
+          if (id.includes('node_modules/gsap/')) {
+            return 'gsap';
+          }
+          
+          // Motion отдельно
+          if (id.includes('node_modules/motion/')) {
+            return 'motion';
+          }
+          
           // Routing and i18n
-          if (id.includes('node_modules/react-router-dom') || id.includes('node_modules/react-i18next') || id.includes('node_modules/i18next')) {
-            return 'routing-i18n';
+          if (id.includes('node_modules/react-router-dom/')) {
+            return 'react-router';
           }
-          // Remove Supabase chunking to avoid module resolution issues
-          // if (id.includes('node_modules/@supabase')) {
-          //   return 'supabase';
-          // }
+          if (id.includes('node_modules/react-i18next/') || id.includes('node_modules/i18next/')) {
+            return 'i18n';
+          }
+          
+          // Supabase
+          if (id.includes('node_modules/@supabase/')) {
+            return 'supabase';
+          }
+          
           // Analytics (should be async)
-          if (id.includes('node_modules/react-ga4') || id.includes('node_modules/newrelic')) {
+          if (id.includes('node_modules/react-ga4/') || id.includes('node_modules/newrelic/')) {
             return 'analytics';
           }
+          
           // Icons and utils
-          if (id.includes('node_modules/lucide-react') || id.includes('node_modules/cleave.js') || id.includes('node_modules/react-icons')) {
-            return 'ui-utils';
+          if (id.includes('node_modules/lucide-react/')) {
+            return 'lucide-icons';
           }
+          if (id.includes('node_modules/react-icons/')) {
+            return 'react-icons';
+          }
+          if (id.includes('node_modules/cleave.js/')) {
+            return 'cleave';
+          }
+          
+          // React Helmet
+          if (id.includes('node_modules/react-helmet-async/')) {
+            return 'react-helmet';
+          }
+          
+          // Web Vitals
+          if (id.includes('node_modules/web-vitals/')) {
+            return 'web-vitals';
+          }
+          
           // Other vendor libs
           if (id.includes('node_modules/')) {
             return 'vendor';
@@ -86,8 +146,9 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js'
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500, // Stricter limit for better performance
     minify: 'terser',
+    target: 'es2020', // Modern target for better optimization
     terserOptions: {
       compress: {
         drop_console: true,
