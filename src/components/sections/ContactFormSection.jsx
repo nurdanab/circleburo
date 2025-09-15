@@ -177,12 +177,12 @@ const ContactFormSection = () => {
       
     } catch (err) {
       console.error('Error loading booked slots:', err);
-      setError('Error loading available slots');
+      setError(t('contactForm.loadingSlots'));
       setBookedSlots([]);
     } finally {
       setLoadingSlots(false);
     }
-  }, [bookedSlots]);
+  }, []);
 
   // Функция для получения времени слота в минутах с начала дня
   const getTimeInMinutes = (timeStr) => {
@@ -297,7 +297,7 @@ const ContactFormSection = () => {
       const isAvailableOnServer = await checkSlotAvailabilityFromServer(selectedTime, selectedDate);
 
       if (!isAvailableLocally || !isAvailableOnServer) {
-        setError('Выбранное время больше недоступно. Пожалуйста, выберите другой слот.');
+        setError(t('contactForm.errors.slotUnavailable'));
         setLoading(false);
         return;
       }
@@ -343,7 +343,7 @@ const ContactFormSection = () => {
       setFormStep(3);
     } catch (err) {
       console.error('Error submitting form:', err);
-      setError('An error occurred when submitting the application. Try again.');
+      setError(t('contactForm.errors.submissionError'));
     } finally {
       setLoading(false);
     }
