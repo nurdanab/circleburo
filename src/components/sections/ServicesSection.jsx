@@ -88,10 +88,10 @@ const ServiceCard = ({ service, index }) => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} className="block w-full h-full">
         <motion.div
-          className="absolute inset-0 bg-cover bg-center transition-all duration-150 ease-in-out"
+          className="absolute inset-0 bg-cover bg-center transition-all duration-75 ease-in-out"
           style={{ backgroundImage: `url(${isHovered ? service.hoverBgImage : service.bgImage})` }}
         />
-        <div className={`relative z-10 p-8 h-full flex flex-col justify-between transition-colors duration-150 ${textColorClass}`}>
+        <div className={`relative z-10 p-8 h-full flex flex-col justify-between transition-colors duration-75 ${textColorClass}`}>
           <div>
             <span className="text-sm tracking-widest uppercase opacity-70">{service.subtitle}</span>
             <h3 className="text-3xl md:text-4xl font-bold mt-2">{service.title}</h3>

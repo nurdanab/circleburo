@@ -570,7 +570,7 @@ ID: ${recordId}
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Заголовок секции */}
         <motion.h2
-          className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-center"
+          className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12 text-center"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -579,7 +579,7 @@ ID: ${recordId}
           {t('contactForm.title')}
         </motion.h2>
         <motion.p
-          className="text-lg md:text-xl text-gray-400 mb-16 max-w-2xl mx-auto text-center"
+          className="text-lg md:text-xl text-gray-400 mb-20 max-w-2xl mx-auto text-center"
           style={{ textAlign: 'center' }}
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
