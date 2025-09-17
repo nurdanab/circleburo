@@ -63,11 +63,11 @@ const ProjectsSection = () => {
           <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm uppercase tracking-widest text-white/80 backdrop-blur-sm mb-4">
             {t('projects.subtitle')}
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
             <span className="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-white">
               {t('projects.title')}
             </span>
-          </h2>
+          </h1>
         </motion.div>
 
         {/* Горизонтальный список карточек */}

@@ -47,7 +47,7 @@ const Circle = () => {
             <h1 className="text-5xl md:text-6xl font-bold tracking-wider">
               CIRCLE
             </h1>
-            <p className="text-white mt-5 max-w-4xl mx-auto">
+            <p className="text-white mt-5 text-center">
               {t('services.circle.description')}
             </p>
           </motion.div>

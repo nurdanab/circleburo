@@ -47,7 +47,7 @@ const Cycle = () => {
             <h1 className="text-5xl md:text-6xl font-bold tracking-wider">
               CYCLE
             </h1>
-            <p className="text-white mt-5 max-w-4xl mx-auto">
+            <p className="text-white mt-5 text-center">
             {t('services.cycle.description')}
             </p>
           </motion.div>
@@ -97,7 +97,7 @@ const Cycle = () => {
           <motion.div
             className="relative bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-3xl p-16 mb-16 text-center shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out
                        border border-neutral-700
-                       before:content-[''] before:absolute before:inset-0 before:rounded-3xl before:p-[2px] before:bg-gradient-to-br before:from-purple-600 before:to-pink-600 before:-z-10 before:opacity-0 hover:before:opacity-30 before:transition-opacity before:duration-300
+                       before:content-[''] before:absolute before:inset-0 before:rounded-3xl before:p-[2px] before:-z-10 before:opacity-0 hover:before:opacity-30 before:transition-opacity before:duration-300
                        "
             initial={{ opacity: 0, y: 50, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

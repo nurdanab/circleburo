@@ -166,7 +166,7 @@ const FooterSection = () => {
                 viewport={{ once: true }}
               >
                 <h4 className="text-xl font-semibold mb-18 text-white">{t('footer.navigation')}</h4>
-                <ul className="space-y-6">
+                <ul className="mt-6 space-y-4">
                   {navigationLinks.map((link, index) => {
                     return (
                       <li key={index}>
@@ -232,7 +232,7 @@ const FooterSection = () => {
                 viewport={{ once: true }}
               >
                 <h4 className="text-xl font-semibold mb-8 text-white">{t('footer.services')}</h4>
-                <ul className="space-y-6">
+                <ul className="mt-6 space-y-4">
                   {services.map((service, index) => (
                     <li key={index}>
                       <Link
@@ -273,7 +273,7 @@ const FooterSection = () => {
                 viewport={{ once: true }}
               >
                 <h4 className="text-xl font-semibold mb-8 text-white">{t('footer.contact')}</h4>
-                <ul className="space-y-6">
+                <ul className="mt-6 space-y-4">
                   {contactInfo.map((contact, index) => (
                     <li key={index}>
                       <motion.a

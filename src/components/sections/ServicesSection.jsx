@@ -49,7 +49,7 @@ const ServicesSection = () => {
       ))}
       
       <div className="max-w-7xl mx-auto">
-        <motion.h2
+        <motion.h1
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-20"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ const ServicesSection = () => {
           viewport={{ once: true }}
         >
           {t('services.title')}
-        </motion.h2>
+        </motion.h1>
 
         {/* Контейнер для карточек */}
         <div className="flex flex-col lg:flex-row gap-12 justify-center items-center">

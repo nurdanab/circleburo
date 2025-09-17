@@ -261,8 +261,8 @@ const AnimatedEmployeeCards = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-clip-text text-white via-purple-200 to-purple-400"
+          <motion.h1 
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-white via-purple-200 to-purple-400"
             animate={{ 
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
             }}
@@ -270,8 +270,8 @@ const AnimatedEmployeeCards = () => {
             style={{ backgroundSize: '200% 200%' }}
           >
             {t('employeeCards.title')}
-          </motion.h2>
-          <p className="text-base sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          </motion.h1>
+          <p className="text-base sm:text-lg text-gray-300 text-center leading-relaxed">
             {t('employeeCards.subtitle')}
           </p>
         </motion.div>

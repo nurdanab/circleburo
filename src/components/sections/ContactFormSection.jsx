@@ -567,19 +567,19 @@ ID: ${recordId}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-white/3 via-transparent to-transparent rounded-full blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full relative z-10">
+      <div className=" relative z-10 mb-12">
         {/* Заголовок секции */}
-        <motion.h2
-          className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12 text-center"
+        <motion.h1
+          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
           {t('contactForm.title')}
-        </motion.h2>
+        </motion.h1>
         <motion.p
-          className="text-lg md:text-xl text-gray-400 mb-20 max-w-2xl mx-auto text-center"
+          className="text-lg md:text-xl text-gray-400 mt-20 text-center"
           style={{ textAlign: 'center' }}
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -609,11 +609,11 @@ ID: ${recordId}
                 {bookingStatus === BOOKING_STATUSES.CANCELLED && <XCircle className="w-10 h-10 text-white" />}
               </motion.div>
               
-              <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white mb-10">
                 {bookingStatus === BOOKING_STATUSES.CONFIRMED ? 
                 t('contactForm.bookingConfirmed') 
     : t('contactForm.requestSent')}
-              </h3>
+              </h2>
               
               <div className="space-y-4 mb-8 text-gray-300">
               <p className="text-lg">
@@ -650,7 +650,7 @@ ID: ${recordId}
               
               <motion.button
                 onClick={resetForm}
-                className="px-8 py-4 bg-gradient-to-r from-white/8 to-white/4 hover:from-white/15 hover:to-white/10 border border-white/15 hover:border-white/30 rounded-2xl text-white font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="px-8 py-4 bg-white border border-white/15 hover:border-white/30 rounded-2xl text-white font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -661,7 +661,7 @@ ID: ${recordId}
         ) : (
           // Основная форма
           <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto mt-10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -685,7 +685,7 @@ ID: ${recordId}
               <h4 className="text-lg font-semibold text-gray-300 mb-4">{t('contactForm.availableDates')}</h4>
                 
                 {/* Заголовок календаря с навигацией */}
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-4 ">
                   <motion.button
                     onClick={() => navigateMonth(-1)}
                     className="p-2 rounded-lg bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300"

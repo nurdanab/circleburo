@@ -36,9 +36,9 @@ const WhyUsSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: false, amount: 0.3 }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-8xl font-bold leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             {t('whyUs.title')}
-          </h2>
+          </h1>
         </motion.div>
 
         {/* Контейнер для карточек */}

@@ -190,7 +190,7 @@ const InteractiveSection = () => {
       </div>
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
-        <motion.h2
+        <motion.h1
           className="quiz-title text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-center"
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -198,10 +198,10 @@ const InteractiveSection = () => {
           viewport={{ once: true }}
         >
           {t("quiz.headline")}
-        </motion.h2>
+        </motion.h1>
 
         <motion.p
-          className="text-lg md:text-xl text-gray-400 mb-20 max-w-2xl mx-auto text-center"
+          className="text-lg md:text-xl text-gray-400 mb-20 text-center"
           style={{ textAlign: 'center' }}
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
