@@ -59,7 +59,7 @@ function HomePage() {
 
   return (
     <main>
-      {seoData && <SEOHead {...seoData} />}
+      {seoData && <SEOHead {...seoData} pageName="home" autoOptimize={true} />}
       <HeroSection />
       
       <LazySection>

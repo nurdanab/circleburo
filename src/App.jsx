@@ -40,6 +40,7 @@ import LazyPage from './components/LazyPage';
 import PerformanceMeta from './components/PerformanceMeta';
 import AccessibilityHelper from './components/AccessibilityHelper';
 import ErrorBoundary from './components/ErrorBoundary';
+import PerformanceOptimizer from './components/PerformanceOptimizer';
 
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
@@ -89,41 +90,43 @@ function AppContent() {
 
   return (
     <ErrorBoundary>
-      <PerformanceMeta />
-      <SplashCursor />
-      <AccessibilityHelper />
-      {!isAdminRoute && <Header />}
-      <Routes>
-        {/* Russian routes (default) */}
-        <Route path="/" element={<LazyPage component={HomePage} />} />
-        <Route path="/about" element={<LazyPage component={AboutPage} />} />
-        <Route path="/project" element={<LazyPage component={CasePage} />} />
-        <Route path="/circle" element={<LazyPage component={Circle} />} />
-        <Route path="/cycle" element={<LazyPage component={Cycle} />} />
-        <Route path="/semicircle" element={<LazyPage component={Semicircle} />} /> 
-        
-        {/* English routes */}
-        <Route path="/en" element={<LazyPage component={HomePage} />} />
-        <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
-        <Route path="/en/project" element={<LazyPage component={CasePage} />} />
-        <Route path="/en/circle" element={<LazyPage component={Circle} />} />
-        <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
-        <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />
-        
-        {/* Admin routes */}
-        <Route path="/login" element={<LazyPage component={LoginPage} />} />
-        <Route 
-          path="/admin" 
-          element={
-            <ProtectedRoute>
-              <LazyPage component={AdminPage} />
-            </ProtectedRoute>
-          } 
-        />
-        
-        <Route path="*" element={<LazyPage component={NotFoundPage} />} />
-      </Routes>
-      {!isAdminRoute && <Footer />}
+      <PerformanceOptimizer>
+        <PerformanceMeta />
+        <SplashCursor />
+        <AccessibilityHelper />
+        {!isAdminRoute && <Header />}
+        <Routes>
+          {/* Russian routes (default) */}
+          <Route path="/" element={<LazyPage component={HomePage} />} />
+          <Route path="/about" element={<LazyPage component={AboutPage} />} />
+          <Route path="/project" element={<LazyPage component={CasePage} />} />
+          <Route path="/circle" element={<LazyPage component={Circle} />} />
+          <Route path="/cycle" element={<LazyPage component={Cycle} />} />
+          <Route path="/semicircle" element={<LazyPage component={Semicircle} />} />
+
+          {/* English routes */}
+          <Route path="/en" element={<LazyPage component={HomePage} />} />
+          <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
+          <Route path="/en/project" element={<LazyPage component={CasePage} />} />
+          <Route path="/en/circle" element={<LazyPage component={Circle} />} />
+          <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
+          <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />
+
+          {/* Admin routes */}
+          <Route path="/login" element={<LazyPage component={LoginPage} />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <LazyPage component={AdminPage} />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<LazyPage component={NotFoundPage} />} />
+        </Routes>
+        {!isAdminRoute && <Footer />}
+      </PerformanceOptimizer>
     </ErrorBoundary>
   );
 }

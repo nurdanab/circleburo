@@ -1,21 +1,39 @@
 // src/components/SEOHead.jsx
 import { Helmet } from 'react-helmet-async';
 import StructuredData from './StructuredData';
+import useKeywords from '../hooks/useKeywords';
 
-const SEOHead = ({ 
-  title, 
-  description, 
-  ogTitle, 
-  ogDescription, 
+const SEOHead = ({
+  title,
+  description,
+  ogTitle,
+  ogDescription,
   canonicalUrl,
   language = 'ru',
   ogImage = '/img/circle-fill.webp',
   alternateUrls = [],
   structuredData = true,
-  breadcrumbs = null
+  breadcrumbs = null,
+  pageName = null,
+  autoOptimize = true
 }) => {
-  const baseUrl = 'https://circleburo.kz/'; 
-  
+  const baseUrl = 'https://circleburo.kz/';
+
+  // Интеграция ключевых слов
+  const keywordHook = useKeywords(pageName, { limit: 15 });
+
+  // Автоматическая оптимизация заголовка и описания
+  const optimizedTitle = autoOptimize && !title.includes('Circle')
+    ? keywordHook.generateTitle(title, true)
+    : title;
+
+  const optimizedDescription = autoOptimize && keywordHook.keywords.length > 0
+    ? keywordHook.generateDescription(description, 3)
+    : description;
+
+  // Динамические ключевые слова
+  const dynamicKeywords = keywordHook.keywordsString || 'креативное агентство алматы, рекламное агентство, маркетинговое агентство, digital маркетинг';
+
   return (
     <>
       {/* Structured Data */}
@@ -26,11 +44,11 @@ const SEOHead = ({
       
       <Helmet>
       {/* Основные мета-теги */}
-      <title>{title}</title>
-      <meta name="description" content={description} />
+      <title>{optimizedTitle}</title>
+      <meta name="description" content={optimizedDescription} />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="author" content="Circle Creative Buro" />
-      <meta name="keywords" content="веб-разработка алматы, дизайн алматы, маркетинг алматы, smm алматы, креативное агентство, брендинг алматы, digital маркетинг" />
+      <meta name="keywords" content={dynamicKeywords} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
       
       {/* Дополнительные SEO мета-теги */}
@@ -44,8 +62,8 @@ const SEOHead = ({
       <meta name="msapplication-config" content="/browserconfig.xml" />
       
       {/* Open Graph */}
-      <meta property="og:title" content={ogTitle || title} />
-      <meta property="og:description" content={ogDescription || description} />
+      <meta property="og:title" content={ogTitle || optimizedTitle} />
+      <meta property="og:description" content={ogDescription || optimizedDescription} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={`${baseUrl}${ogImage}`} />

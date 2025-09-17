@@ -31,7 +31,7 @@ const Circle = () => {
 
   return (
     <>
-    {seoData && <SEOHead {...seoData} />}
+    {seoData && <SEOHead {...seoData} pageName="services.circle" autoOptimize={true} />}
       <Header />
       
       {/* Hero Section */}

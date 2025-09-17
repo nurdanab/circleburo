@@ -202,6 +202,7 @@ const InteractiveSection = () => {
 
         <motion.p
           className="text-lg md:text-xl text-gray-400 mb-20 max-w-2xl mx-auto text-center"
+          style={{ textAlign: 'center' }}
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}

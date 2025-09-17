@@ -1,6 +1,21 @@
 /* src/index.css */
 @import "tailwindcss";
 
+/* Глобальный черный фон для быстрой загрузки */
+html {
+  background-color: #000000 !important;
+}
+
+body {
+  background-color: #000000 !important;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+#root {
+  background-color: #000000;
+  min-height: 100vh;
+}
+
 /* Styles from fonts.css */
 @font-face {
   font-family: 'Montserrat';
@@ -351,4 +366,71 @@ select:focus {
   outline: none !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Оптимизация производительности */
+.performance-optimized {
+  contain: layout style paint;
+  will-change: auto;
+}
+
+.performance-optimized.animating {
+  will-change: transform, opacity;
+}
+
+/* Предотвращение memory leaks от animations */
+.animation-completed {
+  will-change: auto;
+  animation: none;
+}
+
+/* GPU оптимизация для критических элементов */
+.critical-element {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Оптимизация для медленных устройств */
+@media (max-device-width: 768px) and (max-device-height: 1024px) {
+  .performance-optimized {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+
+  .complex-animation {
+    animation: none !important;
+  }
+}
+
+/* Батарея и производительность */
+@media (prefers-reduced-motion: reduce) {
+  .battery-save * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Инактивные пользователи */
+.user-inactive .expensive-effect {
+  display: none;
+}
+
+.user-inactive .background-animation {
+  animation-play-state: paused;
+}
+
+/* Скрытая страница */
+.page-hidden .auto-pause {
+  animation-play-state: paused;
+}
+
+/* Слабые устройства */
+.low-performance-device .heavy-effect {
+  display: none;
+}
+
+.low-performance-device .gradient-complex {
+  background: #000 !important;
 }

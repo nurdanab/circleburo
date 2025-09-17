@@ -165,7 +165,7 @@ const FooterSection = () => {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
               >
-                <h4 className="text-xl font-semibold mb-6 text-white">{t('footer.navigation')}</h4>
+                <h4 className="text-xl font-semibold mb-8 text-white">{t('footer.navigation')}</h4>
                 <ul className="space-y-4">
                   {navigationLinks.map((link, index) => {
                     return (
@@ -231,7 +231,7 @@ const FooterSection = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h4 className="text-xl font-semibold mb-6 text-white">{t('footer.services')}</h4>
+                <h4 className="text-xl font-semibold mb-8 text-white">{t('footer.services')}</h4>
                 <ul className="space-y-4">
                   {services.map((service, index) => (
                     <li key={index}>
@@ -272,7 +272,7 @@ const FooterSection = () => {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                <h4 className="text-xl font-semibold mb-6 text-white">{t('footer.contact')}</h4>
+                <h4 className="text-xl font-semibold mb-8 text-white">{t('footer.contact')}</h4>
                 <ul className="space-y-4">
                   {contactInfo.map((contact, index) => (
                     <li key={index}>

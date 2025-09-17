@@ -50,7 +50,7 @@ const ServicesSection = () => {
       
       <div className="max-w-7xl mx-auto">
         <motion.h2
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-16"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-20"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -60,7 +60,7 @@ const ServicesSection = () => {
         </motion.h2>
 
         {/* Контейнер для карточек */}
-        <div className="flex flex-col lg:flex-row gap-8 justify-center items-center">
+        <div className="flex flex-col lg:flex-row gap-12 justify-center items-center">
           {servicesData.map((service, index) => (
             <ServiceCard key={service.id} service={service} index={index} />
           ))}
@@ -88,10 +88,10 @@ const ServiceCard = ({ service, index }) => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} className="block w-full h-full">
         <motion.div
-          className="absolute inset-0 bg-cover bg-center transition-all duration-300 ease-in-out"
+          className="absolute inset-0 bg-cover bg-center transition-all duration-150 ease-in-out"
           style={{ backgroundImage: `url(${isHovered ? service.hoverBgImage : service.bgImage})` }}
         />
-        <div className={`relative z-10 p-8 h-full flex flex-col justify-between transition-colors duration-300 ${textColorClass}`}>
+        <div className={`relative z-10 p-8 h-full flex flex-col justify-between transition-colors duration-150 ${textColorClass}`}>
           <div>
             <span className="text-sm tracking-widest uppercase opacity-70">{service.subtitle}</span>
             <h3 className="text-3xl md:text-4xl font-bold mt-2">{service.title}</h3>
