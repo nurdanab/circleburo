@@ -40,7 +40,7 @@ if (typeof window !== 'undefined') {
       }
     }
 
-    // Register Service Worker only in production (fixed for prod)
+    // Register Service Worker only in production (RE-ENABLED WITH FIXES)
     if ('serviceWorker' in navigator && import.meta.env.PROD) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')

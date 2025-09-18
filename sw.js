@@ -156,21 +156,26 @@ async function handleRequest(request) {
 
 // Cache First стратегия
 async function cacheFirst(request, cacheName) {
-  const cachedResponse = await caches.match(request);
+  try {
+    const cachedResponse = await caches.match(request);
 
-  if (cachedResponse) {
-    return cachedResponse;
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+
+    const networkResponse = await fetch(request);
+
+    // Кэшируем только полные ответы (избегаем partial responses 206)
+    if (networkResponse.ok && networkResponse.status === 200) {
+      const cache = await caches.open(cacheName);
+      await cache.put(request, networkResponse.clone());
+    }
+
+    return networkResponse;
+  } catch (error) {
+    console.error('[SW] Cache First failed:', error);
+    throw error;
   }
-
-  const networkResponse = await fetch(request);
-
-  // Кэшируем только полные ответы (избегаем partial responses 206)
-  if (networkResponse.ok && networkResponse.status === 200) {
-    const cache = await caches.open(cacheName);
-    cache.put(request, networkResponse.clone());
-  }
-
-  return networkResponse;
 }
 
 // Network First стратегия
@@ -181,7 +186,7 @@ async function networkFirst(request, cacheName) {
     // Кэшируем только полные ответы (избегаем partial responses 206)
     if (networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
+      await cache.put(request, networkResponse.clone());
     }
 
     return networkResponse;
@@ -192,6 +197,7 @@ async function networkFirst(request, cacheName) {
       return cachedResponse;
     }
 
+    console.error('[SW] Network First failed:', error);
     throw error;
   }
 }
@@ -200,20 +206,37 @@ async function networkFirst(request, cacheName) {
 async function staleWhileRevalidate(request, cacheName) {
   const cachedResponse = await caches.match(request);
 
-  const fetchPromise = fetch(request).then(async (networkResponse) => {
-    // Кэшируем только полные ответы (избегаем partial responses 206)
+  // Асинхронное обновление кэша в фоне
+  const updateCache = async () => {
+    try {
+      const networkResponse = await fetch(request);
+      if (networkResponse.ok && networkResponse.status === 200) {
+        const cache = await caches.open(cacheName);
+        await cache.put(request, networkResponse.clone());
+      }
+    } catch (error) {
+      console.warn('[SW] Background update failed:', error);
+    }
+  };
+
+  // Если есть кэшированная версия, возвращаем её и обновляем в фоне
+  if (cachedResponse) {
+    updateCache(); // Не ждём завершения
+    return cachedResponse;
+  }
+
+  // Если нет кэшированной версии, делаем сетевой запрос
+  try {
+    const networkResponse = await fetch(request);
     if (networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
-      // Клонируем response ПЕРЕД его использованием
-      cache.put(request, networkResponse.clone());
+      await cache.put(request, networkResponse.clone());
     }
     return networkResponse;
-  }).catch(() => {
-    // Если сеть недоступна, возвращаем кэшированную версию
-    return cachedResponse;
-  });
-
-  return cachedResponse || fetchPromise;
+  } catch (error) {
+    // Если сеть недоступна, возвращаем кэшированную версию (если есть)
+    return cachedResponse || new Response('Network Error', { status: 503 });
+  }
 }
 
 // Проверка типа ресурса
