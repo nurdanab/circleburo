@@ -27,19 +27,36 @@ if (typeof window !== 'undefined') {
         navigator.serviceWorker.register('/sw.js')
           .then((registration) => {
             console.log('SW registered: ', registration);
-            
+
+            // Принудительно проверяем обновления
+            registration.update();
+
             // Проверяем обновления
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;
               newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // Новый SW установлен, можно обновить страницу
-                  if (confirm('Доступно обновление сайта. Обновить сейчас?')) {
-                    window.location.reload();
-                  }
+                  // Новый SW установлен, принудительно обновляем
+                  console.log('New SW installed, reloading page');
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                  window.location.reload(true); // hard reload
                 }
               });
             });
+
+            // Слушаем сообщения от SW
+            navigator.serviceWorker.addEventListener('message', (event) => {
+              if (event.data?.type === 'SW_UPDATED') {
+                console.log('SW updated to version:', event.data.version);
+                // Принудительно обновляем страницу
+                window.location.reload(true);
+              }
+            });
+
+            // Периодически проверяем обновления SW (каждые 30 секунд)
+            setInterval(() => {
+              registration.update();
+            }, 30000);
           })
           .catch((registrationError) => {
             console.log('SW registration failed: ', registrationError);

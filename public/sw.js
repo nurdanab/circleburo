@@ -1,7 +1,7 @@
 // Service Worker для Circle Buro
-const CACHE_NAME = 'circle-buro-v1.0.1';
-const STATIC_CACHE = 'static-v1.0.1';
-const DYNAMIC_CACHE = 'dynamic-v1.0.1';
+const CACHE_NAME = 'circle-buro-v1.0.2';
+const STATIC_CACHE = 'static-v1.0.2';
+const DYNAMIC_CACHE = 'dynamic-v1.0.2';
 
 // Критические ресурсы для кэширования
 const CRITICAL_RESOURCES = [
@@ -19,13 +19,17 @@ const CRITICAL_RESOURCES = [
 
 // Стратегии кэширования
 const CACHE_STRATEGIES = {
-  // Критические ресурсы - Cache First
+  // Критические ресурсы - Network First для HTML, Cache First для остального
   critical: [
-    '/',
-    '/index.html',
     '/manifest.json',
     '/img/favicon',
     '/fonts/'
+  ],
+
+  // HTML всегда с сети
+  html: [
+    '/',
+    '/index.html'
   ],
   
   // API запросы - Network First
@@ -65,10 +69,11 @@ self.addEventListener('install', (event) => {
 // Активация Service Worker
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activating...');
-  
+
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
+    Promise.all([
+      // Очистка всех старых кешей
+      caches.keys().then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
@@ -77,11 +82,21 @@ self.addEventListener('activate', (event) => {
             }
           })
         );
+      }),
+      // Принудительно берем контроль над всеми клиентами
+      self.clients.claim(),
+      // Уведомляем всех клиентов об обновлении
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'SW_UPDATED',
+            version: CACHE_NAME
+          });
+        });
       })
-      .then(() => {
-        console.log('[SW] Activation complete');
-        return self.clients.claim();
-      })
+    ]).then(() => {
+      console.log('[SW] Activation complete, version:', CACHE_NAME);
+    })
   );
 });
 
@@ -124,21 +139,26 @@ async function handleRequest(request) {
   const pathname = url.pathname;
   
   try {
+    // HTML файлы - всегда Network First
+    if (isHtmlResource(pathname)) {
+      return await networkFirst(request, DYNAMIC_CACHE);
+    }
+
     // Критические ресурсы - Cache First
     if (isCriticalResource(pathname)) {
       return await cacheFirst(request, STATIC_CACHE);
     }
-    
+
     // API запросы - Network First
     if (isApiRequest(pathname)) {
       return await networkFirst(request, DYNAMIC_CACHE);
     }
-    
+
     // Статические ресурсы - Stale While Revalidate
     if (isStaticResource(pathname)) {
       return await staleWhileRevalidate(request, STATIC_CACHE);
     }
-    
+
     // Остальные запросы - Network First
     return await networkFirst(request, DYNAMIC_CACHE);
     
@@ -216,6 +236,13 @@ async function staleWhileRevalidate(request, cacheName) {
 }
 
 // Проверка типа ресурса
+function isHtmlResource(pathname) {
+  return CACHE_STRATEGIES.html.some(pattern => pathname === pattern) ||
+         pathname === '/' ||
+         pathname.endsWith('.html') ||
+         !pathname.includes('.');
+}
+
 function isCriticalResource(pathname) {
   return CACHE_STRATEGIES.critical.some(pattern => pathname.includes(pattern));
 }
