@@ -1,7 +1,7 @@
 // Service Worker для Circle Buro
-const CACHE_NAME = 'circle-buro-v1.0.0';
-const STATIC_CACHE = 'static-v1.0.0';
-const DYNAMIC_CACHE = 'dynamic-v1.0.0';
+const CACHE_NAME = 'circle-buro-v1.0.1';
+const STATIC_CACHE = 'static-v1.0.1';
+const DYNAMIC_CACHE = 'dynamic-v1.0.1';
 
 // Критические ресурсы для кэширования
 const CRITICAL_RESOURCES = [
