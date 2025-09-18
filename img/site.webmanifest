@@ -1,0 +1,37 @@
+{
+  "name": "Circle Creative Buro",
+  "short_name": "Circle",
+  "description": "Креативное агентство в Алматы. Разработка веб-приложений, дизайн, маркетинг и SMM услуги.",
+  "lang": "ru",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/img/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/img/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/img/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "categories": ["business", "marketing", "design"]
+}

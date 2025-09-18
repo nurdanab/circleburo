@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Главная страница -->
+  <url>
+    <loc>https://circleburo.kz/</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/"/>
+  </url>
+
+  <!-- О нас -->
+  <url>
+    <loc>https://circleburo.kz/about</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/about"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/about"/>
+  </url>
+
+  <!-- Услуги Circle -->
+  <url>
+    <loc>https://circleburo.kz/circle</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/circle"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/circle"/>
+  </url>
+
+  <!-- Услуги Semicircle -->
+  <url>
+    <loc>https://circleburo.kz/semicircle</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/semicircle"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/semicircle"/>
+  </url>
+
+  <!-- Услуги Cycle -->
+  <url>
+    <loc>https://circleburo.kz/cycle</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/cycle"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/cycle"/>
+  </url>
+
+  <!-- Кейсы -->
+  <url>
+    <loc>https://circleburo.kz/project</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/project"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/project"/>
+  </url>
+
+  <!-- Английские версии страниц -->
+  <url>
+    <loc>https://circleburo.kz/en</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/"/>
+  </url>
+
+  <url>
+    <loc>https://circleburo.kz/en/about</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/about"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/about"/>
+  </url>
+
+  <url>
+    <loc>https://circleburo.kz/en/circle</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/circle"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/circle"/>
+  </url>
+
+  <url>
+    <loc>https://circleburo.kz/en/semicircle</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/semicircle"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/semicircle"/>
+  </url>
+
+  <url>
+    <loc>https://circleburo.kz/en/cycle</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/cycle"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/cycle"/>
+  </url>
+
+  <url>
+    <loc>https://circleburo.kz/en/project</loc>
+    <lastmod>2025-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://circleburo.kz/en/project"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://circleburo.kz/project"/>
+  </url>
+
+</urlset>

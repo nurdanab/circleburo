@@ -1,0 +1,105 @@
+{
+  "name": "Circle Creative Buro",
+  "short_name": "Circle Buro",
+  "description": "Креативное агентство полного цикла в Алматы. Веб-разработка, дизайн, маркетинг и SMM.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ru",
+  "categories": ["business", "productivity", "design"],
+  "icons": [
+    {
+      "src": "/img/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/circle-fill.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/img/screenshot-desktop.webp",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Circle Buro - Главная страница (Desktop)"
+    },
+    {
+      "src": "/img/screenshot-mobile.webp", 
+      "sizes": "390x844",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Circle Buro - Главная страница (Mobile)"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Услуги",
+      "short_name": "Услуги",
+      "description": "Наши креативные услуги",
+      "url": "/circle",
+      "icons": [
+        {
+          "src": "/img/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "О нас",
+      "short_name": "О нас", 
+      "description": "Информация о команде",
+      "url": "/about",
+      "icons": [
+        {
+          "src": "/img/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Кейсы",
+      "short_name": "Кейсы",
+      "description": "Наши работы",
+      "url": "/case",
+      "icons": [
+        {
+          "src": "/img/favicon-96x96.png",
+          "sizes": "96x96", 
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://circleburo.kz/"
+    }
+  ],
+  "prefer_related_applications": false
+}
