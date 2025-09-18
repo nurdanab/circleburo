@@ -21,7 +21,26 @@ if (typeof window !== 'undefined') {
     reportWebVitals();
     observePerformance();
     
-    // Register Service Worker only in production
+    // Force unregister Service Worker in development
+    if ('serviceWorker' in navigator && import.meta.env.DEV) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+          console.log('🔧 SW unregistered for development:', registration);
+        }
+      });
+      // Also clear existing SW cache
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (let name of names) {
+            caches.delete(name);
+            console.log('🗑️ SW cache cleared:', name);
+          }
+        });
+      }
+    }
+
+    // Register Service Worker only in production (fixed for prod)
     if ('serviceWorker' in navigator && import.meta.env.PROD) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')

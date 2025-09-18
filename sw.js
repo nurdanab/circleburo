@@ -163,13 +163,15 @@ async function cacheFirst(request, cacheName) {
   }
   
   const networkResponse = await fetch(request);
-  
+
   // Кэшируем только полные ответы (избегаем partial responses 206)
   if (networkResponse.ok && networkResponse.status === 200) {
     const cache = await caches.open(cacheName);
-    cache.put(request, networkResponse.clone());
+    // Клонируем response ПЕРЕД его использованием
+    const responseClone = networkResponse.clone();
+    cache.put(request, responseClone);
   }
-  
+
   return networkResponse;
 }
 
@@ -177,13 +179,15 @@ async function cacheFirst(request, cacheName) {
 async function networkFirst(request, cacheName) {
   try {
     const networkResponse = await fetch(request);
-    
+
     // Кэшируем только полные ответы (избегаем partial responses 206)
     if (networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
+      // Клонируем response ПЕРЕД его использованием
+      const responseClone = networkResponse.clone();
+      cache.put(request, responseClone);
     }
-    
+
     return networkResponse;
   } catch (error) {
     const cachedResponse = await caches.match(request);
@@ -199,12 +203,14 @@ async function networkFirst(request, cacheName) {
 // Stale While Revalidate стратегия
 async function staleWhileRevalidate(request, cacheName) {
   const cachedResponse = await caches.match(request);
-  
-  const fetchPromise = fetch(request).then((networkResponse) => {
+
+  const fetchPromise = fetch(request).then(async (networkResponse) => {
     // Кэшируем только полные ответы (избегаем partial responses 206)
     if (networkResponse.ok && networkResponse.status === 200) {
-      const cache = caches.open(cacheName);
-      cache.then((cache) => cache.put(request, networkResponse.clone()));
+      const cache = await caches.open(cacheName);
+      // Клонируем response ПЕРЕД его использованием
+      const responseClone = networkResponse.clone();
+      cache.put(request, responseClone);
     }
     return networkResponse;
   }).catch(() => {

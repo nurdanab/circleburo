@@ -36,12 +36,23 @@ const Header = () => {
 
   // Функция для навигации к секции на главной странице
   const scrollToSection = (sectionId) => {
-    navigateToSection(navigate, location.pathname, '/', sectionId, {
-      maxAttempts: 15,
-      delay: 150,
-      offset: 80 // Account for fixed header
-    });
-    
+    console.log('Header scrollToSection called:', { sectionId, currentPath: location.pathname });
+
+    // Всегда переходим на главную страницу, затем скроллим к секции
+    if (location.pathname !== '/') {
+      // Если мы не на главной, переходим туда и скроллим к секции
+      console.log('Navigating to home with scroll target:', sectionId);
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      // Если уже на главной, просто скроллим
+      console.log('Already on home, scrolling to:', sectionId);
+      navigateToSection(navigate, location.pathname, '/', sectionId, {
+        maxAttempts: 15,
+        delay: 150,
+        offset: 80 // Account for fixed header
+      });
+    }
+
     setIsMenuOpen(false);
     setIsServicesOpen(false);
   };

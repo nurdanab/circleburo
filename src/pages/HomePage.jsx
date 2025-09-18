@@ -25,35 +25,52 @@ function HomePage() {
     const stateScrollTo = location.state?.scrollTo;
     const sessionScrollTo = sessionStorage.getItem('scrollToSection');
     const sectionId = stateScrollTo || sessionScrollTo;
-    
+
     if (sectionId) {
       if (import.meta.env.DEV) {
         console.log('HomePage: Trying to scroll to section:', sectionId);
         console.log('Source:', stateScrollTo ? 'location.state' : 'sessionStorage');
       }
-      
-      // Даем время для полной загрузки всех компонентов
-      const scrollTimer = setTimeout(() => {
-        if (import.meta.env.DEV) {
-          console.log('HomePage: Starting scroll attempt for:', sectionId);
+
+      // Принудительно загружаем все секции для скролла
+      const preloadAndScroll = async () => {
+        try {
+          // Предзагружаем секции в зависимости от target
+          if (sectionId === 'services') {
+            await import('../components/sections/ServicesSection');
+          } else if (sectionId === 'projects') {
+            await import('../components/sections/ProjectsSection');
+          } else if (sectionId === 'contact') {
+            await import('../components/sections/ContactFormSection');
+          }
+
+          // Даем время для рендера
+          setTimeout(() => {
+            if (import.meta.env.DEV) {
+              console.log('HomePage: Starting scroll attempt for:', sectionId);
+            }
+            scrollToElement(sectionId, {
+              maxAttempts: 50,
+              delay: 200,
+              offset: 80,
+              behavior: 'smooth'
+            });
+
+            // Очищаем sessionStorage после использования
+            sessionStorage.removeItem('scrollToSection');
+          }, 1500);
+
+        } catch (error) {
+          console.error('Failed to preload section:', error);
         }
-        scrollToElement(sectionId, {
-          maxAttempts: 30,
-          delay: 250,
-          offset: 80,
-          behavior: 'smooth'
-        });
-        
-        // Очищаем sessionStorage после использования
-        sessionStorage.removeItem('scrollToSection');
-      }, 1000);
-      
-      // Очищаем state после использования  
+      };
+
+      preloadAndScroll();
+
+      // Очищаем state после использования
       if (stateScrollTo) {
         window.history.replaceState({}, document.title);
       }
-      
-      return () => clearTimeout(scrollTimer);
     }
   }, [location.state, location.pathname]); // Добавляем pathname в зависимости
 

@@ -60,31 +60,7 @@ function AppContent() {
     }).catch(err => console.error('Failed to load analytics:', err));
   }, [location]);
 
-  // Handle scroll to section from navigation state
-  useEffect(() => {
-    const scrollToSection = () => {
-      const scrollTarget = location.state?.scrollTo || sessionStorage.getItem('scrollToSection');
-
-      if (scrollTarget) {
-        // Clear sessionStorage
-        sessionStorage.removeItem('scrollToSection');
-
-        // Import navigation utility and scroll to section
-        import('./utils/navigation.js').then(({ scrollToElement }) => {
-          // Wait a bit for the page to render
-          setTimeout(() => {
-            scrollToElement(scrollTarget, {
-              maxAttempts: 20,
-              delay: 150,
-              offset: 80
-            });
-          }, 300);
-        }).catch(err => console.error('Failed to load navigation utility:', err));
-      }
-    };
-
-    scrollToSection();
-  }, [location.pathname, location.state]);
+  // Handle scroll to section from navigation state - logic moved to HomePage.jsx
 
   const isAdminRoute = location.pathname === '/admin' || location.pathname === '/login';
 

@@ -14,11 +14,18 @@ const FooterSection = () => {
 
   // Функция для навигации к секциям (используем улучшенную утилиту)
   const scrollToSection = (sectionId) => {
-    navigateToSection(navigate, location.pathname, '/', sectionId, {
-      maxAttempts: 15,
-      delay: 150,
-      offset: 80 // Account for fixed header
-    });
+    // Всегда переходим на главную страницу, затем скроллим к секции
+    if (location.pathname !== '/') {
+      // Если мы не на главной, переходим туда и скроллим к секции
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      // Если уже на главной, просто скроллим
+      navigateToSection(navigate, location.pathname, '/', sectionId, {
+        maxAttempts: 15,
+        delay: 150,
+        offset: 80 // Account for fixed header
+      });
+    }
   };
 
   const stars = Array.from({ length: 20 }, (_, i) => ({
