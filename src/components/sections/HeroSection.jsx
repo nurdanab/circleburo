@@ -2,9 +2,11 @@
 import "tailwindcss";
 import React, { useEffect, useState, useMemo, Suspense } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import VideoHero from '../VideoHero';
 
 const HeroSection = () => {
+  const { t } = useTranslation();
   // Проверяем предпочтения пользователя по анимациям
   const prefersReducedMotion = useReducedMotion();
   const { scrollY } = useScroll();
@@ -254,6 +256,17 @@ const HeroSection = () => {
         >
           CIRCLE
         </motion.h1>
+
+        {/* Подзаголовок с ключевыми словами */}
+        <motion.h2
+          className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-white/80 mt-4 text-center max-w-4xl px-4 leading-relaxed"
+          variants={titleVariants}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.5 }}
+        >
+          {t('hero.subtitle')}
+        </motion.h2>
       </motion.div>
 
       {/* Индикатор скролла */}

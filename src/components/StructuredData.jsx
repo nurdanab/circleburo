@@ -33,6 +33,9 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
       "latitude": "43.238949",
       "longitude": "76.889709"
     },
+    "sameAs": [
+      "https://2gis.kz/almaty/firm/70000001104431525"
+    ],
     "areaServed": [
       {
         "@type": "City",
@@ -169,6 +172,9 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
       "latitude": "43.238949",
       "longitude": "76.889709"
     },
+    "sameAs": [
+      "https://2gis.kz/almaty/firm/70000001104431525"
+    ],
     "openingHours": "Mo-Fr 09:00-18:00",
     "priceRange": "$$",
     "paymentAccepted": "Cash, Credit Card, Bank Transfer",

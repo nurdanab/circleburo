@@ -48,7 +48,7 @@ const FooterSection = () => {
   const contactInfo = [
     { icon: Phone, text: '+7 776 153 60 92', href: 'tel:+7 776 153 60 92' },
     { icon: Phone, text: '+7 775 420 18 40', href: 'tel:+7 775 420 18 40' },
-    { icon: MapPin, text: '2/2 Khodzhanova Street Almaty, Kazakhstan', href: 'https://go.2gis.com/6P5z3' },
+    { icon: MapPin, text: '2/2 Khodzhanova Street Almaty, Kazakhstan', href: 'https://2gis.kz/almaty/firm/70000001104431525' },
     { icon: Mail, text: 'info@circleburo.kz', href: 'mailto:info@circleburo.kz' },
   ];
 
