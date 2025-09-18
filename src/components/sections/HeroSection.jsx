@@ -265,7 +265,7 @@ const HeroSection = () => {
           animate="visible"
           transition={{ delay: 0.5 }}
         >
-          {t('hero.subtitle')}
+          {t('main.subtitle')}
         </motion.h2>
       </motion.div>
 
