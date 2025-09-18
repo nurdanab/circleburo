@@ -38,22 +38,7 @@
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/img/screenshot-desktop.webp",
-      "sizes": "1280x720",
-      "type": "image/webp",
-      "form_factor": "wide",
-      "label": "Circle Buro - Главная страница (Desktop)"
-    },
-    {
-      "src": "/img/screenshot-mobile.webp", 
-      "sizes": "390x844",
-      "type": "image/webp",
-      "form_factor": "narrow",
-      "label": "Circle Buro - Главная страница (Mobile)"
-    }
-  ],
+  "screenshots": [],
   "shortcuts": [
     {
       "name": "Услуги",

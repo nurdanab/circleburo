@@ -1,0 +1,5 @@
+# SPA routing fallback
+/*    /index.html   200
+
+# Specific redirects for common 404s
+/favicon.ico    /img/favicon.ico    200

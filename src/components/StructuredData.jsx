@@ -82,11 +82,7 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
       "@type": "AggregateRating",
       "ratingValue": "4.8",
       "reviewCount": "25"
-    },
-    "sameAs": [
-      "https://instagram.com/circleburo",
-      "https://facebook.com/circleburo"
-    ]
+    }
   });
 
   const getPersonData = (person) => ({

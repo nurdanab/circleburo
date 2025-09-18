@@ -157,19 +157,17 @@ async function handleRequest(request) {
 // Cache First стратегия
 async function cacheFirst(request, cacheName) {
   const cachedResponse = await caches.match(request);
-  
+
   if (cachedResponse) {
     return cachedResponse;
   }
-  
+
   const networkResponse = await fetch(request);
 
   // Кэшируем только полные ответы (избегаем partial responses 206)
   if (networkResponse.ok && networkResponse.status === 200) {
     const cache = await caches.open(cacheName);
-    // Клонируем response ПЕРЕД его использованием
-    const responseClone = networkResponse.clone();
-    cache.put(request, responseClone);
+    cache.put(request, networkResponse.clone());
   }
 
   return networkResponse;
@@ -183,19 +181,17 @@ async function networkFirst(request, cacheName) {
     // Кэшируем только полные ответы (избегаем partial responses 206)
     if (networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
-      // Клонируем response ПЕРЕД его использованием
-      const responseClone = networkResponse.clone();
-      cache.put(request, responseClone);
+      cache.put(request, networkResponse.clone());
     }
 
     return networkResponse;
   } catch (error) {
     const cachedResponse = await caches.match(request);
-    
+
     if (cachedResponse) {
       return cachedResponse;
     }
-    
+
     throw error;
   }
 }
@@ -209,15 +205,14 @@ async function staleWhileRevalidate(request, cacheName) {
     if (networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
       // Клонируем response ПЕРЕД его использованием
-      const responseClone = networkResponse.clone();
-      cache.put(request, responseClone);
+      cache.put(request, networkResponse.clone());
     }
     return networkResponse;
   }).catch(() => {
     // Если сеть недоступна, возвращаем кэшированную версию
     return cachedResponse;
   });
-  
+
   return cachedResponse || fetchPromise;
 }
 

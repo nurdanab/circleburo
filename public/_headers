@@ -21,6 +21,20 @@
   # HSTS (HTTP Strict Transport Security)
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
+# JavaScript files - ensure correct MIME type
+/assets/js/*.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+# All JS files
+*.js
+  Content-Type: application/javascript; charset=utf-8
+
+# Service Worker
+/sw.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: no-cache, no-store, must-revalidate
+
 # Cache headers for static assets
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
