@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
@@ -35,7 +35,7 @@
     <link rel="preload" href="/img/logo-header.png" as="image">
     
     <!-- Критический CSS -->
-    <link rel="stylesheet" href="/critical.css">
+    <link rel="stylesheet" href="/critical.min.css">
     
     <!-- Фавиконы -->
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
@@ -72,7 +72,7 @@
     <link rel="canonical" href="https://circleburo.kz/" />
 
     <!-- Language alternatives -->
-    <link rel="alternate" href="https://circleburo.kz/" hreflang="ru" />
+    <link rel="alternate" href="https://circleburo.kz/" hreflang="ru-KZ" />
     <link rel="alternate" href="https://circleburo.kz/en" hreflang="en" />
     <link rel="alternate" href="https://circleburo.kz/" hreflang="x-default" />
     <script type="module" crossorigin src="/assets/js/index-CXKVCd3B.js"></script>
@@ -94,17 +94,14 @@
       <!-- SEO fallback контент до загрузки React -->
       <noscript>
         <main style="color: white; padding: 2rem; text-align: center; font-family: Arial, sans-serif;">
-          <h1>CIRCLE BURO — креативное агентство в Алматы</h1>
-          <p>Креатив, брендинг, стратегия и SMM под ключ. Помогаем брендам выделяться, расти и масштабироваться.</p>
-          <nav>
-            <a href="/about" style="color: #ccc; margin: 0 1rem;">О нас</a>
-            <a href="/circle" style="color: #ccc; margin: 0 1rem;">Circle</a>
-            <a href="/semicircle" style="color: #ccc; margin: 0 1rem;">Semicircle</a>
-            <a href="/cycle" style="color: #ccc; margin: 0 1rem;">Cycle</a>
-            <a href="/project" style="color: #ccc; margin: 0 1rem;">Проекты</a>
-          </nav>
+          <!-- SEO fallback контент до загрузки React -->
         </main>
       </noscript>
+
+      <!-- Prerendered content для SEO (скрывается при загрузке React) -->
+      <div id="prerendered-content" style="display: none;">
+        <!-- SEO fallback контент до загрузки React -->
+      </div>
     </div>
     
     <!-- Скрипт загрузки -->

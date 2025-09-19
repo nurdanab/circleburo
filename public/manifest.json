@@ -85,7 +85,7 @@
       "name": "Кейсы",
       "short_name": "Кейсы",
       "description": "Наши работы",
-      "url": "/case",
+      "url": "/project",
       "icons": [
         {
           "src": "/img/favicon-96x96.png",

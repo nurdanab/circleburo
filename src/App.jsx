@@ -41,6 +41,7 @@ import PerformanceMeta from './components/PerformanceMeta';
 import AccessibilityHelper from './components/AccessibilityHelper';
 import ErrorBoundary from './components/ErrorBoundary';
 import PerformanceOptimizer from './components/PerformanceOptimizer';
+import PrerenderManager from './components/PrerenderManager';
 
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
@@ -67,6 +68,7 @@ function AppContent() {
   return (
     <ErrorBoundary>
       <PerformanceOptimizer>
+        <PrerenderManager />
         <PerformanceMeta />
         <SplashCursor />
         <AccessibilityHelper />
