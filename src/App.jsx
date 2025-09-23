@@ -29,7 +29,7 @@ const CasePage = createLazyComponent(() => import('./pages/CasePage'), 'CasePage
 const Circle = createLazyComponent(() => import('./pages/Circle'), 'Circle');
 const Cycle = createLazyComponent(() => import('./pages/Cycle'), 'Cycle');
 const Semicircle = createLazyComponent(() => import('./pages/Semicircle'), 'Semicircle');
-const AdminPage = createLazyComponent(() => import('./pages/AdminPage'), 'AdminPage');
+import AdminPage from './pages/AdminPage';
 const LoginPage = createLazyComponent(() => import('./pages/LoginPage'), 'LoginPage');
 const NotFoundPage = createLazyComponent(() => import('./pages/NotFoundPage'), 'NotFoundPage');
 
@@ -95,7 +95,7 @@ function AppContent() {
           <Route
             path="/admin"
             element={
-              <LazyPage component={AdminPage} />
+              <AdminPage />
             }
           />
 

@@ -54,6 +54,8 @@ const STATUS_COLORS = {
 };
 
 const AdminPage = () => {
+  console.log('🔥 AdminPage is rendering!');
+
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -388,7 +390,22 @@ ${statusEmoji[newStatus]} new!
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 pt-10 admin-page">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 pt-10 admin-page" style={{backgroundColor: 'red'}}>
+      <div style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: 'yellow',
+        color: 'black',
+        padding: '20px',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        zIndex: 9999,
+        border: '5px solid black'
+      }}>
+        ADMIN PAGE LOADED!
+      </div>
       <style dangerouslySetInnerHTML={{__html: `
         .admin-page { background-color: red !important; }
         .admin-page * { color: black !important; }
