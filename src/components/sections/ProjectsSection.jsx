@@ -78,7 +78,7 @@ const ProjectsSection = () => {
           {projectsData.map((project) => (
             <motion.div
               key={project.id}
-              className="group relative w-[90vw] md:w-[80vw] aspect-[4/3] rounded-[20px] md:rounded-[30px] overflow-hidden flex-shrink-0"
+              className="group relative w-[90vw] md:w-[80vw] aspect-[3/4] md:aspect-[4/3] rounded-[20px] md:rounded-[30px] overflow-hidden flex-shrink-0"
               initial={{ opacity: 0.5, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
@@ -92,13 +92,21 @@ const ProjectsSection = () => {
                   loop
                   muted
                   playsInline
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105"
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'center',
+                  }}
                 />
               ) : (
                 <img
-                  src={project.media} 
+                  src={project.media}
                   alt={project.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105"
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'center',
+                  }}
                 />
               )}
 

@@ -261,11 +261,13 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Кнопка-гамбургер для мобильных устройств */}
+        {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
         <div className="lg:hidden" style={{
+          display: 'flex',
           alignItems: 'center',
           gap: '1rem',
         }}>
+          <LanguageSwitcher />
           <button
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
