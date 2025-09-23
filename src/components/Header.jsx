@@ -234,13 +234,13 @@ const Header = () => {
             {t('nav.portfolio')}
           </button>
         </div>
-        
-        <LanguageSwitcher />
-        
-        {/* Кнопка "Contact us" для десктопа */}
+
+        {/* Переключатель языка и кнопка "Contact us" для десктопа */}
         <div className="hidden lg:flex" style={{
           alignItems: 'center',
+          gap: '1rem',
         }}>
+          <LanguageSwitcher />
           <button
             onClick={() => scrollToSection('contact')}
             className="btn-dark-theme"
