@@ -130,9 +130,15 @@ img, video, canvas, svg {
   white-space: normal;
 }
 
-/* Focus styles - убираем желтую обводку */
+/* Focus styles - улучшаем для accessibility */
 *:focus {
   outline: none;
+}
+
+/* Visible focus для keyboard navigation */
+*:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
 }
 
 /* Кастомные стили фокуса для кнопок */

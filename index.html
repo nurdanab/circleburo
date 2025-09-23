@@ -3,15 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+
+    <!-- Security meta tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     
     <!-- Preconnect для критических ресурсов -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="//www.google-analytics.com">
     
     <!-- Preload критических шрифтов -->
-    <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Montserrat-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     
     <!-- Font display optimization -->
     <style>
@@ -29,13 +37,25 @@
         font-style: normal;
         font-display: swap;
       }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url('/fonts/Montserrat-Light.woff2') format('woff2');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      /* Fallback для быстрого рендеринга */
+      .font-loading {
+        font-family: system-ui, -apple-system, sans-serif;
+      }
     </style>
     
     <!-- Preload критических изображений -->
-    <link rel="preload" href="/img/logo-header.png" as="image">
+    <link rel="preload" href="/img/logo-header.png" as="image" fetchpriority="high">
+    <link rel="preload" href="/img/circle-fill.webp" as="image" fetchpriority="high">
     
     <!-- Критический CSS -->
-    <link rel="stylesheet" href="/critical.min.css">
+    <link rel="stylesheet" href="/critical.css">
     
     <!-- Фавиконы -->
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
@@ -90,6 +110,14 @@
     <link rel="stylesheet" crossorigin href="/assets/index-BYAs0R0G.css">
   </head>
   <body style="background-color: #000000; margin: 0; padding: 0;">
+    <!-- Skip links для screen readers -->
+    <a href="#main-content" class="sr-only focus:not-sr-only fixed top-4 left-4 z-50 bg-blue-600 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+      Перейти к основному содержимому
+    </a>
+    <a href="#navigation" class="sr-only focus:not-sr-only fixed top-4 left-4 z-50 bg-blue-600 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mt-12">
+      Перейти к навигации
+    </a>
+
     <div id="root">
       <!-- SEO fallback контент до загрузки React -->
       <noscript>

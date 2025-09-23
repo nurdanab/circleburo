@@ -67,8 +67,12 @@ const AccessibilityHelper = () => {
         className="sr-only focus:not-sr-only fixed top-4 left-4 z-50 bg-blue-600 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
         onClick={() => setIsVisible(true)}
         aria-label="Показать настройки доступности (Alt + A)"
+        aria-describedby="accessibility-hint"
       >
         Настройки доступности
+        <span id="accessibility-hint" className="sr-only">
+          Нажмите, чтобы открыть панель настроек доступности для улучшения восприятия сайта
+        </span>
       </button>
     );
   }
