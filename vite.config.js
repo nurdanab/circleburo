@@ -42,55 +42,53 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Критические зависимости React - остаются в основном чанке
+          // КРИТИЧЕСКИЕ РЕСУРСЫ - остаются в основном чанке для быстрого SI
           if (id.includes('node_modules/react/') && !id.includes('react-dom')) {
             return 'vendor-react';
           }
           if (id.includes('node_modules/react-dom/')) {
             return 'vendor-react-dom';
           }
-
-          // Framer Motion - выносим в отдельный лази чанк для SI
-          if (id.includes('node_modules/framer-motion/')) {
-            return 'animations';
-          }
-
-          // GSAP - тоже в лази чанк
-          if (id.includes('node_modules/gsap/')) {
-            return 'animations';
-          }
-
-          // Критическая маршрутизация - остается в основном чанке
           if (id.includes('node_modules/react-router-dom/')) {
-            return 'vendor-react';
+            return 'vendor-react'; // Объединяем с React для меньшего количества запросов
           }
 
-          // i18n - асинхронно
-          if (id.includes('node_modules/react-i18next/') || id.includes('node_modules/i18next/')) {
-            return 'features';
+          // НЕКРИТИЧЕСКИЕ но часто используемые - лежат отдельно
+          if (id.includes('node_modules/react-helmet-async/')) {
+            return 'vendor-react'; // Нужен для SEO, остается критическим
           }
 
-          // Supabase - асинхронно
-          if (id.includes('node_modules/@supabase/')) {
-            return 'features';
+          // ВСЕ АНИМАЦИИ - АСИНХРОННО (главная причина медленного SI)
+          if (id.includes('node_modules/framer-motion/') || id.includes('node_modules/gsap/')) {
+            return null; // Динамический импорт
           }
 
-          // Analytics - асинхронно (не блокирует основной рендер)
+          // АНАЛИТИКА - ПОЛНОСТЬЮ АСИНХРОННО
           if (id.includes('node_modules/react-ga4/') || id.includes('node_modules/newrelic/') || id.includes('node_modules/web-vitals/')) {
-            return 'analytics';
+            return null; // Динамический импорт
           }
 
-          // Иконки - лази лоадинг
+          // i18n - асинхронно если не критический язык
+          if (id.includes('node_modules/react-i18next/') || id.includes('node_modules/i18next/')) {
+            return null; // Динамический импорт
+          }
+
+          // Supabase - только для админки, асинхронно
+          if (id.includes('node_modules/@supabase/')) {
+            return null; // Динамический импорт
+          }
+
+          // Иконки - lazy чанк
           if (id.includes('node_modules/lucide-react/') || id.includes('node_modules/react-icons/')) {
             return 'icons';
           }
 
-          // Утилиты - лази
-          if (id.includes('node_modules/cleave.js/') || id.includes('node_modules/react-helmet-async/')) {
+          // Остальные утилиты - объединяем в один utils чанк
+          if (id.includes('node_modules/cleave.js/')) {
             return 'utils';
           }
 
-          // Остальные vendor библиотеки
+          // Все остальное vendor - минимизируем количество чанков
           if (id.includes('node_modules/')) {
             return 'vendor';
           }
@@ -110,7 +108,7 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js'
       }
     },
-    chunkSizeWarningLimit: 300, // Еще более строгий лимит для LCP/SI
+    chunkSizeWarningLimit: 200, // Экстремально строгий лимит для SI
     minify: 'terser',
     target: 'es2020', // Modern target for better optimization
     terserOptions: {

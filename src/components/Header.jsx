@@ -90,20 +90,34 @@ const Header = () => {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
     >
-      <nav style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        maxWidth: '1920px',
-        margin: '0 auto',
-      }}>
+      <nav
+        role="navigation"
+        aria-label="Основная навигация"
+        id="navigation"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          maxWidth: '1920px',
+          margin: '0 auto',
+        }}
+      >
         {/* Логотип */}
         <div style={{ flexShrink: 0 }}>
           <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Circle Buro - На главную страницу"
           >
-            <img src="/img/logo-header.png" alt="Circle Buro" style={{ height: '2.5rem' }} />
+            <OptimizedImage
+              src="/img/logo-header.webp"
+              alt="Circle Buro - Креативное агентство полного цикла в Алматы"
+              width={200}
+              height={94}
+              priority={true}
+              className="header-logo"
+              style={{ height: '2.5rem', width: 'auto' }}
+            />
           </Link>
         </div>
 

@@ -1,9 +1,12 @@
 // src/pages/HomePage.jsx
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import useSEO from '../hooks/useSEO';
-import HeroSection from '../components/sections/HeroSection';
+import StaticHero from '../components/StaticHero';
+
+// Lazy load анимированный Hero для лучшего LCP
+const HeroSection = React.lazy(() => import('../components/sections/HeroSection'));
 import LazySection from '../components/LazySection';
 import { scrollToElement } from '../utils/navigation';
 
@@ -19,6 +22,26 @@ const ContactFormSection = React.lazy(() => import('../components/sections/Conta
 function HomePage() {
   const seoData = useSEO('home');
   const location = useLocation();
+  const [showAnimatedHero, setShowAnimatedHero] = useState(false);
+
+  // Переключаемся на анимированный Hero после первого рендера для улучшения LCP
+  useEffect(() => {
+    const handleLoadAnimatedHero = () => {
+      setShowAnimatedHero(true);
+    };
+
+    window.addEventListener('loadAnimatedHero', handleLoadAnimatedHero);
+
+    // Fallback: переключаемся через 100ms если событие не сработало
+    const timer = setTimeout(() => {
+      setShowAnimatedHero(true);
+    }, 100);
+
+    return () => {
+      window.removeEventListener('loadAnimatedHero', handleLoadAnimatedHero);
+      clearTimeout(timer);
+    };
+  }, []);
 
   useEffect(() => {
     // Проверяем, есть ли state с scrollTo или sessionStorage
@@ -75,9 +98,33 @@ function HomePage() {
   }, [location.state, location.pathname]); // Добавляем pathname в зависимости
 
   return (
-    <main>
+    <main role="main" aria-label="Основное содержимое страницы">
       {seoData && <SEOHead {...seoData} pageName="home" autoOptimize={true} />}
-      <HeroSection />
+      {/* Показываем статический Hero для быстрого LCP, затем заменяем анимированным */}
+      {!showAnimatedHero ? (
+        <StaticHero />
+      ) : (
+        <Suspense fallback={<StaticHero />}>
+          <HeroSection />
+        </Suspense>
+      )}
+
+      {/* Загружаем анимированный Hero после первого рендера */}
+      {!showAnimatedHero && (
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Загружаем анимированный Hero после LCP
+              setTimeout(() => {
+                if (window.React) {
+                  const event = new CustomEvent('loadAnimatedHero');
+                  window.dispatchEvent(event);
+                }
+              }, 100);
+            `
+          }}
+        />
+      )}
       
       <LazySection>
         <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>

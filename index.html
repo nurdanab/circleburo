@@ -15,14 +15,9 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="//www.google-analytics.com">
     
-    <!-- МАКСИМАЛЬНО АГРЕССИВНЫЕ PRELOADS ДЛЯ LCP -->
+    <!-- ОПТИМИЗИРОВАННЫЕ PRELOADS ДЛЯ SI/LCP -->
     <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high">
-    <link rel="preload" href="/assets/index-BMLgR0q5.css" as="style" fetchpriority="high">
-    <link rel="preload" href="/assets/js/index-BVPWRmOt.js" as="script" fetchpriority="high">
-
-    <!-- Предзагрузка критических чанков React -->
-    <link rel="modulepreload" href="/assets/js/vendor-react-DGsprnG_.js" fetchpriority="high">
-    <link rel="modulepreload" href="/assets/js/vendor-react-dom-eW4zCcd-.js" fetchpriority="high">
+    <link rel="preload" href="/img/logo-header.webp" as="image" fetchpriority="high" imagesrcset="/img/logo-header.webp 1x, /img/logo-header@2x.webp 2x" imagesizes="(max-width: 768px) 150px, 200px">
 
     <!-- Некритические шрифты -->
     <link rel="prefetch" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
@@ -54,9 +49,7 @@
       }
     </script>
     
-    <!-- КРИТИЧЕСКИЕ ИЗОБРАЖЕНИЯ ДЛЯ LCP -->
-    <link rel="preload" href="/img/logo-header.png" as="image" fetchpriority="high">
-    <!-- Откладываем hero изображения чтобы не задерживать LCP -->
+    <!-- LCP изображения уже preloaded выше -->
     
     <!-- Критический CSS с высоким приоритетом -->
     <link rel="stylesheet" href="/critical.css" fetchpriority="high">
@@ -99,19 +92,22 @@
     <link rel="alternate" href="https://circleburo.kz/" hreflang="ru-KZ" />
     <link rel="alternate" href="https://circleburo.kz/en" hreflang="en" />
     <link rel="alternate" href="https://circleburo.kz/" hreflang="x-default" />
-    <script type="module" crossorigin src="/assets/js/index-CXKVCd3B.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/js/analytics-jR0q-LqR.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/vendor-react-DGsprnG_.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/supabase-D6DFX1W9.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/vendor-CCnSY37f.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/vendor-react-dom-eW4zCcd-.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/react-helmet-BnDYGs-d.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/react-icons-CIX4GkcY.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/i18n-CcrSPu84.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/framer-motion-CNyOhlkC.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/lucide-icons-BzS6JU5C.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/web-vitals-CkdXpdH1.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-BYAs0R0G.css">
+    <!-- КРИТИЧЕСКИЕ РЕСУРСЫ ТОЛЬКО -->
+    <script type="module" crossorigin src="/assets/js/index-CXKVCd3B.js" fetchpriority="high"></script>
+    <link rel="modulepreload" crossorigin href="/assets/js/vendor-react-DGsprnG_.js" fetchpriority="high">
+    <link rel="modulepreload" crossorigin href="/assets/js/vendor-react-dom-eW4zCcd-.js" fetchpriority="high">
+    <link rel="stylesheet" crossorigin href="/assets/index-BYAs0R0G.css" fetchpriority="high">
+
+    <!-- НЕКРИТИЧЕСКИЕ РЕСУРСЫ (НИЗКИЙ ПРИОРИТЕТ) -->
+    <link rel="modulepreload" crossorigin href="/assets/js/analytics-jR0q-LqR.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/supabase-D6DFX1W9.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/vendor-CCnSY37f.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/react-helmet-BnDYGs-d.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/react-icons-CIX4GkcY.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/i18n-CcrSPu84.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/framer-motion-CNyOhlkC.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/lucide-icons-BzS6JU5C.js" fetchpriority="low">
+    <link rel="modulepreload" crossorigin href="/assets/js/web-vitals-CkdXpdH1.js" fetchpriority="low">
   </head>
   <body style="background-color: #000000; margin: 0; padding: 0;">
     <!-- Skip links для screen readers -->

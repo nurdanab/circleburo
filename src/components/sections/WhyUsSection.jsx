@@ -25,7 +25,11 @@ const WhyUsSection = () => {
   ];
 
   return (
-    <section className="bg-black text-white relative py-20 px-4 md:px-8">
+    <section
+      className="bg-black text-white relative py-20 px-4 md:px-8"
+      aria-labelledby="why-us-heading"
+      role="region"
+    >
       <div className="max-w-6xl mx-auto relative">
         
         {/* Заголовок */}
@@ -36,9 +40,9 @@ const WhyUsSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: false, amount: 0.3 }}
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <h2 id="why-us-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             {t('whyUs.title')}
-          </h1>
+          </h2>
         </motion.div>
 
         {/* Контейнер для карточек */}

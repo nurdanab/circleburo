@@ -1,4 +1,4 @@
-/* Critical CSS для первичного рендеринга */
+/* Экстремально критический CSS для LCP */
 * {
   box-sizing: border-box;
 }
@@ -19,6 +19,96 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* LCP Hero критические стили */
+.static-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  color: #ffffff;
+  overflow: hidden;
+  contain: layout style paint;
+}
+
+.static-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 50%, #000 100%);
+}
+
+.static-hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  contain: layout style;
+}
+
+.static-hero h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .static-hero h1 {
+    font-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .static-hero h1 {
+    font-size: 4.5rem;
+  }
+}
+
+.static-hero p {
+  font-size: 1.125rem;
+  color: #d1d5db;
+  margin-bottom: 2rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .static-hero p {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .static-hero p {
+    font-size: 1.5rem;
+  }
+}
+
+.static-hero button {
+  background: #ffffff;
+  color: #000000;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.static-hero button:hover {
+  background: #f3f4f6;
+}
+
+.static-hero button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+}
+
 /* Loading screen */
 .loading-screen {
   position: fixed;
@@ -37,12 +127,21 @@ body {
   pointer-events: none;
 }
 
-/* Prevent CLS for common layouts */
+/* LCP оптимизация - немедленная видимость контента */
 .hero-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  contain: layout style paint;
+}
+
+/* Критический логотип для LCP */
+.header-logo {
+  width: 200px;
+  height: 94px;
+  contain: size layout style;
+  will-change: auto;
 }
 
 .section-container {

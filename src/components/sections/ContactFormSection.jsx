@@ -688,11 +688,12 @@ ID: ${recordId}
                 <div className="flex items-center justify-between mb-4 ">
                   <motion.button
                     onClick={() => navigateMonth(-1)}
-                    className="p-2 rounded-lg bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                    className="p-2 rounded-lg bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/40"
+                    aria-label="Предыдущий месяц"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </motion.button>
@@ -703,7 +704,8 @@ ID: ${recordId}
                   
                   <motion.button
                     onClick={() => navigateMonth(1)}
-                    className="p-2 rounded-lg bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                    className="p-2 rounded-lg bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/40"
+                    aria-label="Следующий месяц"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -847,31 +849,42 @@ ID: ${recordId}
 
               <div className="space-y-6">
                 <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
-  {t('contactForm.fullName')} *
-</label>
+                <label htmlFor="contact-name" className="block text-sm font-semibold text-gray-300 mb-2">
+                  {t('contactForm.fullName')} *
+                </label>
                   <motion.input
+                    id="contact-name"
                     type="text"
                     placeholder={t('contactForm.fullNamePlaceholder')}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-500 focus:border-white/40 focus:bg-white/10 transition-all duration-300 backdrop-blur-sm"
+                    className="w-full px-4 py-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-500 focus:border-white/40 focus:bg-white/10 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/40"
+                    aria-required="true"
+                    aria-describedby={error && error.includes('имя') ? 'name-error' : undefined}
+                    aria-invalid={error && error.includes('имя') ? 'true' : 'false'}
                     whileFocus={{ scale: 1.01 }}
                   />
                 </div>
 
                 <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
-  {t('contactForm.phoneNumber')} *
-</label>
+                <label htmlFor="contact-phone" className="block text-sm font-semibold text-gray-300 mb-2">
+                  {t('contactForm.phoneNumber')} *
+                </label>
                   <motion.input
+                    id="contact-phone"
                     type="tel"
                     placeholder="+7 XXX XXX XX XX"
                     value={formData.phone}
                     onChange={handlePhoneChange}
-                    className="w-full px-4 py-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-500 focus:border-white/40 focus:bg-white/10 transition-all duration-300 backdrop-blur-sm"
+                    className="w-full px-4 py-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-500 focus:border-white/40 focus:bg-white/10 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/40"
+                    aria-required="true"
+                    aria-describedby={error && error.includes('телефон') ? 'phone-error' : 'phone-help'}
+                    aria-invalid={error && error.includes('телефон') ? 'true' : 'false'}
                     whileFocus={{ scale: 1.01 }}
                   />
+                  <div id="phone-help" className="sr-only">
+                    Введите номер телефона в формате +7 XXX XXX XX XX
+                  </div>
                 </div>
 
                 {/* Отображение выбранных данных */}
@@ -903,8 +916,11 @@ ID: ${recordId}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                   className="mt-6 flex items-center gap-2 p-3 bg-red-900/40 text-red-300 rounded-xl border border-red-700/50"
+                  role="alert"
+                  aria-live="polite"
+                  id={error.includes('имя') ? 'name-error' : error.includes('телефон') ? 'phone-error' : 'form-error'}
                 >
-                  <AlertCircle className="w-5 h-5" />
+                  <AlertCircle className="w-5 h-5" aria-hidden="true" />
                   <p className="text-sm font-medium">{error}</p>
                 </motion.div>
               )}
@@ -912,9 +928,10 @@ ID: ${recordId}
               <motion.button
                 onClick={handleSubmit}
                 disabled={loading}
-                className={`mt-8 w-full px-6 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2
-                  ${loading 
-                    ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed' 
+                aria-describedby="submit-help"
+                className={`mt-8 w-full px-6 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-white/40
+                  ${loading
+                    ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
                     : 'bg-gradient-to-r from-white to-gray-200 text-black shadow-lg hover:shadow-xl hover:scale-101 btn-dark-theme'
                   }`}
                 whileHover={!loading ? { scale: 1.01, y: -2 } : {}}
