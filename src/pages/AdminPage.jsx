@@ -445,7 +445,7 @@ ${statusEmoji[newStatus]} new!
             <div className="flex gap-2">
               <motion.button
                 onClick={loadLeads}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-black rounded-lg hover:bg-blue-700 transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -455,7 +455,7 @@ ${statusEmoji[newStatus]} new!
               
               <motion.button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-black rounded-lg hover:bg-green-700 transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -590,7 +590,7 @@ ${statusEmoji[newStatus]} new!
                           <motion.button
                             onClick={() => saveNotes(lead.id)}
                             disabled={savingNotes === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                            className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-black text-sm rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
@@ -607,7 +607,7 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CONFIRMED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-black text-sm rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -625,7 +625,7 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CANCELLED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                              className="flex items-center gap-2 px-4 py-2 bg-red-600 text-black text-sm rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -643,7 +643,7 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.PENDING)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                              className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-black text-sm rounded-lg hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -664,7 +664,7 @@ ${statusEmoji[newStatus]} new!
                               }
                             }}
                             disabled={updating === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-red-800 text-white text-sm rounded-lg hover:bg-red-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                            className="flex items-center gap-2 px-4 py-2 bg-red-800 text-black text-sm rounded-lg hover:bg-red-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
