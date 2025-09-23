@@ -388,7 +388,24 @@ ${statusEmoji[newStatus]} new!
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 pt-10">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 pt-10 admin-page">
+      <style dangerouslySetInnerHTML={{__html: `
+        .admin-page { background-color: red !important; }
+        .admin-page * { color: black !important; }
+        .admin-page button {
+          background-color: yellow !important;
+          color: black !important;
+          border: 5px solid red !important;
+          font-size: 20px !important;
+          font-weight: bold !important;
+        }
+        .admin-page button.admin-btn-blue { background-color: #0000FF !important; color: #FFFFFF !important; }
+        .admin-page button.admin-btn-green { background-color: #00FF00 !important; color: #000000 !important; }
+        .admin-page button.admin-btn-gray { background-color: #808080 !important; color: #FFFFFF !important; }
+        .admin-page button.admin-btn-red { background-color: #FF0000 !important; color: #FFFFFF !important; }
+        .admin-page button.admin-btn-yellow { background-color: #FFFF00 !important; color: #000000 !important; }
+        .admin-page button.admin-btn-red-dark { background-color: #8B0000 !important; color: #FFFFFF !important; }
+      `}} />
       <div className="max-w-7xl mx-auto">
         {/* Заголовок */}
         <div className="mb-8">
@@ -445,7 +462,13 @@ ${statusEmoji[newStatus]} new!
             <div className="flex gap-2">
               <motion.button
                 onClick={loadLeads}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors admin-btn-blue"
+                style={{
+                  backgroundColor: '#dbeafe',
+                  color: '#1e40af',
+                  border: '1px solid #bfdbfe',
+                  fontWeight: '600'
+                }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -455,7 +478,13 @@ ${statusEmoji[newStatus]} new!
               
               <motion.button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors admin-btn-green"
+                style={{
+                  backgroundColor: '#dcfce7',
+                  color: '#166534',
+                  border: '1px solid #bbf7d0',
+                  fontWeight: '600'
+                }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -590,7 +619,13 @@ ${statusEmoji[newStatus]} new!
                           <motion.button
                             onClick={() => saveNotes(lead.id)}
                             disabled={savingNotes === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-gray"
+                            style={{
+                              backgroundColor: '#f3f4f6',
+                              color: '#374151',
+                              border: '1px solid #d1d5db',
+                              fontWeight: '600'
+                            }}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
@@ -607,7 +642,13 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CONFIRMED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-green"
+                              style={{
+                                backgroundColor: '#dcfce7',
+                                color: '#166534',
+                                border: '1px solid #bbf7d0',
+                                fontWeight: '600'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -625,7 +666,13 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CANCELLED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-red"
+                              style={{
+                                backgroundColor: '#fecaca',
+                                color: '#991b1b',
+                                border: '1px solid #fca5a5',
+                                fontWeight: '600'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -643,7 +690,13 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.PENDING)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-yellow"
+                              style={{
+                                backgroundColor: '#fef3c7',
+                                color: '#92400e',
+                                border: '1px solid #fde68a',
+                                fontWeight: '600'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -664,7 +717,13 @@ ${statusEmoji[newStatus]} new!
                               }
                             }}
                             disabled={updating === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 bg-red-800 text-white text-sm rounded-lg hover:bg-red-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm"
+                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-red-dark"
+                            style={{
+                              backgroundColor: '#fca5a5',
+                              color: '#7f1d1d',
+                              border: '1px solid #f87171',
+                              fontWeight: '600'
+                            }}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >

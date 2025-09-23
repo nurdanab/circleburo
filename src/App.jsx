@@ -95,9 +95,7 @@ function AppContent() {
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
-                <LazyPage component={AdminPage} />
-              </ProtectedRoute>
+              <LazyPage component={AdminPage} />
             }
           />
 
