@@ -29,7 +29,7 @@ i18n
       useSuspense: false, 
     },
     
-    supportedLngs: ['en', 'ru'],
+    supportedLngs: ['en', 'ru', 'kk'],
     
     ns: ['translation'],
     defaultNS: 'translation',

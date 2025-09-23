@@ -31,6 +31,7 @@ const LanguageSwitcher = () => {
   const languages = [
     { code: 'en', name: 'EN', fullName: 'English' },
     { code: 'ru', name: 'RU', fullName: 'Русский' },
+    { code: 'kk', name: 'KK', fullName: 'Қазақша' },
   ];
 
   const currentLang = languages.find(lang => lang.code === currentLanguage);

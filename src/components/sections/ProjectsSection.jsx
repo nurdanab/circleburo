@@ -72,13 +72,13 @@ const ProjectsSection = () => {
 
         {/* Горизонтальный список карточек */}
         <motion.div
-          className="flex h-[70vh] gap-10 px-10"
+          className="flex h-[70vh] gap-4 md:gap-10 px-4 md:px-10"
           style={{ x, width: `${totalCards * 100}vw` }}
         >
           {projectsData.map((project) => (
             <motion.div
               key={project.id}
-              className="group relative w-[80vw] h-full rounded-[30px] overflow-hidden flex-shrink-0"
+              className="group relative w-[90vw] md:w-[80vw] aspect-[4/3] rounded-[20px] md:rounded-[30px] overflow-hidden flex-shrink-0"
               initial={{ opacity: 0.5, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
@@ -103,8 +103,8 @@ const ProjectsSection = () => {
               )}
 
               <div className="absolute inset-0 bg-transparent group-hover:bg-black/50 transition-colors duration-300" />
-              <div className="relative z-10 flex flex-col justify-end p-8 w-full h-full">
-                <h3 className="text-2xl md:text-3xl font-medium mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="relative z-10 flex flex-col justify-end p-4 md:p-8 w-full h-full">
+                <h3 className="text-lg md:text-2xl lg:text-3xl font-medium mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   {project.title}
                 </h3>
               </div>
