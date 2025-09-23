@@ -181,6 +181,7 @@ const AboutSection = () => {
   const { t } = useTranslation();
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [showCenterImage, setShowCenterImage] = useState(false);
+  const [hideEmployeePhotos, setHideEmployeePhotos] = useState(false);
 
   useEffect(() => {
     const timer1 = setTimeout(() => {
@@ -191,9 +192,15 @@ const AboutSection = () => {
       setShowCenterImage(true);
     }, 6000);
 
+    // Скрываем фотографии сотрудников после завершения анимации
+    const timer3 = setTimeout(() => {
+      setHideEmployeePhotos(true);
+    }, 6200); // После окончания анимации и появления центрального изображения
+
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
+      clearTimeout(timer3);
     };
   }, []);
 
@@ -255,7 +262,8 @@ const AboutSection = () => {
               
               
 
-              {employees.map((employee) => {
+              {!hideEmployeePhotos && employees.map((employee) => {
+                console.log('🟢 Rendering employee photo:', employee.id, 'hideEmployeePhotos:', hideEmployeePhotos);
                 const isAnimating = isAnimationStarted;
                 return (
                   <div
@@ -275,6 +283,8 @@ const AboutSection = () => {
                       animation: isAnimating
                         ? `photo-animation var(--duration) ease-in-out var(--delay) forwards`
                         : 'none',
+                      display: hideEmployeePhotos ? 'none' : 'block',
+                      visibility: hideEmployeePhotos ? 'hidden' : 'visible',
                     }}
                   >
                     <div
@@ -334,17 +344,24 @@ const AboutSection = () => {
           20% {
             opacity: 1;
           }
-          70% {
+          60% {
             transform: translate(var(--final-x), var(--final-y)) translate(-50%, -50%);
             width: var(--final-size);
             height: var(--final-size);
             opacity: var(--opacity);
           }
-          100% {
+          80% {
             transform: translate(var(--final-x), var(--final-y)) translate(-50%, -50%);
             width: var(--final-size);
             height: var(--final-size);
             opacity: 0;
+          }
+          100% {
+            transform: translate(var(--final-x), var(--final-y)) translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            opacity: 0;
+            display: none;
           }
         }
       `}</style>

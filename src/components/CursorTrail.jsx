@@ -132,7 +132,7 @@ const CursorTrail = ({ children, isActive = true }) => {
 
     const id = Date.now() + Math.random();
     const randomImage = employeeImages[Math.floor(Math.random() * employeeImages.length)];
-    const randomSize = 100 + Math.random() * 170;
+    const randomSize = 60 + Math.random() * 40;
     const offsetX = (Math.random() - 0.5) * 40;
     const offsetY = (Math.random() - 0.5) * 40;
 
