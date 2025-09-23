@@ -266,11 +266,17 @@ const Header = () => {
           alignItems: 'center',
           gap: '1rem',
         }}>
-          <button onClick={toggleMenu} style={{
-            color: '#FFFFFF',
-            fontSize: '1.5rem',
-          }}>
-            {isMenuOpen ? <FaTimes /> : <FaBars />}
+          <button
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            style={{
+              color: '#FFFFFF',
+              fontSize: '1.5rem',
+            }}
+          >
+            {isMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
           </button>
         </div>
       </nav>
@@ -279,11 +285,14 @@ const Header = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
             className="lg:hidden"
+            role="menu"
+            aria-label="Мобильное меню навигации"
             style={{
               display: 'flex',
               flexDirection: 'column',

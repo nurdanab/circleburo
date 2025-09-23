@@ -689,7 +689,8 @@ ID: ${recordId}
                   <motion.button
                     onClick={() => navigateMonth(-1)}
                     className="p-2 rounded-lg bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/40"
-                    aria-label="Предыдущий месяц"
+                    aria-label={`Предыдущий месяц - ${monthNames[currentMonth.getMonth() - 1] || monthNames[11]} ${currentMonth.getMonth() === 0 ? currentMonth.getFullYear() - 1 : currentMonth.getFullYear()}`}
+                    title="Перейти к предыдущему месяцу"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -697,19 +698,20 @@ ID: ${recordId}
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </motion.button>
-                  
-                  <h3 className="text-xl font-bold text-white">
+
+                  <h3 className="text-xl font-bold text-white" id="calendar-month-year" aria-live="polite">
                     {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                   </h3>
-                  
+
                   <motion.button
                     onClick={() => navigateMonth(1)}
                     className="p-2 rounded-lg bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/40"
-                    aria-label="Следующий месяц"
+                    aria-label={`Следующий месяц - ${monthNames[currentMonth.getMonth() + 1] || monthNames[0]} ${currentMonth.getMonth() === 11 ? currentMonth.getFullYear() + 1 : currentMonth.getFullYear()}`}
+                    title="Перейти к следующему месяцу"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </motion.button>
@@ -747,6 +749,9 @@ ID: ${recordId}
                               }
                             }}
                             disabled={!isAvailable}
+                            aria-label={`${date.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}${isSelected ? ', выбрана' : ''}${!isAvailable ? ', недоступна' : ''}${isToday ? ', сегодня' : ''}`}
+                            aria-pressed={isSelected}
+                            aria-disabled={!isAvailable}
                             className={`w-full h-full rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center relative ${
                               isSelected
                                 ? 'bg-gradient-to-r from-white to-gray-100 text-black shadow-lg shadow-white/20 btn-dark-theme'
@@ -762,7 +767,7 @@ ID: ${recordId}
                           >
                             {date.getDate()}
                             {isToday && (
-                              <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"></div>
+                              <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full" aria-hidden="true"></div>
                             )}
                           </motion.button>
                         ) : (
@@ -805,6 +810,8 @@ ID: ${recordId}
                         <motion.button
                           key={time}
                           onClick={() => setSelectedTime(time)}
+                          aria-label={`Время ${time}${selectedTime === time ? ', выбрано' : ''}`}
+                          aria-pressed={selectedTime === time}
                           className={`px-4 py-3 rounded-xl border font-semibold transition-all duration-300 ${
                             selectedTime === time
                               ? 'bg-gradient-to-r from-white to-gray-100 text-black border-white shadow-lg shadow-white/20 btn-dark-theme'
