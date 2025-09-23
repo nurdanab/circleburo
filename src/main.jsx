@@ -40,47 +40,10 @@ if (typeof window !== 'undefined') {
       }
     }
 
-    // Register Service Worker only in production (RE-ENABLED WITH FIXES)
-    if ('serviceWorker' in navigator && import.meta.env.PROD) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then((registration) => {
-            console.log('SW registered: ', registration);
-
-            // Принудительно проверяем обновления
-            registration.update();
-
-            // Проверяем обновления
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // Новый SW установлен, принудительно обновляем
-                  console.log('New SW installed, reloading page');
-                  newWorker.postMessage({ type: 'SKIP_WAITING' });
-                  window.location.reload(true); // hard reload
-                }
-              });
-            });
-
-            // Слушаем сообщения от SW
-            navigator.serviceWorker.addEventListener('message', (event) => {
-              if (event.data?.type === 'SW_UPDATED') {
-                console.log('SW updated to version:', event.data.version);
-                // Принудительно обновляем страницу
-                window.location.reload(true);
-              }
-            });
-
-            // Периодически проверяем обновления SW (каждые 30 секунд)
-            setInterval(() => {
-              registration.update();
-            }, 30000);
-          })
-          .catch((registrationError) => {
-            console.log('SW registration failed: ', registrationError);
-          });
-      });
+    // Temporarily disable Service Worker for LCP optimization
+    // TODO: Re-enable after fixing clone() errors
+    if (false && 'serviceWorker' in navigator && import.meta.env.PROD) {
+      // SW code disabled for performance testing
     }
     
     // Load non-critical resources

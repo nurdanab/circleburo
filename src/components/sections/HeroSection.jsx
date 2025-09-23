@@ -1,9 +1,11 @@
 // src/components/sections/HeroSection.jsx
 import "tailwindcss";
-import React, { useEffect, useState, useMemo, Suspense } from 'react';
+import React, { useEffect, useState, useMemo, Suspense, lazy } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import VideoHero from '../VideoHero';
+
+// Lazy load VideoHero для улучшения LCP
+const VideoHero = lazy(() => import('../VideoHero'));
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -74,29 +76,29 @@ const HeroSection = () => {
     },
   };
 
-  // Мемоизируем массив звездочек для фона (адаптивно под устройство)
-  const stars = useMemo(() => Array.from({ length: isMobile ? 10 : 25 }, (_, i) => ({
+  // Мемоизируем массив звездочек для фона (сокращено для Performance)
+  const stars = useMemo(() => Array.from({ length: isMobile ? 5 : 12 }, (_, i) => ({
     id: i,
     size: Math.random() * 3 + 1, // размер от 1 до 4px
     x: Math.random() * 100, // позиция по X в процентах
     y: Math.random() * 100, // позиция по Y в процентах
-    delay: Math.random() * 5, // задержка анимации
-    duration: Math.random() * 3 + 2, // длительность мерцания
-    opacity: Math.random() * 0.8 + 0.2, // прозрачность от 0.2 до 1
-    twinkleDelay: Math.random() * 4, // задержка мерцания
+    delay: Math.random() * 3, // уменьшена задержка анимации
+    duration: Math.random() * 2 + 3, // длительность мерцания
+    opacity: Math.random() * 0.6 + 0.3, // прозрачность от 0.3 до 0.9
+    twinkleDelay: Math.random() * 2, // уменьшена задержка мерцания
   })), [isMobile]);
 
-  // Мемоизируем массив больших светящихся кружочков (отключаем на мобильных)
+  // Мемоизируем массив больших светящихся кружочков (уменьшено для Performance)
   const glowDots = useMemo(() => {
     if (isMobile) return []; // На мобильных отключаем для производительности
-    return Array.from({ length: 4 }, (_, i) => ({
+    return Array.from({ length: 2 }, (_, i) => ({
       id: i,
-      size: Math.random() * 100 + 40, // размер от 40 до 140px
+      size: Math.random() * 80 + 60, // размер от 60 до 140px
       x: Math.random() * 100,
       y: Math.random() * 100,
-      delay: Math.random() * 3,
-      duration: Math.random() * 8 + 10, // медленная пульсация
-      opacity: Math.random() * 0.1 + 0.05, // очень слабая прозрачность
+      delay: Math.random() * 2,
+      duration: Math.random() * 6 + 8, // немного ускорена пульсация
+      opacity: Math.random() * 0.08 + 0.03, // очень слабая прозрачность
     }));
   }, [isMobile]);
 
@@ -226,10 +228,26 @@ const HeroSection = () => {
         ))}
       </motion.div>
 
-      {/* 3D анимация видео остается на месте */}
+      {/* LCP Статичный контент для быстрого рендеринга */}
+      <div className="absolute inset-0 z-5 pointer-events-none flex items-center justify-center">
+        <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
+          {/* Статичный элемент для LCP */}
+          <div className="w-full h-full bg-gradient-to-br from-gray-900/20 to-gray-800/10 rounded-2xl border border-white/5 backdrop-blur-sm">
+            <div className="w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.02)_0%,_transparent_70%)] rounded-2xl"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3D анимация видео загружается после критического контента */}
       <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
         <div className="transform translate-y-0 sm:-translate-y-12 lg:-translate-y-14 xl:-translate-y-14 2xl:-translate-y-18">
-          <VideoHero />
+          <Suspense fallback={
+            <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
+              <div className="w-12 h-12 border-2 border-white/20 border-t-white/60 rounded-full animate-spin"></div>
+            </div>
+          }>
+            <VideoHero />
+          </Suspense>
         </div>
       </div>
 
@@ -242,15 +260,16 @@ const HeroSection = () => {
       >
         <motion.h1
           className="text-[20vw] sm:text-[18vw] md:text-[16vw] lg:text-[14vw] xl:text-[12vw] 2xl:text-[10vw] font-black leading-none tracking-wider select-none"
-          style={{ 
+          style={{
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
-            textShadow: '0 0 40px rgba(255, 255, 255, 0.1), 0 0 80px rgba(255, 255, 255, 0.05)',
-            WebkitTextStroke: '2px rgba(255, 255, 255, 0.1)',
+            textShadow: '0 0 20px rgba(255, 255, 255, 0.08)',
+            WebkitTextStroke: '1px rgba(255, 255, 255, 0.08)',
             opacity: mounted ? titleOpacity : 1,
             scale: mounted ? titleScale : 1,
             y: mounted ? titleY : 0,
             willChange: 'opacity, transform',
             transform: 'translateZ(0)', // Активируем аппаратное ускорение
+            contain: 'layout style paint',
           }}
           variants={titleVariants}
         >

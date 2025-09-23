@@ -6,7 +6,6 @@
 
     <!-- Security meta tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     
@@ -16,46 +15,51 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="//www.google-analytics.com">
     
-    <!-- Preload критических шрифтов -->
-    <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/Montserrat-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <!-- МАКСИМАЛЬНО АГРЕССИВНЫЕ PRELOADS ДЛЯ LCP -->
+    <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high">
+    <link rel="preload" href="/assets/index-BMLgR0q5.css" as="style" fetchpriority="high">
+    <link rel="preload" href="/assets/js/index-BVPWRmOt.js" as="script" fetchpriority="high">
+
+    <!-- Предзагрузка критических чанков React -->
+    <link rel="modulepreload" href="/assets/js/vendor-react-DGsprnG_.js" fetchpriority="high">
+    <link rel="modulepreload" href="/assets/js/vendor-react-dom-eW4zCcd-.js" fetchpriority="high">
+
+    <!-- Некритические шрифты -->
+    <link rel="prefetch" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="prefetch" href="/fonts/Montserrat-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     
-    <!-- Font display optimization -->
+    <!-- Оптимизированные шрифты -->
     <style>
+      /* Критический шрифт с оптимизированной загрузкой */
       @font-face {
         font-family: 'Montserrat';
         src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
-      }
-      @font-face {
-        font-family: 'Montserrat';
-        src: url('/fonts/Montserrat-Bold.woff2') format('woff2');
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Montserrat';
-        src: url('/fonts/Montserrat-Light.woff2') format('woff2');
-        font-weight: 300;
-        font-style: normal;
-        font-display: swap;
-      }
-      /* Fallback для быстрого рендеринга */
-      .font-loading {
-        font-family: system-ui, -apple-system, sans-serif;
+        unicode-range: U+0000-00FF;
       }
     </style>
+
+    <!-- Асинхронная загрузка дополнительных шрифтов -->
+    <script>
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          const boldFont = new FontFace('Montserrat', 'url(/fonts/Montserrat-Bold.woff2)', { weight: '700', display: 'swap' });
+          const lightFont = new FontFace('Montserrat', 'url(/fonts/Montserrat-Light.woff2)', { weight: '300', display: 'swap' });
+          Promise.all([boldFont.load(), lightFont.load()]).then((fonts) => {
+            fonts.forEach(font => document.fonts.add(font));
+          });
+        });
+      }
+    </script>
     
-    <!-- Preload критических изображений -->
+    <!-- КРИТИЧЕСКИЕ ИЗОБРАЖЕНИЯ ДЛЯ LCP -->
     <link rel="preload" href="/img/logo-header.png" as="image" fetchpriority="high">
-    <link rel="preload" href="/img/circle-fill.webp" as="image" fetchpriority="high">
+    <!-- Откладываем hero изображения чтобы не задерживать LCP -->
     
-    <!-- Критический CSS -->
-    <link rel="stylesheet" href="/critical.css">
+    <!-- Критический CSS с высоким приоритетом -->
+    <link rel="stylesheet" href="/critical.css" fetchpriority="high">
     
     <!-- Фавиконы -->
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />

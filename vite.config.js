@@ -42,64 +42,55 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Vendor chunks - stable dependencies that rarely change
+          // Критические зависимости React - остаются в основном чанке
           if (id.includes('node_modules/react/') && !id.includes('react-dom')) {
             return 'vendor-react';
           }
           if (id.includes('node_modules/react-dom/')) {
             return 'vendor-react-dom';
           }
-          
-          // Framer Motion - держим все вместе для избежания проблем инициализации
+
+          // Framer Motion - выносим в отдельный лази чанк для SI
           if (id.includes('node_modules/framer-motion/')) {
-            return 'framer-motion';
+            return 'animations';
           }
-          
-          // GSAP отдельно
+
+          // GSAP - тоже в лази чанк
           if (id.includes('node_modules/gsap/')) {
-            return 'gsap';
+            return 'animations';
           }
-          
-          // Routing and i18n
+
+          // Критическая маршрутизация - остается в основном чанке
           if (id.includes('node_modules/react-router-dom/')) {
-            return 'react-router';
+            return 'vendor-react';
           }
+
+          // i18n - асинхронно
           if (id.includes('node_modules/react-i18next/') || id.includes('node_modules/i18next/')) {
-            return 'i18n';
+            return 'features';
           }
-          
-          // Supabase
+
+          // Supabase - асинхронно
           if (id.includes('node_modules/@supabase/')) {
-            return 'supabase';
+            return 'features';
           }
-          
-          // Analytics (should be async)
-          if (id.includes('node_modules/react-ga4/') || id.includes('node_modules/newrelic/')) {
+
+          // Analytics - асинхронно (не блокирует основной рендер)
+          if (id.includes('node_modules/react-ga4/') || id.includes('node_modules/newrelic/') || id.includes('node_modules/web-vitals/')) {
             return 'analytics';
           }
-          
-          // Icons and utils
-          if (id.includes('node_modules/lucide-react/')) {
-            return 'lucide-icons';
+
+          // Иконки - лази лоадинг
+          if (id.includes('node_modules/lucide-react/') || id.includes('node_modules/react-icons/')) {
+            return 'icons';
           }
-          if (id.includes('node_modules/react-icons/')) {
-            return 'react-icons';
+
+          // Утилиты - лази
+          if (id.includes('node_modules/cleave.js/') || id.includes('node_modules/react-helmet-async/')) {
+            return 'utils';
           }
-          if (id.includes('node_modules/cleave.js/')) {
-            return 'cleave';
-          }
-          
-          // React Helmet
-          if (id.includes('node_modules/react-helmet-async/')) {
-            return 'react-helmet';
-          }
-          
-          // Web Vitals
-          if (id.includes('node_modules/web-vitals/')) {
-            return 'web-vitals';
-          }
-          
-          // Other vendor libs
+
+          // Остальные vendor библиотеки
           if (id.includes('node_modules/')) {
             return 'vendor';
           }
@@ -119,7 +110,7 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js'
       }
     },
-    chunkSizeWarningLimit: 500, // Stricter limit for better performance
+    chunkSizeWarningLimit: 300, // Еще более строгий лимит для LCP/SI
     minify: 'terser',
     target: 'es2020', // Modern target for better optimization
     terserOptions: {
@@ -166,15 +157,17 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: [
-      'react', 
+      'react',
       'react-dom',
-      'react-router-dom',
-      'framer-motion',
-      'gsap',
-      '@supabase/supabase-js'
+      'react-router-dom'
     ],
     exclude: [
-      'web-vitals'
+      'framer-motion', // Лази лоадинг для анимаций
+      'gsap',
+      'web-vitals',
+      'react-ga4',
+      'newrelic',
+      '@supabase/supabase-js' // Лази лоадинг базы данных
     ]
   },
 });
