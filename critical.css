@@ -138,8 +138,11 @@ body {
 
 /* Критический логотип для LCP */
 .header-logo {
-  width: 200px;
-  height: 94px;
+  width: auto;
+  height: 1.8rem;
+  max-height: 1.8rem;
+  max-width: 4rem;
+  object-fit: contain;
   contain: size layout style;
   will-change: auto;
 }

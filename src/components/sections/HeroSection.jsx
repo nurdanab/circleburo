@@ -253,7 +253,7 @@ const HeroSection = () => {
 
       {/* Главный контент */}
       <motion.div
-        className="relative z-20 text-center px-4 w-full h-full flex flex-col justify-center items-center"
+        className="relative z-20 text-center px-4 w-full h-full flex flex-col justify-center items-center translate-y-8 sm:translate-y-12 md:translate-y-16"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -278,7 +278,7 @@ const HeroSection = () => {
 
         {/* Подзаголовок с ключевыми словами */}
         <motion.h2
-          className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-white/80 mt-4 text-center max-w-4xl px-4 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-white/80 mt-12 sm:mt-16 md:mt-20 lg:mt-24 text-center max-w-4xl px-4 leading-relaxed"
           variants={titleVariants}
           initial="hidden"
           animate="visible"

@@ -1,4 +1,7 @@
 {
+    "main": {
+      "subtitle": "Marketing agency and full-cycle creative bureau for developing your brand and business"
+    },
     "nav": {
       "home": "Home",
       "services": "Services", 
@@ -6,11 +9,8 @@
       "portfolio": "Portfolio",
       "contact": "Contact us"
     },
-    "main": {
-      "subtitle": "Creative and marketing agency in Almaty — full-cycle digital services for business growth"
-    },
     "footer": {
-      "description": "Circle Creative Buro — creative agency Almaty, providing full-cycle marketing and advertising services for business development.",
+      "description": "Circle Creative Buro – your guide to the world of creativity and creative potential.",
       "navigation": "Navigation",
       "services": "Services",
       "contact": "Contact",
