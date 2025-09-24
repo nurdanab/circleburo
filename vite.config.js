@@ -84,12 +84,12 @@ export default defineConfig({
               return 'vendor-analytics';
             }
 
-            // Internationalization
+            // Internationalization - keep with React to avoid context issues
             if (
               id.includes('i18next/') ||
               id.includes('react-i18next/')
             ) {
-              return 'vendor-i18n';
+              return 'vendor-react';
             }
 
             // Database and API
@@ -191,8 +191,9 @@ export default defineConfig({
       'react',
       'react-dom',
       'react-router-dom',
-      '@supabase/supabase-js',
-      '@supabase/postgrest-js'
+      'react-helmet-async',
+      'react-i18next',
+      'i18next'
     ],
     exclude: [
       'framer-motion', // Heavy animation library - load on demand

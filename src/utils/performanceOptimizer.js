@@ -554,13 +554,10 @@ if (typeof window !== 'undefined') {
 
 // React hook for performance optimization
 export function usePerformanceOptimization() {
-  React.useEffect(() => {
-    performanceOptimizer.initialize();
+  if (typeof window === 'undefined') return {};
 
-    return () => {
-      // Cleanup if needed
-    };
-  }, []);
+  // Initialize without React dependency to avoid context issues
+  performanceOptimizer.initialize();
 
   return {
     getReport: () => performanceOptimizer.getPerformanceReport(),

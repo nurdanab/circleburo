@@ -371,23 +371,31 @@ if (typeof window !== 'undefined') {
 
 // React hook for CSS optimization
 export function useCSSOptimization(options = {}) {
+  if (typeof window === 'undefined') return {};
+
   const { enableMonitoring = false, optimizeAnimations = true } = options;
 
-  React.useEffect(() => {
+  // Use dynamic import to avoid issues with React context
+  import('react').then((React) => {
+    React.useEffect(() => {
+      cssOptimizer.initialize();
+
+      if (optimizeAnimations) {
+        cssOptimizer.optimizeAnimations();
+      }
+
+      if (enableMonitoring) {
+        cssOptimizer.monitorCSSPerformance();
+      }
+
+      return () => {
+        cssOptimizer.cleanup();
+      };
+    }, [enableMonitoring, optimizeAnimations]);
+  }).catch(() => {
+    // Fallback if React is not available
     cssOptimizer.initialize();
-
-    if (optimizeAnimations) {
-      cssOptimizer.optimizeAnimations();
-    }
-
-    if (enableMonitoring) {
-      cssOptimizer.monitorCSSPerformance();
-    }
-
-    return () => {
-      cssOptimizer.cleanup();
-    };
-  }, [enableMonitoring, optimizeAnimations]);
+  });
 
   return {
     analyzeCSSUsage: () => cssOptimizer.analyzeCSSUsage(),
