@@ -43,15 +43,12 @@ const WhyUsSection = () => {
         </SimpleMotion.FadeIn>
 
         {/* Контейнер для карточек */}
-        <div className="relative min-h-[150vh] flex flex-col gap-8 items-center justify-center">
+        <div className="relative space-y-8">
             {reasons.map((reason, index) => (
               <SimpleMotion.ScaleIn
                 key={index}
-                className="w-full md:w-[60%] lg:w-[45%] p-1 rounded-[30px]"
+                className="w-full md:w-[60%] lg:w-[45%] p-1 rounded-[30px] mx-auto"
                 style={{
-                  position: 'sticky',
-                  top: `calc(30% + ${index * 30}px)`,
-                  zIndex: index + 1,
                   background: 'linear-gradient(225deg, #dbdbdb, #e6e6e6)',
                 }}
                 delay={index * 100}

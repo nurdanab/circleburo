@@ -198,16 +198,16 @@ const AboutSection = () => {
       setHideEmployeePhotos(true);
     }, 6200);
 
-    // Скрываем центральное изображение после его показа
-    const timer4 = setTimeout(() => {
-      setHideCenterImage(true);
-    }, 7500); // Показываем 1.5 секунды после появления
+    // Больше не скрываем центральное изображение
+    // const timer4 = setTimeout(() => {
+    //   setHideCenterImage(true);
+    // }, 7500);
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      clearTimeout(timer4);
+      // clearTimeout(timer4);
     };
   }, []);
 
@@ -325,8 +325,8 @@ const AboutSection = () => {
                  </div>
             )}
               <div
-                className="relative z-30 text-center opacity-0 pointer-events-none"
-                style={{ animation: 'fadeIn 2s ease-out 7s forwards' }}
+                className="relative z-30 text-center opacity-0"
+                style={{ animation: 'fadeIn 2s ease-out 7s forwards', pointerEvents: 'auto' }}
               >
                 <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight tracking-wider">
                   <div className="text-white mb-3">{t('aboutPage.subtitle')}</div>

@@ -32,7 +32,7 @@ const ProjectsSection = () => {
   ];
   const totalCards = projectsData.length;
 
-  const sectionHeight = `120vh`;
+  const sectionHeight = `200vh`;
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -41,8 +41,8 @@ const ProjectsSection = () => {
 
   const x = useTransform(
     scrollYProgress,
-    [0, 1],
-    ["0vw", `-${(totalCards - 1) * 100}vw`]
+    [0, 0.1, 0.9, 1],
+    ["0vw", "0vw", `-${(totalCards - 1) * 100}vw`, `-${(totalCards - 1) * 100}vw`]
   );
 
   return (
@@ -92,6 +92,7 @@ const ProjectsSection = () => {
                   loop
                   muted
                   playsInline
+                  preload="metadata"
                   className="absolute inset-0 w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
                   style={{
                     objectFit: 'cover',
@@ -99,7 +100,8 @@ const ProjectsSection = () => {
                     width: '100%',
                     height: '100%',
                     minHeight: '100%',
-                    minWidth: '100%'
+                    minWidth: '100%',
+                    willChange: 'transform'
                   }}
                 />
               ) : (
@@ -113,9 +115,11 @@ const ProjectsSection = () => {
                     width: '100%',
                     height: '100%',
                     minHeight: '100%',
-                    minWidth: '100%'
+                    minWidth: '100%',
+                    willChange: 'transform'
                   }}
                   loading="lazy"
+                  decoding="async"
                 />
               )}
 
