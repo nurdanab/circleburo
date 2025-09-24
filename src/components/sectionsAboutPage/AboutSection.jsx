@@ -326,7 +326,7 @@ const AboutSection = () => {
             )}
               <div
                 className="relative z-30 text-center opacity-0"
-                style={{ animation: 'fadeIn 2s ease-out 7s forwards', pointerEvents: 'auto' }}
+                style={{ animation: 'fadeIn 2s ease-out 5s forwards', pointerEvents: 'auto' }}
               >
                 <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight tracking-wider">
                   <div className="text-white mb-3">{t('aboutPage.subtitle')}</div>

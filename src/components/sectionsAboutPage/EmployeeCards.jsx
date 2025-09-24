@@ -174,7 +174,7 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
                       alt={employee.name}
                       className="absolute inset-0 w-full h-full object-cover"
                       style={{
-                        objectPosition: employeeKey === 'employee4' ? 'left top' : employeeKey === 'employee1' ? 'right top' : employeeKey === 'employee2' ? 'center center' : employeeKey === 'employee9' ? 'center top' : 'center top',
+                        objectPosition: employeeKey === 'employee4' ? 'left top' : employeeKey === 'employee1' ? 'right top' : employeeKey === 'employee2' ? 'center center' : employeeKey === 'employee9' ? 'center center' : 'center top',
                         objectFit: 'cover',
                         willChange: 'transform'
                       }}

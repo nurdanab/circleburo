@@ -41,8 +41,8 @@ const ProjectsSection = () => {
 
   const x = useTransform(
     scrollYProgress,
-    [0, 0.1, 0.9, 1],
-    ["0vw", "0vw", `-${(totalCards - 1) * 100}vw`, `-${(totalCards - 1) * 100}vw`]
+    [0, 0.2, 0.8, 1],
+    ["0vw", "0vw", `-${(totalCards - 1) * 80}vw`, `-${(totalCards - 1) * 80}vw`]
   );
 
   return (
@@ -82,7 +82,7 @@ const ProjectsSection = () => {
               initial={{ opacity: 0.5, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               {/* Медиа контент - полностью заполняет карточку */}
               {project.mediaType === 'video' ? (

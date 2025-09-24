@@ -52,7 +52,7 @@ const WhyUsSection = () => {
                   background: 'linear-gradient(225deg, #dbdbdb, #e6e6e6)',
                 }}
                 delay={index * 100}
-                once={false}
+                once={true}
               >
                 <div className="bg-[#1a1a1a] p-8 rounded-[30px] flex flex-col items-center text-center w-full h-full">
                   <div className="text-gray-700 mb-4">
