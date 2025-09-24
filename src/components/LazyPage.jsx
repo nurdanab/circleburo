@@ -3,7 +3,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { CircleLogoLoader } from './MinimalistLoader';
 import ErrorBoundary from './ErrorBoundary';
 
-const LazyPage = ({ component: LazyComponent, fallback = <CircleLogoLoader /> }) => {
+const LazyPage = ({ component: _LazyComponent, fallback = <CircleLogoLoader /> }) => {
   const [isTimeout, setIsTimeout] = useState(false);
 
   useEffect(() => {

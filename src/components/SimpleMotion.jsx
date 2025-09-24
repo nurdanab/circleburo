@@ -35,20 +35,20 @@ const useInView = (options = {}) => {
   return [ref, inView];
 };
 
-export const SimpleMotion = {
+const SimpleMotion = {
   // Fade in animation
   FadeIn: ({ children, className = '', delay = 0, once = true, ...props }) => {
     const [ref, inView] = useInView({ once });
-    
+
     return (
       <div
         ref={ref}
         className={`transition-all duration-700 ease-out ${
           inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         } ${className}`}
-        style={{ 
+        style={{
           transitionDelay: `${delay}ms`,
-          ...props.style 
+          ...props.style
         }}
         {...props}
       >
@@ -60,16 +60,16 @@ export const SimpleMotion = {
   // Slide up animation
   SlideUp: ({ children, className = '', delay = 0, once = true, ...props }) => {
     const [ref, inView] = useInView({ once });
-    
+
     return (
       <div
         ref={ref}
         className={`transition-all duration-800 ease-out ${
           inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         } ${className}`}
-        style={{ 
+        style={{
           transitionDelay: `${delay}ms`,
-          ...props.style 
+          ...props.style
         }}
         {...props}
       >
@@ -81,16 +81,16 @@ export const SimpleMotion = {
   // Scale in animation
   ScaleIn: ({ children, className = '', delay = 0, once = true, ...props }) => {
     const [ref, inView] = useInView({ once });
-    
+
     return (
       <div
         ref={ref}
         className={`transition-all duration-600 ease-out ${
           inView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
         } ${className}`}
-        style={{ 
+        style={{
           transitionDelay: `${delay}ms`,
-          ...props.style 
+          ...props.style
         }}
         {...props}
       >
@@ -102,7 +102,7 @@ export const SimpleMotion = {
   // Stagger container
   StaggerContainer: ({ children, className = '', staggerDelay = 100, ...props }) => {
     const [ref, inView] = useInView({ once: true });
-    
+
     return (
       <div ref={ref} className={className} {...props}>
         {React.Children.map(children, (child, index) =>
@@ -130,4 +130,5 @@ export const SimpleMotion = {
   }
 };
 
+export { SimpleMotion };
 export default SimpleMotion;

@@ -1,4 +1,5 @@
 // Performance monitoring utilities
+import { useEffect } from 'react';
 class PerformanceMonitor {
   constructor() {
     this.observers = new Map();

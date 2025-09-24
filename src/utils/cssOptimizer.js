@@ -163,7 +163,7 @@ export class CSSOptimizer {
       // Check if any elements match this selector
       const elements = document.querySelectorAll(rule.selectorText);
       return elements.length > 0;
-    } catch (e) {
+    } catch {
       // Invalid selector, keep it to be safe
       return true;
     }
@@ -375,27 +375,18 @@ export function useCSSOptimization(options = {}) {
 
   const { enableMonitoring = false, optimizeAnimations = true } = options;
 
-  // Use dynamic import to avoid issues with React context
-  import('react').then((React) => {
-    React.useEffect(() => {
-      cssOptimizer.initialize();
-
-      if (optimizeAnimations) {
-        cssOptimizer.optimizeAnimations();
-      }
-
-      if (enableMonitoring) {
-        cssOptimizer.monitorCSSPerformance();
-      }
-
-      return () => {
-        cssOptimizer.cleanup();
-      };
-    }, [enableMonitoring, optimizeAnimations]);
-  }).catch(() => {
-    // Fallback if React is not available
+  // Initialize CSS optimizer (non-React approach)
+  if (typeof cssOptimizer !== 'undefined') {
     cssOptimizer.initialize();
-  });
+
+    if (optimizeAnimations) {
+      cssOptimizer.optimizeAnimations();
+    }
+
+    if (enableMonitoring) {
+      cssOptimizer.monitorCSSPerformance();
+    }
+  }
 
   return {
     analyzeCSSUsage: () => cssOptimizer.analyzeCSSUsage(),

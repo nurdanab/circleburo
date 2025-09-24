@@ -2,7 +2,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { metaKeywords, pageKeywords, keywordUtils } from '../data/keywords';
+import { metaKeywords, keywordUtils } from '../data/keywords';
 
 export const useKeywords = (pageName = null, options = {}) => {
   const { i18n } = useTranslation();

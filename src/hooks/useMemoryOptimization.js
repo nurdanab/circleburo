@@ -20,7 +20,7 @@ export const useEventListener = (event, handler, element = window, options = {})
     return () => {
       element.removeEventListener(event, eventListener, options);
     };
-  }, [event, element, options.capture, options.once, options.passive]);
+  }, [event, element, options]);
 };
 
 // Hook to cleanup timeouts and intervals
@@ -208,7 +208,7 @@ export const useIntersectionObserver = (callback, options = {}) => {
         observerRef.current.disconnect();
       }
     };
-  }, [callback, options.threshold, options.rootMargin, options.root]);
+  }, [callback, options]);
 
   return targetRef;
 };

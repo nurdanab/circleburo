@@ -324,14 +324,14 @@ class PerformanceOptimizer {
 
   // Get optimized image URL
   getOptimizedImageUrl(src) {
-    const devicePixelRatio = window.devicePixelRatio || 1;
+    const _devicePixelRatio = window.devicePixelRatio || 1;
     const connection = navigator.connection;
 
-    let quality = 85;
+    let _quality = 85;
     if (connection && connection.effectiveType === '2g') {
-      quality = 60;
+      _quality = 60;
     } else if (connection && connection.effectiveType === '3g') {
-      quality = 70;
+      _quality = 70;
     }
 
     // This would integrate with your image optimization service

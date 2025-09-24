@@ -55,7 +55,7 @@ export class ImageOptimizer {
       height,
       quality = this.getOptimalQuality(),
       format = this.getBestFormat(),
-      lazy = true
+      lazy: _lazy = true
     } = options;
 
     // If it's already an optimized format, return as-is
@@ -66,7 +66,7 @@ export class ImageOptimizer {
     // Extract base path and extension
     const lastDotIndex = src.lastIndexOf('.');
     const basePath = src.substring(0, lastDotIndex);
-    const extension = src.substring(lastDotIndex + 1);
+    const _extension = src.substring(lastDotIndex + 1);
 
     // Generate optimized filename
     let optimizedSrc = basePath;
@@ -259,7 +259,7 @@ export class ImageOptimizer {
       recommendations: []
     };
 
-    images.forEach((img, index) => {
+    images.forEach((img, _index) => {
       const src = img.src || img.currentSrc;
 
       if (src.includes('.webp') || src.includes('.avif')) {

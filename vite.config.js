@@ -42,33 +42,56 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Simplified chunking to avoid React context issues
+        // Optimized chunking for better performance
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Keep ALL React-related libraries together to avoid context issues
+            // Critical libraries that need to load first
             if (
               id.includes('react/') ||
               id.includes('react-dom/') ||
+              id.includes('scheduler/')
+            ) {
+              return 'react-core';
+            }
+
+            // Router and i18n (loaded after initial render)
+            if (
               id.includes('react-router-dom/') ||
               id.includes('react-helmet-async/') ||
               id.includes('react-i18next/') ||
-              id.includes('i18next/') ||
-              id.includes('framer-motion/') ||
-              id.includes('@motionone/') ||
-              id.includes('lucide-react/') ||
-              id.includes('react-icons/') ||
-              id.includes('scheduler/')
+              id.includes('i18next/')
             ) {
-              return 'vendor';
+              return 'app-core';
             }
 
-            // Everything else goes to vendor as well for safety
+            // Heavy animation libraries (loaded on demand)
+            if (
+              id.includes('framer-motion/') ||
+              id.includes('@motionone/') ||
+              id.includes('gsap/')
+            ) {
+              return 'animations';
+            }
+
+            // UI libraries
+            if (
+              id.includes('lucide-react/') ||
+              id.includes('react-icons/')
+            ) {
+              return 'ui-icons';
+            }
+
+            // Everything else
             return 'vendor';
           }
 
-          // Keep app chunks simple
+          // App chunks
           if (id.includes('src/pages/')) {
             return 'pages';
+          }
+
+          if (id.includes('src/components/sections/')) {
+            return 'sections';
           }
 
           if (id.includes('src/components/')) {

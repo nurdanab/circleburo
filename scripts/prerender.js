@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-env node */
 
 import fs from 'fs';
 import path from 'path';
@@ -193,7 +194,7 @@ function generateStructuredData(route, baseUrl) {
   `;
 }
 
-function generateSEOContent(route, language) {
+function generateSEOContent(route, _language) {
   const isHome = route.path === '/' || route.path === '/en';
 
   if (isHome) {

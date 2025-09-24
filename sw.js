@@ -9,18 +9,24 @@ self.addEventListener('activate', (event) => {
       try {
         const cacheNames = await caches.keys();
         await Promise.all(cacheNames.map((name) => caches.delete(name)));
-      } catch (_) {}
+      } catch {
+        // ignore cache deletion errors
+      }
       try {
         await self.clients.claim();
-      } catch (_) {}
+      } catch {
+        // ignore client claim errors
+      }
       try {
         await self.registration.unregister();
-      } catch (_) {}
+      } catch {
+        // ignore unregister errors
+      }
     })()
   );
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', (_event) => {
   // Do not intercept any requests
   return;
 });

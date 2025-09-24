@@ -29,15 +29,15 @@
       "reasons": {
         "qualityFirst": {
           "title": "We do everything for you",
-          "description": "We take care of everything and deliver perfect results."
+          "description": "We take everything upon ourselves: from planning and creative to results. We bring the project to completion within short timeframes and according to budget."
         },
         "creativeSolutions": {
           "title": "Meeting deadlines",
-          "description": "You always receive your project on time."
+          "description": "You always receive your project on time: transparent work plan and agreed-upon project implementation timelines."
         },
         "innovation": {
           "title": "Everything for the client",
-          "description": "We consider every detail to exceed your expectations."
+          "description": "We consider every detail — audit, meanings, visuals, metrics — so that the final effect is noticeable to both the team and your clients."
         }
       }
     },
@@ -64,8 +64,8 @@
       "subtitle": "About Us",
       "creative": "From idea",
       "vision": "to reality",
-      "paragraph1": "Circle Creative Buro has been operating since June 2025 and has set itself the goal of creating creative ideas for our clients by offering unique commercial proposals that have not yet been seen on the market.",
-      "paragraph2": "Our task is to help your brand work in such a way that people see your uniqueness and competitiveness among your peers.",
+      "paragraph1": "Circle Creative Buro — a creative buro on the market since June 2025. We turn business tasks into strong ideas and package them into understandable products and communications. We create unique selling propositions that haven't existed in the market yet, based on audience research, strategy, and clear efficiency criteria. For us, not only creativity and visuals are important, but also measurable results: growth in recognition, conversion, and sales.",
+      "paragraph2": "Our task is to make your brand work noticeably and effectively: uniqueness should be readable from the first contact, and advantages should be obvious among analogues. We identify insights, build positioning, develop identity, websites and campaigns, create content, test hypotheses and optimize by metrics. We work transparently and on time, take coordination upon ourselves and bring the project to a result that exceeds expectations.",
       "button": "Learn More About Circle"
     },
     "projects": {
@@ -292,26 +292,25 @@
     "aboutUsGallery": {
       "placeholderCards": {
         "title1": "From Challenges to Results",
-        "text1": "We turn clients’ challenges into effective solutions that deliver results.",
-        "title2": "Every Project is Unique",
-        "text2": "Every project is unique to us — we always seek the best solution for each client.",
-        "title3": "A Team that Delivers Turnkey Solutions",
-        "text3": "Our team brings together strategists, designers, and marketers to handle every task turnkey.",
-        "title4": "Focused Only on What Truly Works",
-        "text4": "Your results matter, which is why we focus on what truly works.",
-        "title21": "Transparency and Openness at Every Stage",
-        "text21": "We keep our clients informed — transparency and openness at every stage..",
-        "title22": "Experts in Trends and Innovation",
-        "text22": "Our team consists of experts who stay on top of market trends and implement them into your campaigns.",
-        "title31": "No Templates — Only Tailored Solutions",
-        "text31":  "We don’t use templates – only personalized solutions created just for you.",
-        "title32": "We Value Your Time",
-        "text32": "We value our clients’ time, working quickly, clearly, and without delays..",
-        "title33": "Advertising as a Partnership for Growth",
-        "text33": "With us, you get more than advertising — you gain a partner that helps your business grow.",
-        "title34": "We Аre In Projects",
-        "text34": "We love what we do and make sure you can feel it in every project."
-
+        "text1": "We turn client tasks into working solutions with measurable effect. We formulate goals, design paths, launch and achieve KPIs — leads, sales, recognition.Each project is unique — we research audience and context, test hypotheses, select tools and format to provide the best solution specifically for your task.",
+        "title2": "A unique approach",
+        "text2": "Every project is unique — we research the audience and context, test hypotheses, and select the tools and format to provide the best solution for your specific task.",
+        "title3": "Turnkey team",
+        "text3": "Strategists, designers, and marketers work as a single team under the management of a PM. We take care of all coordination and are responsible for the result from brief to release.",
+        "title4": "Only what works,",
+        "text4": "We focus on tools that really drive metrics. We conduct A/B testing, measure effectiveness, and scale what brings results.",
+        "title21": "Transparency and openness,",
+        "text21": "You can see the status, deadlines, and metrics at every stage. Weekly updates, a task board, and access to materials — no surprises or 'black boxes'.",
+        "title22": "Experts in trends and innovation",
+        "text22": "We track trends and carefully implement innovations: new formats, tools, and AI approaches — only where it enhances your results.",
+        "title31": "No templates",
+        "text31": "No one-size-fits-all solutions. We take into account your brand's tone, goals, audience, and channel — creating a personalized scenario for your situation.",
+        "title32": "We value your time",
+        "text32": "We work quickly and efficiently: realistic deadlines, SLAs for responses, checkpoints, and a single point of entry. Approvals are handled without delay.",
+        "title33": "A partner in growth",
+        "text33": "We don't build campaigns, we build growth: roadmaps, hypotheses, funnels, unit economics. Regular iterations and scaling of working solutions.",
+        "title34": "We are in projects",
+        "text34": "We are deeply involved and maintain high quality standards. We proactively suggest improvements and make sure that this is reflected in every project and result."
       }
     },
     "quiz": {
