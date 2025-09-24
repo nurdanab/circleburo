@@ -10,8 +10,7 @@ import './i18n';
 // Import web vitals for performance monitoring
 import { reportWebVitals, observePerformance } from './components/WebVitals';
 import { optimizeResourceLoading, loadNonCriticalResources } from './utils/resourceHints';
-import { performanceOptimizer } from './utils/performanceOptimizer';
-import { cssOptimizer } from './utils/cssOptimizer';
+// Import optimizers dynamically to avoid issues with React context
 
 // Start performance optimizations
 if (typeof window !== 'undefined') {
@@ -19,9 +18,14 @@ if (typeof window !== 'undefined') {
     // Critical resource optimization
     optimizeResourceLoading(window.location.pathname);
     
-    // Initialize performance optimizers
-    performanceOptimizer.initialize();
-    cssOptimizer.initialize();
+    // Initialize performance optimizers dynamically
+    import('./utils/performanceOptimizer').then(({ performanceOptimizer }) => {
+      performanceOptimizer.initialize();
+    }).catch(console.warn);
+
+    import('./utils/cssOptimizer').then(({ cssOptimizer }) => {
+      cssOptimizer.initialize();
+    }).catch(console.warn);
 
     // Start performance monitoring
     reportWebVitals();

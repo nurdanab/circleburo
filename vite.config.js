@@ -57,12 +57,16 @@ export default defineConfig({
               return 'vendor-react';
             }
 
-            // Animation libraries (heavy - separate chunk)
+            // Animation libraries - keep framer-motion with React
             if (
               id.includes('framer-motion/') ||
-              id.includes('gsap/') ||
               id.includes('@motionone/')
             ) {
+              return 'vendor-react';
+            }
+
+            // GSAP can be separate as it doesn't need React context
+            if (id.includes('gsap/')) {
               return 'vendor-animations';
             }
 
@@ -193,10 +197,10 @@ export default defineConfig({
       'react-router-dom',
       'react-helmet-async',
       'react-i18next',
-      'i18next'
+      'i18next',
+      'framer-motion'
     ],
     exclude: [
-      'framer-motion', // Heavy animation library - load on demand
       'gsap', // Heavy animation library - load on demand
       'web-vitals',
       'react-ga4',
