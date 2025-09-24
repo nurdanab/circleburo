@@ -40,10 +40,24 @@ if (typeof window !== 'undefined') {
       }
     }
 
-    // Temporarily disable Service Worker for LCP optimization
+    // Temporarily disable Service Worker completely
     // TODO: Re-enable after fixing clone() errors
-    if (false && 'serviceWorker' in navigator && import.meta.env.PROD) {
-      // SW code disabled for performance testing
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+          console.log('🔧 SW unregistered:', registration);
+        }
+      });
+      // Clear all SW cache
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (let name of names) {
+            caches.delete(name);
+            console.log('🗑️ SW cache cleared:', name);
+          }
+        });
+      }
     }
     
     // Load non-critical resources
