@@ -135,11 +135,12 @@ const Header = () => {
             aria-label="Circle Buro - На главную страницу"
           >
             <OptimizedImage
-              src="/img/logo-header.webp"
+              src="/img/logo-header.png"
               alt="Circle Buro - Креативное агентство полного цикла в Алматы"
               width={60}
               height={27}
               priority={true}
+              formats={['original']}
               className="header-logo"
               style={{
                 height: '1.8rem',

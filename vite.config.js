@@ -42,9 +42,20 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Disable custom manualChunks to avoid circular vendor splits causing runtime errors.
-        // Let Vite/Rollup decide optimal chunking automatically.
-        // manualChunks: undefined,
+        // Safe vendor split: bundle core libs into a single vendor chunk to
+        // keep main entry smaller without creating circular vendor splits.
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (
+              id.includes('react/') ||
+              id.includes('react-dom/') ||
+              id.includes('react-router-dom/') ||
+              id.includes('react-helmet-async/')
+            ) {
+              return 'vendor';
+            }
+          }
+        },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name.split('.');
           const ext = info[info.length - 1];
