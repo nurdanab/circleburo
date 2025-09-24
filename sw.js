@@ -1,7 +1,7 @@
 // Service Worker для Circle Buro
-const CACHE_NAME = 'circle-buro-v1.0.0';
-const STATIC_CACHE = 'static-v1.0.0';
-const DYNAMIC_CACHE = 'dynamic-v1.0.0';
+const CACHE_NAME = 'circle-buro-v1.0.3';
+const STATIC_CACHE = 'static-v1.0.3';
+const DYNAMIC_CACHE = 'dynamic-v1.0.3';
 
 // Критические ресурсы для кэширования
 const CRITICAL_RESOURCES = [
@@ -146,7 +146,7 @@ async function handleRequest(request) {
     console.error('[SW] Request failed:', error);
     
     // Fallback для HTML страниц
-    if (request.headers.get('accept').includes('text/html')) {
+    if (request.headers.get('accept') && request.headers.get('accept').includes('text/html')) {
       return await caches.match('/index.html');
     }
     
@@ -166,7 +166,7 @@ async function cacheFirst(request, cacheName) {
     const networkResponse = await fetch(request);
 
     // Кэшируем только полные ответы (избегаем partial responses 206)
-    if (networkResponse.ok && networkResponse.status === 200) {
+    if (networkResponse && networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
       await cache.put(request, networkResponse.clone());
     }
@@ -181,10 +181,10 @@ async function cacheFirst(request, cacheName) {
 // Network First стратегия
 async function networkFirst(request, cacheName) {
   try {
-    const networkResponse = await fetch(request);
+    const networkResponse = await fetch(request.clone());
 
     // Кэшируем только полные ответы (избегаем partial responses 206)
-    if (networkResponse.ok && networkResponse.status === 200) {
+    if (networkResponse && networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
       await cache.put(request, networkResponse.clone());
     }
@@ -209,8 +209,8 @@ async function staleWhileRevalidate(request, cacheName) {
   // Асинхронное обновление кэша в фоне
   const updateCache = async () => {
     try {
-      const networkResponse = await fetch(request);
-      if (networkResponse.ok && networkResponse.status === 200) {
+      const networkResponse = await fetch(request.clone());
+      if (networkResponse && networkResponse.ok && networkResponse.status === 200) {
         const cache = await caches.open(cacheName);
         await cache.put(request, networkResponse.clone());
       }
@@ -228,7 +228,7 @@ async function staleWhileRevalidate(request, cacheName) {
   // Если нет кэшированной версии, делаем сетевой запрос
   try {
     const networkResponse = await fetch(request);
-    if (networkResponse.ok && networkResponse.status === 200) {
+    if (networkResponse && networkResponse.ok && networkResponse.status === 200) {
       const cache = await caches.open(cacheName);
       await cache.put(request, networkResponse.clone());
     }
