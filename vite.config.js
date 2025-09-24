@@ -6,6 +6,7 @@ import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
 
 export default defineConfig({
+  publicDir: 'public',
   plugins: [
     tailwindcss(),
     react(),
@@ -157,15 +158,19 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
-      'react-router-dom'
+      'react-router-dom',
+      '@supabase/supabase-js',
+      '@supabase/postgrest-js'
     ],
     exclude: [
       'framer-motion', // Лази лоадинг для анимаций
       'gsap',
       'web-vitals',
       'react-ga4',
-      'newrelic',
-      '@supabase/supabase-js' // Лази лоадинг базы данных
+      'newrelic'
     ]
+  },
+  define: {
+    global: 'globalThis'
   },
 });

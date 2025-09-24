@@ -567,7 +567,7 @@ ID: ${recordId}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-white/3 via-transparent to-transparent rounded-full blur-3xl"></div>
       </div>
 
-      <div className=" relative z-10 mb-12">
+      <div className="relative z-10 mb-12 w-full max-w-7xl mx-auto">
         {/* Заголовок секции */}
         <motion.h1
           className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center"
