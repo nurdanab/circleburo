@@ -43,7 +43,7 @@ const seoData = {
       description:
         "Конструктор услуг — это гибкая сборка под ваши цели: стратегия задаёт курс, дизайн и креатив повышают узнаваемость, SMM даёт трафик и вовлечение, продакшн обеспечивает качество контента.",
       ogTitle:
-        "SEMICIRCLE — гибкие решения под задачи бизнеса",
+        "SEMICIRCLE — гибкие решения под задачи бизнесSEMICIRCLE — гибкие решения под задачи бизнеса",
       ogDescription:
         "Подключаем только необходимые блоки, запускаем быстро и расширяем, когда видим эффект по метрикам.",
       url: "/semicircle"
@@ -124,7 +124,7 @@ const seoData = {
       ogTitle:
         "CYCLE - monthly support: strategy, design, content, traffic.",
       ogDescription:
-        "Team on the brand's side - this is a full cycle without unnecessary control on your part: we form monthly plan and content grid, produce materials, launch and optimize campaigns, test hypotheses and record progress in transparent reports and dashboards.",
+        "Team on the brand's side - this is a full cycle without unnecessary control on your part: we form monthly plan and content grid, produce materials, launch and optimize campaigns, test hypotheses and record progress in transparent reports and dashboards",
       url: "/en/cycle"
     },
     case: {
@@ -142,7 +142,7 @@ const seoData = {
   kk: {
     home: {
       title:
-        "Circle BURO — Алматыдағы креативті бюро / толық циклді жарнама агенттігі",
+        "Circle BURO — Алматыдағы креативті бюро | толық циклді жарнама агенттігі ",
       description:
         "Біз брендтерге шығармашылық идеялар, стильді дизайн және жүйелік маркетинг арқылы ерекшеленуге, өсуге және масштабтауға көмектесеміз.",
       ogTitle:
@@ -157,16 +157,16 @@ const seoData = {
       description:
         "Біз Алматыдағы толық циклді жарнама агенттігіміз. Жұмыс істейтін брендтер мен науқандарды құру үшін стратегияны, деректерді және шығармашылықты біріктіреміз.",
       ogTitle:
-        "Circle BURO -толық циклді шығармашылық бюро",
+        "Circle BURO -толық циклді шығармашылық бюроCircle BURO -толық циклді шығармашылық бюро",
       ogDescription:
         "Стратегтер, дизайнерлер және өндіріс тобы. Біз брендтерді көрнекті және ерекше етеміз.",
       url: "/kk/about"
     },
     circle: {
       title:
-        "CIRCLE қызметі-кешенді жылжыту және кілтті ребрендинг",
+        "CIRCLE — толық жұмыс циклі: стратегиядан іске қосуға дейін",
       description:
-        "Толық цикл кілті: деректер мен гипотезалар бойынша шешім жинаймыз, нақты метрикаларды тексереміз және брендті Алматы нарығында елеулі серпіліске шығарамыз.",
+        "Аналитика бағдарларды белгілейді, бренд платформасы позицияны түсіреді, визуалды тіл тануды қамтамасыз етеді және коммуникациялар брендті аудиториямен байланыстырады.",
       ogTitle:
         "CIRCLE — толық жұмыс циклі: стратегиядан іске қосуға дейін",
       ogDescription:
@@ -175,7 +175,7 @@ const seoData = {
     },
     semicircle: {
       title:
-        "SEMICIRCLE қызметі-икемді пакет: тек тиімді жұмыс істеу үшін қажетті қызметтер мен құралдар.",
+        "SEMICIRCLE қызметі-икемді пакет: тек тиімді жұмыс істеу үшін қажетті қызметтер мен құралдар",
       description:
         "Қызмет конструкторы-бұл сіздің мақсаттарыңызға икемді құрастыру: стратегия курсты, дизайнды және шығармашылықты анықтайды, хабардарлықты арттырады, SMM трафик пен қатысуды қамтамасыз етеді, өндіріс мазмұнның сапасын қамтамасыз етеді.",
       ogTitle:
@@ -197,9 +197,9 @@ const seoData = {
     },
     case: {
       title:
-        "Кейс: Steppe Coffee (Алматы) толық ребрендингі — circle BURO",
+      Circle "BURO кейсі: Алматыдағы Steppe Coffee ребрендингі",
       description:
-        "Алматыда Steppe Coffee үшін сәйкестік пен визуалды жүйені қайта құру, брендтің үні мен мазмұны-танымалдылық пен негізгі көрсеткіштердің өсуі.",
+        "Steppe Coffee үшін бірыңғай визуалды тіл, орау және байланыс. Іске қосу және оңтайландыру жүргізілді. Нәтижесі-Алматыда көріну мен қатысудың айтарлықтай өсуі",
       ogTitle:
         "Circle BURO кейсі: Алматыдағы Steppe Coffee ребрендингі",
       ogDescription:
