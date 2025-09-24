@@ -197,7 +197,7 @@ const seoData = {
     },
     case: {
       title:
-      Circle "BURO кейсі: Алматыдағы Steppe Coffee ребрендингі",
+      "Circle BURO кейсі: Алматыдағы Steppe Coffee ребрендингі",
       description:
         "Steppe Coffee үшін бірыңғай визуалды тіл, орау және байланыс. Іске қосу және оңтайландыру жүргізілді. Нәтижесі-Алматыда көріну мен қатысудың айтарлықтай өсуі",
       ogTitle:
