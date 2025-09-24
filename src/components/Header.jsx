@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import OptimizedImage from './OptimizedImage';
+import CriticalImage from './CriticalImage';
 import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import LanguageSwitcher from './LanguageSwitcher';
 import { navigateToSection } from '../utils/navigation';
@@ -131,13 +131,11 @@ const Header = () => {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label="Circle Buro - На главную страницу"
           >
-            <OptimizedImage
+            <CriticalImage
               src="/img/logo-header.png"
               alt="Circle Buro - Креативное агентство полного цикла в Алматы"
               width={60}
               height={27}
-              priority={true}
-              formats={['original']}
               className="header-logo"
               style={{
                 height: '1.8rem',

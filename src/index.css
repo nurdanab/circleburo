@@ -46,6 +46,40 @@ body {
   box-sizing: border-box;
 }
 
+/* Улучшенные оптимизации для LCP и SI */
+img {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 200px;
+}
+
+/* GPU-accelerated animations */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Preload критических ресурсов */
+.critical-above-fold {
+  content-visibility: visible;
+}
+
+/* Отложенная загрузка для неважного контента */
+.lazy-below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+
+/* Optimized spinner animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }

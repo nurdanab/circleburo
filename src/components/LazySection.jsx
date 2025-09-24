@@ -68,11 +68,13 @@ const LazySection = ({
   );
 
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={`lazy-section ${isVisible ? 'loaded' : ''} ${className}`}
       style={{
         minHeight: !isVisible && !priority ? '200px' : 'auto',
+        contentVisibility: priority ? 'visible' : 'auto',
+        containIntrinsicSize: !isVisible ? '1px 200px' : 'none',
         ...getTransitionStyle()
       }}
     >

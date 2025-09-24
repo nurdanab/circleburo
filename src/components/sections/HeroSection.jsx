@@ -3,8 +3,9 @@ import "tailwindcss";
 import React, { useEffect, useState, useMemo, Suspense, lazy } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import CriticalLoader from '../CriticalLoader';
 
-// Lazy load VideoHero для улучшения LCP
+// Lazy load VideoHero для улучшения LCP с preload
 const VideoHero = lazy(() => import('../VideoHero'));
 
 const HeroSection = () => {
@@ -243,7 +244,15 @@ const HeroSection = () => {
         <div className="transform translate-y-0 sm:-translate-y-12 lg:-translate-y-14 xl:-translate-y-14 2xl:-translate-y-18">
           <Suspense fallback={
             <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
-              <div className="w-12 h-12 border-2 border-white/20 border-t-white/60 rounded-full animate-spin"></div>
+              <div style={{
+                width: '3rem',
+                height: '3rem',
+                border: '2px solid rgba(255,255,255,0.2)',
+                borderTop: '2px solid rgba(255,255,255,0.6)',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite',
+                transform: 'translateZ(0)'
+              }}></div>
             </div>
           }>
             <VideoHero />

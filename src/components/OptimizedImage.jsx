@@ -121,8 +121,10 @@ const OptimizedImage = ({
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              contentVisibility: 'auto',
-              containIntrinsicSize: width && height ? `${width}px ${height}px` : '300px 200px'
+              contentVisibility: priority ? 'visible' : 'auto',
+              containIntrinsicSize: width && height ? `${width}px ${height}px` : '300px 200px',
+              transform: priority ? 'translateZ(0)' : 'none',
+              backfaceVisibility: priority ? 'hidden' : 'visible'
             }}
             onLoad={handleLoad}
             onError={handleError}

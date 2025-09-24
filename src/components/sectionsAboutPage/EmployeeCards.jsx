@@ -75,13 +75,17 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   return (
     <motion.div
       ref={cardRef}
-      className="relative w-[280px] min-h-[440px] flex-shrink-0 perspective-1000"
+      className="relative w-[280px] min-h-[440px] flex-shrink-0 perspective-1000 lazy-below-fold"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6 }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      style={{
+        contentVisibility: 'auto',
+        containIntrinsicSize: '280px 440px'
+      }}
     >
       {/* Unique creative accent */}
       <motion.div
@@ -170,7 +174,7 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
                       alt={employee.name}
                       className="absolute inset-0 w-full h-full object-cover"
                       style={{
-                        objectPosition: employeeKey === 'employee4' ? 'left top' : employeeKey === 'employee1' ? 'right top' : employeeKey === 'employee9' ? 'center center' : 'center top',
+                        objectPosition: employeeKey === 'employee4' ? 'left top' : employeeKey === 'employee1' ? 'right top' : employeeKey === 'employee2' ? 'center center' : employeeKey === 'employee9' ? 'center center' : 'center top',
                         objectFit: 'cover'
                       }}
                       loading="lazy"
