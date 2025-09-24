@@ -223,9 +223,8 @@ async function staleWhileRevalidate(request, cacheName) {
   const fetchPromise = fetch(request).then((networkResponse) => {
     // Кэшируем только полные ответы (избегаем partial responses 206)
     if (networkResponse.ok && networkResponse.status === 200) {
-      const responseClone = networkResponse.clone();
       const cache = caches.open(cacheName);
-      cache.then((cache) => cache.put(request, responseClone));
+      cache.then((cache) => cache.put(request, networkResponse.clone()));
     }
     return networkResponse;
   }).catch(() => {

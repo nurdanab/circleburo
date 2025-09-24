@@ -114,10 +114,10 @@ export default defineConfig({
     target: 'es2020', // Modern target for better optimization
     terserOptions: {
       compress: {
-        drop_console: false,
+        drop_console: true,
         drop_debugger: true,
-        pure_funcs: [],
-        passes: 1,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn', 'console.error'],
+        passes: 3,
         unsafe: false,
         unsafe_comps: false,
         unsafe_Function: false,
