@@ -42,92 +42,37 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Safe vendor split: bundle core libs into a single vendor chunk to
-        // keep main entry smaller without creating circular vendor splits.
+        // Simplified chunking to avoid React context issues
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Core React libraries
+            // Keep ALL React-related libraries together to avoid context issues
             if (
               id.includes('react/') ||
               id.includes('react-dom/') ||
               id.includes('react-router-dom/') ||
               id.includes('react-helmet-async/') ||
-              id.includes('scheduler/')
-            ) {
-              return 'vendor-react';
-            }
-
-            // Animation libraries - keep framer-motion with React
-            if (
+              id.includes('react-i18next/') ||
+              id.includes('i18next/') ||
               id.includes('framer-motion/') ||
-              id.includes('@motionone/')
-            ) {
-              return 'vendor-react';
-            }
-
-            // GSAP can be separate as it doesn't need React context
-            if (id.includes('gsap/')) {
-              return 'vendor-animations';
-            }
-
-            // UI and utility libraries
-            if (
+              id.includes('@motionone/') ||
               id.includes('lucide-react/') ||
               id.includes('react-icons/') ||
-              id.includes('cleave.js/')
+              id.includes('scheduler/')
             ) {
-              return 'vendor-ui';
+              return 'vendor';
             }
 
-            // Analytics and monitoring
-            if (
-              id.includes('web-vitals/') ||
-              id.includes('react-ga4/') ||
-              id.includes('newrelic/')
-            ) {
-              return 'vendor-analytics';
-            }
-
-            // Internationalization - keep with React to avoid context issues
-            if (
-              id.includes('i18next/') ||
-              id.includes('react-i18next/')
-            ) {
-              return 'vendor-react';
-            }
-
-            // Database and API
-            if (
-              id.includes('@supabase/') ||
-              id.includes('googleapis/')
-            ) {
-              return 'vendor-api';
-            }
-
-            // Other vendor dependencies
-            return 'vendor-misc';
+            // Everything else goes to vendor as well for safety
+            return 'vendor';
           }
 
-          // App-level chunking by route/feature
+          // Keep app chunks simple
           if (id.includes('src/pages/')) {
-            if (id.includes('HomePage')) return 'page-home';
-            if (id.includes('AboutPage')) return 'page-about';
-            if (id.includes('CasePage')) return 'page-case';
-            if (id.includes('Circle') || id.includes('Cycle') || id.includes('Semicircle')) {
-              return 'page-services';
-            }
-            if (id.includes('AdminPage') || id.includes('LoginPage')) {
-              return 'page-admin';
-            }
+            return 'pages';
           }
 
-          // Component-level chunking for heavy sections
-          if (id.includes('src/components/sections/')) {
-            return 'sections-shared';
-          }
-
-          if (id.includes('src/components/sectionsAboutPage/')) {
-            return 'sections-about';
+          if (id.includes('src/components/')) {
+            return 'components';
           }
         },
         assetFileNames: (assetInfo) => {

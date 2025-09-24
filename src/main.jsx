@@ -7,29 +7,15 @@ import App from './App';
 import './index.css';
 import './i18n';
 
-// Import web vitals for performance monitoring
-import { reportWebVitals, observePerformance } from './components/WebVitals';
-import { optimizeResourceLoading, loadNonCriticalResources } from './utils/resourceHints';
-// Import optimizers dynamically to avoid issues with React context
+// Simplified initialization to avoid context issues
 
-// Start performance optimizations
+// Start basic optimizations
 if (typeof window !== 'undefined') {
   try {
-    // Critical resource optimization
-    optimizeResourceLoading(window.location.pathname);
-    
-    // Initialize performance optimizers dynamically
-    import('./utils/performanceOptimizer').then(({ performanceOptimizer }) => {
-      performanceOptimizer.initialize();
+    // Basic performance monitoring only
+    import('./components/WebVitals').then(({ reportWebVitals }) => {
+      reportWebVitals();
     }).catch(console.warn);
-
-    import('./utils/cssOptimizer').then(({ cssOptimizer }) => {
-      cssOptimizer.initialize();
-    }).catch(console.warn);
-
-    // Start performance monitoring
-    reportWebVitals();
-    observePerformance();
 
     // Force unregister Service Worker in development
     if ('serviceWorker' in navigator && import.meta.env.DEV) {
@@ -72,9 +58,6 @@ if (typeof window !== 'undefined') {
           console.error('❌ SW registration failed:', error);
         });
     }
-    
-    // Load non-critical resources
-    loadNonCriticalResources();
   } catch (error) {
     console.error('Error in main.jsx initialization:', error);
     // Continue with app initialization even if optimizations fail
