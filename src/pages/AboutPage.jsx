@@ -4,6 +4,7 @@ import SEOHead from '../components/SEOHead';
 import useSEO from '../hooks/useSEO';
 import AboutSection from '../components/sectionsAboutPage/AboutSection';
 import AboutSectionGallery from '../components/sectionsAboutPage/AboutSectionGallery';
+import AnimatedEmployeeCards from '../components/sectionsAboutPage/EmployeeCards';
 
 
 function AboutPage() {
@@ -12,7 +13,8 @@ function AboutPage() {
     <>
     {seoData && <SEOHead {...seoData} />}
       <AboutSection />
-      <AboutSectionGallery /> 
+      <AnimatedEmployeeCards />
+      <AboutSectionGallery />
     </>
   );
 }

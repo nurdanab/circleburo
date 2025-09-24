@@ -163,14 +163,14 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
                     ${colorScheme.accentColor}20)`
                 }}
               >
-                <div className="w-full h-full rounded-full bg-gray-900 p-1 overflow-hidden">
+                <div className="w-full h-full rounded-full bg-white p-1 overflow-hidden border-2 border-gray-300">
                   <div className="w-full h-full rounded-full overflow-hidden relative">
                     <img
                       src={employee.image}
                       alt={employee.name}
                       className="absolute inset-0 w-full h-full object-cover"
-                      style={{ 
-                        objectPosition: 'center center',
+                      style={{
+                        objectPosition: employeeKey === 'employee4' ? 'left top' : employeeKey === 'employee1' ? 'right top' : 'center top',
                         objectFit: 'cover'
                       }}
                       loading="lazy"
