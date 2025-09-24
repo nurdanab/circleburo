@@ -32,7 +32,7 @@ const ProjectsSection = () => {
   ];
   const totalCards = projectsData.length;
 
-  const sectionHeight = `${totalCards * 100}vh`;
+  const sectionHeight = `120vh`;
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,

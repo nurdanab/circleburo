@@ -182,6 +182,7 @@ const AboutSection = () => {
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [showCenterImage, setShowCenterImage] = useState(false);
   const [hideEmployeePhotos, setHideEmployeePhotos] = useState(false);
+  const [hideCenterImage, setHideCenterImage] = useState(false);
 
   useEffect(() => {
     const timer1 = setTimeout(() => {
@@ -195,12 +196,18 @@ const AboutSection = () => {
     // Скрываем фотографии сотрудников после завершения анимации
     const timer3 = setTimeout(() => {
       setHideEmployeePhotos(true);
-    }, 6200); // После окончания анимации и появления центрального изображения
+    }, 6200);
+
+    // Скрываем центральное изображение после его показа
+    const timer4 = setTimeout(() => {
+      setHideCenterImage(true);
+    }, 7500); // Показываем 1.5 секунды после появления
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
+      clearTimeout(timer4);
     };
   }, []);
 
@@ -301,15 +308,19 @@ const AboutSection = () => {
                 );
               })}
 
-                {showCenterImage && (
-                 <div 
+                {showCenterImage && !hideCenterImage && (
+                 <div
                    className="absolute z-20 w-[600px] h-[600px] rounded-full overflow-hidden"
-                style={{ opacity: 1, animation: 'fadeIn 1.5s ease-out' }} >
-                
+                style={{
+                  opacity: hideCenterImage ? 0 : 1,
+                  animation: hideCenterImage ? 'fadeOut 0.5s ease-out forwards' : 'fadeIn 1.5s ease-out',
+                  transition: 'opacity 0.5s ease-out'
+                }} >
+
                  <img
                     src="/img/circle-center.png"
                     alt="Circle Center"
-                    //   className="w-48 h-48 object-contain animate-center-photo"
+                    className="w-full h-full object-cover"
                     />
                  </div>
             )}
@@ -332,6 +343,11 @@ const AboutSection = () => {
         @keyframes fadeIn {
           from { opacity: 0; transform: scale(0.9); }
           to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeOut {
+          from { opacity: 1; transform: scale(1); }
+          to { opacity: 0; transform: scale(0.8); }
         }
         
         @keyframes photo-animation {

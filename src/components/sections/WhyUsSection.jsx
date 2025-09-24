@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { SimpleMotion } from '../SimpleMotion';
 import { Diamond, Rocket, Lightbulb } from 'lucide-react';
 import { useTranslation } from 'react-i18next'; 
 
@@ -33,22 +33,19 @@ const WhyUsSection = () => {
       <div className="max-w-6xl mx-auto relative">
         
         {/* Заголовок */}
-        <motion.div 
+        <SimpleMotion.FadeIn
           className="text-center sticky top-20 z-10 bg-black py-4 mb-8 md:mb-16"
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: false, amount: 0.3 }}
+          delay={0}
         >
           <h2 id="why-us-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             {t('whyUs.title')}
           </h2>
-        </motion.div>
+        </SimpleMotion.FadeIn>
 
         {/* Контейнер для карточек */}
         <div className="relative min-h-[150vh] flex flex-col gap-8 items-center justify-center">
             {reasons.map((reason, index) => (
-              <motion.div
+              <SimpleMotion.ScaleIn
                 key={index}
                 className="w-full md:w-[60%] lg:w-[45%] p-1 rounded-[30px]"
                 style={{
@@ -57,10 +54,8 @@ const WhyUsSection = () => {
                   zIndex: index + 1,
                   background: 'linear-gradient(225deg, #dbdbdb, #e6e6e6)',
                 }}
-                initial={{ opacity: 0.7, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: false, amount: 0.8 }}
+                delay={index * 100}
+                once={false}
               >
                 <div className="bg-[#1a1a1a] p-8 rounded-[30px] flex flex-col items-center text-center w-full h-full">
                   <div className="text-gray-700 mb-4">
@@ -73,7 +68,7 @@ const WhyUsSection = () => {
                     {reason.description}
                   </p>
                 </div>
-              </motion.div>
+              </SimpleMotion.ScaleIn>
             ))}
         </div>
       </div>
