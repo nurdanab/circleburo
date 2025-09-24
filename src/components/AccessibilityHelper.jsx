@@ -66,12 +66,12 @@ const AccessibilityHelper = () => {
       <button
         className="sr-only focus:not-sr-only fixed top-4 left-4 z-50 bg-blue-600 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
         onClick={() => setIsVisible(true)}
-        aria-label="Показать настройки доступности (Alt + A)"
+        aria-label="Show accessibility settings (Alt + A)"
         aria-describedby="accessibility-hint"
       >
-        Настройки доступности
+        Accessibility Settings
         <span id="accessibility-hint" className="sr-only">
-          Нажмите, чтобы открыть панель настроек доступности для улучшения восприятия сайта
+          Click to open accessibility settings panel to improve site perception
         </span>
       </button>
     );
@@ -131,15 +131,15 @@ const AccessibilityHelper = () => {
       >
         <div className="flex justify-between items-center mb-4">
           <h3 id="accessibility-title" className="font-semibold text-lg">
-            Настройки доступности
+            Accessibility Settings
           </h3>
           <p id="accessibility-description" className="sr-only">
-            Панель настроек доступности для улучшения восприятия сайта
+            Accessibility settings panel to improve site perception
           </p>
           <button
             className="text-gray-500 hover:text-gray-700 text-xl font-bold"
             onClick={() => setIsVisible(false)}
-            aria-label="Закрыть панель"
+            aria-label="Close panel"
           >
             ×
           </button>
@@ -153,7 +153,7 @@ const AccessibilityHelper = () => {
               aria-pressed={highContrast}
               aria-describedby="contrast-description"
             >
-              {highContrast ? 'Отключить' : 'Включить'} высокий контраст
+              {highContrast ? 'Disable' : 'Enable'} high contrast
             </button>
             <p id="contrast-description" className="sr-only">
               {highContrast ? 'Высокий контраст включен' : 'Включить высокий контраст для лучшей читаемости'}

@@ -75,7 +75,7 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   return (
     <motion.div
       ref={cardRef}
-      className="relative w-[280px] h-[360px] flex-shrink-0 perspective-1000"
+      className="relative w-[280px] min-h-[440px] flex-shrink-0 perspective-1000"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6 }}
@@ -181,12 +181,12 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
             </motion.div>
             
             <div className="text-center">
-              <h3 className="text-base font-medium text-white leading-tight mb-1">
+              <h3 className="text-lg font-medium text-white leading-tight mb-2">
                 {employee.name}
               </h3>
-              <motion.p 
-                className="text-xs font-normal"
-                animate={{ 
+              <motion.p
+                className="text-sm font-normal"
+                animate={{
                   color: isHovered ? colorScheme.accentColor : '#9ca3af'
                 }}
                 transition={{ duration: 0.3 }}
@@ -208,15 +208,17 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
             />
           </div>
           
-          {/* Compact content area */}
-          <div className="flex-1 flex flex-col justify-between">
-            <p className="text-gray-400 text-xs leading-relaxed text-center mb-3 line-clamp-2 px-2">
-              {employee.bio}
-            </p>
-            
-            {/* Minimal footer */}
-            <div className="text-center">
-              <p className="text-gray-500 text-xs font-light opacity-70">
+          {/* Content area - full text display */}
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 mb-4">
+              <p className="text-gray-400 text-sm leading-relaxed text-center px-2">
+                {employee.bio}
+              </p>
+            </div>
+
+            {/* Footer */}
+            <div className="text-center mt-auto pt-3">
+              <p className="text-gray-500 text-sm font-light opacity-70">
                 {employee.email}
               </p>
             </div>
@@ -326,18 +328,7 @@ const AnimatedEmployeeCards = () => {
         .perspective-1000 {
           perspective: 1000px;
         }
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
+        /* Removed line-clamp classes to show full text */
       `}</style>
     </section>
   );

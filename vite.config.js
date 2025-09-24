@@ -46,14 +46,84 @@ export default defineConfig({
         // keep main entry smaller without creating circular vendor splits.
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            // Core React libraries
             if (
               id.includes('react/') ||
               id.includes('react-dom/') ||
               id.includes('react-router-dom/') ||
-              id.includes('react-helmet-async/')
+              id.includes('react-helmet-async/') ||
+              id.includes('scheduler/')
             ) {
-              return 'vendor';
+              return 'vendor-react';
             }
+
+            // Animation libraries (heavy - separate chunk)
+            if (
+              id.includes('framer-motion/') ||
+              id.includes('gsap/') ||
+              id.includes('@motionone/')
+            ) {
+              return 'vendor-animations';
+            }
+
+            // UI and utility libraries
+            if (
+              id.includes('lucide-react/') ||
+              id.includes('react-icons/') ||
+              id.includes('cleave.js/')
+            ) {
+              return 'vendor-ui';
+            }
+
+            // Analytics and monitoring
+            if (
+              id.includes('web-vitals/') ||
+              id.includes('react-ga4/') ||
+              id.includes('newrelic/')
+            ) {
+              return 'vendor-analytics';
+            }
+
+            // Internationalization
+            if (
+              id.includes('i18next/') ||
+              id.includes('react-i18next/')
+            ) {
+              return 'vendor-i18n';
+            }
+
+            // Database and API
+            if (
+              id.includes('@supabase/') ||
+              id.includes('googleapis/')
+            ) {
+              return 'vendor-api';
+            }
+
+            // Other vendor dependencies
+            return 'vendor-misc';
+          }
+
+          // App-level chunking by route/feature
+          if (id.includes('src/pages/')) {
+            if (id.includes('HomePage')) return 'page-home';
+            if (id.includes('AboutPage')) return 'page-about';
+            if (id.includes('CasePage')) return 'page-case';
+            if (id.includes('Circle') || id.includes('Cycle') || id.includes('Semicircle')) {
+              return 'page-services';
+            }
+            if (id.includes('AdminPage') || id.includes('LoginPage')) {
+              return 'page-admin';
+            }
+          }
+
+          // Component-level chunking for heavy sections
+          if (id.includes('src/components/sections/')) {
+            return 'sections-shared';
+          }
+
+          if (id.includes('src/components/sectionsAboutPage/')) {
+            return 'sections-about';
           }
         },
         assetFileNames: (assetInfo) => {
@@ -71,7 +141,7 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js'
       }
     },
-    chunkSizeWarningLimit: 200, // Экстремально строгий лимит для SI
+    chunkSizeWarningLimit: 100, // Strict limit for better performance
     minify: 'terser',
     target: 'es2020', // Modern target for better optimization
     terserOptions: {
@@ -125,11 +195,13 @@ export default defineConfig({
       '@supabase/postgrest-js'
     ],
     exclude: [
-      'framer-motion', // Лази лоадинг для анимаций
-      'gsap',
+      'framer-motion', // Heavy animation library - load on demand
+      'gsap', // Heavy animation library - load on demand
       'web-vitals',
       'react-ga4',
-      'newrelic'
+      'newrelic',
+      '@supabase/supabase-js', // API calls - load on demand
+      'googleapis' // API calls - load on demand
     ]
   },
   define: {

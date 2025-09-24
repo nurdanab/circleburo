@@ -10,6 +10,8 @@ import './i18n';
 // Import web vitals for performance monitoring
 import { reportWebVitals, observePerformance } from './components/WebVitals';
 import { optimizeResourceLoading, loadNonCriticalResources } from './utils/resourceHints';
+import { performanceOptimizer } from './utils/performanceOptimizer';
+import { cssOptimizer } from './utils/cssOptimizer';
 
 // Start performance optimizations
 if (typeof window !== 'undefined') {
@@ -17,10 +19,14 @@ if (typeof window !== 'undefined') {
     // Critical resource optimization
     optimizeResourceLoading(window.location.pathname);
     
+    // Initialize performance optimizers
+    performanceOptimizer.initialize();
+    cssOptimizer.initialize();
+
     // Start performance monitoring
     reportWebVitals();
     observePerformance();
-    
+
     // Force unregister Service Worker in development
     if ('serviceWorker' in navigator && import.meta.env.DEV) {
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -40,10 +46,27 @@ if (typeof window !== 'undefined') {
       }
     }
 
-    // Temporarily disable Service Worker for LCP optimization
-    // TODO: Re-enable after fixing clone() errors
-    if (false && 'serviceWorker' in navigator && import.meta.env.PROD) {
-      // SW code disabled for performance testing
+    // Enable Service Worker for production with performance optimizations
+    if ('serviceWorker' in navigator && import.meta.env.PROD) {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('✅ SW registered:', registration.scope);
+
+          // Listen for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New content is available, notify user
+                console.log('🔄 New content available');
+                // Could show update notification to user
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.error('❌ SW registration failed:', error);
+        });
     }
     
     // Load non-critical resources

@@ -1,6 +1,7 @@
 // src/components/OptimizedImage.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import MediaLoader from './MediaLoader';
+import { useOptimizedImage } from '../utils/imageOptimizer';
 
 const OptimizedImage = ({
   src,
@@ -9,12 +10,25 @@ const OptimizedImage = ({
   height,
   className = "",
   priority = false,
-  formats = ['webp', 'avif'] // Modern formats to try
+  formats = ['webp', 'avif'], // Modern formats to try
+  quality,
+  sizes,
+  breakpoints
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
+  const [hasError, setHasError] = useState(false);
   const imgRef = useRef(null);
   const observerRef = useRef(null);
+
+  // Get optimized image properties
+  const optimizedProps = useOptimizedImage(src, {
+    width,
+    height,
+    quality,
+    priority,
+    breakpoints
+  });
 
   useEffect(() => {
     if (priority) return; 
@@ -46,7 +60,7 @@ const OptimizedImage = ({
   };
 
   const handleError = () => {
-    // Fallback to placeholder on error
+    setHasError(true);
     setIsLoaded(true);
   };
 
@@ -85,24 +99,25 @@ const OptimizedImage = ({
       {/* Actual image with modern format support */}
       {isInView && (
         <picture>
-          {formats.map(format => 
+          {!hasError && formats.map(format =>
             supportsFormat(format) && (
-              <source 
+              <source
                 key={format}
-                srcSet={getOptimizedSrc(src, format)} 
-                type={`image/${format}`} 
+                srcSet={optimizedProps.srcSet || getOptimizedSrc(src, format)}
+                type={`image/${format}`}
+                sizes={sizes || optimizedProps.sizes}
               />
             )
           )}
           <img
-            src={src}
+            src={hasError ? '/img/placeholder.svg' : (optimizedProps.src || src)}
             alt={alt}
             width={width}
             height={height}
             className={`img-optimized transition-opacity duration-300 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{ 
+            } ${hasError ? 'grayscale' : ''}`}
+            style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
@@ -111,8 +126,9 @@ const OptimizedImage = ({
             }}
             onLoad={handleLoad}
             onError={handleError}
-            loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
+            loading={optimizedProps.loading || (priority ? 'eager' : 'lazy')}
+            decoding={optimizedProps.decoding || 'async'}
+            fetchPriority={priority ? 'high' : 'auto'}
           />
         </picture>
       )}
