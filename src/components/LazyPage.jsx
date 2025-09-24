@@ -35,7 +35,7 @@ const LazyPage = ({ component: _LazyComponent, fallback = <CircleLogoLoader /> }
   return (
     <ErrorBoundary>
       <Suspense fallback={isTimeout ? timeoutFallback : fallback}>
-        <LazyComponent />
+        <_LazyComponent />
       </Suspense>
     </ErrorBoundary>
   );
