@@ -13,19 +13,19 @@ const INDEX_HTML_PATH = path.join(DIST_PATH, 'index.html');
 
 // Роуты для prerendering
 const ROUTES = [
-  { path: '/', title: 'CIRCLE BURO — креативное и маркетинговое агентство в Алматы | Полный цикл', description: 'Креатив, брендинг, стратегия и SMM под ключ. Помогаем брендам в Алматы выделяться, расти и масштабироваться за счёт сильной идеи и системного маркетинга.' },
-  { path: '/about', title: 'О компании CIRCLE BURO — опытная команда маркетологов и дизайнеров', description: 'Мы — рекламное агентство полного цикла из Алматы. Соединяем стратегию, данные и креатив, чтобы создавать бренды и кампании, которые работают.' },
-  { path: '/circle', title: 'Услуга CIRCLE — комплексное продвижение и ребрендинг под ключ', description: 'Полный цикл: исследование, стратегия, брендинг, дизайн, контент и запуск. Для компаний, которым нужен сильный рывок на рынке Алматы.' },
-  { path: '/semicircle', title: 'Услуга SEMICIRCLE — гибкий пакет: только нужные маркетинговые услуги', description: 'Конструктор услуг: стратегия, дизайн, креатив, SMM или продакшн — выбирайте то, что даст быстрый результат для вашего бизнеса в Алматы.' },
-  { path: '/cycle', title: 'Услуга CYCLE — непрерывное развитие бренда и SMM-сопровождение', description: 'Долгосрочное партнёрство: ежемесячная стратегия, контент, дизайн, производство и аналитика для стабильного роста в Алматы.' },
-  { path: '/project', title: 'Кейс: полный ребрендинг Steppe Coffee (Алматы) — CIRCLE BURO', description: 'Редизайн айдентики и визуальной системы, тональность бренда и контент для Steppe Coffee в Алматы. Результат: узнаваемость и рост показателей.' },
+  { path: '/', title: 'CIRCLE BURO — креативное бюро в Алматы | Рекламное агенство полного цикла', description: 'Помогаем брендам выделяться, расти и масштабироваться за счёт креативных идей, стильного дизайна и системного маркетинга.' },
+  { path: '/about', title: 'О компании CIRCLE BURO — опытная команда маркетологов, дизайнеров, веб-разработчиков и архитектуры малых форм.', description: 'Мы — рекламное агентство полного цикла из Алматы. Соединяем стратегию, данные и креатив, чтобы создавать бренды и кампании, которые работают.' },
+  { path: '/circle', title: 'Услуга CIRCLE — комплексное продвижение и ребрендинг под ключ', description: 'Полный цикл под ключ: собираем решение на данных и гипотезах, проверяем на реальных метриках и выводим бренд на заметный рывок на рынке Алматы.' },
+  { path: '/semicircle', title: 'Услуга SEMICIRCLE — гибкий пакет: только нужные услуги и инструменты для эффективной работы.', description: 'Конструктор услуг — это гибкая сборка под ваши цели: стратегия задаёт курс, дизайн и креатив повышают узнаваемость, SMM даёт трафик и вовлечение, продакшн обеспечивает качество контента.' },
+  { path: '/cycle', title: 'Услуга CYCLE — непрерывное развитие бренда и SMM-сопровождение', description: 'Долгосрочное партнёрство: ежемесячная стратегия, контент, дизайн, производство и аналитика для стабильного роста на рынке Алматы.' },
+  { path: '/project', title: 'Кейс: полный ребрендинг Steppe Coffee (Алматы) — CIRCLE BURO', description: 'Редизайн айдентики и визуальной системы, тон бренда и контент для Steppe Coffee в Алматы — рост узнаваемости и ключевых метрик.' },
   // English routes
-  { path: '/en', title: 'CIRCLE BURO — Creative & Marketing Agency in Almaty | Full-Cycle', description: 'Brand strategy, creative, design, and SMM from A to Z. We help brands in Almaty stand out, grow, and scale through clear strategy and strong ideas.' },
-  { path: '/en/about', title: 'About CIRCLE BURO — experienced team of marketers and designers', description: 'We\'re a full-cycle advertising agency from Almaty. We blend strategy, data, and creativity to build brands and campaigns that perform.' },
-  { path: '/en/circle', title: 'CIRCLE Service — end-to-end brand promotion & rebranding', description: 'Full cycle: research, strategy, branding, design, content, and launch. Ideal for companies seeking a step-change in Almaty.' },
-  { path: '/en/semicircle', title: 'SEMICIRCLE Service — flexible package: only what you need', description: 'Modular services: strategy, design, creative, SMM, or production — pick what drives quick results for your business in Almaty.' },
-  { path: '/en/cycle', title: 'CYCLE Service — ongoing brand development & SMM support', description: 'Long-term partnership: monthly strategy, content, design, production, and analytics for steady growth in Almaty.' },
-  { path: '/en/project', title: 'Case Study: Steppe Coffee Rebranding (Almaty) — CIRCLE BURO', description: 'Identity redesign, brand voice, and content system for Steppe Coffee in Almaty. Outcomes: distinct look, clearer messaging, and growth.' }
+  { path: '/en', title: 'CIRCLE BURO - creative buro in Almaty | Full-cycle advertising agency', description: 'We help brands stand out, grow and scale through creative ideas, stylish design and systematic marketing.' },
+  { path: '/en/about', title: 'About CIRCLE BURO company - experienced team of marketers, designers, web developers and small form architecture.', description: 'We are a full-cycle advertising agency from Almaty. We combine strategy, data and creativity to create brands and campaigns that work.' },
+  { path: '/en/circle', title: 'CIRCLE Service - comprehensive promotion and turnkey rebranding', description: 'Full turnkey cycle: we build solutions based on data and hypotheses, test with real metrics and bring the brand to a noticeable breakthrough in the Almaty market.' },
+  { path: '/en/semicircle', title: 'SEMICIRCLE Service - flexible package: only necessary services and tools for effective work.', description: 'Service constructor - flexible assembly for your goals: strategy sets the course, design and creativity increase recognition, SMM provides traffic and engagement, production ensures content quality.' },
+  { path: '/en/cycle', title: 'CYCLE Service - continuous brand development and SMM support', description: 'Long-term partnership: monthly strategy, content, design, production and analytics for stable growth in the Almaty market.' },
+  { path: '/en/project', title: 'Case: complete rebranding of Steppe Coffee (Almaty) - CIRCLE BURO', description: 'Identity and visual system redesign, brand tone and content for Steppe Coffee in Almaty - growth in recognition and key metrics.' }
 ];
 
 // Базовые keywords для SEO
@@ -124,9 +124,11 @@ function generatePrerenderedHTML(template, route) {
   // Добавляем структурированные данные перед закрывающим head тегом
   html = html.replace('</head>', `${structuredData}\n</head>`);
 
-  // Добавляем базовый контент для SEO (в noscript, чтобы не мешать React)
+  // Добавляем базовый контент для SEO только в noscript (чтобы не мешать React)
   const seoContent = generateSEOContent(route, language);
-  html = html.replace('<!-- SEO fallback контент до загрузки React -->', seoContent);
+  // Заменяем контент только внутри noscript тега
+  html = html.replace(/(<noscript>.*?<!-- SEO fallback контент до загрузки React -->.*?<\/noscript>)/s,
+    `<noscript><main style="color: white; padding: 2rem; text-align: center; font-family: Arial, sans-serif;">${seoContent}</main></noscript>`);
 
   return html;
 }
@@ -195,31 +197,63 @@ function generateStructuredData(route, baseUrl) {
 
 function generateSEOContent(route, language) {
   const isHome = route.path === '/' || route.path === '/en';
+  const isEnglish = route.path.startsWith('/en');
 
   if (isHome) {
-    return `
-      <h1>CIRCLE BURO — креативное агентство в Алматы</h1>
-      <p>Креатив, брендинг, стратегия и SMM под ключ. Помогаем брендам выделяться, расти и масштабироваться.</p>
-      <nav>
-        <a href="/about">О нас</a>
-        <a href="/circle">Circle</a>
-        <a href="/semicircle">Semicircle</a>
-        <a href="/cycle">Cycle</a>
-        <a href="/project">Проекты</a>
-      </nav>
-    `;
+    if (isEnglish) {
+      return `
+        <h1>CIRCLE BURO - creative buro in Almaty</h1>
+        <p>We help brands stand out, grow and scale through creative ideas, stylish design and systematic marketing.</p>
+        <nav>
+          <a href="/en/about">About</a>
+          <a href="/en/circle">Circle</a>
+          <a href="/en/semicircle">Semicircle</a>
+          <a href="/en/cycle">Cycle</a>
+          <a href="/en/project">Projects</a>
+        </nav>
+      `;
+    } else {
+      return `
+        <h1>CIRCLE BURO — креативное бюро в Алматы</h1>
+        <p>Помогаем брендам выделяться, расти и масштабироваться за счёт креативных идей, стильного дизайна и системного маркетинга.</p>
+        <nav>
+          <a href="/about">О нас</a>
+          <a href="/circle">Circle</a>
+          <a href="/semicircle">Semicircle</a>
+          <a href="/cycle">Cycle</a>
+          <a href="/project">Проекты</a>
+        </nav>
+      `;
+    }
   }
+
+  const homeLink = isEnglish ? '/en' : '/';
+  const navLinks = isEnglish ? {
+    home: { href: '/en', text: 'Home' },
+    about: { href: '/en/about', text: 'About' },
+    circle: { href: '/en/circle', text: 'Circle' },
+    semicircle: { href: '/en/semicircle', text: 'Semicircle' },
+    cycle: { href: '/en/cycle', text: 'Cycle' },
+    project: { href: '/en/project', text: 'Projects' }
+  } : {
+    home: { href: '/', text: 'Главная' },
+    about: { href: '/about', text: 'О нас' },
+    circle: { href: '/circle', text: 'Circle' },
+    semicircle: { href: '/semicircle', text: 'Semicircle' },
+    cycle: { href: '/cycle', text: 'Cycle' },
+    project: { href: '/project', text: 'Проекты' }
+  };
 
   return `
     <h1>${route.title}</h1>
     <p>${route.description}</p>
     <nav>
-      <a href="/">Главная</a>
-      <a href="/about">О нас</a>
-      <a href="/circle">Circle</a>
-      <a href="/semicircle">Semicircle</a>
-      <a href="/cycle">Cycle</a>
-      <a href="/project">Проекты</a>
+      <a href="${navLinks.home.href}">${navLinks.home.text}</a>
+      <a href="${navLinks.about.href}">${navLinks.about.text}</a>
+      <a href="${navLinks.circle.href}">${navLinks.circle.text}</a>
+      <a href="${navLinks.semicircle.href}">${navLinks.semicircle.text}</a>
+      <a href="${navLinks.cycle.href}">${navLinks.cycle.text}</a>
+      <a href="${navLinks.project.href}">${navLinks.project.text}</a>
     </nav>
   `;
 }
