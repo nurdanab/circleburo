@@ -110,7 +110,7 @@ const OptimizedImage = ({
             )
           )}
           <img
-            src={hasError ? '/img/placeholder.svg' : (optimizedProps.src || src)}
+            src={hasError ? src : (optimizedProps.src || src)}
             alt={alt}
             width={width}
             height={height}

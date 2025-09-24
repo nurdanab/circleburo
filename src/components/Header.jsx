@@ -100,7 +100,7 @@ const Header = () => {
   ];
 
   return (
-    <motion.header
+    <header
       style={{
         position: 'fixed',
         top: 0,
@@ -111,9 +111,6 @@ const Header = () => {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         backdropFilter: 'blur(8px)',
       }}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 100, damping: 20 }}
     >
       <nav
         role="navigation"
@@ -452,7 +449,7 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 };
 
