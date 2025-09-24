@@ -71,10 +71,7 @@ const SEOHead = ({
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content="Circle Creative Buro - Креативное агентство в Алматы" />
       <meta property="og:image:type" content="image/webp" />
-      <meta property="og:locale" content={
-        language === 'ru' ? 'ru_KZ' :
-        language === 'kk' ? 'kk_KZ' : 'en_US'
-      } />
+      <meta property="og:locale" content={language === 'ru' ? 'ru_KZ' : 'en_US'} />
       <meta property="og:site_name" content="Circle Creative Buro" />
       <meta property="og:updated_time" content={new Date().toISOString()} />
       

@@ -12,37 +12,12 @@ const Header = () => {
   const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
   const location = useLocation();
   const navigate = useNavigate();
   const servicesDropdownRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Отслеживание размера экрана
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setScreenWidth(width);
-      setIsMobile(width < 1024);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Вычисляем gap на основе размера экрана
-  const getNavigationGap = () => {
-    if (screenWidth < 1200) return '1rem';
-    if (screenWidth < 1400) return '1.5rem';
-    return '2rem';
   };
 
   // Закрыть dropdown при клике вне его области
@@ -137,29 +112,21 @@ const Header = () => {
             <OptimizedImage
               src="/img/logo-header.webp"
               alt="Circle Buro - Креативное агентство полного цикла в Алматы"
-              width={60}
-              height={27}
+              width={200}
+              height={94}
               priority={true}
               className="header-logo"
-              style={{
-                height: '1.8rem',
-                width: 'auto',
-                maxHeight: '1.8rem',
-                maxWidth: '4rem',
-                objectFit: 'contain'
-              }}
+              style={{ height: '2.5rem', width: 'auto' }}
             />
           </Link>
         </div>
 
         {/* Навигационные ссылки для десктопа */}
-        <div style={{
+        <div className="hidden lg:flex" style={{
           flex: 1,
           justifyContent: 'center',
-          gap: getNavigationGap(),
+          gap: '2rem',
           alignItems: 'center',
-          display: !isMobile ? 'flex' : 'none',
-          minWidth: 0
         }}>
           {/* Главная */}
           <Link
@@ -269,10 +236,9 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка "Contact us" для десктопа */}
-        <div style={{
+        <div className="hidden lg:flex" style={{
           alignItems: 'center',
           gap: '1rem',
-          display: !isMobile ? 'flex' : 'none'
         }}>
           <LanguageSwitcher />
           <button
@@ -296,8 +262,8 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div style={{
-          display: isMobile ? 'flex' : 'none',
+        <div className="lg:hidden" style={{
+          display: 'flex',
           alignItems: 'center',
           gap: '1rem',
         }}>
