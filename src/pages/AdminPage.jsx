@@ -350,8 +350,8 @@ ${statusEmoji[newStatus]} new!
 
   // Компонент для заголовка с сортировкой
   const SortableHeader = ({ field, children }) => (
-    <th 
-      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+    <th
+      className="px-6 py-3 text-left text-xs font-medium admin-text-secondary uppercase tracking-wider cursor-pointer hover:bg-gray-50 transition-colors"
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center gap-1">
@@ -380,62 +380,136 @@ ${statusEmoji[newStatus]} new!
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <p className="text-gray-600">Загрузка данных...</p>
+          <Loader2 className="w-8 h-8 animate-spin admin-text-secondary" />
+          <p className="admin-text-secondary">Загрузка данных...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 pt-10 admin-page" style={{backgroundColor: 'red'}}>
-      <div style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        backgroundColor: 'yellow',
-        color: 'black',
-        padding: '20px',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        zIndex: 9999,
-        border: '5px solid black'
-      }}>
-        ADMIN PAGE LOADED!
-      </div>
+    <div className="min-h-screen bg-white text-gray-900">
       <style dangerouslySetInnerHTML={{__html: `
-        .admin-page { background-color: red !important; }
-        .admin-page * { color: black !important; }
-        .admin-page button {
-          background-color: yellow !important;
-          color: black !important;
-          border: 5px solid red !important;
-          font-size: 20px !important;
-          font-weight: bold !important;
+        /* Минималистичный черно-белый дизайн */
+        .admin-container {
+          background-color: #ffffff;
+          color: #1f2937;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
         }
-        .admin-page button.admin-btn-blue { background-color: #0000FF !important; color: #FFFFFF !important; }
-        .admin-page button.admin-btn-green { background-color: #00FF00 !important; color: #000000 !important; }
-        .admin-page button.admin-btn-gray { background-color: #808080 !important; color: #FFFFFF !important; }
-        .admin-page button.admin-btn-red { background-color: #FF0000 !important; color: #FFFFFF !important; }
-        .admin-page button.admin-btn-yellow { background-color: #FFFF00 !important; color: #000000 !important; }
-        .admin-page button.admin-btn-red-dark { background-color: #8B0000 !important; color: #FFFFFF !important; }
+
+        .admin-card {
+          background-color: #ffffff;
+          border: 1px solid #e5e7eb;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-input {
+          background-color: #ffffff;
+          border: 1px solid #d1d5db;
+          color: #1f2937;
+        }
+
+        .admin-input:focus {
+          border-color: #374151;
+          box-shadow: 0 0 0 2px rgba(55, 65, 81, 0.1);
+        }
+
+        .admin-table {
+          background-color: #ffffff;
+        }
+
+        .admin-table-header {
+          background-color: #f9fafb;
+          color: #374151;
+          border-bottom: 1px solid #e5e7eb;
+        }
+
+        .admin-table-row {
+          border-bottom: 1px solid #f3f4f6;
+        }
+
+        .admin-table-row:hover {
+          background-color: #f9fafb;
+        }
+
+        .admin-text-primary { color: #111827; }
+        .admin-text-secondary { color: #6b7280; }
+        .admin-text-muted { color: #9ca3af; }
+
+        .admin-border { border-color: #e5e7eb; }
+
+        /* Цветные кнопки для акцентов */
+        .admin-btn-primary {
+          background-color: #3b82f6;
+          color: #ffffff;
+          border: none;
+          transition: background-color 0.2s ease;
+        }
+
+        .admin-btn-primary:hover {
+          background-color: #2563eb;
+        }
+
+        .admin-btn-success {
+          background-color: #10b981;
+          color: #ffffff;
+          border: none;
+          transition: background-color 0.2s ease;
+        }
+
+        .admin-btn-success:hover {
+          background-color: #059669;
+        }
+
+        .admin-btn-warning {
+          background-color: #f59e0b;
+          color: #ffffff;
+          border: none;
+          transition: background-color 0.2s ease;
+        }
+
+        .admin-btn-warning:hover {
+          background-color: #d97706;
+        }
+
+        .admin-btn-danger {
+          background-color: #ef4444;
+          color: #ffffff;
+          border: none;
+          transition: background-color 0.2s ease;
+        }
+
+        .admin-btn-danger:hover {
+          background-color: #dc2626;
+        }
+
+        .admin-btn-neutral {
+          background-color: #f3f4f6;
+          color: #374151;
+          border: 1px solid #d1d5db;
+          transition: all 0.2s ease;
+        }
+
+        .admin-btn-neutral:hover {
+          background-color: #e5e7eb;
+          border-color: #9ca3af;
+        }
       `}} />
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 admin-container">
         {/* Заголовок */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Админ панель - Управление лидами
+        <div className="mb-8 py-6 border-b admin-border">
+          <h1 className="text-2xl font-semibold admin-text-primary mb-2">
+            Админ панель
           </h1>
-          <p className="text-gray-600">
+          <p className="admin-text-secondary text-sm">
             Всего заявок: {leads.length} | Отфильтровано: {filteredLeads.length}
           </p>
         </div>
 
         {/* Панель управления */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="admin-card rounded-lg p-6 mb-6">
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
             {/* Поиск */}
             <div className="relative flex-1 max-w-md">
@@ -445,7 +519,7 @@ ${statusEmoji[newStatus]} new!
                 placeholder="Поиск по имени или телефону..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2 admin-input rounded-lg focus:outline-none"
               />
             </div>
 
@@ -454,7 +528,7 @@ ${statusEmoji[newStatus]} new!
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-3 py-2 admin-input rounded-lg focus:outline-none"
               >
                 <option value="all">Все статусы</option>
                 <option value={BOOKING_STATUSES.PENDING}>В ожидании</option>
@@ -465,7 +539,7 @@ ${statusEmoji[newStatus]} new!
               <select
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-3 py-2 admin-input rounded-lg focus:outline-none"
               >
                 <option value="all">Все даты</option>
                 <option value="today">Сегодня</option>
@@ -479,13 +553,7 @@ ${statusEmoji[newStatus]} new!
             <div className="flex gap-2">
               <motion.button
                 onClick={loadLeads}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors admin-btn-blue"
-                style={{
-                  backgroundColor: '#dbeafe',
-                  color: '#1e40af',
-                  border: '1px solid #bfdbfe',
-                  fontWeight: '600'
-                }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg admin-btn-primary"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -495,13 +563,7 @@ ${statusEmoji[newStatus]} new!
               
               <motion.button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors admin-btn-green"
-                style={{
-                  backgroundColor: '#dcfce7',
-                  color: '#166534',
-                  border: '1px solid #bbf7d0',
-                  fontWeight: '600'
-                }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg admin-btn-success"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -534,49 +596,48 @@ ${statusEmoji[newStatus]} new!
         </AnimatePresence>
 
         {/* Таблица лидов */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="admin-card rounded-lg overflow-hidden">
           {filteredLeads.length === 0 ? (
             <div className="p-8 text-center">
-              <User className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 text-lg mb-2">Лидов не найдено</p>
-              <p className="text-gray-400">Попробуйте изменить фильтры поиска</p>
+              <User className="w-12 h-12 admin-text-muted mx-auto mb-4" />
+              <p className="admin-text-primary text-lg mb-2">Лидов не найдено</p>
+              <p className="admin-text-muted">Попробуйте изменить фильтры поиска</p>
             </div>
           ) : (
             <div className="overflow-x-auto"> 
-              <table className="w-full"> 
-                <thead className="bg-gray-50 border-b border-gray-200">
+              <table className="w-full admin-table">
+                <thead className="admin-table-header">
                   <tr>
                     <SortableHeader field="name">Клиент</SortableHeader>
                     <SortableHeader field="phone">Контакты</SortableHeader>
                     <SortableHeader field="meeting_date">Встреча</SortableHeader>
                     <SortableHeader field="status">Статус</SortableHeader>
-                    {/* Добавляем w-80 для увеличения ширины колонки "Заметки" */}
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-80">
+                    <th className="px-6 py-3 text-left text-xs font-medium admin-text-secondary uppercase tracking-wider w-80">
                       Заметки
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium admin-text-secondary uppercase tracking-wider">
                       Действия
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="admin-table divide-y admin-border">
                   {filteredLeads.map((lead) => (
                     <motion.tr
                       key={lead.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="hover:bg-gray-50 transition-colors"
+                      className="admin-table-row transition-colors"
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                            <User className="w-4 h-4 text-blue-600" />
+                          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                            <User className="w-4 h-4 admin-text-secondary" />
                           </div>
                           <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium admin-text-primary">
                               {lead.name}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-sm admin-text-muted">
                               ID: {lead.id}
                             </div>
                           </div>
@@ -585,8 +646,8 @@ ${statusEmoji[newStatus]} new!
                       
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <Phone className="w-4 h-4 text-gray-400 mr-2" />
-                          <span className="text-sm text-gray-900">
+                          <Phone className="w-4 h-4 admin-text-muted mr-2" />
+                          <span className="text-sm admin-text-primary">
                             +{lead.phone}
                           </span>
                         </div>
@@ -595,8 +656,8 @@ ${statusEmoji[newStatus]} new!
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="space-y-1">
                           <div className="flex items-center">
-                            <Calendar className="w-4 h-4 text-gray-400 mr-2" />
-                            <span className="text-sm text-gray-900">
+                            <Calendar className="w-4 h-4 admin-text-muted mr-2" />
+                            <span className="text-sm admin-text-primary">
                               {new Date(lead.meeting_date).toLocaleDateString('ru-RU', {
                                 day: 'numeric',
                                 month: 'long',
@@ -605,8 +666,8 @@ ${statusEmoji[newStatus]} new!
                             </span>
                           </div>
                           <div className="flex items-center">
-                            <Clock className="w-4 h-4 text-gray-400 mr-2" />
-                            <span className="text-sm text-gray-900">
+                            <Clock className="w-4 h-4 admin-text-muted mr-2" />
+                            <span className="text-sm admin-text-primary">
                               {lead.meeting_time}
                             </span>
                           </div>
@@ -623,7 +684,7 @@ ${statusEmoji[newStatus]} new!
                       <td className="px-6 py-4">
                         {/* Изменяем класс, чтобы сделать поле шире и разрешить перенос текста */}
                         <textarea
-                          className="w-full h-20 text-sm border border-gray-300 rounded-md p-2 resize-y"
+                          className="w-full h-20 text-sm admin-input rounded-md p-2 resize-y focus:outline-none"
                           value={editNotes[lead.id]}
                           onChange={(e) => setEditNotes({ ...editNotes, [lead.id]: e.target.value })}
                           placeholder="Заметки..."
@@ -636,13 +697,7 @@ ${statusEmoji[newStatus]} new!
                           <motion.button
                             onClick={() => saveNotes(lead.id)}
                             disabled={savingNotes === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-gray"
-                            style={{
-                              backgroundColor: '#f3f4f6',
-                              color: '#374151',
-                              border: '1px solid #d1d5db',
-                              fontWeight: '600'
-                            }}
+                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-neutral"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
@@ -659,13 +714,7 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CONFIRMED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-green"
-                              style={{
-                                backgroundColor: '#dcfce7',
-                                color: '#166534',
-                                border: '1px solid #bbf7d0',
-                                fontWeight: '600'
-                              }}
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-success"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -683,13 +732,7 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CANCELLED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-red"
-                              style={{
-                                backgroundColor: '#fecaca',
-                                color: '#991b1b',
-                                border: '1px solid #fca5a5',
-                                fontWeight: '600'
-                              }}
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-danger"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -707,13 +750,7 @@ ${statusEmoji[newStatus]} new!
                             <motion.button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.PENDING)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-yellow"
-                              style={{
-                                backgroundColor: '#fef3c7',
-                                color: '#92400e',
-                                border: '1px solid #fde68a',
-                                fontWeight: '600'
-                              }}
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-warning"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -734,13 +771,7 @@ ${statusEmoji[newStatus]} new!
                               }
                             }}
                             disabled={updating === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 w-full justify-center shadow-sm admin-btn-red-dark"
-                            style={{
-                              backgroundColor: '#fca5a5',
-                              color: '#7f1d1d',
-                              border: '1px solid #f87171',
-                              fontWeight: '600'
-                            }}
+                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-danger"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
@@ -763,44 +794,44 @@ ${statusEmoji[newStatus]} new!
 
         {/* Статистика */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="admin-card rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">В ожидании</p>
-                <p className="text-2xl font-bold text-yellow-600">
+                <p className="text-sm font-medium admin-text-secondary">В ожидании</p>
+                <p className="text-2xl font-semibold admin-text-primary">
                   {leads.filter(lead => lead.status === BOOKING_STATUSES.PENDING).length}
                 </p>
               </div>
-              <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                <Clock className="w-4 h-4 text-yellow-600" />
+              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <Clock className="w-4 h-4 admin-text-secondary" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="admin-card rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Подтверждено</p>
-                <p className="text-2xl font-bold text-green-600">
+                <p className="text-sm font-medium admin-text-secondary">Подтверждено</p>
+                <p className="text-2xl font-semibold admin-text-primary">
                   {leads.filter(lead => lead.status === BOOKING_STATUSES.CONFIRMED).length}
                 </p>
               </div>
-              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle2 className="w-4 h-4 text-green-600" />
+              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="w-4 h-4 admin-text-secondary" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="admin-card rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Отменено</p>
-                <p className="text-2xl font-bold text-red-600">
+                <p className="text-sm font-medium admin-text-secondary">Отменено</p>
+                <p className="text-2xl font-semibold admin-text-primary">
                   {leads.filter(lead => lead.status === BOOKING_STATUSES.CANCELLED).length}
                 </p>
               </div>
-              <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                <XCircle className="w-4 h-4 text-red-600" />
+              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <XCircle className="w-4 h-4 admin-text-secondary" />
               </div>
             </div>
           </div>
