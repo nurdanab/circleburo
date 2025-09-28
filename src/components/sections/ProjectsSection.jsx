@@ -26,7 +26,6 @@ const ProjectsSection = () => {
 
       // Вычисляем прогресс скролла через секцию (от 0 до 1)
       const sectionTop = rect.top;
-      const sectionHeight = window.innerHeight;
       const totalScrollDistance = window.innerHeight * 3; // 400vh - 100vh = 300vh
 
       // Определяем прогресс скролла
@@ -55,7 +54,7 @@ const ProjectsSection = () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', updateMobile);
     };
-  }, [projectsData.length]);
+  }, [isMobile, projectsData.length]);
 
   const projectsData = [
     {

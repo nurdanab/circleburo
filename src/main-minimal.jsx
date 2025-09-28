@@ -6,7 +6,7 @@ import { HelmetProvider } from '@dr.pogodin/react-helmet';
 console.log('🚀 Starting minimal app...');
 
 // Простой компонент для тестирования
-function TestApp() {
+const TestApp = () => {
   console.log('🚀 TestApp rendering...');
 
   return (
@@ -17,7 +17,9 @@ function TestApp() {
       <p>Current time: {new Date().toLocaleString()}</p>
     </div>
   );
-}
+};
+
+export default TestApp;
 
 const root = document.getElementById('root');
 
