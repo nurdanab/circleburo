@@ -77,8 +77,16 @@ function AppContent() {
         <PerformanceMeta />
         <SplashCursor />
         <AccessibilityHelper />
-        {!isAdminRoute && <Header />}
-        <Routes>
+        <Suspense fallback={
+          <div className="min-h-screen bg-black flex items-center justify-center">
+            <div className="text-center">
+              <div className="loading-critical mb-4"></div>
+              <p className="text-white text-lg">Загрузка переводов...</p>
+            </div>
+          </div>
+        }>
+          {!isAdminRoute && <Header />}
+          <Routes>
           {/* Russian routes (default) */}
           <Route path="/" element={<LazyPage component={HomePage} />} />
           <Route path="/about" element={<LazyPage component={AboutPage} />} />
@@ -105,8 +113,9 @@ function AppContent() {
           />
 
           <Route path="*" element={<LazyPage component={NotFoundPage} />} />
-        </Routes>
-        {!isAdminRoute && <Footer />}
+          </Routes>
+          {!isAdminRoute && <Footer />}
+        </Suspense>
       </PerformanceOptimizer>
     </ErrorBoundary>
   );
