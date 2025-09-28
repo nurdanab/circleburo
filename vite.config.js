@@ -42,52 +42,88 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Optimized chunking for better performance
+        // Ultra-optimized chunking strategy
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Critical libraries that need to load first
-            if (
-              id.includes('react/') ||
-              id.includes('react-dom/') ||
-              id.includes('scheduler/')
-            ) {
-              return 'react-core';
+            // Critical React core - keep minimal
+            if (id.includes('react/jsx-runtime') || id.includes('react/')) {
+              return 'react-runtime';
             }
 
-            // Router and i18n (loaded after initial render)
+            if (id.includes('react-dom/')) {
+              return 'react-dom';
+            }
+
+            if (id.includes('scheduler/')) {
+              return 'react-scheduler';
+            }
+
+            // Router - separate from other app logic
+            if (id.includes('react-router-dom/')) {
+              return 'router';
+            }
+
+            // I18n - load after main app
             if (
-              id.includes('react-router-dom/') ||
               id.includes('react-helmet-async/') ||
               id.includes('react-i18next/') ||
               id.includes('i18next/')
             ) {
-              return 'app-core';
+              return 'i18n-core';
             }
 
-            // Heavy animation libraries (loaded on demand)
+            // Animation libraries - keep with vendor to avoid circular imports
+            if (id.includes('framer-motion/')) {
+              return 'vendor';
+            }
+
+            if (id.includes('gsap/')) {
+              return 'gsap';
+            }
+
+            // UI libraries - separate for better caching
+            if (id.includes('lucide-react/')) {
+              return 'icons-lucide';
+            }
+
+            if (id.includes('react-icons/')) {
+              return 'icons-react';
+            }
+
+            // Heavy API libraries - separate chunk
+            if (id.includes('@supabase/supabase-js')) {
+              return 'supabase';
+            }
+
+            if (id.includes('googleapis/')) {
+              return 'google-apis';
+            }
+
+            // Analytics and monitoring
             if (
-              id.includes('framer-motion/') ||
-              id.includes('@motionone/') ||
-              id.includes('gsap/')
+              id.includes('web-vitals/') ||
+              id.includes('react-ga4/') ||
+              id.includes('newrelic/')
             ) {
-              return 'animations';
+              return 'analytics';
             }
 
-            // UI libraries
-            if (
-              id.includes('lucide-react/') ||
-              id.includes('react-icons/')
-            ) {
-              return 'ui-icons';
+            // Form utilities
+            if (id.includes('cleave.js/')) {
+              return 'form-utils';
             }
 
-            // Everything else
+            // Everything else goes to vendor
             return 'vendor';
           }
 
-          // App chunks
+          // App-specific chunks - more granular
+          if (id.includes('src/pages/HomePage') || id.includes('src/pages/NotFoundPage')) {
+            return 'pages-core';
+          }
+
           if (id.includes('src/pages/')) {
-            return 'pages';
+            return 'pages-secondary';
           }
 
           if (id.includes('src/components/sections/')) {
@@ -102,35 +138,28 @@ export default defineConfig({
           const info = assetInfo.name.split('.');
           const ext = info[info.length - 1];
           if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
-            return `assets/images/[name]-[hash][extname]`;
+            return `assets/images/[name]-[hash:8][extname]`;
           }
           if (/woff2?|eot|ttf|otf/i.test(ext)) {
-            return `assets/fonts/[name]-[hash][extname]`;
+            return `assets/fonts/[name]-[hash:8][extname]`;
           }
-          return `assets/[name]-[hash][extname]`;
+          return `assets/[name]-[hash:8][extname]`;
         },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js'
+        chunkFileNames: 'assets/js/[name]-[hash:8].js',
+        entryFileNames: 'assets/js/[name]-[hash:8].js'
       }
     },
-    chunkSizeWarningLimit: 100, // Strict limit for better performance
+    chunkSizeWarningLimit: 40, // Stricter limit for better performance
     minify: 'terser',
-    target: 'es2020', // Modern target for better optimization
+    target: 'es2020', // More compatible target
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn', 'console.error'],
-        passes: 3,
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        passes: 2, // Reduce optimization passes
         unsafe: false,
-        unsafe_comps: false,
-        unsafe_Function: false,
-        unsafe_math: false,
-        unsafe_symbols: false,
-        unsafe_methods: false,
-        unsafe_proto: false,
-        unsafe_regexp: false,
-        unsafe_undefined: false,
+        toplevel: false, // Less aggressive optimization
         sequences: true,
         dead_code: true,
         conditionals: true,
@@ -144,11 +173,11 @@ export default defineConfig({
         if_return: true,
         join_vars: true,
         reduce_vars: true,
-        side_effects: true
+        side_effects: false // More conservative
       },
       mangle: {
         safari10: true,
-        toplevel: false
+        toplevel: false // Less aggressive mangling
       },
       format: {
         comments: false
@@ -156,26 +185,40 @@ export default defineConfig({
     },
     cssMinify: 'lightningcss',
     reportCompressedSize: false,
-    sourcemap: false
+    sourcemap: false,
+    assetsInlineLimit: 2048, // Inline smaller assets
+    emptyOutDir: true
   },
   optimizeDeps: {
     include: [
       'react',
       'react-dom',
+      'react/jsx-runtime',
+      'scheduler',
       'react-router-dom',
       'react-helmet-async',
-      'react-i18next',
-      'i18next',
-      'framer-motion'
+      'lucide-react' // Most used icon library
     ],
     exclude: [
-      'gsap', // Heavy animation library - load on demand
+      'gsap', // Load on demand
+      'framer-motion', // Load on demand
+      '@supabase/supabase-js', // Load on demand
+      'googleapis', // Load on demand
       'web-vitals',
       'react-ga4',
       'newrelic',
-      '@supabase/supabase-js', // API calls - load on demand
-      'googleapis' // API calls - load on demand
-    ]
+      'cleave.js',
+      'sass',
+      'terser',
+      'i18next', // Let it be in separate chunk
+      'react-i18next',
+      'i18next-browser-languagedetector',
+      'i18next-http-backend'
+    ],
+    force: true, // Force re-optimization
+    esbuildOptions: {
+      target: 'es2020'
+    }
   },
   define: {
     global: 'globalThis'

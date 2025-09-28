@@ -50,7 +50,7 @@ const ServicesSection = () => {
       
       <div className="max-w-7xl mx-auto">
         <motion.h1
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-20"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-0"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -60,7 +60,7 @@ const ServicesSection = () => {
         </motion.h1>
 
         {/* Контейнер для карточек */}
-        <div className="flex flex-col lg:flex-row gap-12 justify-center items-center">
+        <div className="flex flex-col lg:flex-row gap-12 justify-center items-center" style={{ marginTop: '40px' }}>
           {servicesData.map((service, index) => (
             <ServiceCard key={service.id} service={service} index={index} />
           ))}

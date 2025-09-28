@@ -579,8 +579,8 @@ ID: ${recordId}
           {t('contactForm.title')}
         </motion.h1>
         <motion.p
-          className="text-lg md:text-xl text-gray-400 mt-20 text-center"
-          style={{ textAlign: 'center' }}
+          className="text-lg md:text-xl text-gray-400 text-center"
+          style={{ textAlign: 'center', marginTop: '40px' }}
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}

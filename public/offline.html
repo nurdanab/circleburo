@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Офлайн - Circle Creative Buro</title>
+    <meta name="robots" content="noindex,nofollow">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .offline-container {
+            max-width: 500px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .offline-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .offline-icon::before {
+            content: "📡";
+            font-size: 3rem;
+            filter: grayscale(100%);
+        }
+
+        .offline-icon::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 140px;
+            background: #ff4444;
+            transform: rotate(45deg);
+            border-radius: 2px;
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        .features-list {
+            text-align: left;
+            margin: 2rem 0;
+            opacity: 0.7;
+        }
+
+        .features-list li {
+            list-style: none;
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .features-list li::before {
+            content: "●";
+            color: #4a90e2;
+            position: absolute;
+            left: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .offline-icon {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 1.5rem;
+            }
+
+            .offline-icon::before {
+                font-size: 2rem;
+            }
+
+            .offline-icon::after {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon"></div>
+
+        <h1>Нет подключения к интернету</h1>
+
+        <p>К сожалению, в данный момент невозможно загрузить страницу. Проверьте подключение к интернету и повторите попытку.</p>
+
+        <ul class="features-list">
+            <li>Некоторые страницы могут быть доступны из кеша</li>
+            <li>Ваши данные сохранятся локально</li>
+            <li>Попробуйте обновить страницу позже</li>
+        </ul>
+
+        <button class="retry-btn" onclick="window.location.reload()">
+            Повторить попытку
+        </button>
+
+        <script>
+            // Автоматическая проверка подключения
+            function checkOnline() {
+                if (navigator.onLine) {
+                    window.location.reload();
+                }
+            }
+
+            // Проверяем подключение каждые 3 секунды
+            const interval = setInterval(checkOnline, 3000);
+
+            // Слушатель события восстановления подключения
+            window.addEventListener('online', () => {
+                clearInterval(interval);
+                window.location.reload();
+            });
+
+            // Показываем статус подключения
+            window.addEventListener('load', () => {
+                if (navigator.onLine) {
+                    // Если онлайн, перенаправляем на главную
+                    window.location.href = '/';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

@@ -287,7 +287,7 @@ const HeroSection = () => {
 
         {/* Подзаголовок с ключевыми словами */}
         <motion.h2
-          className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-white/80 mt-12 sm:mt-16 md:mt-20 lg:mt-24 text-center max-w-4xl px-4 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-white/80 mt-16 sm:mt-20 md:mt-24 lg:mt-32 text-center max-w-4xl px-4 leading-relaxed"
           variants={titleVariants}
           initial="hidden"
           animate="visible"

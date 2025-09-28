@@ -182,7 +182,7 @@ const AboutSection = () => {
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [showCenterImage, setShowCenterImage] = useState(false);
   const [hideEmployeePhotos, setHideEmployeePhotos] = useState(false);
-  const [hideCenterImage, setHideCenterImage] = useState(false);
+  const [hideCenterImage] = useState(false);
 
   useEffect(() => {
     const timer1 = setTimeout(() => {

@@ -46,40 +46,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Улучшенные оптимизации для LCP и SI */
-img {
-  content-visibility: auto;
-  contain-intrinsic-size: 300px 200px;
-}
-
-/* GPU-accelerated animations */
-.gpu-accelerated {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Preload критических ресурсов */
-.critical-above-fold {
-  content-visibility: visible;
-}
-
-/* Отложенная загрузка для неважного контента */
-.lazy-below-fold {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 1000px;
-}
-
-/* Optimized spinner animation */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -267,69 +233,14 @@ select:focus-visible {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .text-responsive {
     font-size: clamp(1rem, 4vw, 1.5rem);
   }
-  
+
   .heading-responsive {
     font-size: clamp(1.5rem, 6vw, 3rem);
     line-height: 1.2;
-  }
-}
-
-/* Quiz секция стили для центрирования и отступов */
-.quiz-section {
-  text-align: center;
-  padding: 2rem 1rem;
-}
-
-.quiz-section h2 {
-  text-align: center !important;
-  margin-bottom: 2rem !important;
-}
-
-.quiz-section p {
-  text-align: center !important;
-  margin-bottom: 2rem !important;
-}
-
-.quiz-section .quiz-content {
-  text-align: center !important;
-  margin-top: 2rem !important;
-}
-
-@media (max-width: 768px) {
-  .quiz-container {
-    padding: 1.5rem;
-    text-align: center;
-  }
-
-  .quiz-title {
-    margin-bottom: 1.5rem;
-    text-align: center !important;
-  }
-
-  .quiz-content {
-    margin-top: 1.5rem;
-    text-align: center !important;
-  }
-}
-
-@media (min-width: 769px) {
-  .quiz-container {
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .quiz-title {
-    margin-bottom: 2rem;
-    text-align: center !important;
-  }
-
-  .quiz-content {
-    margin-top: 2rem;
-    text-align: center !important;
   }
 }
 
@@ -400,71 +311,4 @@ select:focus {
   outline: none !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
-}
-
-/* Оптимизация производительности */
-.performance-optimized {
-  contain: layout style paint;
-  will-change: auto;
-}
-
-.performance-optimized.animating {
-  will-change: transform, opacity;
-}
-
-/* Предотвращение memory leaks от animations */
-.animation-completed {
-  will-change: auto;
-  animation: none;
-}
-
-/* GPU оптимизация для критических элементов */
-.critical-element {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-/* Оптимизация для медленных устройств */
-@media (max-device-width: 768px) and (max-device-height: 1024px) {
-  .performance-optimized {
-    animation-duration: 0.3s !important;
-    transition-duration: 0.3s !important;
-  }
-
-  .complex-animation {
-    animation: none !important;
-  }
-}
-
-/* Батарея и производительность */
-@media (prefers-reduced-motion: reduce) {
-  .battery-save * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Инактивные пользователи */
-.user-inactive .expensive-effect {
-  display: none;
-}
-
-.user-inactive .background-animation {
-  animation-play-state: paused;
-}
-
-/* Скрытая страница */
-.page-hidden .auto-pause {
-  animation-play-state: paused;
-}
-
-/* Слабые устройства */
-.low-performance-device .heavy-effect {
-  display: none;
-}
-
-.low-performance-device .gradient-complex {
-  background: #000 !important;
 }

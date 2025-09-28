@@ -1,7 +1,9 @@
-// Service Worker для Circle Buro
-const CACHE_NAME = 'circle-buro-v1.0.2';
-const STATIC_CACHE = 'static-v1.0.2';
-const DYNAMIC_CACHE = 'dynamic-v1.0.2';
+// High-performance Service Worker for Circle Creative Buro
+// Version 2.1 - Optimized for production performance
+const CACHE_NAME = 'circle-buro-v2.1';
+const STATIC_CACHE = 'static-v2.1';
+const DYNAMIC_CACHE = 'dynamic-v2.1';
+const OFFLINE_PAGE = '/offline.html';
 
 // Критические ресурсы для кэширования
 const CRITICAL_RESOURCES = [
@@ -220,11 +222,15 @@ async function networkFirst(request, cacheName) {
 async function staleWhileRevalidate(request, cacheName) {
   const cachedResponse = await caches.match(request);
   
-  const fetchPromise = fetch(request).then((networkResponse) => {
+  const fetchPromise = fetch(request).then(async (networkResponse) => {
     // Кэшируем только полные ответы (избегаем partial responses 206)
     if (networkResponse.ok && networkResponse.status === 200) {
-      const cache = caches.open(cacheName);
-      cache.then((cache) => cache.put(request, networkResponse.clone()));
+      try {
+        const cache = await caches.open(cacheName);
+        await cache.put(request, networkResponse.clone());
+      } catch (error) {
+        console.warn('SW: Failed to cache response:', error);
+      }
     }
     return networkResponse;
   }).catch(() => {
