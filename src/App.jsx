@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 // Analytics will be loaded dynamically for better performance
 
@@ -77,45 +77,36 @@ function AppContent() {
         <PerformanceMeta />
         <SplashCursor />
         <AccessibilityHelper />
-        <Suspense fallback={
-          <div className="min-h-screen bg-black flex items-center justify-center">
-            <div className="text-center">
-              <div className="loading-critical mb-4"></div>
-              <p className="text-white text-lg">Загрузка переводов...</p>
-            </div>
-          </div>
-        }>
-          {!isAdminRoute && <Header />}
-          <Routes>
-          {/* Russian routes (default) */}
-          <Route path="/" element={<LazyPage component={HomePage} />} />
-          <Route path="/about" element={<LazyPage component={AboutPage} />} />
-          <Route path="/project" element={<LazyPage component={CasePage} />} />
-          <Route path="/circle" element={<LazyPage component={Circle} />} />
-          <Route path="/cycle" element={<LazyPage component={Cycle} />} />
-          <Route path="/semicircle" element={<LazyPage component={Semicircle} />} />
+        {!isAdminRoute && <Header />}
+        <Routes>
+        {/* Russian routes (default) */}
+        <Route path="/" element={<LazyPage component={HomePage} />} />
+        <Route path="/about" element={<LazyPage component={AboutPage} />} />
+        <Route path="/project" element={<LazyPage component={CasePage} />} />
+        <Route path="/circle" element={<LazyPage component={Circle} />} />
+        <Route path="/cycle" element={<LazyPage component={Cycle} />} />
+        <Route path="/semicircle" element={<LazyPage component={Semicircle} />} />
 
-          {/* English routes */}
-          <Route path="/en" element={<LazyPage component={HomePage} />} />
-          <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
-          <Route path="/en/project" element={<LazyPage component={CasePage} />} />
-          <Route path="/en/circle" element={<LazyPage component={Circle} />} />
-          <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
-          <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />
+        {/* English routes */}
+        <Route path="/en" element={<LazyPage component={HomePage} />} />
+        <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
+        <Route path="/en/project" element={<LazyPage component={CasePage} />} />
+        <Route path="/en/circle" element={<LazyPage component={Circle} />} />
+        <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
+        <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />
 
-          {/* Admin routes */}
-          <Route path="/login" element={<LazyPage component={LoginPage} />} />
-          <Route
-            path="/admin"
-            element={
-              <AdminPage />
-            }
-          />
+        {/* Admin routes */}
+        <Route path="/login" element={<LazyPage component={LoginPage} />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminPage />
+          }
+        />
 
-          <Route path="*" element={<LazyPage component={NotFoundPage} />} />
-          </Routes>
-          {!isAdminRoute && <Footer />}
-        </Suspense>
+        <Route path="*" element={<LazyPage component={NotFoundPage} />} />
+        </Routes>
+        {!isAdminRoute && <Footer />}
       </PerformanceOptimizer>
     </ErrorBoundary>
   );
