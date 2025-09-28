@@ -167,12 +167,12 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
                     ${colorScheme.accentColor}20)`
                 }}
               >
-                <div className="w-full h-full rounded-full bg-white p-1 overflow-hidden border-2 border-gray-300">
-                  <div className="w-full h-full rounded-full overflow-hidden relative">
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-gray-100 to-gray-200 p-1 overflow-hidden border-2 border-gray-300">
+                  <div className="w-full h-full rounded-full overflow-hidden relative bg-gradient-to-br from-gray-50 to-gray-100">
                     <img
                       src={employee.image}
                       alt={employee.name}
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
                       style={{
                         objectPosition: employeeKey === 'employee4' ? 'left top' : employeeKey === 'employee1' ? 'right top' : employeeKey === 'employee2' ? 'center center' : employeeKey === 'employee9' ? 'center center' : 'center top',
                         objectFit: 'cover',
@@ -180,6 +180,11 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
                       }}
                       loading="lazy"
                       decoding="async"
+                      onError={(e) => {
+                        e.target.style.opacity = '0';
+                        e.target.parentElement.style.background = 'linear-gradient(135deg, #f3f4f6, #e5e7eb)';
+                        e.target.parentElement.innerHTML += '<div class="absolute inset-0 flex items-center justify-center text-gray-400 text-xs font-medium">No Image</div>';
+                      }}
                     />
                   </div>
                 </div>
