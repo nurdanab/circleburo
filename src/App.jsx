@@ -57,8 +57,13 @@ function AppContent() {
   useEffect(() => {
     // Load and execute analytics dynamically for better performance
     import('./analytics.js').then(({ logPageView }) => {
-      logPageView();
-    }).catch(err => console.error('Failed to load analytics:', err));
+      if (typeof logPageView === 'function') {
+        logPageView();
+      }
+    }).catch(err => {
+      console.warn('Analytics not available:', err.message);
+      // Не прерываем работу приложения из-за аналитики
+    });
   }, [location]);
 
   // Handle scroll to section from navigation state - logic moved to HomePage.jsx
@@ -111,8 +116,13 @@ function App() {
   useEffect(() => {
     // Load and initialize analytics asynchronously
     import('./analytics.js').then(({ initGA }) => {
-      initGA();
-    }).catch(err => console.error('Failed to initialize analytics:', err));
+      if (typeof initGA === 'function') {
+        initGA();
+      }
+    }).catch(err => {
+      console.warn('Analytics initialization failed:', err.message);
+      // Не прерываем работу приложения из-за аналитики
+    });
   }, []);
 
   return (

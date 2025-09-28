@@ -8,31 +8,58 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'ru', 
-    
+    fallbackLng: 'ru',
+
     debug: false,
-    
+
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
     },
-    
+
     backend: {
       loadPath: '/locales/{{lng}}/translation.json',
+      // Добавляем обработку ошибок загрузки
+      requestOptions: {
+        cache: 'default'
+      }
     },
-    
+
     interpolation: {
-      escapeValue: false, 
+      escapeValue: false,
     },
-    
+
     react: {
-      useSuspense: false, 
+      useSuspense: false,
     },
-    
+
     supportedLngs: ['en', 'ru', 'kk'],
-    
+
     ns: ['translation'],
     defaultNS: 'translation',
+
+    // Добавляем ресурсы как fallback
+    resources: {
+      ru: {
+        translation: {
+          "home": "Главная",
+          "about": "О нас",
+          "services": "Услуги",
+          "contact": "Контакты"
+        }
+      },
+      en: {
+        translation: {
+          "home": "Home",
+          "about": "About",
+          "services": "Services",
+          "contact": "Contact"
+        }
+      }
+    }
+  })
+  .catch(error => {
+    console.error('i18n initialization failed:', error);
   });
 
 export default i18n;
