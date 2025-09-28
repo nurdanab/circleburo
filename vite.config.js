@@ -65,7 +65,7 @@ export default defineConfig({
 
             // I18n - load after main app
             if (
-              id.includes('react-helmet-async/') ||
+              id.includes('@dr.pogodin/react-helmet/') ||
               id.includes('react-i18next/') ||
               id.includes('i18next/')
             ) {
@@ -196,7 +196,7 @@ export default defineConfig({
       'react/jsx-runtime',
       'scheduler',
       'react-router-dom',
-      'react-helmet-async',
+      '@dr.pogodin/react-helmet',
       'lucide-react' // Most used icon library
     ],
     exclude: [
