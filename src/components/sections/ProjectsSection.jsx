@@ -9,6 +9,31 @@ const ProjectsSection = () => {
   const cardsRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Перемещаем projectsData наверх
+  const projectsData = [
+    {
+      id: 1,
+      media: '/img/projects/case1.webp',
+      mediaType: 'image',
+      title: t('projects.before'),
+      link: '/project'
+    },
+    {
+      id: 2,
+      media: '/img/projects/case2.mp4',
+      mediaType: 'video',
+      title: t('projects.process'),
+      link: '/project'
+    },
+    {
+      id: 3,
+      media: '/img/projects/3case.webp',
+      mediaType: 'image',
+      title: t('projects.after'),
+      link: '/project'
+    },
+  ];
+
   useEffect(() => {
     const updateMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -55,30 +80,6 @@ const ProjectsSection = () => {
       window.removeEventListener('resize', updateMobile);
     };
   }, [isMobile, projectsData.length]);
-
-  const projectsData = [
-    {
-      id: 1,
-      media: '/img/projects/case1.webp',
-      mediaType: 'image',
-      title: t('projects.before'),
-      link: '/project'
-    },
-    {
-      id: 2,
-      media: '/img/projects/case2.mp4',
-      mediaType: 'video',
-      title: t('projects.process'),
-      link: '/project'
-    },
-    {
-      id: 3,
-      media: '/img/projects/3case.webp',
-      mediaType: 'image',
-      title: t('projects.after'),
-      link: '/project'
-    },
-  ];
 
   return (
     <div className="relative">
