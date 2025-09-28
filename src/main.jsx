@@ -1,7 +1,7 @@
 // src/main.jsx
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from '@dr.pogodin/react-helmet';
 
 import App from './App';
 import './index.css';

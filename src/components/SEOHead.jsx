@@ -1,5 +1,5 @@
 // src/components/SEOHead.jsx
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from '@dr.pogodin/react-helmet';
 import StructuredData from './StructuredData';
 import useKeywords from '../hooks/useKeywords';
 

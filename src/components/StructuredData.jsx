@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from '@dr.pogodin/react-helmet';
 
 const StructuredData = ({ type = 'organization', data = {} }) => {
   const baseUrl = 'https://circleburo.kz';
