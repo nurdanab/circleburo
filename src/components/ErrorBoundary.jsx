@@ -17,8 +17,22 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // Логируем ошибку
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    // Детальное логирование ошибки
+    console.group('🚨 ErrorBoundary: Caught an error');
+    console.error('Error object:', error);
+    console.error('Error message:', error?.message);
+    console.error('Error stack:', error?.stack);
+    console.error('Component stack:', errorInfo?.componentStack);
+    console.error('Error info object:', errorInfo);
+    console.groupEnd();
+
+    // Логируем состояние приложения в момент ошибки
+    console.group('📊 Application state when error occurred');
+    console.log('Current URL:', window.location.href);
+    console.log('User agent:', navigator.userAgent);
+    console.log('Local storage keys:', Object.keys(localStorage));
+    console.log('Session storage keys:', Object.keys(sessionStorage));
+    console.groupEnd();
 
     this.setState({
       error: error,

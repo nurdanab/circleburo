@@ -1,134 +1,143 @@
-// src/App.jsx
-import React, { useEffect, Suspense, lazy } from 'react';
+// Безопасная версия App.jsx с пошаговой загрузкой
+import React, { useEffect, Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-// Analytics will be loaded dynamically for better performance
+import ErrorBoundary from './components/ErrorBoundary';
 
-// Enhanced lazy loading with retry mechanism
-const createLazyComponent = (importFn, name) => {
-  return lazy(() =>
+console.log('🚀 App-safe loading...');
+
+// Простой компонент загрузки
+const SimpleLoader = () => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    backgroundColor: '#000',
+    color: '#fff',
+    fontSize: '1.2rem'
+  }}>
+    <div>Загрузка...</div>
+  </div>
+);
+
+// Безопасная ленивая загрузка с обработкой ошибок
+const safeLazy = (importFn, componentName) => {
+  return React.lazy(() =>
     importFn().catch(err => {
-      console.error(`Failed to load ${name}, retrying...`, err);
-      // Clear any potential cache and retry once
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          importFn()
-            .then(resolve)
-            .catch(retryErr => {
-              console.error(`Failed to load ${name} after retry:`, retryErr);
-              reject(retryErr);
-            });
-        }, 500);
-      });
+      console.error(`Failed to load ${componentName}:`, err);
+      // Возвращаем fallback компонент
+      return {
+        default: () => (
+          <div style={{
+            padding: '2rem',
+            backgroundColor: '#000',
+            color: '#fff',
+            minHeight: '100vh'
+          }}>
+            <h1>Ошибка загрузки: {componentName}</h1>
+            <p>Компонент не может быть загружен.</p>
+            <button
+              onClick={() => window.location.reload()}
+              style={{
+                padding: '1rem 2rem',
+                backgroundColor: '#333',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Перезагрузить страницу
+            </button>
+          </div>
+        )
+      };
     })
   );
 };
 
-const HomePage = createLazyComponent(() => import('./pages/HomePage'), 'HomePage');
-const AboutPage = createLazyComponent(() => import('./pages/AboutPage'), 'AboutPage');
-const CasePage = createLazyComponent(() => import('./pages/CasePage'), 'CasePage');
-const Circle = createLazyComponent(() => import('./pages/Circle'), 'Circle');
-const Cycle = createLazyComponent(() => import('./pages/Cycle'), 'Cycle');
-const Semicircle = createLazyComponent(() => import('./pages/Semicircle'), 'Semicircle');
-import AdminPage from './pages/AdminPage';
-const LoginPage = createLazyComponent(() => import('./pages/LoginPage'), 'LoginPage');
-const NotFoundPage = createLazyComponent(() => import('./pages/NotFoundPage'), 'NotFoundPage');
+// Безопасная загрузка страниц
+const HomePage = safeLazy(() => import('./pages/HomePage'), 'HomePage');
+const AboutPage = safeLazy(() => import('./pages/AboutPage'), 'AboutPage');
+const CasePage = safeLazy(() => import('./pages/CasePage'), 'CasePage');
+const Circle = safeLazy(() => import('./pages/Circle'), 'Circle');
+const Cycle = safeLazy(() => import('./pages/Cycle'), 'Cycle');
+const Semicircle = safeLazy(() => import('./pages/Semicircle'), 'Semicircle');
+const NotFoundPage = safeLazy(() => import('./pages/NotFoundPage'), 'NotFoundPage');
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-import SplashCursor from './components/SplashCursor';
-import LazyPage from './components/LazyPage';
-import PerformanceMeta from './components/PerformanceMeta';
-import AccessibilityHelper from './components/AccessibilityHelper';
-import ErrorBoundary from './components/ErrorBoundary';
-import PerformanceOptimizer from './components/PerformanceOptimizer';
-import PrerenderManager from './components/PrerenderManager';
-
-const ProtectedRoute = ({ children }) => {
-  const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-  if (!isAdminLoggedIn) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-};
+// Безопасная загрузка компонентов
+const Header = safeLazy(() => import('./components/Header'), 'Header');
+const Footer = safeLazy(() => import('./components/Footer'), 'Footer');
 
 function AppContent() {
   const location = useLocation();
+  const [componentsLoaded, setComponentsLoaded] = useState(false);
 
   useEffect(() => {
-    // Load and execute analytics dynamically for better performance
-    import('./analytics.js').then(({ logPageView }) => {
-      if (typeof logPageView === 'function') {
-        logPageView();
-      }
-    }).catch(err => {
-      console.warn('Analytics not available:', err.message);
-      // Не прерываем работу приложения из-за аналитики
-    });
-  }, [location]);
+    console.log('🚀 AppContent location changed:', location.pathname);
 
-  // Handle scroll to section from navigation state - logic moved to HomePage.jsx
+    // Постепенная загрузка компонентов
+    const timer = setTimeout(() => {
+      setComponentsLoaded(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [location]);
 
   const isAdminRoute = location.pathname === '/admin' || location.pathname === '/login';
 
   return (
-    <ErrorBoundary>
-      <PerformanceOptimizer>
-        <PrerenderManager />
-        <PerformanceMeta />
-        <SplashCursor />
-        <AccessibilityHelper />
-        {!isAdminRoute && <Header />}
+    <div style={{ backgroundColor: '#000', minHeight: '100vh' }}>
+      {!isAdminRoute && componentsLoaded && (
+        <Suspense fallback={<div style={{ height: '80px', backgroundColor: '#000' }} />}>
+          <Header />
+        </Suspense>
+      )}
+
+      <Suspense fallback={<SimpleLoader />}>
         <Routes>
           {/* Russian routes (default) */}
-          <Route path="/" element={<LazyPage component={HomePage} />} />
-          <Route path="/about" element={<LazyPage component={AboutPage} />} />
-          <Route path="/project" element={<LazyPage component={CasePage} />} />
-          <Route path="/circle" element={<LazyPage component={Circle} />} />
-          <Route path="/cycle" element={<LazyPage component={Cycle} />} />
-          <Route path="/semicircle" element={<LazyPage component={Semicircle} />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/project" element={<CasePage />} />
+          <Route path="/circle" element={<Circle />} />
+          <Route path="/cycle" element={<Cycle />} />
+          <Route path="/semicircle" element={<Semicircle />} />
 
           {/* English routes */}
-          <Route path="/en" element={<LazyPage component={HomePage} />} />
-          <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
-          <Route path="/en/project" element={<LazyPage component={CasePage} />} />
-          <Route path="/en/circle" element={<LazyPage component={Circle} />} />
-          <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
-          <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />
+          <Route path="/en" element={<HomePage />} />
+          <Route path="/en/about" element={<AboutPage />} />
+          <Route path="/en/project" element={<CasePage />} />
+          <Route path="/en/circle" element={<Circle />} />
+          <Route path="/en/cycle" element={<Cycle />} />
+          <Route path="/en/semicircle" element={<Semicircle />} />
 
-          {/* Admin routes */}
-          <Route path="/login" element={<LazyPage component={LoginPage} />} />
-          <Route
-            path="/admin"
-            element={
-              <AdminPage />
-            }
-          />
-
-          <Route path="*" element={<LazyPage component={NotFoundPage} />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        {!isAdminRoute && <Footer />}
-      </PerformanceOptimizer>
-    </ErrorBoundary>
+      </Suspense>
+
+      {!isAdminRoute && componentsLoaded && (
+        <Suspense fallback={<div style={{ height: '200px', backgroundColor: '#000' }} />}>
+          <Footer />
+        </Suspense>
+      )}
+    </div>
   );
 }
 
 function App() {
+  console.log('🚀 Safe App rendering...');
+
   useEffect(() => {
-    // Load and initialize analytics asynchronously
-    import('./analytics.js').then(({ initGA }) => {
-      if (typeof initGA === 'function') {
-        initGA();
-      }
-    }).catch(err => {
-      console.warn('Analytics initialization failed:', err.message);
-      // Не прерываем работу приложения из-за аналитики
-    });
+    console.log('✅ Safe App mounted successfully');
   }, []);
 
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 
