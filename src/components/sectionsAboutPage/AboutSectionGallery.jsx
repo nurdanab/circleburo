@@ -126,6 +126,8 @@ const AboutSectionGallery = () => {
               className="w-full h-full object-cover"
               style={{ width: '100%', height: '100%' }}
               loading="lazy"
+              decoding="async"
+              fetchpriority="low"
               onError={(e) => {
                 if (e.target.parentElement) {
                   e.target.style.display = 'none';

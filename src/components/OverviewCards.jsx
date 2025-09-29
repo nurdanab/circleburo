@@ -38,6 +38,9 @@ const OverviewSection = ({ cardsData }) => {
               src="/img/projects/saygak-5.webp" 
               alt="Mascot" 
               className="w-4/5 md:w-full h-auto" 
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
             />
           </motion.div>
         </div>

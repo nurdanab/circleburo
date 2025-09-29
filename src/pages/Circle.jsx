@@ -142,6 +142,11 @@ const Circle = () => {
                   src="/img/circle-collage.png" 
                   alt="Circle Collage" 
                   className="w-full h-full object-cover"
+                  width={384}
+                  height={384}
+                  loading="lazy"
+                  decoding="async"
+                  fetchpriority="low"
                 />
               </div>
             </motion.div>

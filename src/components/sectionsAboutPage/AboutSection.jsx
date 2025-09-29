@@ -263,7 +263,7 @@ const AboutSection = () => {
   return (
     <>
       <CursorTrail isActive={true}>
-        <div className="bg-black text-white relative overflow-hidden">
+        <div className="bg-black text-white relative overflow-hidden" style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px 800px' }}>
           <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
             <div className="relative w-full max-w-6xl h-[700px] flex items-center justify-center">
               
@@ -302,6 +302,11 @@ const AboutSection = () => {
                         src={employeeImages[employee.imageIndex]}
                         alt={`Team member ${employee.id + 1}`}
                         className="w-full h-full object-cover transition-all duration-300"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                        width={Math.round(employee.finalSize)}
+                        height={Math.round(employee.finalSize)}
                       />
                     </div>
                   </div>
@@ -321,6 +326,11 @@ const AboutSection = () => {
                     src="/img/circle-center.png"
                     alt="Circle Center"
                     className="w-full h-full object-cover"
+                    width={600}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
                     />
                  </div>
             )}
