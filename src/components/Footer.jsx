@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import { Mail, Phone, MapPin, Instagram} from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +7,41 @@ import { navigateToSection } from '../utils/navigation';
 
 
 const FooterSection = () => {
+  const footerRef = useRef(null);
+  const [fm, setFm] = useState(null);
+  useEffect(() => {
+    // Лениво загружаем framer-motion, когда футер приблизился к вьюпорту
+    const loadFm = () => {
+      import('framer-motion')
+        .then((mod) => setFm(mod))
+        .catch(() => setFm(null));
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadFm();
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: '400px' });
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    } else {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadFm);
+      } else {
+        setTimeout(loadFm, 0);
+      }
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const MotionDiv = fm?.motion?.div || 'div';
+  const MotionA = fm?.motion?.a || 'a';
+  const MotionSvg = fm?.motion?.svg || 'svg';
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,11 +100,11 @@ const FooterSection = () => {
   ];
 
   return (
-    <footer className="relative bg-black text-white overflow-hidden">
+    <footer ref={footerRef} className="relative bg-black text-white overflow-hidden">
       {/* Анимированные звёздочки на фоне */}
-      <motion.div className="absolute inset-0 z-0">
+      <MotionDiv className="absolute inset-0 z-0">
         {stars.map((star) => (
-          <motion.div
+          <MotionDiv
             key={`footer-star-${star.id}`}
             className="absolute bg-white rounded-full"
             style={{
@@ -81,20 +115,22 @@ const FooterSection = () => {
               transform: 'translate(-50%, -50%)',
               boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, 0.3)`,
             }}
-            animate={{
-              opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: star.duration,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-              delay: star.delay,
-            }}
+            {...(fm ? {
+              animate: {
+                opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
+                scale: [0.8, 1.2, 0.8],
+              },
+              transition: {
+                duration: star.duration,
+                repeat: Infinity,
+                repeatType: 'reverse',
+                ease: 'easeInOut',
+                delay: star.delay,
+              }
+            } : {})}
           />
         ))}
-      </motion.div>
+      </MotionDiv>
 
       {/* Фоновые градиенты */}
       <div className="absolute inset-0 z-0">
@@ -106,23 +142,27 @@ const FooterSection = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         
         {/* Верхняя секция */}
-        <motion.div
+        <MotionDiv
           className="py-16 md:py-20 border-b border-white/10"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          {...(fm ? {
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            transition: { duration: 0.8 },
+            viewport: { once: true }
+          } : {})}
         >
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
             
             {/* Логотип и описание */}
             <div className="lg:col-span-1">
-              <motion.div
+              <MotionDiv
                 className="mb-8"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
+                {...(fm ? {
+                  initial: { opacity: 0, scale: 0.8 },
+                  whileInView: { opacity: 1, scale: 1 },
+                  transition: { duration: 0.6 },
+                  viewport: { once: true }
+                } : {})}
               >
                 <img
                   src="/img/circle-logo.png"
@@ -142,36 +182,40 @@ const FooterSection = () => {
                 <p className="text-gray-400 text-lg leading-relaxed max-w-md">
                   {t('footer.description')}
                 </p>
-              </motion.div>
+              </MotionDiv>
 
               {/* Социальные сети */}
-              <motion.div
+              <MotionDiv
                 className="flex space-x-4"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
+                {...(fm ? {
+                  initial: { opacity: 0, x: -30 },
+                  whileInView: { opacity: 1, x: 0 },
+                  transition: { duration: 0.6, delay: 0.2 },
+                  viewport: { once: true }
+                } : {})}
               >
                 {socialLinks.map((social, index) => (
-                  <motion.a
+                  <MotionA
                     key={index}
                     href={social.href}
                     className="group w-12 h-12 bg-gradient-to-r from-white/8 to-white/4 hover:from-white/15 hover:to-white/10 border border-white/15 hover:border-white/30 rounded-full flex items-center justify-center transition-all duration-300"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
+                    {...(fm ? {
+                      whileHover: { scale: 1.1, y: -2 },
+                      whileTap: { scale: 0.95 }
+                    } : {})}
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300" />
-                  </motion.a>
+                  </MotionA>
                 ))}
-              </motion.div>
+              </MotionDiv>
             </div>
 
             {/* Навигация и услуги */}
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
               
               {/* Навигация */}
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -189,7 +233,7 @@ const FooterSection = () => {
                             className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
                           >
                             {link.name}
-                            <motion.svg
+                            <MotionSvg
                               width="16"
                               height="16"
                               viewBox="0 0 24 24"
@@ -199,12 +243,11 @@ const FooterSection = () => {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              initial={{ x: -10 }}
-                              whileHover={{ x: 0 }}
+                              {...(fm ? { initial: { x: -10 }, whileHover: { x: 0 } } : {})}
                             >
                               <path d="M7 17L17 7" />
                               <path d="M7 7h10v10" />
-                            </motion.svg>
+                            </MotionSvg>
                           </Link>
                         ) : (
                           <button
@@ -212,7 +255,7 @@ const FooterSection = () => {
                             className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center bg-transparent border-none cursor-pointer"
                           >
                             {link.name}
-                            <motion.svg
+                            <MotionSvg
                               width="16"
                               height="16"
                               viewBox="0 0 24 24"
@@ -222,22 +265,21 @@ const FooterSection = () => {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              initial={{ x: -10 }}
-                              whileHover={{ x: 0 }}
+                              {...(fm ? { initial: { x: -10 }, whileHover: { x: 0 } } : {})}
                             >
                               <path d="M7 17L17 7" />
                               <path d="M7 7h10v10" />
-                            </motion.svg>
+                            </MotionSvg>
                           </button>
                         )}
                       </li>
                     );
                   })}
                 </ul>
-              </motion.div>
+              </MotionDiv>
 
               {/* Услуги */}
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -255,7 +297,7 @@ const FooterSection = () => {
                         // transition={{ duration: 0.2 }}
                       >
                         {service.name}
-                        <motion.svg
+                        <MotionSvg
                           width="16"
                           height="16"
                           viewBox="0 0 24 24"
@@ -265,20 +307,19 @@ const FooterSection = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          initial={{ x: -10 }}
-                          whileHover={{ x: 0 }}
+                          {...(fm ? { initial: { x: -10 }, whileHover: { x: 0 } } : {})}
                         >
                           <path d="M7 17L17 7" />
                           <path d="M7 7h10v10" />
-                        </motion.svg>
+                        </MotionSvg>
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </MotionDiv>
 
               {/* Контакты */}
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
@@ -288,45 +329,45 @@ const FooterSection = () => {
                 <ul className="mt-6 space-y-4">
                   {contactInfo.map((contact, index) => (
                     <li key={index}>
-                      <motion.a
+                      <MotionA
                         href={contact.href}
                         className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
-                        // whileHover={{ x: 5 }}
-                        // transition={{ duration: 0.2 }}
+                        {...(fm ? { whileHover: { x: 5 }, transition: { duration: 0.2 } } : {})}
                       >
                         <contact.icon className="w-5 h-5 mr-3 flex-shrink-0" />
                         <span className="break-all">{contact.text}</span>
-                      </motion.a>
+                      </MotionA>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </MotionDiv>
             </div>
           </div>
-        </motion.div>
+        </MotionDiv>
 
         {/* Нижняя секция */}
-        <motion.div
+        <MotionDiv
           className="py-8 flex flex-col md:flex-row justify-between items-center text-gray-500"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
+          {...(fm ? {
+            initial: { opacity: 0 },
+            whileInView: { opacity: 1 },
+            transition: { duration: 0.6, delay: 0.4 },
+            viewport: { once: true }
+          } : {})}
         >
           <div className="text-center md:text-left mb-4 md:mb-0">
             <p>{t('footer.copyright')}</p>
           </div>
           <div className="flex space-x-6 text-sm">
-  <motion.a
-    href="/privacy-policy-circle.pdf"
-    className="hover:text-white transition-colors duration-300"
-    whileHover={{ y: -2 }}
-  >
-    {t('footer.privacyPolicy')}
-  </motion.a>
-
-</div>
-        </motion.div>
+            <MotionA
+              href="/privacy-policy-circle.pdf"
+              className="hover:text-white transition-colors duration-300"
+              {...(fm ? { whileHover: { y: -2 } } : {})}
+            >
+              {t('footer.privacyPolicy')}
+            </MotionA>
+          </div>
+        </MotionDiv>
       </div>
 
       {/* Декоративный градиент внизу */}
