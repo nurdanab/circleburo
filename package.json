@@ -10,7 +10,8 @@
     "prerender": "node scripts/prerender.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "sync-locales": "node scripts/sync-locales.js"
+    "sync-locales": "node scripts/sync-locales.js",
+    "check-locales": "node scripts/check-missing-keys.js"
   },
   "dependencies": {
     "@dr.pogodin/react-helmet": "^3.0.4",
