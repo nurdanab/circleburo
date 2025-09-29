@@ -9,7 +9,8 @@
     "build:no-prerender": "vite build",
     "prerender": "node scripts/prerender.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync-locales": "node scripts/sync-locales.js"
   },
   "dependencies": {
     "@dr.pogodin/react-helmet": "^3.0.4",

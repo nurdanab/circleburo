@@ -1,583 +1,583 @@
 {
-  "main": {
-    "subtitle": "Marketing agency and full-cycle creative bureau for developing your brand and business"
-  },
-  "nav": {
-    "home": "Home",
-    "services": "Services", 
-    "about": "About us",
-    "portfolio": "Portfolio",
-    "contact": "Contact us"
-  },
-  "footer": {
-    "description": "Circle Creative Buro – your guide to the world of creativity and creative potential.",
-    "navigation": "Navigation",
-    "services": "Services",
-    "contact": "Contact",
-    "copyright": "© 2025 Circle. All rights reserved.",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
-  },
-  "notFound": {
-    "title": "Page Not Found",
-    "description": "The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.",
-    "goHome": "Back to Home",
-    "aboutUs": "About Us"
-  },
-  "whyUs": {
-    "title": "WORKING PRINCIPLES",
-    "reasons": {
-      "qualityFirst": {
-        "title": "We do everything for you",
-        "description": "We take everything upon ourselves: from planning and creative to results. We bring the project to completion within short timeframes and according to budget."
-      },
-      "creativeSolutions": {
-        "title": "Meeting deadlines",
-        "description": "You always receive your project on time: transparent work plan and agreed-upon project implementation timelines."
-      },
-      "innovation": {
-        "title": "Everything for the client",
-        "description": "We consider every detail — audit, meanings, visuals, metrics — so that the final effect is noticeable to both the team and your clients."
+    "main": {
+      "subtitle": "Marketing agency and full-cycle creative bureau for developing your brand and business"
+    },
+    "nav": {
+      "home": "Home",
+      "services": "Services", 
+      "about": "About us",
+      "portfolio": "Portfolio",
+      "contact": "Contact us"
+    },
+    "footer": {
+      "description": "Circle Creative Buro – your guide to the world of creativity and creative potential.",
+      "navigation": "Navigation",
+      "services": "Services",
+      "contact": "Contact",
+      "copyright": "© 2025 Circle. All rights reserved.",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    },
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.",
+      "goHome": "Back to Home",
+      "aboutUs": "About Us"
+    },
+    "whyUs": {
+      "title": "WORKING PRINCIPLES",
+      "reasons": {
+        "qualityFirst": {
+          "title": "We do everything for you",
+          "description": "We take everything upon ourselves: from planning and creative to results. We bring the project to completion within short timeframes and according to budget."
+        },
+        "creativeSolutions": {
+          "title": "Meeting deadlines",
+          "description": "You always receive your project on time: transparent work plan and agreed-upon project implementation timelines."
+        },
+        "innovation": {
+          "title": "Everything for the client",
+          "description": "We consider every detail — audit, meanings, visuals, metrics — so that the final effect is noticeable to both the team and your clients."
+        }
       }
-    }
-  },
-  "services": {
-    "title": "OUR SERVICES",
-    "semicircle": {
-      "title": "Semi Circle",
-      "subtitle": "SINGLE TASK",
-      "description": "One-time visual and digital solutions for a specific task. Ideal for small businesses, events, campaigns."
     },
-    "circle": {
-      "title": "Circle",
-      "subtitle": "FULL PACKAGE",
-      "description": "Comprehensive solution for brand identity and presence. Ideal for growing businesses and startups."
-    },
-    "cycle": {
-      "title": "Cycle",
-      "subtitle": "MONTHLY",
-      "description": "Monthly subscription for visual and content support. Ideal for brands that want to delegate marketing and design tasks."
-    }
-  },
-  "aboutUs": {
-    "title": "From idea to reality",
-    "subtitle": "About Us",
-    "creative": "From idea",
-    "vision": "to reality",
-    "paragraph1": "Circle Creative Buro — a creative buro on the market since June 2025. We turn business tasks into strong ideas and package them into understandable products and communications. We create unique selling propositions that haven't existed in the market yet, based on audience research, strategy, and clear efficiency criteria. For us, not only creativity and visuals are important, but also measurable results: growth in recognition, conversion, and sales.",
-    "paragraph2": "Our task is to make your brand work noticeably and effectively: uniqueness should be readable from the first contact, and advantages should be obvious among analogues. We identify insights, build positioning, develop identity, websites and campaigns, create content, test hypotheses and optimize by metrics. We work transparently and on time, take coordination upon ourselves and bring the project to a result that exceeds expectations.",
-    "button": "Learn More About Circle"
-  },
-  "projects": {
-    "subtitle": "Our Projects",
-    "title": "Creative Showcase",
-    "before": "How the design has changed",
-    "process": "Work process",
-    "after": "Visual for the client"
-  },
-  "contactForm": {
-    "title": "Contact us to start your creative project",
-    "subtitle": "Book a consultation with our expert to discuss your project requirements and get personalized recommendations",
-    "selectDateTime": "Select Date & Time",
-    "yourInformation": "Your Information",
-    "availableDates": "Available Dates:",
-    "availableTimes": "Available Times:",
-    "fullName": "Full Name",
-    "fullNamePlaceholder": "Enter your name",
-    "phoneNumber": "Phone Number",
-    "phonePlaceholder": "+7 XXX XXX XX XX",
-    "selectedSlot": "Selected Slot:",
-    "bookConsultation": "Book Consultation",
-    "submitting": "Submitting...",
-    "bookingConfirmed": "Booking Confirmed!",
-    "requestSent": "Request Sent Successfully!",
-    "receivedBooking": "We've received your booking request for:",
-    "managerContact": "Our manager will contact you shortly to confirm the details.",
-    "meetingConfirmed": "Your meeting has been confirmed by our manager!",
-    "bookAnotherSlot": "Book Another Slot",
-    "noAvailableSlots": "No available time slots for selected date",
-    "chooseAnotherDate": "Please choose another date",
-    "loadingSlots": "Loading available slots...",
-    "errors": {
-      "invalidName": "Please enter a valid name",
-      "invalidPhone": "Please enter a valid phone number",
-      "noDateOrTime": "Please select both date and time",
-      "slotUnavailable": "The selected time is no longer available. Please select another slot.",
-      "submissionError": "An error occurred when submitting the application. Try again."
-    },
-    "legend": {
-      "selected": "Selected",
-      "available": "Available", 
-      "unavailable": "Unavailable"
-    },
-    "status": {
-      "pending": "Pending",
-      "confirmed": "Confirmed",
-      "cancelled": "Cancelled"
-    }
-  },
-  "calendar": {
-    "january": "January",
-    "february": "February", 
-    "march": "March",
-    "april": "April",
-    "may": "May",
-    "june": "June",
-    "july": "July",
-    "august": "August",
-    "september": "September",
-    "october": "October",
-    "november": "November",
-    "december": "December",
-    "sun": "Sun",
-    "mon": "Mon", 
-    "tue": "Tue",
-    "wed": "Wed",
-    "thu": "Thu",
-    "fri": "Fri",
-    "sat": "Sat"
-  },
-  "circle": {
-    "launchPr": {
-      "title": "Launch and PR",
-      "item1": "Market and competitor analysis",
-      "item2": "Brand values",
-      "item3": "Channel mapping and communication strategy",
-      "item4": "Creative concept development",
-      "item5": "Event planning",
-      "item6": "Promotional activities: barter, collaborations, influencers, and special offers",
-      "item7": "Targeted advertising"
-    },
-    "socialMedia": {
-      "title": "Social Media packaging",
-      "item1": "Instagram & TikTok package",
-      "item2": "Posts (visuals + captions + grid adaptation) - 10",
-      "item3": "Reels (editing, covers, titles) - 10",
-      "item4": "Stories - 30",
-      "item5": "Full profile setup for Instagram and TikTok",
-      "item6": "*Other platforms upon request"
-    },
-    "designGuidebook": {
-      "title": "Design + Guidebook",
-      "items": [
-        { "service": "LOGO", "alterations": "3 alterations" },
-        { "service": "Color palette, fonts, and patterns", "alterations": "3 alterations" },
-        { "service": "Packaging, business cards, merchandise", "alterations": "up to 18 units" },
-        { "service": "Investor presentation", "alterations": "up to 15 pages" },
-        { "service": "2D Animations", "alterations": "up to 3" },
-        { "service": "Visual usage guidelines", "alterations": "30 pages book" },
-        { "service": "Illustrations", "alterations": "up to 15" },
-        { "service": "Mini website or landing page (if included in the task)", "alterations": "1 page" }
-      ]
-    },
-    "totalPrice": {
-      "title": "Total Price",
-      "days": "45",
-      "daysLabel": "days",
-      "price": "1 380 000",
-      "currency": "KZT"
-    },
-    "notes": {
-      "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
-      "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-      "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
-      "note4": "✦ After approval, changes can only be made within 2 calendar days.",
-      "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
-      "note6": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
-    }
-  },
-  "cycle": {
-    "socialMedia": {
-      "title": "Social Media",
-      "item1": "Posts for Instagram, TikTok (photos/videos) - 10",
-      "item2": "Designed stories - 30",
-      "item3": "Full profile setup"
-    },
-    "design": {
-      "title": "Design",
-      "item1": "Posts and animations for social media - 10",
-      "item2": "Updating printed products - 10"
-    },
-    "digitalServices": {
-      "title": "Digital-Services",
-      "item1": "Collaboration ideas per month (come up with the concept and design)",
-      "item2": "Targeted advertising",
-      "item3": "Monthly report (what worked, how people reacted, and what we recommend next)",
-      "item4": "Website maintenance and updates"
-    },
-    "totalPrice": {
-      "title": "Total Price",
-      "period": "Monthly",
-      "price": "580 000 KZT",
-      "discount": "Discount for purchasing 'Circle' - 380 000 KZT"
-    },
-    "notes": {
-      "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
-      "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-      "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
-      "note4": "✦ After approval, changes can only be made within 2 calendar days.",
-      "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
-      "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
-      "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
-    }
-  },
-  "semicircle": {
-    "marketing": {
-      "title": "Marketing",
-      "item1": "Concept and visual packaging of the partnership/collaboration",
-      "item1Price": "80.000 KZT",
-      "item2": "Mini-event support: poster, story, video invitation, pop-up or welcome zone design, photo/video shooting",
-      "item2Price": "120.000 KZT",
-      "item3": "Audit and analysis",
-      "item3Price": "100.000 KZT"
-    },
-    "smm": {
-      "title": "SMM",
-      "item1": "Publication plan",
-      "item2": "Profile settings: avatar, highlights, posters",
-      "item2Count": "10",
-      "item3": "Shooting Reels / TikTok (script, shooting, editing)",
-      "item3Sub": "cover design for social media posts (instagram/tiktok)",
-      "item3Count": "12",
-      "item4": "Adapting visual and text to current trends or recommwndations",
-      "item5": "Stories",
-      "item5Count": "20",
-      "totalPrice": "250.000 KZT",
-      "days": "19 days"
-    },
-    "design": {
-      "title": "Design",
-      "items": [
-        { "service": "Guidebook (logo, font, color palette, merch, etc.)", "pages": "20 pages", "time": "30 days", "price": "500.000 KZT" },
-        { "service": "Presentation", "pages": "1 page", "time": "1 hour", "price": "5.900 KZT" },
-        { "service": "Illustration", "pages": "1", "time": "1-9 days", "price": "9.900-25.000 KZT" },
-        { "service": "Packaging and Brand materials", "pages": "1", "time": "4-14 days", "price": "10.000-30.000 KZT" },
-        { "service": "2D animation", "pages": "1 sec.", "time": "1 hour", "price": "3.500-9.500 KZT" },
-        { "service": "3D animation", "pages": "1 sec.", "time": "1 hour", "price": "8.500-21.500 KZT" },
-        { "service": "Pop-up visualization", "pages": "1", "time": "7 days", "price": "35.500 KZT" },
-        { "service": "Poster / Banners", "pages": "1", "time": "2 days", "price": "9.500 KZT" },
-        { "service": "Social Media design", "pages": "1", "time": "2 days", "price": "3.500-9.500 KZT" },
-        { "service": "Web design and development", "pages": "1", "time": "1 month", "price": "500.000 KZT" },
-        { "service": "Interior design", "pages": "1 m^2", "time": "1-14 days", "price": "5.900-10.000 KZT" }
-
-      ]
-    },
-    "production": {
-      "title": "Production",
-      "item1": "Video production (review, promo, interview)",
-      "item1Count": "1",
-      "item1Time": "1 hour",
-      "item1Price": "35.000 KZT",
-      "item2": "Photo production (product, team, lifestyle)",
-      "item2Count": "1",
-      "item2Time": "1 hour",
-      "item2Price": "20.000 KZT",
-      "item3": "Creative consulting",
-      "item3Price": "Defined individually"
-    },
-    "notes": {
-      "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
-      "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-      "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
-      "note4": "✦ After approval, changes can only be made within 2 calendar days.",
-      "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
-      "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
-      "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
-    }
-  },
-  "aboutPage": {
-    "subtitle": "CENTER OF",
-    "subtitlebtn": "OUR CIRCLE"
-  },
-  "aboutUsGallery": {
-    "placeholderCards": {
-      "title1": "From Challenges to Results",
-      "text1": "We turn client tasks into working solutions with measurable effect. We formulate goals, design paths, launch and achieve KPIs — leads, sales, recognition.",
-      "title2": "A unique approach",
-      "text2": "Every project is unique — we research the audience and context, test hypotheses, and select the tools and format to provide the best solution for your specific task.",
-      "title3": "Turnkey team",
-      "text3": "Strategists, designers, and marketers work as a single team under the management of a PM. We take care of all coordination and are responsible for the result from brief to release.",
-      "title4": "Only what works,",
-      "text4": "We focus on tools that really drive metrics. We conduct A/B testing, measure effectiveness, and scale what brings results.",
-      "title21": "Transparency and openness,",
-      "text21": "You can see the status, deadlines, and metrics at every stage. Weekly updates, a task board, and access to materials — no surprises or 'black boxes'.",
-      "title22": "Experts in trends and innovation",
-      "text22": "We track trends and carefully implement innovations: new formats, tools, and AI approaches — only where it enhances your results.",
-      "title31": "No templates",
-      "text31": "No one-size-fits-all solutions. We take into account your brand's tone, goals, audience, and channel — creating a personalized scenario for your situation.",
-      "title32": "We value your time",
-      "text32": "We work quickly and efficiently: realistic deadlines, SLAs for responses, checkpoints, and a single point of entry. Approvals are handled without delay.",
-      "title33": "A partner in growth",
-      "text33": "We don't build campaigns, we build growth: roadmaps, hypotheses, funnels, unit economics. Regular iterations and scaling of working solutions.",
-      "title34": "We are in projects",
-      "text34": "We are deeply involved and maintain high quality standards. We proactively suggest improvements and make sure that this is reflected in every project and result."
-    }
-  },
-  "quiz": {
-    "headline": "Find Your Perfect Service",
-    "subheadline": "Let us guide you to the service that perfectly matches your needs and goals",
-    "start_screen": {
-      "title": "Ready to discover your ideal service?",
-      "description": "Answer a few simple questions and we'll recommend the perfect solution for you",
-      "button": "Start Quiz"
-    },
-    "questions": {
-      "1": "Do you have an existing business?",
-      "2": "Do you have a corporate style or identity?",
-      "3": "Are you interested in a monthly subscription?",
-      "4": "Does your team manage social media?",
-      "5": "Do you have a budget constraint?"
-    },
-    "options": {
-      "yes": "Yes",
-      "no": "No"
-    },
-    "results": {
-      "semi_circle": {
+    "services": {
+      "title": "OUR SERVICES",
+      "semicircle": {
+        "title": "Semi Circle",
         "subtitle": "SINGLE TASK",
         "description": "One-time visual and digital solutions for a specific task. Ideal for small businesses, events, campaigns."
       },
       "circle": {
+        "title": "Circle",
         "subtitle": "FULL PACKAGE",
         "description": "Comprehensive solution for brand identity and presence. Ideal for growing businesses and startups."
       },
       "cycle": {
+        "title": "Cycle",
         "subtitle": "MONTHLY",
         "description": "Monthly subscription for visual and content support. Ideal for brands that want to delegate marketing and design tasks."
       }
     },
-    "result_screen": {
-      "title": "Perfect! We recommend {{result}}",
-      "button_start": "Get Started Now",
-      "button_restart": "Take Quiz Again"
-    }
-  },
-  "casePage": {
-    "hero": {
-      "title": "STEPPE COFFEE",
-      "subtitle": "Full cycle of brand creation: from strategy to implementation",
-      "fullCycle": "Full cycle",
-      "scrollDown": "Scroll down"
+    "aboutUs": {
+      "title": "From idea to reality",
+      "subtitle": "About Us",
+      "creative": "From idea",
+      "vision": "to reality",
+      "paragraph1": "Circle Creative Buro — a creative buro on the market since June 2025. We turn business tasks into strong ideas and package them into understandable products and communications. We create unique selling propositions that haven't existed in the market yet, based on audience research, strategy, and clear efficiency criteria. For us, not only creativity and visuals are important, but also measurable results: growth in recognition, conversion, and sales.",
+      "paragraph2": "Our task is to make your brand work noticeably and effectively: uniqueness should be readable from the first contact, and advantages should be obvious among analogues. We identify insights, build positioning, develop identity, websites and campaigns, create content, test hypotheses and optimize by metrics. We work transparently and on time, take coordination upon ourselves and bring the project to a result that exceeds expectations.",
+      "button": "Learn More About Circle"
     },
-    "content": {
-      "brandPositioning": {
-        "title": "Brand Positioning",
-        "description": "We created a unique value proposition where Steppe Coffee is not just a coffee shop, but a ",
-        "fourthSpace": "fourth space",
-        "descriptionContinued": " where meanings are born, creativity gathers, coffee and culture come together."
+    "projects": {
+      "subtitle": "Our Projects",
+      "title": "Creative Showcase",
+      "before": "How the design has changed",
+      "process": "Work process",
+      "after": "Visual for the client"
+    },
+    "contactForm": {
+      "title": "Contact us to start your creative project",
+      "subtitle": "Book a consultation with our expert to discuss your project requirements and get personalized recommendations",
+      "selectDateTime": "Select Date & Time",
+      "yourInformation": "Your Information",
+      "availableDates": "Available Dates:",
+      "availableTimes": "Available Times:",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your name",
+      "phoneNumber": "Phone Number",
+      "phonePlaceholder": "+7 XXX XXX XX XX",
+      "selectedSlot": "Selected Slot:",
+      "bookConsultation": "Book Consultation",
+      "submitting": "Submitting...",
+      "bookingConfirmed": "Booking Confirmed!",
+      "requestSent": "Request Sent Successfully!",
+      "receivedBooking": "We've received your booking request for:",
+      "managerContact": "Our manager will contact you shortly to confirm the details.",
+      "meetingConfirmed": "Your meeting has been confirmed by our manager!",
+      "bookAnotherSlot": "Book Another Slot",
+      "noAvailableSlots": "No available time slots for selected date",
+      "chooseAnotherDate": "Please choose another date",
+      "loadingSlots": "Loading available slots...",
+      "errors": {
+        "invalidName": "Please enter a valid name",
+        "invalidPhone": "Please enter a valid phone number",
+        "noDateOrTime": "Please select both date and time",
+        "slotUnavailable": "The selected time is no longer available. Please select another slot.",
+        "submissionError": "An error occurred when submitting the application. Try again."
       },
-      "targetAudience": {
-        "title": "Target Audience",
-        "description": "During the target audience analysis, the main segments of potential visitors were identified:",
-        "professionals": {
-          "title": "Professionals",
-          "description": "who value convenient space for work and meetings"
-        },
-        "creativeYouth": {
-          "title": "Creative Youth",
-          "description": "students looking for atmosphere for inspiration"
-        },
-        "urbanResidents": {
-          "title": "Urban Residents",
-          "description": "who consider the coffee shop as a place for quality relaxation"
-        }
+      "legend": {
+        "selected": "Selected",
+        "available": "Available", 
+        "unavailable": "Unavailable"
       },
-      "competitiveAnalysis": {
-        "title": "Competitive Analysis",
-        "description": "We conducted a comparative analysis of direct and indirect competitors to determine a unique position.",
-        "directCompetitors": {
-          "title": "Direct Competitors",
-          "description": "local coffee shops with specialty coffee and cozy atmosphere"
-        },
-        "indirectCompetitors": {
-          "title": "Indirect Competitors",
-          "description": "chain coffee shops, restaurants with coffee menu, coworking spaces"
-        }
-      },
-      "toneOfVoice": {
-        "title": "Tone of Voice",
-        "description": "A tone of voice has been developed for the Steppe Coffee brand, reflecting the values and character of the establishment:",
-        "friendly": {
-          "title": "Friendly and inspiring",
-          "description": "creates a sense of openness and support"
-        },
-        "modern": {
-          "title": "Modern, but with local accents",
-          "description": "maintains closeness to the culture and identity of the city"
-        },
-        "informal": {
-          "title": "Informal, lively style",
-          "description": "helps communicate with the audience in the same language"
-        }
+      "status": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "cancelled": "Cancelled"
       }
     },
-    "marketing": {
-      "title": "MARKETING",
+    "calendar": {
+      "january": "January",
+      "february": "February", 
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December",
+      "sun": "Sun",
+      "mon": "Mon", 
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "circle": {
+      "launchPr": {
+        "title": "Launch and PR",
+        "item1": "Market and competitor analysis",
+        "item2": "Brand values",
+        "item3": "Channel mapping and communication strategy",
+        "item4": "Creative concept development",
+        "item5": "Event planning",
+        "item6": "Promotional activities: barter, collaborations, influencers, and special offers",
+        "item7": "Targeted advertising"
+      },
+      "socialMedia": {
+        "title": "Social Media packaging",
+        "item1": "Instagram & TikTok package",
+        "item2": "Posts (visuals + captions + grid adaptation) - 10",
+        "item3": "Reels (editing, covers, titles) - 10",
+        "item4": "Stories - 30",
+        "item5": "Full profile setup for Instagram and TikTok",
+        "item6": "*Other platforms upon request"
+      },
+      "designGuidebook": {
+        "title": "Design + Guidebook",
+        "items": [
+          { "service": "LOGO", "alterations": "3 alterations" },
+          { "service": "Color palette, fonts, and patterns", "alterations": "3 alterations" },
+          { "service": "Packaging, business cards, merchandise", "alterations": "up to 18 units" },
+          { "service": "Investor presentation", "alterations": "up to 15 pages" },
+          { "service": "2D Animations", "alterations": "up to 3" },
+          { "service": "Visual usage guidelines", "alterations": "30 pages book" },
+          { "service": "Illustrations", "alterations": "up to 15" },
+          { "service": "Mini website or landing page (if included in the task)", "alterations": "1 page" }
+        ]
+      },
+      "totalPrice": {
+        "title": "Total Price",
+        "days": "45",
+        "daysLabel": "days",
+        "price": "1 380 000",
+        "currency": "KZT"
+      },
+      "notes": {
+        "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
+        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
+        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note4": "✦ After approval, changes can only be made within 2 calendar days.",
+        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
+        "note6": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
+      }
+    },
+    "cycle": {
       "socialMedia": {
         "title": "Social Media",
-        "contentPlan": "Developed content plan for:",
-        "profileSetup": "Set up profiles and conduct shoots for social media",
-        "analytics": "Weekly statistics tracking and format improvement"
+        "item1": "Posts for Instagram, TikTok (photos/videos) - 10",
+        "item2": "Designed stories - 30",
+        "item3": "Full profile setup"
       },
-      "offlineActivities": {
-        "title": "Offline Activities",
-        "partnerships": "Accept partnership offers",
-        "community": "Organize community meetings",
-        "events": "Develop events"
+      "design": {
+        "title": "Design",
+        "item1": "Posts and animations for social media - 10",
+        "item2": "Updating printed products - 10"
+      },
+      "digitalServices": {
+        "title": "Digital-Services",
+        "item1": "Collaboration ideas per month (come up with the concept and design)",
+        "item2": "Targeted advertising",
+        "item3": "Monthly report (what worked, how people reacted, and what we recommend next)",
+        "item4": "Website maintenance and updates"
+      },
+      "totalPrice": {
+        "title": "Total Price",
+        "period": "Monthly",
+        "price": "580 000 KZT",
+        "discount": "Discount for purchasing 'Circle' - 380 000 KZT"
+      },
+      "notes": {
+        "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
+        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
+        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note4": "✦ After approval, changes can only be made within 2 calendar days.",
+        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
+        "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
+        "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
-    "design": {
-      "title": "DESIGN",
-      "guidebook": {
-        "title": "Guidebook",
-        "description": "Our team of designers developed:",
-        "mascot": "Mascot character",
-        "colors": "Brand colors",
-        "logo": "Logo",
-        "patterns": "Patterns",
-        "fonts": "Fonts"
+    "semicircle": {
+      "marketing": {
+        "title": "Marketing",
+        "item1": "Concept and visual packaging of the partnership/collaboration",
+        "item1Price": "80.000 KZT",
+        "item2": "Mini-event support: poster, story, video invitation, pop-up or welcome zone design, photo/video shooting",
+        "item2Price": "120.000 KZT",
+        "item3": "Audit and analysis",
+        "item3Price": "100.000 KZT"
       },
-      "menu": {
-        "title": "Menu",
-        "description": "Following a unified style, a new menu design was created"
+      "smm": {
+        "title": "SMM",
+        "item1": "Publication plan",
+        "item2": "Profile settings: avatar, highlights, posters",
+        "item2Count": "10",
+        "item3": "Shooting Reels / TikTok (script, shooting, editing)",
+        "item3Sub": "cover design for social media posts (instagram/tiktok)",
+        "item3Count": "12",
+        "item4": "Adapting visual and text to current trends or recommwndations",
+        "item5": "Stories",
+        "item5Count": "20",
+        "totalPrice": "250.000 KZT",
+        "days": "19 days"
       },
-      "decoration": {
-        "title": "Coffee Shop Decoration",
-        "description": "To maintain coziness, our team created printed materials for our client:",
-        "labels": "Labels",
-        "flyers": "Flyers",
-        "cupDesign": "Cup design",
-        "mockup": "Mockup"
+      "design": {
+        "title": "Design",
+        "items": [
+          { "service": "Guidebook (logo, font, color palette, merch, etc.)", "pages": "20 pages", "time": "30 days", "price": "500.000 KZT" },
+          { "service": "Presentation", "pages": "1 page", "time": "1 hour", "price": "5.900 KZT" },
+          { "service": "Illustration", "pages": "1", "time": "1-9 days", "price": "9.900-25.000 KZT" },
+          { "service": "Packaging and Brand materials", "pages": "1", "time": "4-14 days", "price": "10.000-30.000 KZT" },
+          { "service": "2D animation", "pages": "1 sec.", "time": "1 hour", "price": "3.500-9.500 KZT" },
+          { "service": "3D animation", "pages": "1 sec.", "time": "1 hour", "price": "8.500-21.500 KZT" },
+          { "service": "Pop-up visualization", "pages": "1", "time": "7 days", "price": "35.500 KZT" },
+          { "service": "Poster / Banners", "pages": "1", "time": "2 days", "price": "9.500 KZT" },
+          { "service": "Social Media design", "pages": "1", "time": "2 days", "price": "3.500-9.500 KZT" },
+          { "service": "Web design and development", "pages": "1", "time": "1 month", "price": "500.000 KZT" },
+          { "service": "Interior design", "pages": "1 m^2", "time": "1-14 days", "price": "5.900-10.000 KZT" }
+
+        ]
       },
-      "baristaManual": {
-        "title": "Barista Manual",
-        "description": "To improve work inside the coffee shop, a document was created for training new employees (internal training wrapper)"
+      "production": {
+        "title": "Production",
+        "item1": "Video production (review, promo, interview)",
+        "item1Count": "1",
+        "item1Time": "1 hour",
+        "item1Price": "35.000 KZT",
+        "item2": "Photo production (product, team, lifestyle)",
+        "item2Count": "1",
+        "item2Time": "1 hour",
+        "item2Price": "20.000 KZT",
+        "item3": "Creative consulting",
+        "item3Price": "Defined individually"
       },
-      "advertising": {
-        "title": "Advertising Materials",
-        "description": "We also developed advertising banners, lightboxes and brochures"
-      },
-      "uniform": {
-        "title": "Uniform",
-        "description": "Uniform for baristas was also developed"
+      "notes": {
+        "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
+        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
+        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note4": "✦ After approval, changes can only be made within 2 calendar days.",
+        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
+        "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
+        "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
-    "webDevelopment": {
-      "title": "WEB DEVELOPMENT",
-      "newDesign": {
-        "title": "New Website Design",
-        "description": "Developed new website design with adaptation for different devices"
-      },
-      "adminPanel": {
-        "title": "Admin Panel",
-        "description": "Also developed admin panel with automation for filling Google sheets"
-      },
-      "cms": {
-        "title": "Content Management System",
-        "description": "Developed modern CMS for content management with intuitive interface"
+    "aboutPage": {
+      "subtitle": "CENTER OF",
+      "subtitlebtn": "OUR CIRCLE"
+    },
+    "aboutUsGallery": {
+      "placeholderCards": {
+        "title1": "From Challenges to Results",
+        "text1": "We turn client tasks into working solutions with measurable effect. We formulate goals, design paths, launch and achieve KPIs — leads, sales, recognition.Each project is unique — we research audience and context, test hypotheses, select tools and format to provide the best solution specifically for your task.",
+        "title2": "A unique approach",
+        "text2": "Every project is unique — we research the audience and context, test hypotheses, and select the tools and format to provide the best solution for your specific task.",
+        "title3": "Turnkey team",
+        "text3": "Strategists, designers, and marketers work as a single team under the management of a PM. We take care of all coordination and are responsible for the result from brief to release.",
+        "title4": "Only what works,",
+        "text4": "We focus on tools that really drive metrics. We conduct A/B testing, measure effectiveness, and scale what brings results.",
+        "title21": "Transparency and openness,",
+        "text21": "You can see the status, deadlines, and metrics at every stage. Weekly updates, a task board, and access to materials — no surprises or 'black boxes'.",
+        "title22": "Experts in trends and innovation",
+        "text22": "We track trends and carefully implement innovations: new formats, tools, and AI approaches — only where it enhances your results.",
+        "title31": "No templates",
+        "text31": "No one-size-fits-all solutions. We take into account your brand's tone, goals, audience, and channel — creating a personalized scenario for your situation.",
+        "title32": "We value your time",
+        "text32": "We work quickly and efficiently: realistic deadlines, SLAs for responses, checkpoints, and a single point of entry. Approvals are handled without delay.",
+        "title33": "A partner in growth",
+        "text33": "We don't build campaigns, we build growth: roadmaps, hypotheses, funnels, unit economics. Regular iterations and scaling of working solutions.",
+        "title34": "We are in projects",
+        "text34": "We are deeply involved and maintain high quality standards. We proactively suggest improvements and make sure that this is reflected in every project and result."
       }
-    }
-  },
-  "employeeCards": {
-      "title": "Our Team",
-      "subtitle": "We are a group of dedicated professionals with diverse skills and a shared passion for our work.",
-      "employee1": {
-        "name": "Ozbek Zhansaya",
-        "specialty": "Graphic Designer",
-        "email": "",
-        "bio": "“Graphic design is when your layers in Photoshop are clearer than a brief”",
-        "image": "/img/company/employee10.webp"
+    },
+    "quiz": {
+      "headline": "Find Your Perfect Service",
+      "subheadline": "Let us guide you to the service that perfectly matches your needs and goals",
+      "start_screen": {
+        "title": "Ready to discover your ideal service?",
+        "description": "Answer a few simple questions and we'll recommend the perfect solution for you",
+        "button": "Start Quiz"
       },
-      "employee2": {
-        "name": "Shugyla Madikhan",
-        "specialty": "Account Manager",
-        "email": "info@circleburo.kz",
-        "bio": "“I make sure the team and the client speak the same language”",
-        "image": "/img/company/employee11.webp"
+      "questions": {
+        "1": "Do you have an existing business?",
+        "2": "Do you have a corporate style or identity?",
+        "3": "Are you interested in a monthly subscription?",
+        "4": "Does your team manage social media?",
+        "5": "Do you have a budget constraint?"
       },
-      "employee3": {
-        "name": "Mauletova Madina",
-        "specialty": "Graphic Designer",
-        "email": "",
-        "bio": "“Shaping ideas”",
-        "image": "/img/company/employee6.webp"
+      "options": {
+        "yes": "Yes",
+        "no": "No"
       },
-      "employee4": {
-        "name": "Nurdana Bakytzhan",
-        "specialty": "Web Developer",
-        "email": "",
-        "bio": "“Process second. Result first.”",
-        "image": "/img/company/employee5.webp"
+      "results": {
+        "semi_circle": {
+          "subtitle": "SINGLE TASK",
+          "description": "One-time visual and digital solutions for a specific task. Ideal for small businesses, events, campaigns."
+        },
+        "circle": {
+          "subtitle": "FULL PACKAGE",
+          "description": "Comprehensive solution for brand identity and presence. Ideal for growing businesses and startups."
+        },
+        "cycle": {
+          "subtitle": "MONTHLY",
+          "description": "Monthly subscription for visual and content support. Ideal for brands that want to delegate marketing and design tasks."
+        }
       },
-      "employee5": {
-        "name": "Sundetova Aruzhan",
-        "specialty": "Marketing specialist",
-        "email": "",
-        "bio": "“Always look for depth - even in the simplest things”",
-        "image": "/img/company/employee4.webp"
+      "result_screen": {
+        "title": "Perfect! We recommend {{result}}",
+        "button_start": "Get Started Now",
+        "button_restart": "Take Quiz Again"
+      }
+    },
+    "casePage": {
+      "hero": {
+        "title": "STEPPE COFFEE",
+        "subtitle": "Full cycle of brand creation: from strategy to implementation",
+        "fullCycle": "Full cycle",
+        "scrollDown": "Scroll down"
       },
-      "employee6": {
-        "name": "Zhumasheva Alina",
-        "specialty": "Marketing specialist",
-        "email": "",
-        "bio": "“The best people are those who bring the most good to others”",
-        "image": "/img/company/employee14.webp"
+      "content": {
+        "brandPositioning": {
+          "title": "Brand Positioning",
+          "description": "We created a unique value proposition where Steppe Coffee is not just a coffee shop, but a ",
+          "fourthSpace": "fourth space",
+          "descriptionContinued": " where meanings are born, creativity gathers, coffee and culture come together."
+        },
+        "targetAudience": {
+          "title": "Target Audience",
+          "description": "During the target audience analysis, the main segments of potential visitors were identified:",
+          "professionals": {
+            "title": "Professionals",
+            "description": "who value convenient space for work and meetings"
+          },
+          "creativeYouth": {
+            "title": "Creative Youth",
+            "description": "students looking for atmosphere for inspiration"
+          },
+          "urbanResidents": {
+            "title": "Urban Residents",
+            "description": "who consider the coffee shop as a place for quality relaxation"
+          }
+        },
+        "competitiveAnalysis": {
+          "title": "Competitive Analysis",
+          "description": "We conducted a comparative analysis of direct and indirect competitors to determine a unique position.",
+          "directCompetitors": {
+            "title": "Direct Competitors",
+            "description": "local coffee shops with specialty coffee and cozy atmosphere"
+          },
+          "indirectCompetitors": {
+            "title": "Indirect Competitors",
+            "description": "chain coffee shops, restaurants with coffee menu, coworking spaces"
+          }
+        },
+        "toneOfVoice": {
+          "title": "Tone of Voice",
+          "description": "A tone of voice has been developed for the Steppe Coffee brand, reflecting the values and character of the establishment:",
+          "friendly": {
+            "title": "Friendly and inspiring",
+            "description": "creates a sense of openness and support"
+          },
+          "modern": {
+            "title": "Modern, but with local accents",
+            "description": "maintains closeness to the culture and identity of the city"
+          },
+          "informal": {
+            "title": "Informal, lively style",
+            "description": "helps communicate with the audience in the same language"
+          }
+        }
       },
-      "employee7": {
-        "name": "Adesh Dana",
-        "specialty": "Marketing specialist",
-        "email": "",
-        "bio": "“I don’t wait for inspiration — I create it myself”",
-        "image": "/img/company/employee13.webp"
+      "marketing": {
+        "title": "MARKETING",
+        "socialMedia": {
+          "title": "Social Media",
+          "contentPlan": "Developed content plan for:",
+          "profileSetup": "Set up profiles and conduct shoots for social media",
+          "analytics": "Weekly statistics tracking and format improvement"
+        },
+        "offlineActivities": {
+          "title": "Offline Activities",
+          "partnerships": "Accept partnership offers",
+          "community": "Organize community meetings",
+          "events": "Develop events"
+        }
       },
-      "employee8": {
-        "name": "Murtazina Alina",
-        "specialty": "Interior Designer",
-        "email": "",
-        "bio": "“Architecture is the form, design is the soul”",
-        "image": "/img/company/employee12.webp"
+      "design": {
+        "title": "DESIGN",
+        "guidebook": {
+          "title": "Guidebook",
+          "description": "Our team of designers developed:",
+          "mascot": "Mascot character",
+          "colors": "Brand colors",
+          "logo": "Logo",
+          "patterns": "Patterns",
+          "fonts": "Fonts"
+        },
+        "menu": {
+          "title": "Menu",
+          "description": "Following a unified style, a new menu design was created"
+        },
+        "decoration": {
+          "title": "Coffee Shop Decoration",
+          "description": "To maintain coziness, our team created printed materials for our client:",
+          "labels": "Labels",
+          "flyers": "Flyers",
+          "cupDesign": "Cup design",
+          "mockup": "Mockup"
+        },
+        "baristaManual": {
+          "title": "Barista Manual",
+          "description": "To improve work inside the coffee shop, a document was created for training new employees (internal training wrapper)"
+        },
+        "advertising": {
+          "title": "Advertising Materials",
+          "description": "We also developed advertising banners, lightboxes and brochures"
+        },
+        "uniform": {
+          "title": "Uniform",
+          "description": "Uniform for baristas was also developed"
+        }
       },
-      "employee9": {
-        "name": "Atabayeva Adina",
-        "specialty": "Account Manager",
-        "email": "info@circleburo.kz",
-        "bio": "“Creativity is my courage to be myself”",
-        "image": "/img/company/employee2.webp"
-      },
-      "employee10": {
-        "name": "Lessaly Aidana",
-        "specialty": "Graphic Designer",
-        "email": "",
-        "bio": "“Every line is my step toward sincerity”",
-        "image": "/img/company/employee3.webp"
-      },
-      "employee11": {
-        "name": "Ashken Dina",
-        "specialty": "Head of Design",
-        "email": "",
-        "bio": "“Not a single file crashed - the day was a success”",
-        "image": "/img/company/employee1.webp"
-      },
-      "employee12": {
-        "name": "Amanzhol Aruzhan",
-        "specialty": "Graphic Designer",
-        "email": "",
-        "bio": "“A designer who loves color and energy in every project.”",
-        "image": "/img/company/employee7.webp"
-      },
-      "employee13": {
-        "name": "Il’yasova Shahida",
-        "specialty": "Marketing specialist",
-        "email": "",
-        "bio": "“I’m a marketer. Not an advertiser.”",
-        "image": "/img/company/employee8.webp"
-      },
-      "employee14": {
-        "name": "Adina Kenes",
-        "specialty": "Accountant",
-        "email": "",
-        "bio": "“Money talks. We translate.”",
-        "image": "/img/company/employee9.webp"
+      "webDevelopment": {
+        "title": "WEB DEVELOPMENT",
+        "newDesign": {
+          "title": "New Website Design",
+          "description": "Developed new website design with adaptation for different devices"
+        },
+        "adminPanel": {
+          "title": "Admin Panel",
+          "description": "Also developed admin panel with automation for filling Google sheets"
+        },
+        "cms": {
+          "title": "Content Management System",
+          "description": "Developed modern CMS for content management with intuitive interface"
+        }
+      }
+    },
+    "employeeCards": {
+        "title": "Our Team",
+        "subtitle": "We are a group of dedicated professionals with diverse skills and a shared passion for our work.",
+        "employee1": {
+          "name": "Ozbek Zhansaya",
+          "specialty": "Graphic Designer",
+          "email": "",
+          "bio": "“Graphic design is when your layers in Photoshop are clearer than a brief”",
+          "image": "/img/company/employee10.webp"
+        },
+        "employee2": {
+          "name": "Shugyla Madikhan",
+          "specialty": "Account Manager",
+          "email": "info@circleburo.kz",
+          "bio": "“I make sure the team and the client speak the same language”",
+          "image": "/img/company/employee11.webp"
+        },
+        "employee3": {
+          "name": "Mauletova Madina",
+          "specialty": "Graphic Designer",
+          "email": "",
+          "bio": "“Shaping ideas”",
+          "image": "/img/company/employee6.webp"
+        },
+        "employee4": {
+          "name": "Nurdana Bakytzhan",
+          "specialty": "Web Developer",
+          "email": "",
+          "bio": "“Process second. Result first.”",
+          "image": "/img/company/employee5.webp"
+        },
+        "employee5": {
+          "name": "Sundetova Aruzhan",
+          "specialty": "Marketing specialist",
+          "email": "",
+          "bio": "“Always look for depth - even in the simplest things”",
+          "image": "/img/company/employee4.webp"
+        },
+        "employee6": {
+          "name": "Zhumasheva Alina",
+          "specialty": "Marketing specialist",
+          "email": "",
+          "bio": "“The best people are those who bring the most good to others”",
+          "image": "/img/company/employee14.webp"
+        },
+        "employee7": {
+          "name": "Adesh Dana",
+          "specialty": "Marketing specialist",
+          "email": "",
+          "bio": "“I don’t wait for inspiration — I create it myself”",
+          "image": "/img/company/employee13.webp"
+        },
+        "employee8": {
+          "name": "Murtazina Alina",
+          "specialty": "Interior Designer",
+          "email": "",
+          "bio": "“Architecture is the form, design is the soul”",
+          "image": "/img/company/employee12.webp"
+        },
+        "employee9": {
+          "name": "Atabayeva Adina",
+          "specialty": "Account Manager",
+          "email": "info@circleburo.kz",
+          "bio": "“Creativity is my courage to be myself”",
+          "image": "/img/company/employee2.webp"
+        },
+        "employee10": {
+          "name": "Lessaly Aidana",
+          "specialty": "Graphic Designer",
+          "email": "",
+          "bio": "“Every line is my step toward sincerity”",
+          "image": "/img/company/employee3.webp"
+        },
+        "employee11": {
+          "name": "Ashken Dina",
+          "specialty": "Head of Design",
+          "email": "",
+          "bio": "“Not a single file crashed - the day was a success”",
+          "image": "/img/company/employee1.webp"
+        },
+        "employee12": {
+          "name": "Amanzhol Aruzhan",
+          "specialty": "Graphic Designer",
+          "email": "",
+          "bio": "“A designer who loves color and energy in every project.”",
+          "image": "/img/company/employee7.webp"
+        },
+        "employee13": {
+          "name": "Il’yasova Shahida",
+          "specialty": "Marketing specialist",
+          "email": "",
+          "bio": "“I’m a marketer. Not an advertiser.”",
+          "image": "/img/company/employee8.webp"
+        },
+        "employee14": {
+          "name": "Adina Kenes",
+          "specialty": "Accountant",
+          "email": "",
+          "bio": "“Money talks. We translate.”",
+          "image": "/img/company/employee9.webp"
+      }
     }
   }
-}
