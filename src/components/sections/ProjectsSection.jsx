@@ -51,7 +51,7 @@ const ProjectsSection = () => {
 
       // Вычисляем прогресс скролла через секцию (от 0 до 1)
       const sectionTop = rect.top;
-      const totalScrollDistance = window.innerHeight * 3; // 400vh - 100vh = 300vh
+      const totalScrollDistance = window.innerHeight * 1.5; // 250vh - 100vh = 150vh
 
       // Определяем прогресс скролла
       let progress = 0;
@@ -84,7 +84,7 @@ const ProjectsSection = () => {
   return (
     <div className="relative">
       {/* Wrapper с увеличенной высотой для контроля скролла */}
-      <div className="h-[400vh] relative">
+      <div className="h-[250vh] relative">
         <section
           ref={sectionRef}
           id="projects"
