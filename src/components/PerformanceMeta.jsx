@@ -5,8 +5,13 @@ import { Helmet } from '@dr.pogodin/react-helmet';
 const PerformanceMeta = () => {
   return (
     <Helmet>
-      {/* Avoid duplicate preloads already present in index.html */}
-
+      {/* Preload critical resources */}
+      <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      <link rel="preload" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      
+      {/* Preload critical images */}
+      <link rel="preload" href="/img/logo-header.png" as="image" />
+      
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//www.googletagmanager.com" />

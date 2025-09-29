@@ -7,7 +7,6 @@ const ProjectsSection = () => {
   const { t } = useTranslation();
   const sectionRef = useRef(null);
   const cardsRef = useRef(null);
-  const videosRef = useRef(new Map());
   const [isMobile, setIsMobile] = useState(false);
 
   // Перемещаем projectsData наверх
@@ -43,12 +42,7 @@ const ProjectsSection = () => {
     updateMobile();
     window.addEventListener('resize', updateMobile);
 
-    let ticking = false;
-
     const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
       if (!sectionRef.current || !cardsRef.current) return;
 
       const section = sectionRef.current;
@@ -78,8 +72,6 @@ const ProjectsSection = () => {
       const translateX = -easeProgress * maxTranslateX;
       cards.style.transform = `translateX(${translateX}px)`;
       cards.style.transition = 'transform 0.1s ease-out';
-      ticking = false;
-      });
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -90,30 +82,6 @@ const ProjectsSection = () => {
       window.removeEventListener('resize', updateMobile);
     };
   }, [isMobile, projectsData.length]);
-
-  // Lazy control video playback with IntersectionObserver
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const video = entry.target;
-        if (!(video instanceof HTMLVideoElement)) return;
-        if (entry.isIntersecting) {
-          // Attempt play; ignore errors on autoplay policies
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
-    }, { threshold: 0.25 });
-
-    videosRef.current.forEach((videoEl) => {
-      if (videoEl) observer.observe(videoEl);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   return (
     <div className="relative">
@@ -174,9 +142,8 @@ const ProjectsSection = () => {
               {/* Медиа контент */}
               {project.mediaType === 'video' ? (
                 <video
-                  ref={(el) => { if (el) videosRef.current.set(project.id, el); }}
                   src={project.media}
-                  preload="none"
+                  autoPlay
                   loop
                   muted
                   playsInline
@@ -190,10 +157,6 @@ const ProjectsSection = () => {
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                   loading="lazy"
-                  decoding="async"
-                  fetchpriority="low"
-                  width={isMobile ? 300 : 400}
-                  height={isMobile ? 200 : 267}
                 />
               )}
 
