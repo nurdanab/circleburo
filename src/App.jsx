@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useEffect, lazy } from 'react';
+import React, { useEffect, lazy, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 // Analytics will be loaded dynamically for better performance
 
@@ -35,13 +35,15 @@ const NotFoundPage = createLazyComponent(() => import('./pages/NotFoundPage'), '
 
 import Header from './components/Header';
 import Footer from './components/Footer';
-import SplashCursor from './components/SplashCursor';
 import LazyPage from './components/LazyPage';
-import PerformanceMeta from './components/PerformanceMeta';
-import AccessibilityHelper from './components/AccessibilityHelper';
 import ErrorBoundary from './components/ErrorBoundary';
-import PerformanceOptimizer from './components/PerformanceOptimizer';
-import PrerenderManager from './components/PrerenderManager';
+
+// Defer non-critical helpers to reduce initial JS and main-thread work
+const SplashCursor = lazy(() => import('./components/SplashCursor'));
+const PerformanceMeta = lazy(() => import('./components/PerformanceMeta'));
+const AccessibilityHelper = lazy(() => import('./components/AccessibilityHelper'));
+const PerformanceOptimizer = lazy(() => import('./components/PerformanceOptimizer'));
+const PrerenderManager = lazy(() => import('./components/PrerenderManager'));
 
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
@@ -53,6 +55,7 @@ const ProtectedRoute = ({ children }) => {
 
 function AppContent() {
   const location = useLocation();
+  const [showEnhancements, setShowEnhancements] = useState(false);
 
   useEffect(() => {
     // Load and execute analytics dynamically for better performance
@@ -66,17 +69,31 @@ function AppContent() {
     });
   }, [location]);
 
+  useEffect(() => {
+    // Defer mounting non-critical helpers until after first paint/idle
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => setShowEnhancements(true));
+    } else {
+      setTimeout(() => setShowEnhancements(true), 0);
+    }
+  }, []);
+
   // Handle scroll to section from navigation state - logic moved to HomePage.jsx
 
   const isAdminRoute = location.pathname === '/admin' || location.pathname === '/login';
 
   return (
     <ErrorBoundary>
-      <PerformanceOptimizer>
-        <PrerenderManager />
-        <PerformanceMeta />
-        <SplashCursor />
-        <AccessibilityHelper />
+      <React.Suspense fallback={null}>
+        {showEnhancements && (
+          <PerformanceOptimizer>
+            <PrerenderManager />
+            <PerformanceMeta />
+            <SplashCursor />
+            <AccessibilityHelper />
+          </PerformanceOptimizer>
+        )}
+      </React.Suspense>
         {!isAdminRoute && <Header />}
         <Routes>
         {/* Russian routes (default) */}
@@ -107,7 +124,7 @@ function AppContent() {
         <Route path="*" element={<LazyPage component={NotFoundPage} />} />
         </Routes>
         {!isAdminRoute && <Footer />}
-      </PerformanceOptimizer>
+      
     </ErrorBoundary>
   );
 }

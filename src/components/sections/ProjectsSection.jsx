@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +7,7 @@ const ProjectsSection = () => {
   const sectionRef = useRef(null);
   const cardsRef = useRef(null);
   const videosRef = useRef(new Map());
+  const [MotionDiv, setMotionDiv] = useState(() => 'div');
   const [isMobile, setIsMobile] = useState(false);
 
   // Перемещаем projectsData наверх
@@ -35,6 +35,42 @@ const ProjectsSection = () => {
     },
   ];
 
+  useEffect(() => {
+    // Lazy-load framer-motion when section is near viewport
+    const loadMotion = () => {
+      import('framer-motion')
+        .then(mod => {
+          if (mod && mod.motion && mod.motion.div) {
+            setMotionDiv(() => mod.motion.div);
+          }
+        })
+        .catch(() => {
+          setMotionDiv(() => 'div');
+        });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadMotion();
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: '400px' });
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    } else {
+      // Fallback: idle
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadMotion);
+      } else {
+        setTimeout(loadMotion, 0);
+      }
+    }
+
+    return () => observer.disconnect();
+  }, []);
   useEffect(() => {
     const updateMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -126,7 +162,7 @@ const ProjectsSection = () => {
         >
       <div className="w-full px-4 md:px-8">
         {/* Заголовок */}
-        <motion.div
+        <MotionDiv
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -141,7 +177,7 @@ const ProjectsSection = () => {
               {t('projects.title')}
             </span>
           </h1>
-        </motion.div>
+        </MotionDiv>
 
         {/* Контейнер для горизонтальной прокрутки карточек */}
         <div className="relative w-full overflow-hidden">
@@ -151,7 +187,7 @@ const ProjectsSection = () => {
             style={{ width: 'max-content' }}
           >
           {projectsData.map((project, index) => (
-            <motion.div
+            <MotionDiv
               key={project.id}
               className="group relative aspect-[3/2] rounded-2xl overflow-hidden flex-shrink-0"
               style={{
@@ -210,7 +246,7 @@ const ProjectsSection = () => {
 
               {/* Ссылка */}
               <Link to={project.link} className="absolute inset-0 z-10" />
-            </motion.div>
+            </MotionDiv>
           ))}
           </div>
         </div>
