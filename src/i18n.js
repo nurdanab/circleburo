@@ -358,7 +358,105 @@ i18n
           },
           "employeeCards": {
             "title": "Наша команда",
-            "subtitle": "Мы — это группа профессионалов с разнообразными навыками и общей страстью к своему делу."
+            "subtitle": "Мы — это группа профессионалов с разнообразными навыками и общей страстью к своему делу.",
+            "employee1": {
+              "name": "Узбек Жансая",
+              "specialty": "Графический дизайнер",
+              "email": " ",
+              "bio": ""Графический дизайн — это когда твои слои в Photoshop понятнее, чем бриф"",
+              "image": "/img/company/employee10.webp"
+            },
+            "employee2": {
+              "name": "Шугыла Мадихан",
+              "specialty": "Аккаунт менеджер",
+              "email": "info@circleburo.kz",
+              "bio": ""Делаю так, чтобы команда и клиент говорили на одном языке."",
+              "image": "/img/company/employee11.webp"
+            },
+            "employee3": {
+              "name": "Маулетова Мадина",
+              "specialty": "Графический дизайнер",
+              "email": " ",
+              "bio": ""Придаю форму идеям"",
+              "image": "/img/company/employee6.webp"
+            },
+            "employee4": {
+              "name": "Нурдана Бакытжан",
+              "specialty": "Веб разработчик",
+              "email": " ",
+              "bio": ""Процесс вторичен. Результат первичен."",
+              "image": "/img/company/employee5.webp"
+            },
+            "employee5": {
+              "name": "Сундетова Аружан",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": ""Всегда ищу глубину - даже в самых простых вещах"",
+              "image": "/img/company/employee4.webp"
+            },
+            "employee6": {
+              "name": "Жумашева Алина",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": ""Лучший из людей тот, кто больше всего приносит пользы людям"",
+              "image": "/img/company/employee14.webp"
+            },
+            "employee7": {
+              "name": "Адеш Дана",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": ""Я не жду вдохновения, я создаю его сама"",
+              "image": "/img/company/employee13.webp"
+            },
+            "employee8": {
+              "name": "Муртазина Алина",
+              "specialty": "Дизайнер интерьера",
+              "email": "",
+              "bio": ""Архитектура — это форма, дизайн — это душа"",
+              "image": "/img/company/employee12.webp"
+            },
+            "employee9": {
+              "name": "Атабаева Адина",
+              "specialty": "Аккаунт менеджер",
+              "email": "info@circleburo.kz",
+              "bio": ""Творчество - моя храбрость быть собой"",
+              "image": "/img/company/employee2.webp"
+            },
+            "employee10": {
+              "name": "Лесалы Айдана",
+              "specialty": "Графический дизайнер",
+              "email": "",
+              "bio": ""Каждая линия — мой шаг к искренности"",
+              "image": "/img/company/employee3.webp"
+            },
+            "employee11": {
+              "name": "Ашкен Дина",
+              "specialty": "Руководитель дизайна",
+              "email": "",
+              "bio": ""Ни один файл не вылетел - день удался"",
+              "image": "/img/company/employee1.webp"
+            },
+            "employee12": {
+              "name": "Аманжол Аружан",
+              "specialty": "Графический дизайнер",
+              "email": "",
+              "bio": ""Дизайнер, который любит цвет и энергию в каждом проекте."",
+              "image": "/img/company/employee7.webp"
+            },
+            "employee13": {
+              "name": "Ильясова Шахида",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": ""Я маркетолог. Не рекламщик."",
+              "image": "/img/company/employee8.webp"
+            },
+            "employee14": {
+              "name": "Адина Кенес",
+              "specialty": "Бухгалтер",
+              "email": "",
+              "bio": ""Money talks. We translate."",
+              "image": "/img/company/employee9.webp"
+            }
           },
           "aboutUsGallery": {
             "placeholderCards": {
@@ -533,7 +631,105 @@ i18n
           },
           "employeeCards": {
             "title": "Our Team",
-            "subtitle": "We are a group of professionals with diverse skills and a shared passion for our work."
+            "subtitle": "We are a group of professionals with diverse skills and a shared passion for our work.",
+            "employee1": {
+              "name": "Ozbek Zhansaya",
+              "specialty": "Graphic Designer",
+              "email": "",
+              "bio": ""Graphic design is when your layers in Photoshop are clearer than a brief"",
+              "image": "/img/company/employee10.webp"
+            },
+            "employee2": {
+              "name": "Shugyla Madikhan",
+              "specialty": "Account Manager",
+              "email": "info@circleburo.kz",
+              "bio": ""I make sure the team and the client speak the same language"",
+              "image": "/img/company/employee11.webp"
+            },
+            "employee3": {
+              "name": "Mauletova Madina",
+              "specialty": "Graphic Designer",
+              "email": "",
+              "bio": ""Shaping ideas"",
+              "image": "/img/company/employee6.webp"
+            },
+            "employee4": {
+              "name": "Nurdana Bakytzhan",
+              "specialty": "Web Developer",
+              "email": "",
+              "bio": ""Process second. Result first."",
+              "image": "/img/company/employee5.webp"
+            },
+            "employee5": {
+              "name": "Sundetova Aruzhan",
+              "specialty": "Marketing specialist",
+              "email": "",
+              "bio": ""Always look for depth - even in the simplest things"",
+              "image": "/img/company/employee4.webp"
+            },
+            "employee6": {
+              "name": "Zhumasheva Alina",
+              "specialty": "Marketing specialist",
+              "email": "",
+              "bio": ""The best people are those who bring the most good to others"",
+              "image": "/img/company/employee14.webp"
+            },
+            "employee7": {
+              "name": "Adesh Dana",
+              "specialty": "Marketing specialist",
+              "email": "",
+              "bio": ""I don't wait for inspiration — I create it myself"",
+              "image": "/img/company/employee13.webp"
+            },
+            "employee8": {
+              "name": "Murtazina Alina",
+              "specialty": "Interior Designer",
+              "email": "",
+              "bio": ""Architecture is the form, design is the soul"",
+              "image": "/img/company/employee12.webp"
+            },
+            "employee9": {
+              "name": "Atabayeva Adina",
+              "specialty": "Account Manager",
+              "email": "info@circleburo.kz",
+              "bio": ""Creativity is my courage to be myself"",
+              "image": "/img/company/employee2.webp"
+            },
+            "employee10": {
+              "name": "Lessaly Aidana",
+              "specialty": "Graphic Designer",
+              "email": "",
+              "bio": ""Every line is my step toward sincerity"",
+              "image": "/img/company/employee3.webp"
+            },
+            "employee11": {
+              "name": "Ashken Dina",
+              "specialty": "Head of Design",
+              "email": "",
+              "bio": ""Not a single file crashed - the day was a success"",
+              "image": "/img/company/employee1.webp"
+            },
+            "employee12": {
+              "name": "Amanzhol Aruzhan",
+              "specialty": "Graphic Designer",
+              "email": "",
+              "bio": ""A designer who loves color and energy in every project."",
+              "image": "/img/company/employee7.webp"
+            },
+            "employee13": {
+              "name": "Il'yasova Shahida",
+              "specialty": "Marketing specialist",
+              "email": "",
+              "bio": ""I'm a marketer. Not an advertiser."",
+              "image": "/img/company/employee8.webp"
+            },
+            "employee14": {
+              "name": "Adina Kenes",
+              "specialty": "Accountant",
+              "email": "",
+              "bio": ""Money talks. We translate."",
+              "image": "/img/company/employee9.webp"
+            }
           },
           "aboutUsGallery": {
             "placeholderCards": {
@@ -687,167 +883,6 @@ i18n
           }
         }
       },
-      en: {
-        translation: {
-          "main": {
-            "subtitle": "Creative and marketing agency in Almaty — full cycle of digital services for business growth"
-          },
-          "home": "Home",
-          "about": "About",
-          "services": "Services",
-          "contact": "Contact",
-          "projects": {
-            "subtitle": "Our Projects",
-            "title": "Creative Showcase",
-            "before": "How the Design Changed",
-            "process": "Work Process",
-            "after": "Coffee Shop Collage"
-          },
-          "quiz": {
-            "headline": "Find Your Perfect Service",
-            "subheadline": "Let us guide you to the service that perfectly matches your needs and goals",
-            "start_screen": {
-              "title": "Ready to discover your ideal service?",
-              "description": "Answer a few simple questions and we'll recommend the perfect solution for you",
-              "button": "Start Quiz"
-            },
-            "questions": {
-              "1": "Do you have an existing business?",
-              "2": "Do you have a corporate style or identity?",
-              "3": "Are you interested in a monthly subscription?",
-              "4": "Does your team manage social media?",
-              "5": "Do you have a budget constraint?"
-            },
-            "options": {
-              "yes": "Yes",
-              "no": "No"
-            },
-            "progress": {
-              "question": "Question {{step}}"
-            },
-            "results": {
-              "semi_circle": {
-                "subtitle": "ONE-TIME SOLUTION",
-                "description": "One-time visual and digital solutions for specific tasks. Perfect for small businesses, events, campaigns."
-              },
-              "circle": {
-                "subtitle": "FULL PACKAGE",
-                "description": "Comprehensive solution for brand identity and presence. Perfect for growing businesses and startups."
-              },
-              "cycle": {
-                "subtitle": "MONTHLY SUPPORT",
-                "description": "Monthly subscription for visual and content support. Perfect for brands that want to delegate marketing and design tasks."
-              }
-            },
-            "result_screen": {
-              "title": "Perfect! We recommend {{result}}",
-              "button_start": "Get Started",
-              "button_restart": "Take Quiz Again"
-            }
-          },
-          "nav": {
-            "home": "Home",
-            "services": "Services",
-            "about": "About",
-            "portfolio": "Portfolio",
-            "contact": "Contact Us"
-          },
-          "whyUs": {
-            "title": "OUR PRINCIPLES",
-            "reasons": {
-              "qualityFirst": {
-                "title": "Turnkey Solutions",
-                "description": "We take care of everything: from planning and creativity to results. We complete projects on time and within budget."
-              },
-              "creativeSolutions": {
-                "title": "Meeting Deadlines",
-                "description": "You always get your project on time: transparent work plan and agreed implementation deadlines."
-              },
-              "innovation": {
-                "title": "Everything for the Client",
-                "description": "We consider every detail — audit, meanings, visuals, metrics — so that the final effect is noticeable to both the team and your clients."
-              }
-            }
-          },
-          "footer": {
-            "description": "Circle Creative Buro — creative agency in Almaty providing a full cycle of marketing and advertising services for business development.",
-            "navigation": "Navigation",
-            "services": "Services",
-            "contact": "Contacts",
-            "copyright": "© 2025 Circle. All rights reserved.",
-            "privacyPolicy": "Privacy Policy",
-            "termsOfService": "Terms of Service"
-          },
-          "contactForm": {
-            "title": "Contact Us",
-            "subtitle": "Book a consultation with our expert",
-            "selectDateTime": "Select Date and Time",
-            "yourInformation": "Your Information",
-            "fullName": "Full Name",
-            "fullNamePlaceholder": "Enter your name",
-            "phoneNumber": "Phone Number",
-            "selectedSlot": "Selected Slot:",
-            "bookConsultation": "Book Consultation",
-            "submitting": "Submitting...",
-            "bookingConfirmed": "Booking Confirmed!",
-            "requestSent": "Request successfully sent!",
-            "receivedBooking": "We received your booking request for:",
-            "managerContact": "Our manager will contact you shortly",
-            "meetingConfirmed": "Your meeting is confirmed!",
-            "bookAnotherSlot": "Book Another Slot",
-            "availableDates": "Available Dates:",
-            "availableTimes": "Available Times:",
-            "noAvailableSlots": "No available time slots",
-            "chooseAnotherDate": "Please choose another date",
-            "loadingSlots": "Loading available slots...",
-            "errors": {
-              "invalidName": "Please enter a valid name",
-              "invalidPhone": "Please enter a valid phone number",
-              "noDateOrTime": "Please select date and time",
-              "slotUnavailable": "Selected time is no longer available",
-              "submissionError": "An error occurred while submitting"
-            },
-            "legend": {
-              "selected": "Selected",
-              "available": "Available",
-              "unavailable": "Unavailable"
-            }
-          },
-          "calendar": {
-            "january": "January", "february": "February", "march": "March", "april": "April",
-            "may": "May", "june": "June", "july": "July", "august": "August",
-            "september": "September", "october": "October", "november": "November", "december": "December",
-            "sun": "Sun", "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat"
-          },
-          "services": {
-            "title": "OUR SERVICES",
-            "semicircle": {
-              "title": "Semi Circle",
-              "subtitle": "ONE TASK",
-              "description": "One-time visual and digital solutions for specific tasks. Perfect for small businesses, events, campaigns."
-            },
-            "circle": {
-              "title": "Circle",
-              "subtitle": "FULL PACKAGE",
-              "description": "Comprehensive solution for creating brand identity and recognition. Perfect for growing businesses and startups."
-            },
-            "cycle": {
-              "title": "Cycle",
-              "subtitle": "MONTHLY SUBSCRIPTION",
-              "description": "Monthly subscription for visual and content support. Perfect for brands that want to delegate marketing and design tasks."
-            }
-          },
-          "aboutUs": {
-            "title": "From idea to reality",
-            "subtitle": "About us",
-            "creative": "From idea",
-            "vision": "to reality",
-            "paragraph1": "Circle Creative Buro — creative bureau, in the market since June 2025. We turn business tasks into strong ideas and package them into understandable products and communications.",
-            "paragraph2": "Our task is to make your brand work noticeably and effectively: uniqueness is read from the first contact, and advantages are obvious among analogues.",
-            "button": "Learn more about Circle"
-          }
-        }
-      },
       kk: {
         translation: {
           "main": {
@@ -992,6 +1027,108 @@ i18n
               "title": "Cycle",
               "subtitle": "АЙЛЫҚ ЖАЗЫЛЫМ",
               "description": "Көрнекі және мазмұнды қолдауға айлық жазылым. Маркетинг пен дизайн тапсырмаларын басқаларға тапсырғысы келетін брендтер үшін мінсіз."
+            }
+          },
+          "employeeCards": {
+            "title": "Біздің команда",
+            "subtitle": "Біз — әртүрлі дағдылары бар және ортақ іске деген құштарлығы бар мамандар тобы.",
+            "employee1": {
+              "name": "Узбек Жансая",
+              "specialty": "Графикалық дизайнер",
+              "email": " ",
+              "bio": "\"Графикалық дизайн — Photoshop-тағы қабаттарың брифке қарағанда түсініктірек болған кезде\"",
+              "image": "/img/company/employee10.webp"
+            },
+            "employee2": {
+              "name": "Шугыла Мадихан",
+              "specialty": "Аккаунт менеджер",
+              "email": "info@circleburo.kz",
+              "bio": "\"Команда мен клиент бір тілде сөйлейтіндей етемін.\"",
+              "image": "/img/company/employee11.webp"
+            },
+            "employee3": {
+              "name": "Маулетова Мадина",
+              "specialty": "Графикалық дизайнер",
+              "email": " ",
+              "bio": "\"Идеяларға пішін беремін\"",
+              "image": "/img/company/employee6.webp"
+            },
+            "employee4": {
+              "name": "Нурдана Бақытжан",
+              "specialty": "Веб-әзірлеуші",
+              "email": " ",
+              "bio": "\"Процесс екінші орында. Нәтиже — бастысы.\"",
+              "image": "/img/company/employee5.webp"
+            },
+            "employee5": {
+              "name": "Сундетова Аружан",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": "\"Әрқашан тереңдікті іздеймін — ең қарапайым нәрселерде де\"",
+              "image": "/img/company/employee4.webp"
+            },
+            "employee6": {
+              "name": "Жумашева Алина",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": "\"Адамдардың ең жақсысы — адамдарға ең көп пайда тигізетін адам\"",
+              "image": "/img/company/employee14.webp"
+            },
+            "employee7": {
+              "name": "Адеш Дана",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": "\"Мен шабытты күтпеймін, оны өзім жасаймын\"",
+              "image": "/img/company/employee13.webp"
+            },
+            "employee8": {
+              "name": "Муртазина Алина",
+              "specialty": "Интерьер дизайнері",
+              "email": "",
+              "bio": "\"Архитектура — бұл пішін, дизайн — бұл жан\"",
+              "image": "/img/company/employee12.webp"
+            },
+            "employee9": {
+              "name": "Атабаева Адина",
+              "specialty": "Аккаунт менеджер",
+              "email": "info@circleburo.kz",
+              "bio": "\"Шығармашылық — өзім болуға деген батылдығым\"",
+              "image": "/img/company/employee2.webp"
+            },
+            "employee10": {
+              "name": "Лесалы Айдана",
+              "specialty": "Графикалық дизайнер",
+              "email": "",
+              "bio": "\"Әрбір сызық — менің шынайылыққа жасаған қадамым\"",
+              "image": "/img/company/employee3.webp"
+            },
+            "employee11": {
+              "name": "Ашкен Дина",
+              "specialty": "Дизайн жетекшісі",
+              "email": "",
+              "bio": "\"Ешбір файл жабылмаса — күн сәтті өтті\"",
+              "image": "/img/company/employee1.webp"
+            },
+            "employee12": {
+              "name": "Аманжол Аружан",
+              "specialty": "Графикалық дизайнер",
+              "email": "",
+              "bio": "\"Әр жобаға түс пен энергия қосқанды ұнататын дизайнермін.\"",
+              "image": "/img/company/employee7.webp"
+            },
+            "employee13": {
+              "name": "Ильясова Шахида",
+              "specialty": "Маркетолог",
+              "email": "",
+              "bio": "\"Мен маркетологпын. Жарнама беруші емеспін.\"",
+              "image": "/img/company/employee8.webp"
+            },
+            "employee14": {
+              "name": "Адина Кенес",
+              "specialty": "Бухгалтер",
+              "email": "",
+              "bio": "\"Money talks. We translate.\"",
+              "image": "/img/company/employee9.webp"
             }
           },
           "aboutUs": {

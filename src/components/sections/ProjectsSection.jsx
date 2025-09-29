@@ -51,7 +51,7 @@ const ProjectsSection = () => {
 
       // Вычисляем прогресс скролла через секцию (от 0 до 1)
       const sectionTop = rect.top;
-      const totalScrollDistance = window.innerHeight * 1.5; // 250vh - 100vh = 150vh
+      const totalScrollDistance = window.innerHeight * 1; // 200vh - 100vh = 100vh
 
       // Определяем прогресс скролла
       let progress = 0;
@@ -67,9 +67,11 @@ const ProjectsSection = () => {
       const containerWidth = window.innerWidth - (isMobile ? 32 : 64); // minus padding
       const maxTranslateX = Math.max(0, totalCardsWidth - containerWidth);
 
-      // Применяем трансформацию
-      const translateX = -progress * maxTranslateX;
+      // Применяем плавную трансформацию с easing
+      const easeProgress = progress * progress * (3.0 - 2.0 * progress); // smooth step function
+      const translateX = -easeProgress * maxTranslateX;
       cards.style.transform = `translateX(${translateX}px)`;
+      cards.style.transition = 'transform 0.1s ease-out';
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -83,8 +85,8 @@ const ProjectsSection = () => {
 
   return (
     <div className="relative">
-      {/* Wrapper с увеличенной высотой для контроля скролла */}
-      <div className="h-[250vh] relative">
+      {/* Wrapper с оптимизированной высотой для контроля скролла */}
+      <div className="h-[200vh] relative">
         <section
           ref={sectionRef}
           id="projects"
@@ -113,7 +115,7 @@ const ProjectsSection = () => {
         <div className="relative w-full overflow-hidden">
           <div
             ref={cardsRef}
-            className="flex gap-6 md:gap-8 transition-transform duration-300 ease-out"
+            className="flex gap-6 md:gap-8"
             style={{ width: 'max-content' }}
           >
           {projectsData.map((project, index) => (
