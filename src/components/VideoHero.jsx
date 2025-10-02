@@ -116,10 +116,9 @@ const VideoHero = memo(({ className = "" }) => {
         muted
         playsInline
         preload="none"
-        loading="lazy"
         poster="/img/hero-poster.webp"
         style={{
-          filter: 'contrast(1.1) brightness(1.05)',
+          filter: 'contrast(1.1) brightness(1.05)'
         }}
       >
         <source src="/videos/circle-optimized.mp4" type="video/mp4" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 const ProjectsSection = () => {
   const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState('steppe-coffee');
+  const [loadedVideos, setLoadedVideos] = useState(new Set());
+  const videoRefs = useRef(new Map());
 
   // Данные подсекций с переводами
   const subsections = [
@@ -85,6 +87,35 @@ const ProjectsSection = () => {
       ]
     }
   ];
+
+  // Intersection Observer для lazy loading видео
+  useEffect(() => {
+    const observers = new Map();
+
+    videoRefs.current.forEach((videoEl, videoId) => {
+      if (!videoEl || loadedVideos.has(videoId)) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setLoadedVideos(prev => new Set(prev).add(videoId));
+            observer.disconnect();
+          }
+        },
+        {
+          rootMargin: '50px',
+          threshold: 0.01
+        }
+      );
+
+      observer.observe(videoEl);
+      observers.set(videoId, observer);
+    });
+
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, [activeTab, loadedVideos]);
 
   // Получаем размеры для элементов коллажа
   const getSizeClasses = (size) => {
@@ -173,11 +204,11 @@ const ProjectsSection = () => {
                   <div className="flex flex-col gap-[5px] flex-1">
                     <motion.div
                       className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[0].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[0].color }}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ backgroundColor: subsection.projects[0].color, willChange: 'opacity' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.5,
+                        duration: 0.3,
                         delay: 0,
                         ease: "easeOut"
                       }}
@@ -203,16 +234,19 @@ const ProjectsSection = () => {
                           alt={subsection.title[i18n.language] || subsection.title.en}
                           className="absolute inset-0 w-full h-full object-cover object-center"
                           loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[0].video && (
                         <video
-                          src={subsection.projects[0].video}
+                          ref={el => {
+                            if (el) videoRefs.current.set(`${subsection.id}-0`, el);
+                          }}
+                          {...(loadedVideos.has(`${subsection.id}-0`) && { src: subsection.projects[0].video })}
                           loop
                           muted
                           playsInline
-                          preload="metadata"
-                          loading="lazy"
+                          preload="none"
                           className="absolute inset-0 w-full h-full object-cover object-center"
                         />
                       )}
@@ -222,12 +256,12 @@ const ProjectsSection = () => {
                     </motion.div>
                     <motion.div
                       className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[1].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[1].color }}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ backgroundColor: subsection.projects[1].color, willChange: 'opacity' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.5,
-                        delay: 0.1,
+                        duration: 0.3,
+                        delay: 0.05,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {
@@ -252,16 +286,19 @@ const ProjectsSection = () => {
                           alt={subsection.title[i18n.language] || subsection.title.en}
                           className="absolute inset-0 w-full h-full object-cover object-center"
                           loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[1].video && (
                         <video
-                          src={subsection.projects[1].video}
+                          ref={el => {
+                            if (el) videoRefs.current.set(`${subsection.id}-1`, el);
+                          }}
+                          {...(loadedVideos.has(`${subsection.id}-1`) && { src: subsection.projects[1].video })}
                           loop
                           muted
                           playsInline
-                          preload="metadata"
-                          loading="lazy"
+                          preload="none"
                           className="absolute inset-0 w-full h-full object-cover object-center"
                         />
                       )}
@@ -275,12 +312,12 @@ const ProjectsSection = () => {
                   <div className="flex flex-col gap-[5px] flex-1">
                     <motion.div
                       className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[2].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[2].color }}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ backgroundColor: subsection.projects[2].color, willChange: 'opacity' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.5,
-                        delay: 0.2,
+                        duration: 0.3,
+                        delay: 0.1,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {
@@ -305,16 +342,19 @@ const ProjectsSection = () => {
                           alt={subsection.title[i18n.language] || subsection.title.en}
                           className="absolute inset-0 w-full h-full object-cover object-center"
                           loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[2].video && (
                         <video
-                          src={subsection.projects[2].video}
+                          ref={el => {
+                            if (el) videoRefs.current.set(`${subsection.id}-2`, el);
+                          }}
+                          {...(loadedVideos.has(`${subsection.id}-2`) && { src: subsection.projects[2].video })}
                           loop
                           muted
                           playsInline
-                          preload="metadata"
-                          loading="lazy"
+                          preload="none"
                           className="absolute inset-0 w-full h-full object-cover object-center"
                         />
                       )}
@@ -324,12 +364,12 @@ const ProjectsSection = () => {
                     </motion.div>
                     <motion.div
                       className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[3].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[3].color }}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ backgroundColor: subsection.projects[3].color, willChange: 'opacity' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.5,
-                        delay: 0.3,
+                        duration: 0.3,
+                        delay: 0.15,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {
@@ -354,16 +394,19 @@ const ProjectsSection = () => {
                           alt={subsection.title[i18n.language] || subsection.title.en}
                           className="absolute inset-0 w-full h-full object-cover object-center"
                           loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[3].video && (
                         <video
-                          src={subsection.projects[3].video}
+                          ref={el => {
+                            if (el) videoRefs.current.set(`${subsection.id}-3`, el);
+                          }}
+                          {...(loadedVideos.has(`${subsection.id}-3`) && { src: subsection.projects[3].video })}
                           loop
                           muted
                           playsInline
-                          preload="metadata"
-                          loading="lazy"
+                          preload="none"
                           className="absolute inset-0 w-full h-full object-cover object-center"
                         />
                       )}
@@ -377,12 +420,12 @@ const ProjectsSection = () => {
                   <div className="flex flex-col flex-1">
                     <motion.div
                       className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[4].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[4].color }}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ backgroundColor: subsection.projects[4].color, willChange: 'opacity' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.5,
-                        delay: 0.4,
+                        duration: 0.3,
+                        delay: 0.2,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {
@@ -407,16 +450,19 @@ const ProjectsSection = () => {
                           alt={subsection.title[i18n.language] || subsection.title.en}
                           className="absolute inset-0 w-full h-full object-cover object-center"
                           loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[4].video && (
                         <video
-                          src={subsection.projects[4].video}
+                          ref={el => {
+                            if (el) videoRefs.current.set(`${subsection.id}-4`, el);
+                          }}
+                          {...(loadedVideos.has(`${subsection.id}-4`) && { src: subsection.projects[4].video })}
                           loop
                           muted
                           playsInline
-                          preload="metadata"
-                          loading="lazy"
+                          preload="none"
                           className="absolute inset-0 w-full h-full object-cover object-center"
                         />
                       )}

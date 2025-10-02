@@ -43,42 +43,39 @@ const HeroSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3, 
+        staggerChildren: 0.15,
       },
     },
   };
 
   const titleVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
-      scale: 0.9,
-      y: 50,
+      y: 30,
     },
     visible: {
       opacity: 1,
-      scale: 1,
       y: 0,
       transition: {
-        duration: 1.2,
+        duration: 0.6,
         ease: "easeOut",
       },
     },
   };
 
   const scrollIndicatorVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
-        delay: 1.5,
-        duration: 0.8,
+        delay: 0.8,
+        duration: 0.4,
       },
     },
   };
 
-  // Мемоизируем массив звездочек для фона (сокращено для Performance)
-  const stars = useMemo(() => Array.from({ length: isMobile ? 5 : 12 }, (_, i) => ({
+  // Мемоизируем массив звездочек для фона (МИНИМАЛЬНО для Performance)
+  const stars = useMemo(() => Array.from({ length: isMobile ? 3 : 6 }, (_, i) => ({
     id: i,
     size: Math.random() * 3 + 1, // размер от 1 до 4px
     x: Math.random() * 100, // позиция по X в процентах
@@ -89,19 +86,8 @@ const HeroSection = () => {
     twinkleDelay: Math.random() * 2, // уменьшена задержка мерцания
   })), [isMobile]);
 
-  // Мемоизируем массив больших светящихся кружочков (уменьшено для Performance)
-  const glowDots = useMemo(() => {
-    if (isMobile) return []; // На мобильных отключаем для производительности
-    return Array.from({ length: 2 }, (_, i) => ({
-      id: i,
-      size: Math.random() * 80 + 60, // размер от 60 до 140px
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      delay: Math.random() * 2,
-      duration: Math.random() * 6 + 8, // немного ускорена пульсация
-      opacity: Math.random() * 0.08 + 0.03, // очень слабая прозрачность
-    }));
-  }, [isMobile]);
+  // Мемоизируем массив больших светящихся кружочков (ОТКЛЮЧЕНО для Performance)
+  const glowDots = useMemo(() => [], []);
 
   const starVariants = {
     hidden: { 
@@ -167,66 +153,22 @@ const HeroSection = () => {
                 width: `${star.size}px`,
                 height: `${star.size}px`,
                 boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, 0.5)`,
-                willChange: 'opacity, transform',
               }}
               animate={{
-                opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
-                scale: [0.8, 1.2, 0.8],
+                opacity: [star.opacity * 0.5, star.opacity, star.opacity * 0.5],
               }}
               transition={{
                 duration: star.duration,
                 repeat: Infinity,
                 repeatType: "reverse",
-                ease: "easeInOut",
+                ease: "linear",
                 delay: star.twinkleDelay,
               }}
             />
           </motion.div>
         ))}
 
-        {/* Большие светящиеся кружочки */}
-        {glowDots.map((dot) => (
-          <motion.div
-            key={`glow-${dot.id}`}
-            className="absolute rounded-full"
-            style={{
-              width: `${dot.size}px`,
-              height: `${dot.size}px`,
-              left: `${dot.x}%`,
-              top: `${dot.y}%`,
-              transform: 'translate(-50%, -50%)',
-              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 30%, transparent 70%)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-            }}
-            variants={glowVariants}
-            custom={dot}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ 
-              scale: 1.1, 
-              borderColor: 'rgba(255, 255, 255, 0.15)',
-              transition: { duration: 0.3 }
-            }}
-          >
-            <motion.div
-              className="absolute inset-2 rounded-full"
-              style={{
-                background: 'radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 60%)',
-                willChange: 'opacity, transform',
-              }}
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [dot.opacity, dot.opacity * 1.5, dot.opacity],
-              }}
-              transition={{
-                duration: dot.duration,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut",
-              }}
-            />
-          </motion.div>
-        ))}
+        {/* Большие светящиеся кружочки - ОТКЛЮЧЕНЫ для производительности */}
       </motion.div>
 
       {/* LCP Статичный контент для быстрого рендеринга */}
@@ -304,64 +246,40 @@ const HeroSection = () => {
         initial="hidden"
         animate="visible"
       >
-        <motion.div
-          className="text-white/60 text-sm font-light mb-2 tracking-wide"
-          animate={{
-            opacity: [0.6, 1, 0.6],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
+        <div className="text-white/60 text-sm font-light mb-2 tracking-wide">
           SCROLL DOWN
-        </motion.div>
-        
+        </div>
+
         <motion.div
           className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center relative overflow-hidden"
-          whileHover={{ borderColor: 'rgba(255, 255, 255, 0.6)' }}
-          style={{ willChange: 'border-color' }}
         >
           <motion.div
             className="w-1 h-3 bg-white/60 rounded-full mt-2"
             animate={{
               y: [0, 12, 0],
-              opacity: [1, 0.3, 1],
             }}
             transition={{
               duration: 1.5,
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: "linear",
             }}
-            style={{ willChange: 'transform, opacity' }}
           />
         </motion.div>
-        
-        <motion.div
-          className="mt-2 text-white/40"
-          animate={{
-            y: [0, 5, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <svg 
-            width="12" 
-            height="12" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
+
+        <div className="mt-2 text-white/40">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
             strokeWidth="2"
-            strokeLinecap="round" 
+            strokeLinecap="round"
             strokeLinejoin="round"
           >
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );
