@@ -72,9 +72,9 @@ export default defineConfig({
               return 'i18n-core';
             }
 
-            // Animation libraries - keep with vendor to avoid circular imports
+            // Animation libraries - separate chunk for lazy loading
             if (id.includes('framer-motion/')) {
-              return 'vendor';
+              return 'framer-motion';
             }
 
             if (id.includes('gsap/')) {

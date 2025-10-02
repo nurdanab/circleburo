@@ -104,6 +104,24 @@
     Vary = "Accept-Encoding"
 
 [[headers]]
+  for = "*.webm"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Vary = "Accept-Encoding"
+
+[[headers]]
+  for = "*.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Vary = "Accept-Encoding"
+
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
   for = "/manifest.json"
   [headers.values]
     Cache-Control = "public, max-age=86400"

@@ -11,7 +11,7 @@ import LazySection from '../components/LazySection';
 import { scrollToElement } from '../utils/navigation';
 
 // Lazy load non-critical sections
-const WhyUsSection = React.lazy(() => import('../components/sections/WhyUsSection'));
+// const WhyUsSection = React.lazy(() => import('../components/sections/WhyUsSection'));
 const ServicesSection = React.lazy(() => import('../components/sections/ServicesSection'));
 const AboutUsSection = React.lazy(() => import('../components/sections/AboutUsSection'));
 const ProjectsSection = React.lazy(() => import('../components/sections/ProjectsSection'));
@@ -126,27 +126,28 @@ function HomePage() {
         />
       )}
       
-      <LazySection>
+      {/* Временно убрана секция "Почему мы" */}
+      {/* <LazySection>
         <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <WhyUsSection />
         </Suspense>
-      </LazySection>
+      </LazySection> */}
       
       <LazySection>
         <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
-          <ServicesSection />
+          <ProjectsSection />
         </Suspense>
       </LazySection>
-      
+
       <LazySection>
         <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
           <AboutUsSection />
         </Suspense>
       </LazySection>
-      
+
       <LazySection>
         <Suspense fallback={<div style={{ height: '200px' }} aria-label="Загрузка секции" />}>
-          <ProjectsSection />
+          <ServicesSection />
         </Suspense>
       </LazySection>
       

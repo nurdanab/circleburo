@@ -82,6 +82,7 @@ function AppContent() {
         {/* Russian routes (default) */}
         <Route path="/" element={<LazyPage component={HomePage} />} />
         <Route path="/about" element={<LazyPage component={AboutPage} />} />
+        <Route path="/case" element={<LazyPage component={CasePage} />} />
         <Route path="/project" element={<LazyPage component={CasePage} />} />
         <Route path="/circle" element={<LazyPage component={Circle} />} />
         <Route path="/cycle" element={<LazyPage component={Cycle} />} />
@@ -90,6 +91,7 @@ function AppContent() {
         {/* English routes */}
         <Route path="/en" element={<LazyPage component={HomePage} />} />
         <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
+        <Route path="/en/case" element={<LazyPage component={CasePage} />} />
         <Route path="/en/project" element={<LazyPage component={CasePage} />} />
         <Route path="/en/circle" element={<LazyPage component={Circle} />} />
         <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />

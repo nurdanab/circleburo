@@ -1,99 +1,110 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const ProjectsSection = () => {
-  const { t } = useTranslation();
-  const sectionRef = useRef(null);
-  const cardsRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const { t, i18n } = useTranslation();
+  const [activeTab, setActiveTab] = useState('steppe-coffee');
 
-  // Перемещаем projectsData наверх
-  const projectsData = [
+  // Данные подсекций с переводами
+  const subsections = [
     {
-      id: 1,
-      media: '/img/projects/case1.webp',
-      mediaType: 'image',
-      title: t('projects.before'),
-      link: '/project'
+      id: 'steppe-coffee',
+      title: {
+        ru: 'Steppe Coffee ребрендинг',
+        en: 'Steppe Coffee Rebranding',
+        kk: 'Steppe Coffee ребрендинг'
+      },
+      projects: [
+        { id: 1, color: '#FF6B6B', size: 'b', image: '/img/projects/case1.webp' }, // col1-row1
+        { id: 2, color: '#4ECDC4', size: 'a', image: '/img/projects/3case.webp' }, // col1-row2
+        { id: 3, color: '#45B7D1', size: 'a', image: '/img/projects/case4.webp' }, // col2-row1
+        { id: 4, color: '#FFA07A', size: 'b', image: '/img/projects/case2.webp' }, // col2-row2
+        { id: 5, color: '#98D8C8', size: 'c', image: '/img/projects/case5.webp' }  // col3-full
+      ]
     },
     {
-      id: 2,
-      media: '/img/projects/case2.mp4',
-      mediaType: 'video',
-      title: t('projects.process'),
-      link: '/project'
+      id: 'motion',
+      title: {
+        ru: 'Моушн',
+        en: 'Motion',
+        kk: 'Моушн'
+      },
+      projects: [
+        { id: 5, color: '#000000', size: 'b', video: '/img/projects/motion-2.webm' }, // col1-row1
+        { id: 6, color: '#000000', size: 'a', video: '/img/projects/motion-3.webm' }, // col1-row2
+        { id: 7, color: '#000000', size: 'a', video: '/img/projects/motion-1.webm' }, // col2-row1
+        { id: 8, color: '#000000', size: 'b', video: '/img/projects/motion-4.webm' }, // col2-row2
+        { id: 9, color: '#000000', size: 'c', video: '/img/projects/motion-5.webm' }  // col3-full
+      ]
     },
     {
-      id: 3,
-      media: '/img/projects/3case.webp',
-      mediaType: 'image',
-      title: t('projects.after'),
-      link: '/project'
+      id: 'design-works',
+      title: {
+        ru: 'Работы дизайнеров',
+        en: 'Design Works',
+        kk: 'Дизайнерлер жұмысы'
+      },
+      projects: [
+        { id: 10, color: '#000000', size: 'b', image: '/img/projects/dw1.webp' }, // col1-row1
+        { id: 11, color: '#000000', size: 'a', image: '/img/projects/dw2.webp' }, // col1-row2
+        { id: 12, color: '#000000', size: 'a', image: '/img/projects/dw3.webp' }, // col2-row1
+        { id: 13, color: '#000000', size: 'b', image: '/img/projects/dw4.webp' }, // col2-row2
+        { id: 14, color: '#000000', size: 'c', image: '/img/projects/dw5.webp' }  // col3-full
+      ]
     },
+    {
+      id: 'identity',
+      title: {
+        ru: 'Айдентика',
+        en: 'Identity',
+        kk: 'Айдентика'
+      },
+      projects: [
+        { id: 15, color: '#000000', size: 'b', image: '/img/projects/id2.webp' }, // col1-row1
+        { id: 16, color: '#000000', size: 'a', image: '/img/projects/id1.webp' }, // col1-row2
+        { id: 17, color: '#000000', size: 'a', image: '/img/projects/id3.webp' }, // col2-row1
+        { id: 18, color: '#000000', size: 'b', image: '/img/projects/id4.webp' }, // col2-row2
+        { id: 19, color: '#000000', size: 'c', image: '/img/projects/id5.webp' }  // col3-full
+      ]
+    },
+    {
+      id: 'production',
+      title: {
+        ru: 'Продакшн',
+        en: 'Production',
+        kk: 'Продакшн'
+      },
+      projects: [
+        { id: 20, color: '#000000', size: 'b', video: '/img/projects/prod1.webm' }, // col1-row1
+        { id: 21, color: '#000000', size: 'a', video: '/img/projects/prod4.webm' }, // col1-row2
+        { id: 22, color: '#000000', size: 'a', video: '/img/projects/prod2.webm' }, // col2-row1
+        { id: 23, color: '#000000', size: 'b', video: '/img/projects/prod5.webm' }, // col2-row2
+        { id: 24, color: '#000000', size: 'c', video: '/img/projects/prod3.webm' }  // col3-full
+      ]
+    }
   ];
 
-  useEffect(() => {
-    const updateMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    updateMobile();
-    window.addEventListener('resize', updateMobile);
-
-    const handleScroll = () => {
-      if (!sectionRef.current || !cardsRef.current) return;
-
-      const section = sectionRef.current;
-      const cards = cardsRef.current;
-      const rect = section.getBoundingClientRect();
-
-      // Вычисляем прогресс скролла через секцию (от 0 до 1)
-      const sectionTop = rect.top;
-      const totalScrollDistance = window.innerHeight * 1; // 200vh - 100vh = 100vh
-
-      // Определяем прогресс скролла
-      let progress = 0;
-      if (sectionTop <= 0 && sectionTop >= -totalScrollDistance) {
-        progress = Math.abs(sectionTop) / totalScrollDistance;
-      } else if (sectionTop < -totalScrollDistance) {
-        progress = 1;
-      }
-
-      // Вычисляем максимальное расстояние для горизонтального скролла
-      const cardWidth = isMobile ? 300 + 24 : 400 + 32; // ширина карточки + gap
-      const totalCardsWidth = cardWidth * projectsData.length;
-      const containerWidth = window.innerWidth - (isMobile ? 32 : 64); // minus padding
-      const maxTranslateX = Math.max(0, totalCardsWidth - containerWidth);
-
-      // Применяем плавную трансформацию с easing
-      const easeProgress = progress * progress * (3.0 - 2.0 * progress); // smooth step function
-      const translateX = -easeProgress * maxTranslateX;
-      cards.style.transform = `translateX(${translateX}px)`;
-      cards.style.transition = 'transform 0.1s ease-out';
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Инициализация
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateMobile);
-    };
-  }, [isMobile, projectsData.length]);
+  // Получаем размеры для элементов коллажа
+  const getSizeClasses = (size) => {
+    switch (size) {
+      case 'a':
+        return 'flex-[3]'; // размер "а" - 60% высоты (3 части из 5)
+      case 'b':
+        return 'flex-[2]'; // размер "б" - 40% высоты (2 части из 5)
+      case 'c':
+        return 'h-full'; // размер "с" - на всю высоту контейнера
+      default:
+        return 'flex-[2]';
+    }
+  };
 
   return (
-    <div className="relative">
-      {/* Wrapper с оптимизированной высотой для контроля скролла */}
-      <div className="h-[200vh] relative">
-        <section
-          ref={sectionRef}
-          id="projects"
-          className="sticky top-0 h-screen bg-black text-white flex items-center overflow-hidden"
-        >
-      <div className="w-full px-4 md:px-8">
-        {/* Заголовок */}
+    <section id="projects" className="bg-black text-white py-16 md:py-24">
+      <div className="container mx-auto px-4 md:px-8">
+
+        {/* Заголовок секции */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -111,76 +122,315 @@ const ProjectsSection = () => {
           </h1>
         </motion.div>
 
-        {/* Контейнер для горизонтальной прокрутки карточек */}
-        <div className="relative w-full overflow-hidden">
-          <div
-            ref={cardsRef}
-            className="flex gap-6 md:gap-8"
-            style={{ width: 'max-content' }}
-          >
-          {projectsData.map((project, index) => (
-            <motion.div
-              key={project.id}
-              className="group relative aspect-[3/2] rounded-2xl overflow-hidden flex-shrink-0"
-              style={{
-                width: isMobile ? '300px' : '400px',
-                height: isMobile ? '200px' : '267px'
-              }}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.2,
-                ease: "easeOut"
-              }}
-              viewport={{ once: true, amount: 0.3 }}
-              whileHover={{
-                scale: 1.03,
-                transition: { duration: 0.3, ease: "easeOut" }
-              }}
-            >
-              {/* Медиа контент */}
-              {project.mediaType === 'video' ? (
-                <video
-                  src={project.media}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                />
-              ) : (
-                <img
-                  src={project.media}
-                  alt={project.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                  loading="lazy"
-                />
-              )}
+        {/* Табы */}
+        <div className="mb-12">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+            {subsections.map((subsection) => (
+              <button
+                key={subsection.id}
+                onClick={() => setActiveTab(subsection.id)}
+                className={`relative px-6 py-3 text-lg md:text-xl font-semibold transition-all duration-300 ${
+                  activeTab === subsection.id
+                    ? 'text-white'
+                    : 'text-white/60 hover:text-white/80'
+                }`}
+              >
+                {subsection.title[i18n.language] || subsection.title.en}
 
-              {/* Overlay градиент */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-
-              {/* Контент поверх медиа */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-xl md:text-2xl font-semibold text-white mb-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                  {project.title}
-                </h3>
-                <div className="w-12 h-1 bg-white rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-              </div>
-
-              {/* Ссылка */}
-              <Link to={project.link} className="absolute inset-0 z-10" />
-            </motion.div>
-          ))}
+                {/* Подчеркивание для активной вкладки */}
+                {activeTab === subsection.id && (
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-white"
+                    layoutId="activeTab"
+                    initial={false}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 30
+                    }}
+                  />
+                )}
+              </button>
+            ))}
           </div>
         </div>
+
+        {/* Контент активной вкладки */}
+        <AnimatePresence mode="wait">
+          {subsections
+            .filter(subsection => subsection.id === activeTab)
+            .map((subsection) => (
+              <motion.div
+                key={subsection.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                {/* Коллаж - 3 колонки */}
+                <div className="w-full aspect-[3/1] flex gap-[5px]">
+                  {/* Первая колонка - 2 ряда */}
+                  <div className="flex flex-col gap-[5px] flex-1">
+                    <motion.div
+                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[0].size)} w-full min-h-0`}
+                      style={{ backgroundColor: subsection.projects[0].color }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0,
+                        ease: "easeOut"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) {
+                            video.pause();
+                            video.currentTime = 0;
+                          }
+                        }
+                      }}
+                    >
+                      {(subsection.id === 'steppe-coffee' || subsection.id === 'identity' || subsection.id === 'design-works') && subsection.projects[0].image && (
+                        <img
+                          src={subsection.projects[0].image}
+                          alt={subsection.title[i18n.language] || subsection.title.en}
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          loading="lazy"
+                        />
+                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[0].video && (
+                        <video
+                          src={subsection.projects[0].video}
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                        />
+                      )}
+                      {subsection.id === 'steppe-coffee' && (
+                        <Link to="/case" className="absolute inset-0 z-10" />
+                      )}
+                    </motion.div>
+                    <motion.div
+                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[1].size)} w-full min-h-0`}
+                      style={{ backgroundColor: subsection.projects[1].color }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.1,
+                        ease: "easeOut"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) {
+                            video.pause();
+                            video.currentTime = 0;
+                          }
+                        }
+                      }}
+                    >
+                      {(subsection.id === 'steppe-coffee' || subsection.id === 'identity' || subsection.id === 'design-works') && subsection.projects[1].image && (
+                        <img
+                          src={subsection.projects[1].image}
+                          alt={subsection.title[i18n.language] || subsection.title.en}
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          loading="lazy"
+                        />
+                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[1].video && (
+                        <video
+                          src={subsection.projects[1].video}
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                        />
+                      )}
+                      {subsection.id === 'steppe-coffee' && (
+                        <Link to="/case" className="absolute inset-0 z-10" />
+                      )}
+                    </motion.div>
+                  </div>
+
+                  {/* Вторая колонка - 2 ряда */}
+                  <div className="flex flex-col gap-[5px] flex-1">
+                    <motion.div
+                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[2].size)} w-full min-h-0`}
+                      style={{ backgroundColor: subsection.projects[2].color }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.2,
+                        ease: "easeOut"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) {
+                            video.pause();
+                            video.currentTime = 0;
+                          }
+                        }
+                      }}
+                    >
+                      {(subsection.id === 'steppe-coffee' || subsection.id === 'identity' || subsection.id === 'design-works') && subsection.projects[2].image && (
+                        <img
+                          src={subsection.projects[2].image}
+                          alt={subsection.title[i18n.language] || subsection.title.en}
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          loading="lazy"
+                        />
+                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[2].video && (
+                        <video
+                          src={subsection.projects[2].video}
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                        />
+                      )}
+                      {subsection.id === 'steppe-coffee' && (
+                        <Link to="/case" className="absolute inset-0 z-10" />
+                      )}
+                    </motion.div>
+                    <motion.div
+                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[3].size)} w-full min-h-0`}
+                      style={{ backgroundColor: subsection.projects[3].color }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.3,
+                        ease: "easeOut"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) {
+                            video.pause();
+                            video.currentTime = 0;
+                          }
+                        }
+                      }}
+                    >
+                      {(subsection.id === 'steppe-coffee' || subsection.id === 'identity' || subsection.id === 'design-works') && subsection.projects[3].image && (
+                        <img
+                          src={subsection.projects[3].image}
+                          alt={subsection.title[i18n.language] || subsection.title.en}
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          loading="lazy"
+                        />
+                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[3].video && (
+                        <video
+                          src={subsection.projects[3].video}
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                        />
+                      )}
+                      {subsection.id === 'steppe-coffee' && (
+                        <Link to="/case" className="absolute inset-0 z-10" />
+                      )}
+                    </motion.div>
+                  </div>
+
+                  {/* Третья колонка - 1 ряд на всю высоту */}
+                  <div className="flex flex-col flex-1">
+                    <motion.div
+                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[4].size)} w-full min-h-0`}
+                      style={{ backgroundColor: subsection.projects[4].color }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.4,
+                        ease: "easeOut"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (subsection.id === 'motion' || subsection.id === 'production') {
+                          const video = e.currentTarget.querySelector('video');
+                          if (video) {
+                            video.pause();
+                            video.currentTime = 0;
+                          }
+                        }
+                      }}
+                    >
+                      {(subsection.id === 'steppe-coffee' || subsection.id === 'identity' || subsection.id === 'design-works') && subsection.projects[4].image && (
+                        <img
+                          src={subsection.projects[4].image}
+                          alt={subsection.title[i18n.language] || subsection.title.en}
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          loading="lazy"
+                        />
+                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[4].video && (
+                        <video
+                          src={subsection.projects[4].video}
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover object-center"
+                        />
+                      )}
+                      {subsection.id === 'steppe-coffee' && (
+                        <Link to="/case" className="absolute inset-0 z-10" />
+                      )}
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+        </AnimatePresence>
       </div>
-        </section>
-      </div>
-    </div>
+    </section>
   );
 };
 
