@@ -43,19 +43,23 @@ export default defineConfig({
         manualChunks(id) {
           if (id.includes('node_modules')) {
             // Critical React core - minimal bundle (highest priority)
-            if (id.includes('react/jsx-runtime') || id.includes('react/') && !id.includes('react-')) {
-              return 'react-core';
-            }
-
             if (id.includes('react-dom/client')) {
-              return 'react-dom-client';
-            }
-
-            if (id.includes('react-dom/')) {
               return 'react-dom';
             }
 
-            if (id.includes('scheduler/')) {
+            if (id.includes('react-dom')) {
+              return 'react-dom';
+            }
+
+            if (id.includes('scheduler')) {
+              return 'react-core';
+            }
+
+            if (id.includes('react/jsx-runtime')) {
+              return 'react-core';
+            }
+
+            if (id.includes('react') && !id.includes('react-')) {
               return 'react-core';
             }
 
