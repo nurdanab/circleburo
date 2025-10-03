@@ -14,9 +14,6 @@
 
     <!-- КРИТИЧЕСКИЕ PRELOADS для LCP (только самые важные) -->
     <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high">
-    <!-- Мобильное изображение имеет приоритет - адаптивная загрузка -->
-    <link rel="preload" href="/img/circle-vectorrr-w.webp" as="image" fetchpriority="high" media="(max-width: 767px)" imagesrcset="/img/circle-vectorrr-w.webp 640w" imagesizes="100vw">
-    <link rel="preload" href="/img/circle-vectorrr-w.webp" as="image" fetchpriority="high" media="(min-width: 768px)" imagesrcset="/img/circle-vectorrr-w.webp 1920w" imagesizes="100vw">
 
     <!-- Некритические ресурсы загружаются позже (только на десктопе) -->
     <link rel="prefetch" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="(min-width: 768px)">
@@ -91,6 +88,30 @@
     <meta name="twitter:site" content="@circleburo" />
 
     <!-- Canonical и языки управляются через React Helmet -->
+
+    <!-- Preload critical JS chunks for faster initial load -->
+    <script>
+      // Dynamically preload critical chunks based on current build
+      if (document.createElement('link').relList.supports('modulepreload')) {
+        const criticalChunks = ['react-core', 'react-dom', 'router', 'components'];
+        const observer = new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (entry.entryType === 'resource' && entry.name.includes('/assets/js/')) {
+              criticalChunks.forEach(chunk => {
+                if (entry.name.includes(chunk) && !document.querySelector(`link[href="${entry.name}"]`)) {
+                  const link = document.createElement('link');
+                  link.rel = 'modulepreload';
+                  link.href = entry.name;
+                  document.head.appendChild(link);
+                }
+              });
+            }
+          }
+        });
+        observer.observe({ entryTypes: ['resource'] });
+      }
+    </script>
+
     <script type="module" src="/src/main.jsx"></script>
   </head>
   <body style="background-color: #000000; margin: 0; padding: 0;">
@@ -112,7 +133,39 @@
         </main>
       </noscript>
     </div>
-    
-    <!-- Скрипт загрузки -->
+
+    <!-- Async non-blocking CSS loading with fallback -->
+    <script>
+      // LoadCSS: Asynchronously load CSS (https://github.com/filamentgroup/loadCSS)
+      (function(w){
+        "use strict";
+        var loadCSS = function(href, before, media, attributes){
+          var doc = w.document;
+          var ss = doc.createElement("link");
+          var ref;
+          if(before){ref = before;}
+          else{var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;ref = refs[refs.length - 1];}
+          var sheets = doc.styleSheets;
+          if(attributes){for(var attributeName in attributes){if(attributes.hasOwnProperty(attributeName)){ss.setAttribute(attributeName, attributes[attributeName]);}}}
+          ss.rel = "stylesheet";
+          ss.href = href;
+          ss.media = "only x";
+          function ready(cb){if(doc.body){return cb();}setTimeout(function(){ready(cb);});}
+          ready(function(){ref.parentNode.insertBefore(ss, (before ? ref : ref.nextSibling));});
+          var onloadcssdefined = function(cb){var resolvedHref = ss.href;var i = sheets.length;while(i--){if(sheets[i].href === resolvedHref){return cb();}}setTimeout(function(){onloadcssdefined(cb);});};
+          function loadCB(){if(ss.addEventListener){ss.removeEventListener("load", loadCB);}ss.media = media || "all";}
+          if(ss.addEventListener){ss.addEventListener("load", loadCB);}
+          ss.onloadcssdefined = onloadcssdefined;
+          onloadcssdefined(loadCB);
+          return ss;
+        };
+        if(typeof exports !== "undefined"){exports.loadCSS = loadCSS;}
+        else{w.loadCSS = loadCSS;}
+      }(typeof global !== "undefined" ? global : this));
+
+      // Load main CSS asynchronously - path will be updated during build
+      // Vite will inject the correct CSS path here
+    </script>
+    <noscript><link rel="stylesheet" href="/assets/index.css"></noscript>
   </body>
 </html>

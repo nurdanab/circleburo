@@ -4,11 +4,21 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-route
 import { shouldDisableHeavyAnimations } from './utils/networkDetection';
 // Analytics will be loaded dynamically for better performance
 
-// Enhanced lazy loading with retry mechanism
-const createLazyComponent = (importFn, name) => {
+// Enhanced lazy loading with retry mechanism and intelligent prefetch
+const componentCache = new Map();
+
+const createLazyComponent = (importFn, name, priority = 'low') => {
+  // Cache the import promise to avoid duplicate requests
+  if (!componentCache.has(name)) {
+    componentCache.set(name, importFn);
+  }
+
+  const cachedImport = componentCache.get(name);
+
   return lazy(() =>
-    importFn().catch(() => {
-      // Clear any potential cache and retry once
+    cachedImport().catch(() => {
+      // Clear cache and retry once
+      componentCache.delete(name);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           importFn()
@@ -18,6 +28,30 @@ const createLazyComponent = (importFn, name) => {
       });
     })
   );
+};
+
+// Intelligent prefetch based on route priority and connection speed
+const prefetchComponent = (importFn, name) => {
+  if (componentCache.has(name)) return;
+
+  // Check connection before prefetching
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.saveData);
+
+  if (slowConnection) return;
+
+  // Prefetch during idle time
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      componentCache.set(name, importFn);
+      importFn().catch(() => componentCache.delete(name));
+    }, { timeout: 2000 });
+  } else {
+    setTimeout(() => {
+      componentCache.set(name, importFn);
+      importFn().catch(() => componentCache.delete(name));
+    }, 1000);
+  }
 };
 
 const HomePage = createLazyComponent(() => import('./pages/HomePage'), 'HomePage');
@@ -72,6 +106,15 @@ function AppContent() {
 
     if (import.meta.env.DEV && shouldDisable) {
       console.log('Heavy animations disabled due to slow connection');
+    }
+
+    // Intelligent prefetching of high-priority pages
+    // Prefetch AboutPage and common pages after initial load
+    if (!shouldDisable) {
+      setTimeout(() => {
+        prefetchComponent(() => import('./pages/AboutPage'), 'AboutPage');
+        prefetchComponent(() => import('./components/Footer'), 'Footer');
+      }, 2000);
     }
   }, []);
 

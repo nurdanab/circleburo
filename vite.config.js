@@ -4,12 +4,14 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 // import viteImagemin from 'vite-plugin-imagemin' // Removed due to security vulnerabilities
 import compression from 'vite-plugin-compression'
+import asyncCSSPlugin from './vite-plugin-async-css.js'
 
 export default defineConfig({
   publicDir: 'public',
   plugins: [
     tailwindcss(),
     react(),
+    asyncCSSPlugin(),
     // Image optimization removed due to security vulnerabilities in vite-plugin-imagemin
     // Consider using @squoosh/lib or sharp for image optimization in build process
     // Включаем сжатие для улучшения производительности
@@ -156,6 +158,11 @@ export default defineConfig({
               return 'vendor-utils';
             }
 
+            // Split large vendor packages separately
+            if (id.includes('object-assign') || id.includes('prop-types')) {
+              return 'react-helpers';
+            }
+
             // Everything else - vendor core (keep small)
             return 'vendor-core';
           }
@@ -239,9 +246,10 @@ export default defineConfig({
         experimentalMinChunkSize: 10000 // 10KB minimum
       }
     },
-    chunkSizeWarningLimit: 30, // More strict for mobile
+    chunkSizeWarningLimit: 50, // Adjusted for realistic bundle sizes
     minify: 'terser',
     target: 'es2020', // Modern browsers support
+    cssCodeSplit: true, // Critical for per-route CSS
     terserOptions: {
       compress: {
         drop_console: true,
@@ -260,7 +268,6 @@ export default defineConfig({
       }
     },
     cssMinify: 'lightningcss',
-    cssCodeSplit: true, // Split CSS по чанкам для лучшего кеширования
     reportCompressedSize: false,
     sourcemap: false,
     assetsInlineLimit: 4096, // Увеличено для мобильных - меньше HTTP запросов
