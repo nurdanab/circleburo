@@ -42,7 +42,19 @@ export default defineConfig({
         // Mobile-optimized chunking strategy - smaller chunks for better caching
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Critical React core - minimal bundle (highest priority)
+            // Critical React core - must be checked FIRST before vendor-core
+            if (id.includes('/react/') || id.includes('/react/index')) {
+              return 'react-core';
+            }
+
+            if (id.includes('react/jsx-runtime')) {
+              return 'react-core';
+            }
+
+            if (id.includes('scheduler')) {
+              return 'react-core';
+            }
+
             if (id.includes('react-dom/client')) {
               return 'react-dom';
             }
@@ -51,20 +63,12 @@ export default defineConfig({
               return 'react-dom';
             }
 
-            if (id.includes('scheduler')) {
-              return 'react-core';
-            }
-
-            if (id.includes('react/jsx-runtime')) {
-              return 'react-core';
-            }
-
-            if (id.includes('react') && !id.includes('react-')) {
-              return 'react-core';
-            }
-
             // Router - critical for navigation
-            if (id.includes('react-router-dom/')) {
+            if (id.includes('react-router-dom')) {
+              return 'router';
+            }
+
+            if (id.includes('react-router')) {
               return 'router';
             }
 
@@ -243,37 +247,12 @@ export default defineConfig({
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
-        passes: 3, // More optimization passes for better compression
-        unsafe: false,
-        toplevel: true, // More aggressive for better tree-shaking
-        sequences: true,
-        dead_code: true,
-        conditionals: true,
-        evaluate: true,
-        booleans: true,
-        loops: true,
-        unused: true,
-        hoist_funs: true,
-        keep_fargs: false, // Remove unused function arguments
-        hoist_vars: false,
-        if_return: true,
-        join_vars: true,
-        reduce_vars: true,
-        side_effects: true, // More aggressive optimization
+        passes: 2,
         ecma: 2020,
-        module: true,
-        // Удаление неиспользуемых импортов
-        pure_getters: true,
-        unsafe_arrows: true,
-        unsafe_methods: true,
-        unsafe_proto: true
+        module: true
       },
       mangle: {
-        safari10: true,
-        toplevel: true, // More aggressive mangling
-        properties: {
-          regex: /^_/ // Mangle private properties
-        }
+        safari10: true
       },
       format: {
         comments: false,
