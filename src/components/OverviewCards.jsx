@@ -34,13 +34,13 @@ const OverviewSection = ({ cardsData }) => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true, amount: 0.5 }}
           >
-            <img 
-              src="/img/projects/saygak-5.webp" 
-              alt="Mascot" 
-              className="w-4/5 md:w-full h-auto" 
+            <img
+              src="/img/projects/saygak-5.webp"
+              alt="Mascot"
+              className="w-4/5 md:w-full h-auto"
               loading="lazy"
               decoding="async"
-              fetchpriority="low"
+              fetchPriority="low"
             />
           </motion.div>
         </div>

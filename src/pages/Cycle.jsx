@@ -131,15 +131,15 @@ const Cycle = () => {
             >
               <div className="w-96 h-96 rounded-full overflow-hidden">
                 {/* Используй свое изображение, как и на других страницах */}
-                <img 
-                  src="/img/cycle-collage.png" 
-                  alt="Cycle Collage" 
+                <img
+                  src="/img/cycle-collage.png"
+                  alt="Cycle Collage"
                   className="w-full h-full object-cover"
                   width={384}
                   height={384}
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
               </div>
             </motion.div>

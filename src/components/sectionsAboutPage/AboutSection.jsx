@@ -270,7 +270,9 @@ const AboutSection = () => {
               
 
               {!hideEmployeePhotos && employees.map((employee) => {
-                console.log('🟢 Rendering employee photo:', employee.id, 'hideEmployeePhotos:', hideEmployeePhotos);
+                if (import.meta.env.DEV) {
+                  console.log('🟢 Rendering employee photo:', employee.id, 'hideEmployeePhotos:', hideEmployeePhotos);
+                }
                 const isAnimating = isAnimationStarted;
                 return (
                   <div
@@ -304,7 +306,7 @@ const AboutSection = () => {
                         className="w-full h-full object-cover transition-all duration-300"
                         loading="lazy"
                         decoding="async"
-                        fetchpriority="low"
+                        fetchPriority="low"
                         width={Math.round(employee.finalSize)}
                         height={Math.round(employee.finalSize)}
                       />
@@ -330,7 +332,7 @@ const AboutSection = () => {
                     height={600}
                     loading="lazy"
                     decoding="async"
-                    fetchpriority="low"
+                    fetchPriority="low"
                     />
                  </div>
             )}

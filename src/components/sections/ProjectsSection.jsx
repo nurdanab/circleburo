@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { safePlayVideo, safePauseVideo } from '../../utils/videoUtils';
 
 const ProjectsSection = () => {
   const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState('steppe-coffee');
   const [loadedVideos, setLoadedVideos] = useState(new Set());
+  const [visibleVideos, setVisibleVideos] = useState(new Set()); // Новое состояние для видимости
   const videoRefs = useRef(new Map());
 
   // Данные подсекций с переводами
@@ -88,22 +90,38 @@ const ProjectsSection = () => {
     }
   ];
 
-  // Intersection Observer для lazy loading видео
+  // Агрессивная загрузка видео - начинаем загружать при смене вкладки
   useEffect(() => {
     const observers = new Map();
 
+    // Сразу помечаем все видео текущей вкладки как загружаемые
+    const currentTabVideos = new Set();
+    subsections.find(s => s.id === activeTab)?.projects.forEach((_, index) => {
+      currentTabVideos.add(`${activeTab}-${index}`);
+    });
+
+    setLoadedVideos(prev => new Set([...prev, ...currentTabVideos]));
+
     videoRefs.current.forEach((videoEl, videoId) => {
-      if (!videoEl || loadedVideos.has(videoId)) return;
+      if (!videoEl || !videoId.startsWith(activeTab)) return;
 
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            setLoadedVideos(prev => new Set(prev).add(videoId));
+            // Плавное появление видео
+            setTimeout(() => {
+              setVisibleVideos(prev => new Set([...prev, videoId]));
+            }, 100);
+
+            // Загружаем видео
+            if (videoEl.paused && videoEl.readyState < 2) {
+              videoEl.load();
+            }
             observer.disconnect();
           }
         },
         {
-          rootMargin: '50px',
+          rootMargin: '200px', // Увеличенный margin для раннего старта
           threshold: 0.01
         }
       );
@@ -115,7 +133,7 @@ const ProjectsSection = () => {
     return () => {
       observers.forEach(observer => observer.disconnect());
     };
-  }, [activeTab, loadedVideos]);
+  }, [activeTab, subsections]);
 
   // Получаем размеры для элементов коллажа
   const getSizeClasses = (size) => {
@@ -215,16 +233,13 @@ const ProjectsSection = () => {
                       onMouseEnter={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                          safePlayVideo(video);
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) {
-                            video.pause();
-                            video.currentTime = 0;
-                          }
+                          safePauseVideo(video, true);
                         }
                       }}
                     >
@@ -246,8 +261,13 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="none"
-                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          preload="metadata"
+                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+                            visibleVideos.has(`${subsection.id}-0`) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          style={{
+                            visibility: visibleVideos.has(`${subsection.id}-0`) ? 'visible' : 'hidden'
+                          }}
                         />
                       )}
                       {subsection.id === 'steppe-coffee' && (
@@ -267,16 +287,13 @@ const ProjectsSection = () => {
                       onMouseEnter={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                          safePlayVideo(video);
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) {
-                            video.pause();
-                            video.currentTime = 0;
-                          }
+                          safePauseVideo(video, true);
                         }
                       }}
                     >
@@ -298,8 +315,13 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="none"
-                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          preload="metadata"
+                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+                            visibleVideos.has(`${subsection.id}-1`) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          style={{
+                            visibility: visibleVideos.has(`${subsection.id}-1`) ? 'visible' : 'hidden'
+                          }}
                         />
                       )}
                       {subsection.id === 'steppe-coffee' && (
@@ -323,16 +345,13 @@ const ProjectsSection = () => {
                       onMouseEnter={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                          safePlayVideo(video);
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) {
-                            video.pause();
-                            video.currentTime = 0;
-                          }
+                          safePauseVideo(video, true);
                         }
                       }}
                     >
@@ -354,8 +373,13 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="none"
-                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          preload="metadata"
+                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+                            visibleVideos.has(`${subsection.id}-2`) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          style={{
+                            visibility: visibleVideos.has(`${subsection.id}-2`) ? 'visible' : 'hidden'
+                          }}
                         />
                       )}
                       {subsection.id === 'steppe-coffee' && (
@@ -375,16 +399,13 @@ const ProjectsSection = () => {
                       onMouseEnter={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                          safePlayVideo(video);
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) {
-                            video.pause();
-                            video.currentTime = 0;
-                          }
+                          safePauseVideo(video, true);
                         }
                       }}
                     >
@@ -406,8 +427,13 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="none"
-                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          preload="metadata"
+                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+                            visibleVideos.has(`${subsection.id}-3`) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          style={{
+                            visibility: visibleVideos.has(`${subsection.id}-3`) ? 'visible' : 'hidden'
+                          }}
                         />
                       )}
                       {subsection.id === 'steppe-coffee' && (
@@ -431,16 +457,13 @@ const ProjectsSection = () => {
                       onMouseEnter={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) video.play().catch(err => console.log('Video play error:', err));
+                          safePlayVideo(video);
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (subsection.id === 'motion' || subsection.id === 'production') {
                           const video = e.currentTarget.querySelector('video');
-                          if (video) {
-                            video.pause();
-                            video.currentTime = 0;
-                          }
+                          safePauseVideo(video, true);
                         }
                       }}
                     >
@@ -462,8 +485,13 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="none"
-                          className="absolute inset-0 w-full h-full object-cover object-center"
+                          preload="metadata"
+                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+                            visibleVideos.has(`${subsection.id}-4`) ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          style={{
+                            visibility: visibleVideos.has(`${subsection.id}-4`) ? 'visible' : 'hidden'
+                          }}
                         />
                       )}
                       {subsection.id === 'steppe-coffee' && (

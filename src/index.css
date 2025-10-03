@@ -9,11 +9,22 @@ html {
 body {
   background-color: #000000 !important;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  /* Мобильные оптимизации */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+  /* Улучшенная производительность на мобильных */
+  touch-action: manipulation;
+  /* Предотвращаем проблемы с overflow на мобильных */
+  overflow-x: hidden;
+  position: relative;
 }
 
 #root {
   background-color: #000000;
   min-height: 100vh;
+  min-height: 100dvh; /* Динамическая высота viewport для мобильных */
 }
 
 /* Styles from fonts.css */
@@ -48,6 +59,9 @@ body {
 
 html {
   scroll-behavior: smooth;
+  /* Оптимизация скролла на мобильных */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none; /* Предотвращаем bounce на iOS */
 }
 
 /* Prevent CLS for common elements */
@@ -116,7 +130,7 @@ img, video, canvas, svg {
   }
 }
 
-/* Utility classes for animations */
+/* Utility classes for animations - мобильно-оптимизированные */
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out forwards;
 }
@@ -133,16 +147,78 @@ img, video, canvas, svg {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Image optimization classes */
+/* Быстрые анимации для медленных устройств */
+@media (max-width: 767px) {
+  .animate-fade-in {
+    animation-duration: 0.4s;
+  }
+
+  .animate-slide-up {
+    animation-duration: 0.5s;
+  }
+
+  .animate-scale-in {
+    animation-duration: 0.3s;
+  }
+}
+
+/* Отключение анимаций на очень медленных устройствах */
+body.reduce-animations .animate-fade-in,
+body.reduce-animations .animate-slide-up,
+body.reduce-animations .animate-scale-in {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Image optimization classes - мобильно-адаптивные */
 .img-optimized {
   object-fit: cover;
   content-visibility: auto;
   contain-intrinsic-size: 300px 200px;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* Мобильная оптимизация для изображений */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 767px) {
+  .img-optimized {
+    /* Более агрессивная оптимизация на мобильных */
+    will-change: auto;
+  }
+
+  /* Уменьшаем сложность анимаций на мобильных */
+  body.is-mobile * {
+    will-change: auto !important;
+  }
+
+  /* Оптимизация GPU layers только для активных элементов */
+  body.is-mobile *:active,
+  body.is-mobile *:focus {
+    will-change: transform;
+    transform: translateZ(0);
+  }
 }
 
 .img-hero {
   content-visibility: auto;
   contain-intrinsic-size: 800px 600px;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Мобильные размеры изображений */
+@media (max-width: 767px) {
+  .img-optimized {
+    contain-intrinsic-size: 200px 150px;
+  }
+
+  .img-hero {
+    contain-intrinsic-size: 400px 300px;
+  }
 }
 
 /* Layout optimization */
@@ -269,6 +345,30 @@ select:focus-visible {
     transform: scale(0.98) !important;
     transition: transform 0.1s ease !important;
   }
+}
+
+/* Адаптивная оптимизация для медленных соединений */
+body.reduce-animations *,
+body.reduce-animations *::before,
+body.reduce-animations *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Отключаем тяжелые трансформации на медленных соединениях */
+body.reduce-animations .gpu-accelerated {
+  transform: none !important;
+}
+
+/* Упрощаем hover эффекты */
+body.reduce-animations .btn-dark-theme:hover {
+  transform: none !important;
+}
+
+/* Быстрая загрузка изображений на медленных соединениях */
+body.reduce-animations img {
+  loading: eager;
 }
 
 /* Дополнительные стили для улучшения адаптивности */

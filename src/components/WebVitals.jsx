@@ -88,7 +88,9 @@ export function observePerformance() {
       const longTaskObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (entry.duration > 50) {
-            console.log('[Long Task]', entry.duration, 'ms');
+            if (import.meta.env.DEV) {
+              console.log('[Long Task]', entry.duration, 'ms');
+            }
           }
         }
       });
@@ -102,7 +104,9 @@ export function observePerformance() {
       const layoutShiftObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (!entry.hadRecentInput && entry.value > 0.1) {
-            console.log('[Layout Shift]', entry.value, entry.sources);
+            if (import.meta.env.DEV) {
+              console.log('[Layout Shift]', entry.value, entry.sources);
+            }
           }
         }
       });

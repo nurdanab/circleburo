@@ -27,12 +27,14 @@ class ErrorBoundary extends React.Component {
     console.groupEnd();
 
     // Логируем состояние приложения в момент ошибки
-    console.group('📊 Application state when error occurred');
-    console.log('Current URL:', window.location.href);
-    console.log('User agent:', navigator.userAgent);
-    console.log('Local storage keys:', Object.keys(localStorage));
-    console.log('Session storage keys:', Object.keys(sessionStorage));
-    console.groupEnd();
+    if (import.meta.env.DEV) {
+      console.group('📊 Application state when error occurred');
+      console.log('Current URL:', window.location.href);
+      console.log('User agent:', navigator.userAgent);
+      console.log('Local storage keys:', Object.keys(localStorage));
+      console.log('Session storage keys:', Object.keys(sessionStorage));
+      console.groupEnd();
+    }
 
     this.setState({
       error: error,

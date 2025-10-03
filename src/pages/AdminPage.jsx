@@ -54,7 +54,9 @@ const STATUS_COLORS = {
 };
 
 const AdminPage = () => {
-  console.log('🔥 AdminPage is rendering!');
+  if (import.meta.env.DEV) {
+    console.log('🔥 AdminPage is rendering!');
+  }
 
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -103,7 +105,9 @@ const AdminPage = () => {
   };
 
   const updateLeadData = async (leadId, newStatus) => {
-    console.log('Updating lead:', leadId, 'to status:', newStatus);
+    if (import.meta.env.DEV) {
+      console.log('Updating lead:', leadId, 'to status:', newStatus);
+    }
     setUpdating(leadId);
     try {
       const { error } = await supabase
@@ -113,7 +117,9 @@ const AdminPage = () => {
 
       if (error) throw error;
 
-      console.log('Lead status updated successfully');
+      if (import.meta.env.DEV) {
+        console.log('Lead status updated successfully');
+      }
 
       // Обновляем локальное состояние
       setLeads(prev => prev.map(lead =>
@@ -146,14 +152,16 @@ const AdminPage = () => {
       if (error) throw error;
 
       // Обновляем локальное состояние только для заметок
-      setLeads(prev => prev.map(lead => 
-        lead.id === leadId 
+      setLeads(prev => prev.map(lead =>
+        lead.id === leadId
           ? { ...lead, notes: notesToUpdate }
           : lead
       ));
-      
-      console.log(`Notes for lead ${leadId} saved successfully.`);
-      
+
+      if (import.meta.env.DEV) {
+        console.log(`Notes for lead ${leadId} saved successfully.`);
+      }
+
     } catch (err) {
       console.error('Error saving notes:', err);
       setError('Ошибка сохранения заметок');
@@ -173,7 +181,9 @@ const AdminPage = () => {
 
       if (error) throw error;
 
-      console.log('Lead deleted successfully');
+      if (import.meta.env.DEV) {
+        console.log('Lead deleted successfully');
+      }
 
       // Удаляем из локального состояния
       setLeads(prev => prev.filter(lead => lead.id !== leadId));

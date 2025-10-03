@@ -1,22 +1,19 @@
 // src/App.jsx
-import React, { useEffect, lazy } from 'react';
+import React, { useEffect, lazy, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { shouldDisableHeavyAnimations } from './utils/networkDetection';
 // Analytics will be loaded dynamically for better performance
 
 // Enhanced lazy loading with retry mechanism
 const createLazyComponent = (importFn, name) => {
   return lazy(() =>
-    importFn().catch(err => {
-      console.error(`Failed to load ${name}, retrying...`, err);
+    importFn().catch(() => {
       // Clear any potential cache and retry once
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           importFn()
             .then(resolve)
-            .catch(retryErr => {
-              console.error(`Failed to load ${name} after retry:`, retryErr);
-              reject(retryErr);
-            });
+            .catch(reject);
         }, 500);
       });
     })
@@ -29,19 +26,19 @@ const CasePage = createLazyComponent(() => import('./pages/CasePage'), 'CasePage
 const Circle = createLazyComponent(() => import('./pages/Circle'), 'Circle');
 const Cycle = createLazyComponent(() => import('./pages/Cycle'), 'Cycle');
 const Semicircle = createLazyComponent(() => import('./pages/Semicircle'), 'Semicircle');
-import AdminPage from './pages/AdminPage';
+const AdminPage = createLazyComponent(() => import('./pages/AdminPage'), 'AdminPage');
 const LoginPage = createLazyComponent(() => import('./pages/LoginPage'), 'LoginPage');
 const NotFoundPage = createLazyComponent(() => import('./pages/NotFoundPage'), 'NotFoundPage');
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-import SplashCursor from './components/SplashCursor';
+const Header = createLazyComponent(() => import('./components/Header'), 'Header');
+const Footer = createLazyComponent(() => import('./components/Footer'), 'Footer');
+const SplashCursor = createLazyComponent(() => import('./components/SplashCursor'), 'SplashCursor');
 import LazyPage from './components/LazyPage';
 import PerformanceMeta from './components/PerformanceMeta';
 import AccessibilityHelper from './components/AccessibilityHelper';
 import ErrorBoundary from './components/ErrorBoundary';
 import PerformanceOptimizer from './components/PerformanceOptimizer';
-import PrerenderManager from './components/PrerenderManager';
+const PrerenderManager = createLazyComponent(() => import('./components/PrerenderManager'), 'PrerenderManager');
 
 const ProtectedRoute = ({ children }) => {
   const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
@@ -53,18 +50,47 @@ const ProtectedRoute = ({ children }) => {
 
 function AppContent() {
   const location = useLocation();
+  const [disableAnimations, setDisableAnimations] = useState(false);
+
+  useEffect(() => {
+    // Определяем, нужно ли отключить тяжелые анимации
+    const shouldDisable = shouldDisableHeavyAnimations();
+    setDisableAnimations(shouldDisable);
+
+    // Добавляем класс в body для глобального управления анимациями
+    if (shouldDisable) {
+      document.body.classList.add('reduce-animations');
+    } else {
+      document.body.classList.remove('reduce-animations');
+    }
+
+    // Мобильная оптимизация - добавляем класс для мобильных устройств
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      document.body.classList.add('is-mobile');
+    }
+
+    if (import.meta.env.DEV && shouldDisable) {
+      console.log('Heavy animations disabled due to slow connection');
+    }
+  }, []);
 
   useEffect(() => {
     // Load and execute analytics dynamically for better performance
-    import('./analytics.js').then(({ logPageView }) => {
-      if (typeof logPageView === 'function') {
-        logPageView();
-      }
-    }).catch(err => {
-      console.warn('Analytics not available:', err.message);
-      // Не прерываем работу приложения из-за аналитики
-    });
-  }, [location]);
+    // Откладываем загрузку аналитики на медленных соединениях и мобильных
+    const isMobile = window.innerWidth < 768;
+    const loadDelay = disableAnimations ? 5000 : (isMobile ? 2000 : 100);
+
+    const timeout = setTimeout(() => {
+      import('./analytics.js').then(({ logPageView }) => {
+        if (typeof logPageView === 'function') {
+          logPageView();
+        }
+      }).catch(() => {});
+    }, loadDelay);
+
+    return () => clearTimeout(timeout);
+  }, [location, disableAnimations]);
 
   // Handle scroll to section from navigation state - logic moved to HomePage.jsx
 
@@ -121,10 +147,7 @@ function App() {
       if (typeof initGA === 'function') {
         initGA();
       }
-    }).catch(err => {
-      console.warn('Analytics initialization failed:', err.message);
-      // Не прерываем работу приложения из-за аналитики
-    });
+    }).catch(() => {});
   }, []);
 
   return (

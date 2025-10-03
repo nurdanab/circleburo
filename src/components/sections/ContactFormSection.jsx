@@ -475,11 +475,13 @@ ID: ${recordId}
   }, [bookingId, formStep, checkBookingStatus]);
 
   useEffect(() => {
-    if (bookingStatus === BOOKING_STATUSES.CONFIRMED) {
-      console.log('Your booking has been confirmed!');
-    }
-    if (bookingStatus === BOOKING_STATUSES.CANCELLED) {
-      console.log('Your booking has been cancelled.');
+    if (import.meta.env.DEV) {
+      if (bookingStatus === BOOKING_STATUSES.CONFIRMED) {
+        console.log('Your booking has been confirmed!');
+      }
+      if (bookingStatus === BOOKING_STATUSES.CANCELLED) {
+        console.log('Your booking has been cancelled.');
+      }
     }
   }, [bookingStatus]);
 

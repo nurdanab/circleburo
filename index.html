@@ -8,25 +8,19 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     
     <!-- Preconnect для критических ресурсов -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
     <link rel="dns-prefetch" href="//www.google-analytics.com">
 
-    <!-- DNS prefetch для видео и медиа контента -->
-    <link rel="dns-prefetch" href="//circleburo.kz">
-    <link rel="prefetch" href="/img/hero-poster.webp" as="image">
-    
-    <!-- ОПТИМИЗИРОВАННЫЕ PRELOADS ДЛЯ SI/LCP -->
+    <!-- КРИТИЧЕСКИЕ PRELOADS для LCP (только самые важные) -->
     <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high">
-    <link rel="preload" href="/img/logo-header.webp" as="image" fetchpriority="high" imagesrcset="/img/logo-header.webp 1x, /img/logo-header@2x.webp 2x" imagesizes="(max-width: 768px) 150px, 200px">
-    <!-- Preload hero background для быстрого LCP -->
-    <link rel="preload" href="/img/circle-vectorrr-w.webp" as="image" fetchpriority="high" media="(min-width: 1024px)">
-    <link rel="preload" href="/img/circle-center.png" as="image" fetchpriority="low" media="(max-width: 1023px)">
+    <!-- Мобильное изображение имеет приоритет - адаптивная загрузка -->
+    <link rel="preload" href="/img/circle-vectorrr-w.webp" as="image" fetchpriority="high" media="(max-width: 767px)" imagesrcset="/img/circle-vectorrr-w.webp 640w" imagesizes="100vw">
+    <link rel="preload" href="/img/circle-vectorrr-w.webp" as="image" fetchpriority="high" media="(min-width: 768px)" imagesrcset="/img/circle-vectorrr-w.webp 1920w" imagesizes="100vw">
 
-    <!-- Некритические шрифты -->
-    <link rel="prefetch" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="prefetch" href="/fonts/Montserrat-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <!-- Некритические ресурсы загружаются позже (только на десктопе) -->
+    <link rel="prefetch" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="(min-width: 768px)">
+    <link rel="prefetch" href="/fonts/Montserrat-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="(min-width: 768px)">
     
     <!-- Оптимизированные шрифты -->
     <style>
@@ -41,10 +35,18 @@
       }
     </style>
 
-    <!-- Асинхронная загрузка дополнительных шрифтов -->
+    <!-- Асинхронная загрузка дополнительных шрифтов (только на десктопе или хорошем соединении) -->
     <script>
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
+          // Проверяем тип устройства и соединение
+          const isMobile = window.innerWidth < 768;
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.saveData);
+
+          // На мобильных с медленным соединением не загружаем дополнительные шрифты
+          if (isMobile && slowConnection) return;
+
           const boldFont = new FontFace('Montserrat', 'url(/fonts/Montserrat-Bold.woff2)', { weight: '700', display: 'swap' });
           const lightFont = new FontFace('Montserrat', 'url(/fonts/Montserrat-Light.woff2)', { weight: '300', display: 'swap' });
           Promise.all([boldFont.load(), lightFont.load()]).then((fonts) => {
@@ -56,15 +58,12 @@
     
     <!-- LCP изображения уже preloaded выше -->
 
-    <!-- ИНЛАЙН КРИТИЧЕСКИЙ CSS ДЛЯ МГНОВЕННОГО LCP -->
+    <!-- ИНЛАЙН КРИТИЧЕСКИЙ CSS ДЛЯ МГНОВЕННОГО LCP (МОБИЛЬНО-ОПТИМИЗИРОВАННЫЙ) -->
     <style>
-      /* Критический CSS инлайн для LCP */
-      html,body{margin:0;padding:0;background-color:#000;color:#fff;font-family:'Montserrat',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-display:swap;overflow-x:hidden}*{box-sizing:border-box}.hero-critical{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;background:linear-gradient(135deg,#000 0%,#111 100%);position:relative;overflow:hidden}.hero-title-critical{font-size:clamp(3rem,12vw,8rem);font-weight:900;line-height:.9;text-align:center;letter-spacing:.05em;margin:0;background:linear-gradient(135deg,#fff 0%,#ccc 100%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 40px rgba(255,255,255,.1)}.hero-subtitle-critical{font-size:clamp(1rem,2.5vw,1.5rem);font-weight:300;text-align:center;margin:2rem 0 0;opacity:.8;max-width:600px;line-height:1.6}.loading-critical{display:inline-block;width:32px;height:32px;border:3px solid rgba(255,255,255,.2);border-radius:50%;border-top-color:#fff;animation:spin 1s linear infinite;transform:translateZ(0);will-change:transform}@keyframes spin{to{transform:rotate(360deg)}}.header-critical{position:fixed;top:0;left:0;right:0;z-index:50;height:80px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;padding:0 2rem}.gpu-layer{transform:translateZ(0);backface-visibility:hidden;perspective:1000px}.contain-layout{contain:layout style paint}img,video{content-visibility:auto}section:not(:first-of-type){content-visibility:auto;contain-intrinsic-size:auto 500px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+      /* Критический CSS инлайн для LCP - мобильно-оптимизированный */
+      html,body{margin:0;padding:0;background-color:#000;color:#fff;font-family:'Montserrat',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-display:swap;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;touch-action:manipulation}*{box-sizing:border-box}.hero-critical{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;background:linear-gradient(135deg,#000 0%,#111 100%);position:relative;overflow:hidden;padding:1rem}.hero-title-critical{font-size:clamp(2rem,10vw,8rem);font-weight:900;line-height:.9;text-align:center;letter-spacing:.05em;margin:0;background:linear-gradient(135deg,#fff 0%,#ccc 100%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 40px rgba(255,255,255,.1)}.hero-subtitle-critical{font-size:clamp(0.875rem,2vw,1.5rem);font-weight:300;text-align:center;margin:1.5rem 0 0;opacity:.8;max-width:90%;line-height:1.5}@media (min-width:768px){.hero-subtitle-critical{max-width:600px;margin:2rem 0 0;line-height:1.6}}.loading-critical{display:inline-block;width:28px;height:28px;border:2px solid rgba(255,255,255,.2);border-radius:50%;border-top-color:#fff;animation:spin 1s linear infinite;transform:translateZ(0);will-change:transform}@media (min-width:768px){.loading-critical{width:32px;height:32px;border:3px solid rgba(255,255,255,.2)}}@keyframes spin{to{transform:rotate(360deg)}}.header-critical{position:fixed;top:0;left:0;right:0;z-index:50;height:60px;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;padding:0 1rem}@media (min-width:768px){.header-critical{height:80px;padding:0 2rem}}.gpu-layer{transform:translateZ(0);backface-visibility:hidden;perspective:1000px}.contain-layout{contain:layout style paint}img,video{content-visibility:auto;max-width:100%;height:auto;will-change:auto}section:not(:first-of-type){content-visibility:auto;contain-intrinsic-size:auto 500px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media (max-width:767px){body{font-size:14px}.hero-critical{padding:0.5rem}}
     </style>
 
-    <!-- Остальной CSS загружается асинхронно -->
-    <link rel="preload" href="/critical.css" as="style" onload="this.onload=null;this.rel='stylesheet'" fetchpriority="low">
-    <noscript><link rel="stylesheet" href="/critical.css"></noscript>
     
     <!-- Фавиконы -->
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
@@ -107,14 +106,11 @@
       <!-- SEO fallback контент до загрузки React -->
       <noscript>
         <main style="color: white; padding: 2rem; text-align: center; font-family: Arial, sans-serif;">
-          <!-- SEO fallback контент до загрузки React -->
+          <h1>Circle Creative Buro</h1>
+          <p>Креативное агентство полного цикла в Алматы</p>
+          <p>Для полноценной работы сайта необходимо включить JavaScript</p>
         </main>
       </noscript>
-
-      <!-- Prerendered content для SEO (скрывается при загрузке React) -->
-      <div id="prerendered-content" style="display: none;">
-        <!-- SEO fallback контент до загрузки React -->
-      </div>
     </div>
     
     <!-- Скрипт загрузки -->

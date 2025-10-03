@@ -4,7 +4,7 @@
   "description": "Креативное агентство полного цикла в Алматы. Веб-разработка, дизайн, маркетинг и SMM.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "portrait-primary",
   "scope": "/",

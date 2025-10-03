@@ -6,57 +6,50 @@ const VideoHero = memo(({ className = "" }) => {
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(true); // Загружаем сразу
 
-  // Intersection Observer для lazy loading
+  // Проверка на очень медленное соединение
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          // Проверяем connection speed
-          const connection = navigator.connection;
-          const slowConnection = connection && (
-            connection.effectiveType === 'slow-2g' || 
-            connection.effectiveType === '2g' ||
-            connection.saveData
-          );
-          
-          // Загружаем видео с задержкой в зависимости от соединения
-          const delay = slowConnection ? 2000 : 500;
-          const timer = setTimeout(() => {
-            setShouldLoadVideo(true);
-          }, delay);
-          
-          return () => clearTimeout(timer);
-        }
-      },
-      {
-        rootMargin: '100px',
-        threshold: 0.1
-      }
-    );
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const slowConnection = connection && connection.effectiveType === 'slow-2g';
 
-    const videoContainer = document.querySelector('[data-video-hero]');
-    if (videoContainer) {
-      observer.observe(videoContainer);
+    // На очень медленном соединении показываем fallback
+    if (slowConnection) {
+      setHasError(true);
+      setShouldLoadVideo(false);
     }
-
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !shouldLoadVideo) return;
 
+    if (import.meta.env.DEV) {
+      console.log('VideoHero: Setting up video element');
+    }
+
     const handleLoadedData = () => {
-      setIsLoaded(true);
+      // Плавное появление после загрузки первого кадра
+      setTimeout(() => {
+        setIsLoaded(true);
+      }, 50); // Минимальная задержка для плавности
+
+      if (import.meta.env.DEV) {
+        console.log('VideoHero: Video loaded successfully');
+      }
       // Ensure the video starts playing
-      video.play().catch(() => {});
+      video.play().catch((err) => {
+        if (import.meta.env.DEV) {
+          console.log('VideoHero: Autoplay prevented:', err);
+        }
+      });
     };
 
-    const handleError = () => {
+    const handleError = (e) => {
       setHasError(true);
-      // Video failed to load, fallback will be shown
+      if (import.meta.env.DEV) {
+        console.error('VideoHero: Video error:', e);
+      }
     };
 
     const handleCanPlay = () => {
@@ -99,30 +92,36 @@ const VideoHero = memo(({ className = "" }) => {
   }
 
   return (
-    <div 
+    <div
       data-video-hero
-      className={`w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[95vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] mx-auto flex items-center justify-center px-1 sm:px-0 ${className}`}
+      className={`w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[95vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] mx-auto flex items-center justify-center px-1 sm:px-0 touch-manipulation ${className}`}
     >
       {!isLoaded && <LoadingSkeleton />}
-      
+
       {shouldLoadVideo && (
         <video
           ref={videoRef}
-          className={`w-full h-full object-contain transition-opacity duration-500 ${
-            isLoaded ? 'opacity-100' : 'opacity-0 absolute'
+          className={`w-full h-full object-contain transition-opacity duration-700 ease-out ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
+          style={{
+            filter: 'contrast(1.1) brightness(1.05)',
+            WebkitTapHighlightColor: 'transparent',
+            // Предотвращаем мигание
+            position: isLoaded ? 'relative' : 'absolute',
+            visibility: isLoaded ? 'visible' : 'hidden'
+          }}
         autoPlay
         loop
         muted
         playsInline
-        preload="none"
+        preload="auto"
         poster="/img/hero-poster.webp"
-        style={{
-          filter: 'contrast(1.1) brightness(1.05)'
-        }}
+        disablePictureInPicture
+        disableRemotePlayback
       >
         <source src="/videos/circle-optimized.mp4" type="video/mp4" />
-        
+
         {/* Fallback for browsers that don't support video */}
           <div className="w-full h-full flex items-center justify-center">
             <ErrorFallback />

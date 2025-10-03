@@ -138,15 +138,15 @@ const Circle = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <div className="w-96 h-96 rounded-full overflow-hidden">
-                <img 
-                  src="/img/circle-collage.png" 
-                  alt="Circle Collage" 
+                <img
+                  src="/img/circle-collage.png"
+                  alt="Circle Collage"
                   className="w-full h-full object-cover"
                   width={384}
                   height={384}
                   loading="lazy"
                   decoding="async"
-                  fetchpriority="low"
+                  fetchPriority="low"
                 />
               </div>
             </motion.div>

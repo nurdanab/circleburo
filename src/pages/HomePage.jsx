@@ -50,11 +50,6 @@ function HomePage() {
     const sectionId = stateScrollTo || sessionScrollTo;
 
     if (sectionId) {
-      if (import.meta.env.DEV) {
-        console.log('HomePage: Trying to scroll to section:', sectionId);
-        console.log('Source:', stateScrollTo ? 'location.state' : 'sessionStorage');
-      }
-
       // Принудительно загружаем все секции для скролла
       const preloadAndScroll = async () => {
         try {
@@ -69,9 +64,6 @@ function HomePage() {
 
           // Даем время для рендера
           setTimeout(() => {
-            if (import.meta.env.DEV) {
-              console.log('HomePage: Starting scroll attempt for:', sectionId);
-            }
             scrollToElement(sectionId, {
               maxAttempts: 50,
               delay: 200,

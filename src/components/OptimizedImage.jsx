@@ -31,7 +31,16 @@ const OptimizedImage = ({
   });
 
   useEffect(() => {
-    if (priority) return; 
+    if (priority) return;
+
+    // Мобильная оптимизация - меньший rootMargin для экономии данных
+    const isMobile = window.innerWidth < 768;
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const slowConnection = connection && (
+      connection.effectiveType === 'slow-2g' ||
+      connection.effectiveType === '2g' ||
+      connection.saveData
+    );
 
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
@@ -40,9 +49,10 @@ const OptimizedImage = ({
           observerRef.current?.disconnect();
         }
       },
-      { 
+      {
         threshold: 0.1,
-        rootMargin: '50px' // Start loading 50px before entering viewport
+        // Меньший rootMargin на мобильных для экономии трафика
+        rootMargin: isMobile ? (slowConnection ? '20px' : '30px') : '50px'
       }
     );
 
@@ -124,7 +134,9 @@ const OptimizedImage = ({
               contentVisibility: priority ? 'visible' : 'auto',
               containIntrinsicSize: width && height ? `${width}px ${height}px` : '300px 200px',
               transform: priority ? 'translateZ(0)' : 'none',
-              backfaceVisibility: priority ? 'hidden' : 'visible'
+              backfaceVisibility: priority ? 'hidden' : 'visible',
+              WebkitTapHighlightColor: 'transparent', // Убираем подсветку на мобильных
+              touchAction: 'manipulation' // Улучшаем touch-отзывчивость
             }}
             onLoad={handleLoad}
             onError={handleError}

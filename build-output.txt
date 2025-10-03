@@ -1,0 +1,116 @@
+
+> circle-buro@0.0.0 build
+> vite build && npm run prerender
+
+vite v7.1.5 building for production...
+transforming...
+✓ 2241 modules transformed.
+Generated an empty chunk: "router".
+rendering chunks...
+dist/index.html                                8.61 kB
+dist/assets/index-BbHLHC5z.css               112.63 kB
+dist/assets/js/router-l0sNRNKZ.js              0.00 kB
+dist/assets/js/react-dom-client-C_7aYNfV.js    0.36 kB
+dist/assets/js/analytics-DcykwQDa.js           0.59 kB
+dist/assets/js/page-404-BsxgDpCa.js            2.90 kB
+dist/assets/js/icons-react-DDm23e3T.js         5.29 kB
+dist/assets/js/index-CAWN0SGy.js               6.07 kB
+dist/assets/js/supabase-B6e79eUy.js            6.12 kB
+dist/assets/js/helmet-8ifSAvCU.js             11.68 kB
+dist/assets/js/ga4-CdK2mTqc.js                12.45 kB
+dist/assets/js/layout-Ch6AVyQC.js             15.17 kB
+dist/assets/js/react-core-BDhRurRT.js         15.45 kB
+dist/assets/js/page-home-BQNrZckb.js          17.55 kB
+dist/assets/js/i18n-react-Cg2DzsRv.js         21.72 kB
+dist/assets/js/i18n-core-v3Xg7xcu.js          42.04 kB
+dist/assets/js/sections-CxLQkJws.js           53.36 kB
+dist/assets/js/pages-CRr2T4y_.js              80.20 kB
+dist/assets/js/framer-motion-BZ0Z0HUD.js      84.08 kB
+dist/assets/js/components-BkfNfmjH.js        112.15 kB
+dist/assets/js/react-dom-C7ODlkX4.js         171.25 kB
+dist/assets/js/vendor-core-CydJS51V.js       209.60 kB
+
+(!) Some chunks are larger than 50 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.31s
+
+✨ [vite-plugin-compression]:algorithm=gzip - compressed file successfully: 
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/helmet-8ifSAvCU.js.gz          11.40kb / gzip: 4.29kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/ga4-CdK2mTqc.js.gz             12.16kb / gzip: 4.05kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/i18n-react-Cg2DzsRv.js.gz      21.21kb / gzip: 7.26kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/icons-react-DDm23e3T.js.gz     5.17kb / gzip: 2.20kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/index-CAWN0SGy.js.gz           5.93kb / gzip: 1.92kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/page-404-BsxgDpCa.js.gz        2.83kb / gzip: 1.04kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/layout-Ch6AVyQC.js.gz          14.81kb / gzip: 4.30kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/react-core-BDhRurRT.js.gz      15.09kb / gzip: 6.01kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/page-home-BQNrZckb.js.gz       17.14kb / gzip: 5.55kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/supabase-B6e79eUy.js.gz        5.98kb / gzip: 2.21kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/index.html.gz                            8.41kb / gzip: 3.37kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/i18n-core-v3Xg7xcu.js.gz       41.05kb / gzip: 12.73kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/sections-CxLQkJws.js.gz        52.11kb / gzip: 11.05kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/critical.css.gz                          3.31kb / gzip: 1.45kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/offline.html.gz                          5.52kb / gzip: 1.83kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/manifest.json.gz                         2.52kb / gzip: 0.81kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/locales/kk/translation.json.gz           36.23kb / gzip: 9.17kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/sw.js.gz                                 8.90kb / gzip: 2.72kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/locales/en/translation.json.gz           26.27kb / gzip: 7.41kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/pages-CRr2T4y_.js.gz           78.32kb / gzip: 13.22kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/locales/ru/translation.json.gz           37.02kb / gzip: 9.65kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/index-BbHLHC5z.css.gz             109.99kb / gzip: 17.05kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/components-BkfNfmjH.js.gz      109.53kb / gzip: 29.47kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/framer-motion-BZ0Z0HUD.js.gz   82.11kb / gzip: 25.75kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/react-dom-C7ODlkX4.js.gz       167.24kb / gzip: 52.37kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/vendor-core-CydJS51V.js.gz     204.68kb / gzip: 60.61kb
+
+
+
+✨ [vite-plugin-compression]:algorithm=brotliCompress - compressed file successfully: 
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/ga4-CdK2mTqc.js.br             12.16kb / brotliCompress: 3.59kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/helmet-8ifSAvCU.js.br          11.40kb / brotliCompress: 3.81kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/icons-react-DDm23e3T.js.br     5.17kb / brotliCompress: 1.91kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/index-CAWN0SGy.js.br           5.93kb / brotliCompress: 1.69kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/i18n-react-Cg2DzsRv.js.br      21.21kb / brotliCompress: 6.44kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/page-404-BsxgDpCa.js.br        2.83kb / brotliCompress: 0.91kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/i18n-core-v3Xg7xcu.js.br       41.05kb / brotliCompress: 11.53kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/layout-Ch6AVyQC.js.br          14.81kb / brotliCompress: 3.74kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/page-home-BQNrZckb.js.br       17.14kb / brotliCompress: 4.47kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/react-core-BDhRurRT.js.br      15.09kb / brotliCompress: 5.35kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/index-BbHLHC5z.css.br             109.99kb / brotliCompress: 13.34kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/supabase-B6e79eUy.js.br        5.98kb / brotliCompress: 1.93kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/critical.css.br                          3.31kb / brotliCompress: 1.15kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/index.html.br                            8.41kb / brotliCompress: 2.61kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/locales/en/translation.json.br           26.27kb / brotliCompress: 5.95kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/sections-CxLQkJws.js.br        52.11kb / brotliCompress: 9.68kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/manifest.json.br                         2.52kb / brotliCompress: 0.62kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/locales/kk/translation.json.br           36.23kb / brotliCompress: 7.89kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/pages-CRr2T4y_.js.br           78.32kb / brotliCompress: 11.03kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/offline.html.br                          5.52kb / brotliCompress: 1.36kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/sw.js.br                                 8.90kb / brotliCompress: 2.21kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/framer-motion-BZ0Z0HUD.js.br   82.11kb / brotliCompress: 22.98kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/components-BkfNfmjH.js.br      109.53kb / brotliCompress: 24.83kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/locales/ru/translation.json.br           37.02kb / brotliCompress: 8.13kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/react-dom-C7ODlkX4.js.br       167.24kb / brotliCompress: 45.30kb
+dist//Users/nurdanabakytzhan/Desktop/circle-buro/assets/js/vendor-core-CydJS51V.js.br     204.68kb / brotliCompress: 53.18kb
+
+
+
+> circle-buro@0.0.0 prerender
+> node scripts/prerender.js
+
+🚀 Starting prerendering process...
+✅ Template loaded
+✅ Generated: / -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/index.html
+✅ Generated: /about -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/about/index.html
+✅ Generated: /circle -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/circle/index.html
+✅ Generated: /semicircle -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/semicircle/index.html
+✅ Generated: /cycle -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/cycle/index.html
+✅ Generated: /project -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/project/index.html
+✅ Generated: /en -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/en/index.html
+✅ Generated: /en/about -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/en/about/index.html
+✅ Generated: /en/circle -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/en/circle/index.html
+✅ Generated: /en/semicircle -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/en/semicircle/index.html
+✅ Generated: /en/cycle -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/en/cycle/index.html
+✅ Generated: /en/project -> /Users/nurdanabakytzhan/Desktop/circle-buro/dist/en/project/index.html
+🎉 Prerendering completed successfully!
