@@ -246,9 +246,14 @@ export default defineConfig({
         experimentalMinChunkSize: 10000 // 10KB minimum
       }
     },
-    chunkSizeWarningLimit: 50, // Adjusted for realistic bundle sizes
+    chunkSizeWarningLimit: 500, // Увеличено для vendor chunks
     minify: 'terser',
     target: 'es2020', // Modern browsers support
+    // Агрессивное удаление неиспользуемого кода
+    treeshake: {
+      moduleSideEffects: false,
+      preset: 'smallest'
+    },
     cssCodeSplit: true, // Critical for per-route CSS
     terserOptions: {
       compress: {

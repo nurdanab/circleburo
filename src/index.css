@@ -19,6 +19,9 @@ body {
   /* Предотвращаем проблемы с overflow на мобильных */
   overflow-x: hidden;
   position: relative;
+  /* Мобильная высота viewport */
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
 }
 
 #root {
@@ -200,6 +203,25 @@ body.reduce-animations .animate-scale-in {
   body.is-mobile *:focus {
     will-change: transform;
     transform: translateZ(0);
+  }
+
+  /* Агрессивные мобильные оптимизации */
+  body.is-mobile {
+    /* Отключаем сложные фильтры и эффекты */
+    filter: none !important;
+  }
+
+  /* Упрощаем тени на мобильных */
+  body.is-mobile * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Уменьшаем сложность blur эффектов */
+  body.is-mobile .backdrop-blur,
+  body.is-mobile [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 

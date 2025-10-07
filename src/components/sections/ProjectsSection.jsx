@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { safePlayVideo, safePauseVideo } from '../../utils/videoUtils';
 
-const ProjectsSection = () => {
+const ProjectsSection = memo(() => {
   const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState('steppe-coffee');
   const [loadedVideos, setLoadedVideos] = useState(new Set());
@@ -90,9 +90,19 @@ const ProjectsSection = () => {
     }
   ];
 
-  // Агрессивная загрузка видео - начинаем загружать при смене вкладки
+  // Умная загрузка видео - проверяем тип соединения
   useEffect(() => {
     const observers = new Map();
+
+    // Проверяем качество соединения
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.saveData);
+    const isMobile = window.innerWidth < 768;
+
+    // На медленном соединении или мобильных не загружаем видео автоматически
+    if (slowConnection || isMobile) {
+      return;
+    }
 
     // Сразу помечаем все видео текущей вкладки как загружаемые
     const currentTabVideos = new Set();
@@ -221,7 +231,7 @@ const ProjectsSection = () => {
                   {/* Первая колонка - 2 ряда */}
                   <div className="flex flex-col gap-[5px] flex-1">
                     <motion.div
-                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[0].size)} w-full min-h-0`}
+                      className={`relative overflow-hidden ${getSizeClasses(subsection.projects[0].size)} w-full min-h-0`}
                       style={{ backgroundColor: subsection.projects[0].color, willChange: 'opacity' }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -261,7 +271,7 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="metadata"
+                          preload="none"
                           className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
                             visibleVideos.has(`${subsection.id}-0`) ? 'opacity-100' : 'opacity-0'
                           }`}
@@ -270,12 +280,9 @@ const ProjectsSection = () => {
                           }}
                         />
                       )}
-                      {subsection.id === 'steppe-coffee' && (
-                        <Link to="/case" className="absolute inset-0 z-10" />
-                      )}
                     </motion.div>
                     <motion.div
-                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[1].size)} w-full min-h-0`}
+                      className={`relative overflow-hidden ${getSizeClasses(subsection.projects[1].size)} w-full min-h-0`}
                       style={{ backgroundColor: subsection.projects[1].color, willChange: 'opacity' }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -315,7 +322,7 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="metadata"
+                          preload="none"
                           className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
                             visibleVideos.has(`${subsection.id}-1`) ? 'opacity-100' : 'opacity-0'
                           }`}
@@ -324,16 +331,13 @@ const ProjectsSection = () => {
                           }}
                         />
                       )}
-                      {subsection.id === 'steppe-coffee' && (
-                        <Link to="/case" className="absolute inset-0 z-10" />
-                      )}
                     </motion.div>
                   </div>
 
                   {/* Вторая колонка - 2 ряда */}
                   <div className="flex flex-col gap-[5px] flex-1">
                     <motion.div
-                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[2].size)} w-full min-h-0`}
+                      className={`relative overflow-hidden ${getSizeClasses(subsection.projects[2].size)} w-full min-h-0`}
                       style={{ backgroundColor: subsection.projects[2].color, willChange: 'opacity' }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -373,7 +377,7 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="metadata"
+                          preload="none"
                           className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
                             visibleVideos.has(`${subsection.id}-2`) ? 'opacity-100' : 'opacity-0'
                           }`}
@@ -382,12 +386,9 @@ const ProjectsSection = () => {
                           }}
                         />
                       )}
-                      {subsection.id === 'steppe-coffee' && (
-                        <Link to="/case" className="absolute inset-0 z-10" />
-                      )}
                     </motion.div>
                     <motion.div
-                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[3].size)} w-full min-h-0`}
+                      className={`relative overflow-hidden ${getSizeClasses(subsection.projects[3].size)} w-full min-h-0`}
                       style={{ backgroundColor: subsection.projects[3].color, willChange: 'opacity' }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -427,7 +428,7 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="metadata"
+                          preload="none"
                           className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
                             visibleVideos.has(`${subsection.id}-3`) ? 'opacity-100' : 'opacity-0'
                           }`}
@@ -436,16 +437,13 @@ const ProjectsSection = () => {
                           }}
                         />
                       )}
-                      {subsection.id === 'steppe-coffee' && (
-                        <Link to="/case" className="absolute inset-0 z-10" />
-                      )}
                     </motion.div>
                   </div>
 
                   {/* Третья колонка - 1 ряд на всю высоту */}
                   <div className="flex flex-col flex-1">
                     <motion.div
-                      className={`relative overflow-hidden ${(subsection.id === 'motion' || subsection.id === 'production') ? '' : 'cursor-pointer'} ${getSizeClasses(subsection.projects[4].size)} w-full min-h-0`}
+                      className={`relative overflow-hidden ${getSizeClasses(subsection.projects[4].size)} w-full min-h-0`}
                       style={{ backgroundColor: subsection.projects[4].color, willChange: 'opacity' }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -485,7 +483,7 @@ const ProjectsSection = () => {
                           loop
                           muted
                           playsInline
-                          preload="metadata"
+                          preload="none"
                           className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
                             visibleVideos.has(`${subsection.id}-4`) ? 'opacity-100' : 'opacity-0'
                           }`}
@@ -493,9 +491,6 @@ const ProjectsSection = () => {
                             visibility: visibleVideos.has(`${subsection.id}-4`) ? 'visible' : 'hidden'
                           }}
                         />
-                      )}
-                      {subsection.id === 'steppe-coffee' && (
-                        <Link to="/case" className="absolute inset-0 z-10" />
                       )}
                     </motion.div>
                   </div>
@@ -506,6 +501,8 @@ const ProjectsSection = () => {
       </div>
     </section>
   );
-};
+});
+
+ProjectsSection.displayName = 'ProjectsSection';
 
 export default ProjectsSection;

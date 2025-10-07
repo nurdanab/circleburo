@@ -56,7 +56,6 @@ const prefetchComponent = (importFn, name) => {
 
 const HomePage = createLazyComponent(() => import('./pages/HomePage'), 'HomePage');
 const AboutPage = createLazyComponent(() => import('./pages/AboutPage'), 'AboutPage');
-const CasePage = createLazyComponent(() => import('./pages/CasePage'), 'CasePage');
 const Circle = createLazyComponent(() => import('./pages/Circle'), 'Circle');
 const Cycle = createLazyComponent(() => import('./pages/Cycle'), 'Cycle');
 const Semicircle = createLazyComponent(() => import('./pages/Semicircle'), 'Semicircle');
@@ -85,6 +84,7 @@ const ProtectedRoute = ({ children }) => {
 function AppContent() {
   const location = useLocation();
   const [disableAnimations, setDisableAnimations] = useState(false);
+  const [isMobile, setIsMobileState] = useState(false);
 
   useEffect(() => {
     // Определяем, нужно ли отключить тяжелые анимации
@@ -99,9 +99,24 @@ function AppContent() {
     }
 
     // Мобильная оптимизация - добавляем класс для мобильных устройств
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) {
+    const checkIsMobile = window.innerWidth < 768;
+    setIsMobileState(checkIsMobile);
+    if (checkIsMobile) {
       document.body.classList.add('is-mobile');
+      // Мобильные оптимизации
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+
+      // Обработка изменения ориентации и resize
+      const updateVh = () => {
+        document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+      };
+      window.addEventListener('resize', updateVh);
+      window.addEventListener('orientationchange', updateVh);
+
+      return () => {
+        window.removeEventListener('resize', updateVh);
+        window.removeEventListener('orientationchange', updateVh);
+      };
     }
 
     if (import.meta.env.DEV && shouldDisable) {
@@ -109,19 +124,18 @@ function AppContent() {
     }
 
     // Intelligent prefetching of high-priority pages
-    // Prefetch AboutPage and common pages after initial load
-    if (!shouldDisable) {
+    // Prefetch AboutPage and common pages after initial load - ТОЛЬКО на десктопе с хорошим соединением
+    if (!shouldDisable && !checkIsMobile) {
       setTimeout(() => {
         prefetchComponent(() => import('./pages/AboutPage'), 'AboutPage');
         prefetchComponent(() => import('./components/Footer'), 'Footer');
-      }, 2000);
+      }, 3000); // Увеличен timeout для лучшего FID
     }
   }, []);
 
   useEffect(() => {
     // Load and execute analytics dynamically for better performance
     // Откладываем загрузку аналитики на медленных соединениях и мобильных
-    const isMobile = window.innerWidth < 768;
     const loadDelay = disableAnimations ? 5000 : (isMobile ? 2000 : 100);
 
     const timeout = setTimeout(() => {
@@ -144,15 +158,14 @@ function AppContent() {
       <PerformanceOptimizer>
         <PrerenderManager />
         <PerformanceMeta />
-        <SplashCursor />
+        {/* SplashCursor отключен для оптимизации - тяжелый WebGL */}
+        {!disableAnimations && !isMobile && <SplashCursor />}
         <AccessibilityHelper />
         {!isAdminRoute && <Header />}
         <Routes>
         {/* Russian routes (default) */}
         <Route path="/" element={<LazyPage component={HomePage} />} />
         <Route path="/about" element={<LazyPage component={AboutPage} />} />
-        <Route path="/case" element={<LazyPage component={CasePage} />} />
-        <Route path="/project" element={<LazyPage component={CasePage} />} />
         <Route path="/circle" element={<LazyPage component={Circle} />} />
         <Route path="/cycle" element={<LazyPage component={Cycle} />} />
         <Route path="/semicircle" element={<LazyPage component={Semicircle} />} />
@@ -160,8 +173,6 @@ function AppContent() {
         {/* English routes */}
         <Route path="/en" element={<LazyPage component={HomePage} />} />
         <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
-        <Route path="/en/case" element={<LazyPage component={CasePage} />} />
-        <Route path="/en/project" element={<LazyPage component={CasePage} />} />
         <Route path="/en/circle" element={<LazyPage component={Circle} />} />
         <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
         <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />

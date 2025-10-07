@@ -1,6 +1,6 @@
 // src/components/sections/HeroSection.jsx
 import "tailwindcss";
-import React, { useEffect, useState, useMemo, Suspense, lazy } from 'react';
+import React, { useEffect, useState, useMemo, Suspense, lazy, memo } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import CriticalLoader from '../CriticalLoader';
@@ -8,7 +8,7 @@ import CriticalLoader from '../CriticalLoader';
 // Lazy load VideoHero для улучшения LCP с preload
 const VideoHero = lazy(() => import('../VideoHero'));
 
-const HeroSection = () => {
+const HeroSection = memo(() => {
   const { t } = useTranslation();
   // Проверяем предпочтения пользователя по анимациям
   const prefersReducedMotion = useReducedMotion();
@@ -43,7 +43,7 @@ const HeroSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: isMobile ? 0.08 : 0.15, // Быстрее на мобильных
       },
     },
   };
@@ -51,13 +51,13 @@ const HeroSection = () => {
   const titleVariants = {
     hidden: {
       opacity: 0,
-      y: 30,
+      y: isMobile ? 20 : 30, // Меньше движения на мобильных
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: isMobile ? 0.4 : 0.6, // Быстрее на мобильных
         ease: "easeOut",
       },
     },
@@ -68,23 +68,15 @@ const HeroSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        delay: 0.8,
-        duration: 0.4,
+        delay: isMobile ? 0.5 : 0.8, // Быстрее на мобильных
+        duration: isMobile ? 0.3 : 0.4,
       },
     },
   };
 
   // Мемоизируем массив звездочек для фона (МИНИМАЛЬНО для Performance)
-  const stars = useMemo(() => Array.from({ length: isMobile ? 3 : 6 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 3 + 1, // размер от 1 до 4px
-    x: Math.random() * 100, // позиция по X в процентах
-    y: Math.random() * 100, // позиция по Y в процентах
-    delay: Math.random() * 3, // уменьшена задержка анимации
-    duration: Math.random() * 2 + 3, // длительность мерцания
-    opacity: Math.random() * 0.6 + 0.3, // прозрачность от 0.3 до 0.9
-    twinkleDelay: Math.random() * 2, // уменьшена задержка мерцания
-  })), [isMobile]);
+  // ОТКЛЮЧЕНО для максимальной производительности
+  const stars = useMemo(() => [], []);
 
   // Мемоизируем массив больших светящихся кружочков (ОТКЛЮЧЕНО для Performance)
   const glowDots = useMemo(() => [], []);
@@ -283,6 +275,8 @@ const HeroSection = () => {
       </motion.div>
     </section>
   );
-};
+});
+
+HeroSection.displayName = 'HeroSection';
 
 export default HeroSection;

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import StructuredData from '../StructuredData';
 
-const ServicesSection = () => {
+const ServicesSection = memo(() => {
   const { t } = useTranslation();
 
   const servicesData = [
@@ -68,7 +68,7 @@ const ServicesSection = () => {
       </div>
     </section>
   );
-};
+});
 
 const ServiceCard = ({ service, index }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -107,5 +107,7 @@ const ServiceCard = ({ service, index }) => {
     </motion.div>
   );
 };
+
+ServicesSection.displayName = 'ServicesSection';
 
 export default ServicesSection;
