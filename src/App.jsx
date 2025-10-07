@@ -159,7 +159,7 @@ function AppContent() {
         <PrerenderManager />
         <PerformanceMeta />
         {/* SplashCursor отключен для оптимизации - тяжелый WebGL */}
-        {!disableAnimations && !isMobile && <SplashCursor />}
+        {/* {!disableAnimations && !isMobile && <SplashCursor />} */}
         <AccessibilityHelper />
         {!isAdminRoute && <Header />}
         <Routes>

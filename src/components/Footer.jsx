@@ -28,15 +28,6 @@ const FooterSection = () => {
     }
   };
 
-  const stars = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 2 + 1,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: Math.random() * 2 + 2,
-    opacity: Math.random() * 0.6 + 0.2,
-  }));
 
   const navigationLinks = [
     { name: t('nav.home'), to: '/', isLink: true },
@@ -67,40 +58,6 @@ const FooterSection = () => {
 
   return (
     <footer className="relative bg-black text-white overflow-hidden">
-      {/* Анимированные звёздочки на фоне */}
-      <motion.div className="absolute inset-0 z-0">
-        {stars.map((star) => (
-          <motion.div
-            key={`footer-star-${star.id}`}
-            className="absolute bg-white rounded-full"
-            style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              transform: 'translate(-50%, -50%)',
-              boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, 0.3)`,
-            }}
-            animate={{
-              opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: star.duration,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-              delay: star.delay,
-            }}
-          />
-        ))}
-      </motion.div>
-
-      {/* Фоновые градиенты */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-gradient-radial from-white/6 via-white/3 to-transparent rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/6 w-80 h-80 bg-gradient-radial from-white/4 via-white/2 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-      </div>
 
       {/* Основной контент футера */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">

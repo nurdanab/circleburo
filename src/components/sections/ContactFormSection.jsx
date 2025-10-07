@@ -43,28 +43,6 @@ const ContactFormSection = () => {
     '14:00', '15:00', '16:00', '17:00', '18:00'
   ];
 
-  // Генерируем звёздочки для фона
-  const stars = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 2 + 1,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: Math.random() * 3 + 2,
-    opacity: Math.random() * 0.6 + 0.2,
-    twinkleDelay: Math.random() * 4,
-  }));
-
-  // Генерируем светящиеся кружочки
-  const glowDots = Array.from({ length: 8 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 80 + 30,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: Math.random() * 8 + 10,
-    opacity: Math.random() * 0.08 + 0.03,
-  }));
 
   // Состояние для текущего месяца календаря
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -487,87 +465,6 @@ ID: ${recordId}
 
   return (
     <section id="contact" className="bg-black text-white py-20 px-6 md:px-20 relative overflow-hidden min-h-screen flex items-center">
-      {/* Анимированные звёздочки на фоне */}
-      <motion.div className="absolute inset-0 z-0">
-        {stars.map((star) => (
-          <motion.div
-            key={`star-${star.id}`}
-            className="absolute"
-            style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              transform: 'translate(-50%, -50%)',
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: star.opacity }}
-            transition={{ duration: 0.6, delay: star.delay }}
-          >
-            <motion.div
-              className="bg-white rounded-full"
-              style={{
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, 0.5)`,
-              }}
-              animate={{
-                opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
-                scale: [0.8, 1.2, 0.8],
-              }}
-              transition={{
-                duration: star.duration,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut",
-                delay: star.twinkleDelay,
-              }}
-            />
-          </motion.div>
-        ))}
-
-        {/* Большие светящиеся кружочки */}
-        {glowDots.map((dot) => (
-          <motion.div
-            key={`glow-${dot.id}`}
-            className="absolute rounded-full"
-            style={{
-              width: `${dot.size}px`,
-              height: `${dot.size}px`,
-              left: `${dot.x}%`,
-              top: `${dot.y}%`,
-              transform: 'translate(-50%, -50%)',
-              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 30%, transparent 70%)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.2, delay: dot.delay }}
-          >
-            <motion.div
-              className="absolute inset-2 rounded-full"
-              style={{
-                background: 'radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 60%)',
-              }}
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [dot.opacity, dot.opacity * 1.5, dot.opacity],
-              }}
-              transition={{
-                duration: dot.duration,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut",
-              }}
-            />
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Фоновые градиенты */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-gradient-radial from-white/8 via-white/4 to-transparent rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/6 w-80 h-80 bg-gradient-radial from-white/6 via-white/3 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-white/3 via-transparent to-transparent rounded-full blur-3xl"></div>
-      </div>
 
       <div className="relative z-10 mb-12 w-full max-w-7xl mx-auto">
         {/* Заголовок секции */}

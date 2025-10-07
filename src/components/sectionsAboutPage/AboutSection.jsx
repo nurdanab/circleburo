@@ -8,6 +8,17 @@ const CursorTrail = ({ children, isActive = true }) => {
   const lastPhotoTimeRef = useRef(0);
   const lastPhotoPositionRef = useRef({ x: 0, y: 0 });
   const sectionRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Проверка мобильного устройства
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const employeeImages = useMemo(() => [
     "/img/company/employee1.webp",
@@ -34,23 +45,25 @@ const CursorTrail = ({ children, isActive = true }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Отслеживаем движение курсора
+  // Отслеживаем движение курсора (только на десктопе)
   useEffect(() => {
+    if (isMobile) return; // Отключаем на мобильных
+
     let moveTimeout;
     const handleMouseMove = (e) => {
       if (!sectionRef.current) return;
-      
+
       const rect = sectionRef.current.getBoundingClientRect();
-      
-      if (e.clientX >= rect.left && e.clientX <= rect.right && 
+
+      if (e.clientX >= rect.left && e.clientX <= rect.right &&
           e.clientY >= rect.top && e.clientY <= rect.bottom) {
-        
-        setCursor({ 
-          x: e.clientX - rect.left, 
-          y: e.clientY - rect.top 
+
+        setCursor({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
         });
         setIsMoving(true);
-        
+
         clearTimeout(moveTimeout);
         moveTimeout = setTimeout(() => setIsMoving(false), 200);
       } else {
@@ -59,12 +72,12 @@ const CursorTrail = ({ children, isActive = true }) => {
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       clearTimeout(moveTimeout);
     };
-  }, []);
+  }, [isMobile]);
 
   const getDistance = (x1, y1, x2, y2) => {
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
@@ -378,18 +391,11 @@ const AboutSection = () => {
             height: var(--final-size);
             opacity: var(--opacity);
           }
-          80% {
+          100% {
             transform: translate(var(--final-x), var(--final-y)) translate(-50%, -50%);
             width: var(--final-size);
             height: var(--final-size);
-            opacity: 0;
-          }
-          100% {
-            transform: translate(var(--final-x), var(--final-y)) translate(-50%, -50%);
-            width: 0;
-            height: 0;
-            opacity: 0;
-            display: none;
+            opacity: var(--opacity);
           }
         }
       `}</style>

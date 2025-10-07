@@ -28,11 +28,6 @@ const AboutUsSection = () => {
       ref={sectionRef}
       className="bg-black text-gray-300 py-20 md:py-32 px-6 md:px-20 relative overflow-hidden min-h-screen flex items-center"
     >
-       <div className="absolute inset-0">
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-gradient-radial from-white/8 via-white/4 to-transparent rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/6 w-80 h-80 bg-gradient-radial from-white/6 via-white/3 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-white/3 via-transparent to-transparent rounded-full blur-3xl"></div>
-      </div>
 
       <motion.div 
         className="absolute top-0 right-0 lg:hidden z-0"
