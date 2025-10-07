@@ -11,7 +11,11 @@ const VideoHero = memo(({ className = "" }) => {
   // Проверка на очень медленное соединение
   useEffect(() => {
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    const slowConnection = connection && connection.effectiveType === 'slow-2g';
+    const slowConnection = connection && (
+      connection.effectiveType === 'slow-2g' ||
+      connection.effectiveType === '2g' ||
+      connection.saveData
+    );
 
     // На очень медленном соединении показываем fallback
     if (slowConnection) {
@@ -101,7 +105,7 @@ const VideoHero = memo(({ className = "" }) => {
       {shouldLoadVideo && (
         <video
           ref={videoRef}
-          className={`w-full h-full object-contain transition-opacity duration-700 ease-out ${
+          className={`w-full h-full object-cover sm:object-contain transition-opacity duration-700 ease-out ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
@@ -109,14 +113,16 @@ const VideoHero = memo(({ className = "" }) => {
             WebkitTapHighlightColor: 'transparent',
             // Предотвращаем мигание
             position: isLoaded ? 'relative' : 'absolute',
-            visibility: isLoaded ? 'visible' : 'hidden'
+            visibility: isLoaded ? 'visible' : 'hidden',
+            // Центрирование видео на мобильных
+            objectPosition: 'center'
           }}
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
-        poster="/img/hero-poster.webp"
+        poster="/img/circle-fill.webp"
         disablePictureInPicture
         disableRemotePlayback
       >

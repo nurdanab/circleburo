@@ -7,7 +7,6 @@ import OptimizedImage from './OptimizedImage';
 import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import LanguageSwitcher from './LanguageSwitcher';
 import { navigateToSection } from '../utils/navigation';
-import { prefetchOnHover } from '../utils/prefetch';
 
 const Header = () => {
   const { t } = useTranslation();

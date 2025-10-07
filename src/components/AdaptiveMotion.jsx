@@ -33,8 +33,8 @@ export const Motion = ({ children, animate, initial, exit, transition, className
   return (
     <Suspense fallback={<div className={className} style={style} {...props}>{children}</div>}>
       <FramerMotion>
-        {({ motion }) => (
-          <motion.div
+        {({ motion: Motion }) => (
+          <Motion.div
             animate={animate}
             initial={initial}
             exit={exit}
@@ -44,7 +44,7 @@ export const Motion = ({ children, animate, initial, exit, transition, className
             {...props}
           >
             {children}
-          </motion.div>
+          </Motion.div>
         )}
       </FramerMotion>
     </Suspense>
@@ -68,10 +68,10 @@ export const AdaptiveAnimatePresence = ({ children, mode, ...props }) => {
   return (
     <Suspense fallback={<>{children}</>}>
       <FramerMotion>
-        {({ AnimatePresence }) => (
-          <AnimatePresence mode={mode} {...props}>
+        {({ AnimatePresence: AnimPresence }) => (
+          <AnimPresence mode={mode} {...props}>
             {children}
-          </AnimatePresence>
+          </AnimPresence>
         )}
       </FramerMotion>
     </Suspense>

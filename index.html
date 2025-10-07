@@ -15,6 +15,9 @@
     <!-- КРИТИЧЕСКИЕ PRELOADS для LCP (только самые важные) -->
     <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" fetchpriority="high">
 
+    <!-- Preload video только на хорошем соединении и десктопе -->
+    <link rel="preload" href="/videos/circle-optimized.mp4" as="video" type="video/mp4" media="(min-width: 768px) and (prefers-reduced-data: no-preference)" fetchpriority="low">
+
     <!-- Некритические ресурсы загружаются позже (только на десктопе) -->
     <link rel="prefetch" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="(min-width: 768px)">
     <link rel="prefetch" href="/fonts/Montserrat-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="(min-width: 768px)">

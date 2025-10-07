@@ -8,9 +8,6 @@
 export const safePlayVideo = (video) => {
   if (!video) return Promise.resolve();
 
-  // Сохраняем текущее состояние
-  const currentTime = video.currentTime;
-
   // Если уже воспроизводится, ничего не делаем
   if (!video.paused && !video.ended) {
     return Promise.resolve();

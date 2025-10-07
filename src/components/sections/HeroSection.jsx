@@ -43,7 +43,8 @@ const HeroSection = memo(() => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: isMobile ? 0.08 : 0.15, // Быстрее на мобильных
+        staggerChildren: isMobile ? 0.05 : 0.15, // Значительно быстрее на мобильных
+        duration: isMobile ? 0.3 : 0.6, // Уменьшаем длительность
       },
     },
   };
@@ -51,14 +52,14 @@ const HeroSection = memo(() => {
   const titleVariants = {
     hidden: {
       opacity: 0,
-      y: isMobile ? 20 : 30, // Меньше движения на мобильных
+      y: isMobile ? 10 : 30, // Минимальное движение на мобильных
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: isMobile ? 0.4 : 0.6, // Быстрее на мобильных
-        ease: "easeOut",
+        duration: isMobile ? 0.3 : 0.6, // Значительно быстрее на мобильных
+        ease: [0.22, 1, 0.36, 1], // Более плавный easing
       },
     },
   };
@@ -78,9 +79,6 @@ const HeroSection = memo(() => {
   // ОТКЛЮЧЕНО для максимальной производительности
   const stars = useMemo(() => [], []);
 
-  // Мемоизируем массив больших светящихся кружочков (ОТКЛЮЧЕНО для Performance)
-  const glowDots = useMemo(() => [], []);
-
   const starVariants = {
     hidden: { 
       scale: 0,
@@ -97,21 +95,6 @@ const HeroSection = memo(() => {
     }),
   };
 
-  const glowVariants = {
-    hidden: { 
-      scale: 0,
-      opacity: 0,
-    },
-    visible: (custom) => ({
-      scale: 1,
-      opacity: custom.opacity,
-      transition: {
-        delay: custom.delay,
-        duration: 1.2,
-        ease: "easeOut",
-      },
-    }),
-  };
 
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center text-white bg-black overflow-hidden">
