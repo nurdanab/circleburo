@@ -35,24 +35,36 @@
       }
     </style>
 
-    <!-- Асинхронная загрузка дополнительных шрифтов (только на десктопе или хорошем соединении) -->
+    <!-- Асинхронная загрузка дополнительных шрифтов (оптимизировано) -->
     <script>
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-          // Проверяем тип устройства и соединение
-          const isMobile = window.innerWidth < 768;
-          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-          const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.saveData);
+      // ОПТИМИЗАЦИЯ: Загружаем шрифты через Intersection Observer - только когда нужны
+      const loadExtraFonts = () => {
+        const isMobile = window.innerWidth < 768;
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.saveData);
 
-          // На мобильных с медленным соединением не загружаем дополнительные шрифты
-          if (isMobile && slowConnection) return;
+        // Пропускаем на медленных соединениях
+        if (slowConnection) return;
 
+        // На мобильных загружаем только bold
+        if (isMobile) {
+          const boldFont = new FontFace('Montserrat', 'url(/fonts/Montserrat-Bold.woff2)', { weight: '700', display: 'swap' });
+          boldFont.load().then(font => document.fonts.add(font)).catch(() => {});
+        } else {
+          // На десктопе загружаем оба
           const boldFont = new FontFace('Montserrat', 'url(/fonts/Montserrat-Bold.woff2)', { weight: '700', display: 'swap' });
           const lightFont = new FontFace('Montserrat', 'url(/fonts/Montserrat-Light.woff2)', { weight: '300', display: 'swap' });
           Promise.all([boldFont.load(), lightFont.load()]).then((fonts) => {
             fonts.forEach(font => document.fonts.add(font));
-          });
-        });
+          }).catch(() => {});
+        }
+      };
+
+      // Загружаем после First Input Delay (когда пользователь может взаимодействовать)
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadExtraFonts, { timeout: 3000 });
+      } else {
+        setTimeout(loadExtraFonts, 2000);
       }
     </script>
     

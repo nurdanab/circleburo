@@ -12,8 +12,6 @@ const Header = () => {
   const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
   const location = useLocation();
   const navigate = useNavigate();
   const servicesDropdownRef = useRef(null);
@@ -22,28 +20,8 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Отслеживание размера экрана
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setScreenWidth(width);
-      setIsMobile(width < 1024);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Вычисляем gap на основе размера экрана
-  const getNavigationGap = () => {
-    if (screenWidth < 1200) return '1rem';
-    if (screenWidth < 1400) return '1.5rem';
-    return '2rem';
-  };
+  // ОПТИМИЗАЦИЯ: Убрали isMobile и screenWidth state - используем CSS media queries
+  // Это убирает постоянные re-renders при resize
 
   // Закрыть dropdown при клике вне его области
   useEffect(() => {
@@ -160,14 +138,7 @@ const Header = () => {
         </div>
 
         {/* Навигационные ссылки для десктопа */}
-        <div style={{
-          flex: 1,
-          justifyContent: 'center',
-          gap: getNavigationGap(),
-          alignItems: 'center',
-          display: !isMobile ? 'flex' : 'none',
-          minWidth: 0
-        }}>
+        <div className="hidden lg:flex flex-1 justify-center gap-4 xl:gap-8 items-center min-w-0">
           {/* Главная */}
           <Link
             to="/"
@@ -276,11 +247,7 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка "Contact us" для десктопа */}
-        <div style={{
-          alignItems: 'center',
-          gap: '1rem',
-          display: !isMobile ? 'flex' : 'none'
-        }}>
+        <div className="hidden lg:flex items-center gap-4">
           <LanguageSwitcher />
           <button
             onClick={() => scrollToSection('contact')}
@@ -303,11 +270,7 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div style={{
-          display: isMobile ? 'flex' : 'none',
-          alignItems: 'center',
-          gap: '1rem',
-        }}>
+        <div className="flex lg:hidden items-center gap-4">
           <LanguageSwitcher />
           <button
             onClick={toggleMenu}

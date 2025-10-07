@@ -8,7 +8,7 @@ const ProjectsSection = memo(() => {
   const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState('steppe-coffee');
   const [loadedVideos, setLoadedVideos] = useState(new Set());
-  const [visibleVideos, setVisibleVideos] = useState(new Set()); // Новое состояние для видимости
+  const [visibleVideos, setVisibleVideos] = useState(new Set());
   const videoRefs = useRef(new Map());
 
   // Данные подсекций с переводами
@@ -90,80 +90,70 @@ const ProjectsSection = memo(() => {
     }
   ];
 
-  // Умная загрузка видео - проверяем тип соединения
+  // Загрузка видео при смене таба
   useEffect(() => {
-    const observers = new Map();
-    let loadQueue = [];
-    let isLoading = false;
-
-    // Проверяем качество соединения
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.saveData);
-    const isMobile = window.innerWidth < 768;
 
-    // На медленном соединении или мобильных не загружаем видео автоматически
-    if (slowConnection || isMobile) {
-      return;
-    }
-
-    // Функция для последовательной загрузки видео
-    const loadNextVideo = () => {
-      if (isLoading || loadQueue.length === 0) return;
-
-      isLoading = true;
-      const videoId = loadQueue.shift();
-      const videoEl = videoRefs.current.get(videoId);
-
-      if (videoEl) {
-        setLoadedVideos(prev => new Set([...prev, videoId]));
-
-        const handleCanPlay = () => {
-          setTimeout(() => {
-            setVisibleVideos(prev => new Set([...prev, videoId]));
-            isLoading = false;
-            // Загружаем следующее видео после небольшой задержки
-            setTimeout(loadNextVideo, 300);
-          }, 100);
-          videoEl.removeEventListener('canplay', handleCanPlay);
-        };
-
-        videoEl.addEventListener('canplay', handleCanPlay);
-        videoEl.load();
-      } else {
-        isLoading = false;
-        loadNextVideo();
-      }
-    };
-
+    // Собираем все видео активного таба которые еще не загружены
+    const videosToLoad = [];
     videoRefs.current.forEach((videoEl, videoId) => {
       if (!videoEl || !videoId.startsWith(activeTab)) return;
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            // Добавляем видео в очередь загрузки
-            if (!loadQueue.includes(videoId) && !loadedVideos.has(videoId)) {
-              loadQueue.push(videoId);
-              loadNextVideo();
-            }
-            observer.disconnect();
-          }
-        },
-        {
-          rootMargin: '100px', // Уменьшенный margin для более точной загрузки
-          threshold: 0.1
-        }
-      );
-
-      observer.observe(videoEl);
-      observers.set(videoId, observer);
+      if (loadedVideos.has(videoId)) return;
+      videosToLoad.push({ videoEl, videoId });
     });
 
-    return () => {
-      observers.forEach(observer => observer.disconnect());
-      loadQueue = [];
-    };
-  }, [activeTab, subsections]);
+    if (videosToLoad.length === 0) return;
+
+    // Сначала обновляем loadedVideos для всех видео сразу
+    setLoadedVideos(prev => {
+      const newSet = new Set(prev);
+      videosToLoad.forEach(({ videoId }) => newSet.add(videoId));
+      return newSet;
+    });
+
+    // Потом загружаем видео
+    videosToLoad.forEach(({ videoEl, videoId }, index) => {
+      setTimeout(() => {
+        if (slowConnection) {
+          // На медленном соединении сразу показываем
+          setVisibleVideos(prev => {
+            const newSet = new Set(prev);
+            newSet.add(videoId);
+            return newSet;
+          });
+          return;
+        }
+
+        // Устанавливаем preload для загрузки первого кадра
+        videoEl.preload = 'metadata';
+
+        const handleLoadedMetadata = () => {
+          setVisibleVideos(prev => {
+            const newSet = new Set(prev);
+            newSet.add(videoId);
+            return newSet;
+          });
+          videoEl.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        };
+
+        const handleError = () => {
+          console.warn('Video failed to load:', videoId);
+          setVisibleVideos(prev => {
+            const newSet = new Set(prev);
+            newSet.add(videoId);
+            return newSet;
+          });
+          videoEl.removeEventListener('error', handleError);
+        };
+
+        videoEl.addEventListener('loadedmetadata', handleLoadedMetadata);
+        videoEl.addEventListener('error', handleError);
+        videoEl.load();
+      }, index * 100);
+    });
+
+  }, [activeTab]); // Убрали loadedVideos из зависимостей - это важно!
 
   // Получаем размеры для элементов коллажа
   const getSizeClasses = (size) => {

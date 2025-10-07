@@ -12,30 +12,15 @@ const HeroSection = memo(() => {
   const { t } = useTranslation();
   // Проверяем предпочтения пользователя по анимациям
   const prefersReducedMotion = useReducedMotion();
-  const { scrollY } = useScroll();
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  // Отключаем скролл анимации для производительности если пользователь предпочитает меньше анимаций
-  const shouldAnimate = !prefersReducedMotion && !isMobile;
-  
-  // Трансформации для скролла (оптимизированы для производительности)
-  const titleOpacity = useTransform(scrollY, [0, 300], shouldAnimate ? [1, 0] : [1, 1]);
-  const titleScale = useTransform(scrollY, [0, 300], shouldAnimate ? [1, 0.8] : [1, 1]);
-  const titleY = useTransform(scrollY, [0, 300], shouldAnimate ? [0, -100] : [0, 0]);
-  // На мобильных отключаем сложные скролл-анимации для звезд
-  const starsOpacity = useTransform(scrollY, [0, 200], shouldAnimate ? [1, 0] : [1, 1]);
-  const starsScale = useTransform(scrollY, [0, 200], shouldAnimate ? [1, 1.2] : [1, 1]);
+  // КРИТИЧНО: Полностью отключаем scroll-анимации для производительности
+  // Scroll-анимации вызывают janky scrolling на мобильных и слабых устройствах
+  const shouldAnimate = false; // Было: !prefersReducedMotion && !isMobile
 
   useEffect(() => {
     setMounted(true);
-    // Определяем мобильное устройство для оптимизации
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const containerVariants = {
@@ -99,52 +84,7 @@ const HeroSection = memo(() => {
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center text-white bg-black overflow-hidden">
       
-      {/* Анимированные звездочки и кружочки на фоне */}
-      <motion.div 
-        className="absolute inset-0 z-0"
-        style={{
-          opacity: mounted ? starsOpacity : 1,
-          scale: mounted ? starsScale : 1,
-        }}
-      >
-        {/* Звездочки */}
-        {stars.map((star) => (
-          <motion.div
-            key={`star-${star.id}`}
-            className="absolute"
-            style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              transform: 'translate(-50%, -50%)',
-            }}
-            variants={starVariants}
-            custom={star}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div
-              className="bg-white rounded-full"
-              style={{
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, 0.5)`,
-              }}
-              animate={{
-                opacity: [star.opacity * 0.5, star.opacity, star.opacity * 0.5],
-              }}
-              transition={{
-                duration: star.duration,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "linear",
-                delay: star.twinkleDelay,
-              }}
-            />
-          </motion.div>
-        ))}
-
-        {/* Большие светящиеся кружочки - ОТКЛЮЧЕНЫ для производительности */}
-      </motion.div>
+      {/* Звезды отключены для производительности - stars.length === 0 */}
 
       {/* LCP Статичный контент для быстрого рендеринга */}
       <div className="absolute inset-0 z-5 pointer-events-none flex items-center justify-center">
@@ -190,11 +130,8 @@ const HeroSection = memo(() => {
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
             textShadow: '0 0 20px rgba(255, 255, 255, 0.08)',
             WebkitTextStroke: '1px rgba(255, 255, 255, 0.08)',
-            opacity: mounted ? titleOpacity : 1,
-            scale: mounted ? titleScale : 1,
-            y: mounted ? titleY : 0,
-            willChange: 'opacity, transform',
-            transform: 'translateZ(0)', // Активируем аппаратное ускорение
+            willChange: 'auto', // Убираем will-change для лучшей производительности
+            transform: 'translateZ(0)',
             contain: 'layout style paint',
           }}
           variants={titleVariants}
