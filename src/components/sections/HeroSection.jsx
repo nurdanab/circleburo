@@ -43,8 +43,8 @@ const HeroSection = memo(() => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: isMobile ? 0.05 : 0.15, // Значительно быстрее на мобильных
-        duration: isMobile ? 0.3 : 0.6, // Уменьшаем длительность
+        staggerChildren: isMobile ? 0.02 : 0.1, // Еще быстрее на мобильных
+        duration: isMobile ? 0.2 : 0.5, // Минимальная длительность
       },
     },
   };
@@ -52,13 +52,13 @@ const HeroSection = memo(() => {
   const titleVariants = {
     hidden: {
       opacity: 0,
-      y: isMobile ? 10 : 30, // Минимальное движение на мобильных
+      y: isMobile ? 5 : 20, // Минимальное движение на мобильных
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: isMobile ? 0.3 : 0.6, // Значительно быстрее на мобильных
+        duration: isMobile ? 0.2 : 0.5, // Значительно быстрее
         ease: [0.22, 1, 0.36, 1], // Более плавный easing
       },
     },
@@ -69,8 +69,8 @@ const HeroSection = memo(() => {
     visible: {
       opacity: 1,
       transition: {
-        delay: isMobile ? 0.5 : 0.8, // Быстрее на мобильных
-        duration: isMobile ? 0.3 : 0.4,
+        delay: isMobile ? 0.3 : 0.6, // Быстрее на мобильных
+        duration: isMobile ? 0.2 : 0.3,
       },
     },
   };

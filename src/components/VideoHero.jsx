@@ -98,14 +98,15 @@ const VideoHero = memo(({ className = "" }) => {
   return (
     <div
       data-video-hero
-      className={`w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[95vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] mx-auto flex items-center justify-center px-1 sm:px-0 touch-manipulation ${className}`}
+      className={`w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[95vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] mx-auto flex items-center justify-center touch-manipulation ${className}`}
+      style={{ padding: 0 }}
     >
       {!isLoaded && <LoadingSkeleton />}
 
       {shouldLoadVideo && (
         <video
           ref={videoRef}
-          className={`w-full h-full object-cover sm:object-contain transition-opacity duration-700 ease-out ${
+          className={`w-full h-full object-contain transition-opacity duration-700 ease-out ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
@@ -114,8 +115,11 @@ const VideoHero = memo(({ className = "" }) => {
             // Предотвращаем мигание
             position: isLoaded ? 'relative' : 'absolute',
             visibility: isLoaded ? 'visible' : 'hidden',
-            // Центрирование видео на мобильных
-            objectPosition: 'center'
+            // Центрирование видео на всех устройствах
+            objectPosition: 'center center',
+            // Убираем любые отступы
+            margin: 0,
+            padding: 0
           }}
         autoPlay
         loop

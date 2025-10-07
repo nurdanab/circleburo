@@ -93,6 +93,8 @@ const ProjectsSection = memo(() => {
   // Умная загрузка видео - проверяем тип соединения
   useEffect(() => {
     const observers = new Map();
+    let loadQueue = [];
+    let isLoading = false;
 
     // Проверяем качество соединения
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
@@ -104,13 +106,34 @@ const ProjectsSection = memo(() => {
       return;
     }
 
-    // Сразу помечаем все видео текущей вкладки как загружаемые
-    const currentTabVideos = new Set();
-    subsections.find(s => s.id === activeTab)?.projects.forEach((_, index) => {
-      currentTabVideos.add(`${activeTab}-${index}`);
-    });
+    // Функция для последовательной загрузки видео
+    const loadNextVideo = () => {
+      if (isLoading || loadQueue.length === 0) return;
 
-    setLoadedVideos(prev => new Set([...prev, ...currentTabVideos]));
+      isLoading = true;
+      const videoId = loadQueue.shift();
+      const videoEl = videoRefs.current.get(videoId);
+
+      if (videoEl) {
+        setLoadedVideos(prev => new Set([...prev, videoId]));
+
+        const handleCanPlay = () => {
+          setTimeout(() => {
+            setVisibleVideos(prev => new Set([...prev, videoId]));
+            isLoading = false;
+            // Загружаем следующее видео после небольшой задержки
+            setTimeout(loadNextVideo, 300);
+          }, 100);
+          videoEl.removeEventListener('canplay', handleCanPlay);
+        };
+
+        videoEl.addEventListener('canplay', handleCanPlay);
+        videoEl.load();
+      } else {
+        isLoading = false;
+        loadNextVideo();
+      }
+    };
 
     videoRefs.current.forEach((videoEl, videoId) => {
       if (!videoEl || !videoId.startsWith(activeTab)) return;
@@ -118,21 +141,17 @@ const ProjectsSection = memo(() => {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            // Плавное появление видео
-            setTimeout(() => {
-              setVisibleVideos(prev => new Set([...prev, videoId]));
-            }, 100);
-
-            // Загружаем видео
-            if (videoEl.paused && videoEl.readyState < 2) {
-              videoEl.load();
+            // Добавляем видео в очередь загрузки
+            if (!loadQueue.includes(videoId) && !loadedVideos.has(videoId)) {
+              loadQueue.push(videoId);
+              loadNextVideo();
             }
             observer.disconnect();
           }
         },
         {
-          rootMargin: '200px', // Увеличенный margin для раннего старта
-          threshold: 0.01
+          rootMargin: '100px', // Уменьшенный margin для более точной загрузки
+          threshold: 0.1
         }
       );
 
@@ -142,6 +161,7 @@ const ProjectsSection = memo(() => {
 
     return () => {
       observers.forEach(observer => observer.disconnect());
+      loadQueue = [];
     };
   }, [activeTab, subsections]);
 
@@ -232,11 +252,11 @@ const ProjectsSection = memo(() => {
                   <div className="flex flex-col gap-[5px] flex-1">
                     <motion.div
                       className={`relative overflow-hidden ${getSizeClasses(subsection.projects[0].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[0].color, willChange: 'opacity' }}
+                      style={{ backgroundColor: subsection.projects[0].color }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.3,
+                        duration: 0.2,
                         delay: 0,
                         ease: "easeOut"
                       }}
@@ -283,12 +303,12 @@ const ProjectsSection = memo(() => {
                     </motion.div>
                     <motion.div
                       className={`relative overflow-hidden ${getSizeClasses(subsection.projects[1].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[1].color, willChange: 'opacity' }}
+                      style={{ backgroundColor: subsection.projects[1].color }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.3,
-                        delay: 0.05,
+                        duration: 0.2,
+                        delay: 0.03,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {
@@ -338,12 +358,12 @@ const ProjectsSection = memo(() => {
                   <div className="flex flex-col gap-[5px] flex-1">
                     <motion.div
                       className={`relative overflow-hidden ${getSizeClasses(subsection.projects[2].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[2].color, willChange: 'opacity' }}
+                      style={{ backgroundColor: subsection.projects[2].color }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.3,
-                        delay: 0.1,
+                        duration: 0.2,
+                        delay: 0.06,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {
@@ -389,12 +409,12 @@ const ProjectsSection = memo(() => {
                     </motion.div>
                     <motion.div
                       className={`relative overflow-hidden ${getSizeClasses(subsection.projects[3].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[3].color, willChange: 'opacity' }}
+                      style={{ backgroundColor: subsection.projects[3].color }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.3,
-                        delay: 0.15,
+                        duration: 0.2,
+                        delay: 0.09,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {
@@ -444,12 +464,12 @@ const ProjectsSection = memo(() => {
                   <div className="flex flex-col flex-1">
                     <motion.div
                       className={`relative overflow-hidden ${getSizeClasses(subsection.projects[4].size)} w-full min-h-0`}
-                      style={{ backgroundColor: subsection.projects[4].color, willChange: 'opacity' }}
+                      style={{ backgroundColor: subsection.projects[4].color }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{
-                        duration: 0.3,
-                        delay: 0.2,
+                        duration: 0.2,
+                        delay: 0.12,
                         ease: "easeOut"
                       }}
                       onMouseEnter={(e) => {

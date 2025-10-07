@@ -67,6 +67,27 @@ html {
   overscroll-behavior-y: none; /* Предотвращаем bounce на iOS */
 }
 
+/* Дополнительные оптимизации производительности */
+img, video {
+  content-visibility: auto;
+  will-change: auto;
+}
+
+/* Оптимизация для мобильных устройств */
+@media (max-width: 768px) {
+  * {
+    /* Отключаем сложные эффекты на мобильных */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  /* Уменьшаем сложность анимаций */
+  .motion-reduce {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+}
+
 /* Prevent CLS for common elements */
 img, video, canvas, svg {
   max-width: 100%;

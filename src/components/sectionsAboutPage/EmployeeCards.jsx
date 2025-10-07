@@ -49,15 +49,16 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   const rotateY = useSpring(0, { stiffness: 100, damping: 30 });
 
   const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    
+    // Отключаем 3D эффекты на мобильных для производительности
+    if (window.innerWidth < 768 || !cardRef.current) return;
+
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     const offsetX = (e.clientX - centerX) / (rect.width / 2);
     const offsetY = (e.clientY - centerY) / (rect.height / 2);
-    
+
     rotateY.set(offsetX * 8);
     rotateX.set(-offsetY * 8);
   };
@@ -76,9 +77,12 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
     <motion.div
       ref={cardRef}
       className="relative w-[280px] min-h-[440px] flex-shrink-0 perspective-1000 lazy-below-fold"
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: window.innerWidth < 768 ? 10 : 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.6 }}
+      transition={{
+        delay: index * (window.innerWidth < 768 ? 0.03 : 0.08),
+        duration: window.innerWidth < 768 ? 0.3 : 0.5
+      }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -290,13 +294,13 @@ const AnimatedEmployeeCards = () => {
         </motion.div>
 
         {/* Cards - Horizontal scroll container with enhanced styling */}
-        <div className="relative overflow-x-auto scrollbar-hide">
+        <div className="relative overflow-x-auto overflow-y-visible scrollbar-hide touch-pan-x" style={{ WebkitOverflowScrolling: 'touch' }}>
           {/* Gradient overlays for scroll indication */}
           <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
-          
+
           {/* Enhanced cards container */}
-          <motion.div 
+          <motion.div
             className="flex gap-8 sm:gap-10 lg:gap-12 px-8 py-16 min-w-max"
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -326,7 +330,8 @@ const AnimatedEmployeeCards = () => {
           -ms-overflow-style: none;
           scrollbar-width: none;
           scroll-behavior: smooth;
-          scroll-snap-type: x mandatory;
+          scroll-snap-type: x proximity;
+          overscroll-behavior-x: contain;
         }
         .scrollbar-hide > div {
           scroll-snap-align: start;
@@ -334,6 +339,12 @@ const AnimatedEmployeeCards = () => {
         @media (prefers-reduced-motion: no-preference) {
           .scrollbar-hide {
             scroll-behavior: smooth;
+          }
+        }
+        @media (max-width: 768px) {
+          .scrollbar-hide {
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
           }
         }
         .perspective-1000 {
