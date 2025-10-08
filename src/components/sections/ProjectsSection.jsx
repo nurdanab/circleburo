@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -10,10 +10,7 @@ const ProjectsSection = memo(() => {
   const [loadedVideos, setLoadedVideos] = useState(new Set());
   const [visibleVideos, setVisibleVideos] = useState(new Set());
   const videoRefs = useRef(new Map());
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
+  const [isMobile, setIsMobile] = useState(false);
 
   // Данные подсекций с переводами
   const subsections = [
@@ -94,38 +91,17 @@ const ProjectsSection = memo(() => {
     }
   ];
 
-  // Определяем мобильное устройство и prefers-reduced-motion - ОПТИМИЗИРОВАНО
+  // Определяем мобильное устройство
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
     checkMobile();
+    const resizeObserver = new ResizeObserver(checkMobile);
+    resizeObserver.observe(document.body);
 
-    // Проверяем prefers-reduced-motion
-    const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const handleMotionChange = (e) => setPrefersReducedMotion(e.matches);
-
-    if (motionMediaQuery.addEventListener) {
-      motionMediaQuery.addEventListener('change', handleMotionChange);
-    }
-
-    // Используем обычный resize вместо ResizeObserver для лучшей производительности
-    let resizeTimer;
-    const handleResize = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(checkMobile, 150); // debounce
-    };
-
-    window.addEventListener('resize', handleResize, { passive: true });
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (motionMediaQuery.removeEventListener) {
-        motionMediaQuery.removeEventListener('change', handleMotionChange);
-      }
-      clearTimeout(resizeTimer);
-    };
+    return () => resizeObserver.disconnect();
   }, []);
 
   // Очистка видео при смене таба
@@ -138,101 +114,60 @@ const ProjectsSection = memo(() => {
     });
   }, [activeTab]);
 
-  // Оптимизированная загрузка видео при смене таба с Intersection Observer
+  // Упрощенная загрузка видео при смене таба
   useEffect(() => {
-    if (!isMobile) {
-      // На десктопе загружаем видео сразу
-      const videosToLoad = [];
-      videoRefs.current.forEach((videoEl, videoId) => {
-        if (!videoEl || !videoId.startsWith(activeTab)) return;
-        if (loadedVideos.has(videoId)) return;
-        videosToLoad.push({ videoEl, videoId });
-      });
+    // Собираем все видео активного таба которые еще не загружены
+    const videosToLoad = [];
+    videoRefs.current.forEach((videoEl, videoId) => {
+      if (!videoEl || !videoId.startsWith(activeTab)) return;
+      if (loadedVideos.has(videoId)) return;
+      videosToLoad.push({ videoEl, videoId });
+    });
 
-      if (videosToLoad.length === 0) return;
+    if (videosToLoad.length === 0) return;
 
-      // Обновляем loadedVideos для всех видео сразу
-      setLoadedVideos(prev => {
-        const newSet = new Set(prev);
-        videosToLoad.forEach(({ videoId }) => newSet.add(videoId));
-        return newSet;
-      });
+    // Обновляем loadedVideos для всех видео сразу
+    setLoadedVideos(prev => {
+      const newSet = new Set(prev);
+      videosToLoad.forEach(({ videoId }) => newSet.add(videoId));
+      return newSet;
+    });
 
-      // Загружаем видео последовательно с задержкой
-      videosToLoad.forEach(({ videoEl, videoId }, index) => {
-        setTimeout(() => {
-          setVisibleVideos(prev => {
-            const newSet = new Set(prev);
-            newSet.add(videoId);
-            return newSet;
-          });
-
-          videoEl.preload = 'metadata';
-
-          const handleCanPlay = () => {
-            videoEl.removeEventListener('canplay', handleCanPlay);
-          };
-
-          const handleError = () => {
-            if (import.meta.env.DEV) {
-              console.warn('Video failed to load:', videoId);
-            }
-            videoEl.removeEventListener('error', handleError);
-          };
-
-          videoEl.addEventListener('canplay', handleCanPlay, { passive: true });
-          videoEl.addEventListener('error', handleError, { passive: true });
-
-          if (videoEl.src) {
-            videoEl.load();
-          }
-        }, index * 50);
-      });
-    } else {
-      // На мобильных используем Intersection Observer для ленивой загрузки
-      const videosToObserve = [];
-      videoRefs.current.forEach((videoEl, videoId) => {
-        if (!videoEl || !videoId.startsWith(activeTab)) return;
-        if (loadedVideos.has(videoId)) return;
-        videosToObserve.push({ videoEl, videoId });
-      });
-
-      if (videosToObserve.length === 0) return;
-
-      const observerOptions = {
-        root: null,
-        rootMargin: '100px', // загружаем видео за 100px до появления в viewport
-        threshold: 0.01
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const videoEl = entry.target;
-            const videoId = Array.from(videoRefs.current.entries())
-              .find(([_, el]) => el === videoEl)?.[0];
-
-            if (videoId && !loadedVideos.has(videoId)) {
-              setLoadedVideos(prev => new Set(prev).add(videoId));
-              setVisibleVideos(prev => new Set(prev).add(videoId));
-
-              videoEl.preload = 'none';
-              if (videoEl.src) {
-                videoEl.load();
-              }
-
-              observer.unobserve(videoEl);
-            }
-          }
+    // Загружаем видео последовательно с задержкой
+    videosToLoad.forEach(({ videoEl, videoId }, index) => {
+      setTimeout(() => {
+        // Сразу показываем видео
+        setVisibleVideos(prev => {
+          const newSet = new Set(prev);
+          newSet.add(videoId);
+          return newSet;
         });
-      }, observerOptions);
 
-      videosToObserve.forEach(({ videoEl }) => observer.observe(videoEl));
+        // Устанавливаем preload в зависимости от устройства
+        videoEl.preload = isMobile ? 'none' : 'metadata';
 
-      return () => observer.disconnect();
-    }
+        const handleCanPlay = () => {
+          videoEl.removeEventListener('canplay', handleCanPlay);
+        };
 
-  }, [activeTab, isMobile, loadedVideos]);
+        const handleError = () => {
+          if (import.meta.env.DEV) {
+            console.warn('Video failed to load:', videoId);
+          }
+          videoEl.removeEventListener('error', handleError);
+        };
+
+        videoEl.addEventListener('canplay', handleCanPlay);
+        videoEl.addEventListener('error', handleError);
+
+        // Загружаем видео
+        if (videoEl.src) {
+          videoEl.load();
+        }
+      }, index * 50);
+    });
+
+  }, [activeTab, isMobile]);
 
   // Упрощенные обработчики для hover
   const handleVideoMouseEnter = useCallback((e, subsectionId) => {
@@ -256,8 +191,8 @@ const ProjectsSection = memo(() => {
     }
   }, []);
 
-  // Получаем размеры для элементов коллажа - мемоизировано
-  const getSizeClasses = useCallback((size) => {
+  // Получаем размеры для элементов коллажа
+  const getSizeClasses = (size) => {
     switch (size) {
       case 'a':
         return 'flex-[3]'; // размер "а" - 60% высоты (3 части из 5)
@@ -268,54 +203,29 @@ const ProjectsSection = memo(() => {
       default:
         return 'flex-[2]';
     }
-  }, []);
-
-  // Условная анимация в зависимости от возможностей устройства - мемоизировано
-  const shouldAnimate = useMemo(
-    () => !isMobile && !prefersReducedMotion,
-    [isMobile, prefersReducedMotion]
-  );
-
-  // Активная подсекция - мемоизировано
-  const activeSubsection = useMemo(
-    () => subsections.find(s => s.id === activeTab),
-    [activeTab, subsections]
-  );
+  };
 
   return (
     <section id="projects" className="bg-black text-white py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
 
-        {/* Заголовок секции - упрощенная анимация */}
-        {shouldAnimate ? (
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm uppercase tracking-widest text-white/80 backdrop-blur-sm mb-4">
-              {t('projects.subtitle')}
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-              <span className="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-white">
-                {t('projects.title')}
-              </span>
-            </h1>
-          </motion.div>
-        ) : (
-          <div className="text-center mb-16 animate-fadeIn">
-            <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm uppercase tracking-widest text-white/80 backdrop-blur-sm mb-4">
-              {t('projects.subtitle')}
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-              <span className="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-white">
-                {t('projects.title')}
-              </span>
-            </h1>
+        {/* Заголовок секции */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm uppercase tracking-widest text-white/80 backdrop-blur-sm mb-4">
+            {t('projects.subtitle')}
           </div>
-        )}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
+            <span className="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-white">
+              {t('projects.title')}
+            </span>
+          </h1>
+        </motion.div>
 
         {/* Табы */}
         <div className="mb-12">
@@ -384,9 +294,9 @@ const ProjectsSection = memo(() => {
                           src={subsection.projects[0].image}
                           alt={subsection.title[i18n.language] || subsection.title.en}
                           className="absolute inset-0 w-full h-full object-cover object-center"
-                          loading={subsection.id === activeTab && index === 0 ? "eager" : "lazy"}
+                          loading="lazy"
                           decoding="async"
-                          fetchPriority={subsection.id === activeTab && index === 0 ? "high" : "low"}
+                          fetchPriority="low"
                         />
                       )}
                       {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[0].video && (

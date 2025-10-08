@@ -1,13 +1,11 @@
-import React, { useState, memo, useMemo } from 'react';
+import React, { useState, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import StructuredData from '../StructuredData';
-import { useDeviceOptimization } from '../../hooks/useDeviceOptimization';
 
 const ServicesSection = memo(() => {
   const { t } = useTranslation();
-  const { shouldAnimate, animationDuration, animationStagger } = useDeviceOptimization();
 
   const servicesData = [
     {
@@ -51,33 +49,20 @@ const ServicesSection = memo(() => {
       ))}
       
       <div className="max-w-7xl mx-auto">
-        {shouldAnimate ? (
-          <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-0"
-            initial={{ opacity: 0, y: -30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: animationDuration }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            {t('services.title')}
-          </motion.h1>
-        ) : (
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-0 animate-fadeIn">
-            {t('services.title')}
-          </h1>
-        )}
+        <motion.h1
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-0"
+          initial={{ opacity: 0, y: -50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          {t('services.title')}
+        </motion.h1>
 
         {/* Контейнер для карточек */}
         <div className="flex flex-col lg:flex-row gap-12 justify-center items-center" style={{ marginTop: '40px' }}>
           {servicesData.map((service, index) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              index={index}
-              shouldAnimate={shouldAnimate}
-              animationDuration={animationDuration}
-              animationStagger={animationStagger}
-            />
+            <ServiceCard key={service.id} service={service} index={index} />
           ))}
         </div>
       </div>
@@ -85,37 +70,26 @@ const ServicesSection = memo(() => {
   );
 });
 
-const ServiceCard = memo(({ service, index, shouldAnimate, animationDuration, animationStagger }) => {
+const ServiceCard = ({ service, index }) => {
   const [isHovered, setIsHovered] = useState(false);
   const textColorClass = isHovered ? 'text-black' : 'text-white';
 
-  const CardWrapper = shouldAnimate ? motion.div : 'div';
-  const animationProps = shouldAnimate
-    ? {
-        initial: { opacity: 0, y: 30 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: animationDuration, delay: index * animationStagger },
-        viewport: { once: true, amount: 0.2 },
-      }
-    : {};
-
   return (
-    <CardWrapper
-      className={`relative w-full max-w-sm h-96 rounded-[30px] overflow-hidden group ${!shouldAnimate ? 'animate-fadeIn' : ''}`}
-      style={!shouldAnimate ? { animationDelay: `${index * 0.1}s` } : {}}
+    <motion.div
+      className="relative w-full max-w-sm h-96 rounded-[30px] overflow-hidden group"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.2 }}
+      viewport={{ once: true }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      {...animationProps}
     >
       <Link to={service.link} onClick={() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} className="block w-full h-full">
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-all duration-300 ease-in-out"
-          style={{
-            backgroundImage: `url(${isHovered ? service.hoverBgImage : service.bgImage})`,
-            willChange: isHovered ? 'background-image' : 'auto'
-          }}
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center transition-all duration-75 ease-in-out"
+          style={{ backgroundImage: `url(${isHovered ? service.hoverBgImage : service.bgImage})` }}
         />
         <div className={`relative z-10 p-8 h-full flex flex-col justify-between transition-colors duration-75 ${textColorClass}`}>
           <div>
@@ -130,11 +104,10 @@ const ServiceCard = memo(({ service, index, shouldAnimate, animationDuration, an
           </div>
         </div>
       </Link>
-    </CardWrapper>
+    </motion.div>
   );
-});
+};
 
 ServicesSection.displayName = 'ServicesSection';
-ServiceCard.displayName = 'ServiceCard';
 
 export default ServicesSection;
