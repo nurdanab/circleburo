@@ -129,14 +129,14 @@ function AppContent() {
       setTimeout(() => {
         prefetchComponent(() => import('./pages/AboutPage'), 'AboutPage');
         prefetchComponent(() => import('./components/Footer'), 'Footer');
-      }, 3000); // Увеличен timeout для лучшего FID
+      }, 5000); // Еще больше увеличен timeout для лучшего FID и TTI
     }
   }, []);
 
   useEffect(() => {
     // Load and execute analytics dynamically for better performance
     // Откладываем загрузку аналитики на медленных соединениях и мобильных
-    const loadDelay = disableAnimations ? 5000 : (isMobile ? 2000 : 100);
+    const loadDelay = disableAnimations ? 10000 : (isMobile ? 3000 : 1000);
 
     const timeout = setTimeout(() => {
       import('./analytics.js').then(({ logPageView }) => {

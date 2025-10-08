@@ -1,6 +1,61 @@
 /* src/index.css */
 @import "tailwindcss";
 
+/* ОПТИМИЗАЦИЯ: CSS анимации для Header вместо Framer Motion */
+@keyframes headerSlideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-animate {
+  animation: headerSlideDown 0.3s ease-out forwards;
+}
+
+.mobile-menu-animate {
+  animation: mobileMenuFadeIn 0.2s ease-out forwards;
+}
+
+/* Оптимизация для мобильных устройств */
+@media (max-width: 768px) {
+  .header-animate {
+    animation-duration: 0.2s;
+  }
+
+  /* Отключаем backdrop-filter на мобильных - очень тяжелый */
+  header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(0, 0, 0, 0.95) !important;
+  }
+}
+
+/* Убираем анимации для пользователей с prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .header-animate,
+  .mobile-menu-animate {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Глобальный черный фон для быстрой загрузки */
 html {
   background-color: #000000 !important;

@@ -1,7 +1,7 @@
 // src/components/Header.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import OptimizedImage from './OptimizedImage';
 import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
@@ -84,7 +84,8 @@ const Header = () => {
   ];
 
   return (
-    <motion.header
+    <header
+      className="header-animate"
       style={{
         position: 'fixed',
         top: 0,
@@ -94,10 +95,8 @@ const Header = () => {
         padding: '1.5rem 3rem',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         backdropFilter: 'blur(8px)',
+        willChange: 'auto',
       }}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 100, damping: 20 }}
     >
       <nav
         role="navigation"
@@ -290,13 +289,9 @@ const Header = () => {
       {/* Выпадающее меню для мобильных устройств */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
+          <div
             id="mobile-menu"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden"
+            className="lg:hidden mobile-menu-animate"
             role="menu"
             aria-label="Мобильное меню навигации"
             style={{
@@ -418,11 +413,11 @@ const Header = () => {
             >
               {t('nav.contact')}
             </button>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 };
 
-export default Header;
+export default memo(Header);

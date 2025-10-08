@@ -15,9 +15,9 @@ const HeroSection = memo(() => {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  // КРИТИЧНО: Полностью отключаем scroll-анимации для производительности
+  // КРИТИЧНО: Отключаем scroll-анимации на мобильных для производительности
   // Scroll-анимации вызывают janky scrolling на мобильных и слабых устройствах
-  const shouldAnimate = false; // Было: !prefersReducedMotion && !isMobile
+  const shouldAnimate = !prefersReducedMotion && !isMobile;
 
   useEffect(() => {
     setMounted(true);
@@ -28,8 +28,8 @@ const HeroSection = memo(() => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: isMobile ? 0.02 : 0.1, // Еще быстрее на мобильных
-        duration: isMobile ? 0.2 : 0.5, // Минимальная длительность
+        staggerChildren: isMobile ? 0.01 : 0.05, // Максимально быстро
+        duration: isMobile ? 0.15 : 0.3, // Сокращено вдвое
       },
     },
   };
@@ -43,8 +43,8 @@ const HeroSection = memo(() => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: isMobile ? 0.2 : 0.5, // Значительно быстрее
-        ease: [0.22, 1, 0.36, 1], // Более плавный easing
+        duration: isMobile ? 0.15 : 0.3, // Еще быстрее
+        ease: "easeOut", // Упрощенный easing для лучшей производительности
       },
     },
   };
