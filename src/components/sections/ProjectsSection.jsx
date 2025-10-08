@@ -309,6 +309,7 @@ const ProjectsSection = memo(() => {
 
     const isPlaying = videoState.playingOnMobile.has(videoId);
     const shouldShowPoster = videoState.isMobile && !isPlaying;
+    const currentLang = i18n.language;
 
     if (shouldShowPoster) {
       // МОБИЛЬНЫЕ: Poster с кнопкой Play
@@ -319,7 +320,7 @@ const ProjectsSection = memo(() => {
         >
           <img
             src={getPosterPath(project.video)}
-            alt={subsection.title[i18n.language] || subsection.title.en}
+            alt={subsection.title[currentLang] || subsection.title.en}
             className="absolute inset-0 w-full h-full object-cover object-center"
             loading="lazy"
             decoding="async"
@@ -363,7 +364,7 @@ const ProjectsSection = memo(() => {
         }}
       />
     );
-  }, [videoState, handlePosterClick, getPosterPath, i18n.language]);
+  }, [videoState, handlePosterClick, getPosterPath]);
 
   // Получаем размеры для элементов коллажа
   const getSizeClasses = (size) => {
