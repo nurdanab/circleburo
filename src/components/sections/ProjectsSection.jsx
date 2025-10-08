@@ -7,10 +7,20 @@ import { safePlayVideo, safePauseVideo } from '../../utils/videoUtils';
 const ProjectsSection = memo(() => {
   const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState('steppe-coffee');
-  const [loadedVideos, setLoadedVideos] = useState(new Set());
-  const [visibleVideos, setVisibleVideos] = useState(new Set());
+
+  // ОПТИМИЗАЦИЯ: Объединяем state для минимизации ре-рендеров
+  const [videoState, setVideoState] = useState({
+    loaded: new Set(),
+    visible: new Set(),
+    isMobile: false,
+    playingOnMobile: new Set() // Видео, которые воспроизводятся на мобильных после клика
+  });
+
   const videoRefs = useRef(new Map());
-  const [isMobile, setIsMobile] = useState(false);
+  const observerRef = useRef(null);
+  const loadingQueueRef = useRef([]);
+  const currentlyLoadingRef = useRef(0);
+  const MAX_CONCURRENT_LOADS = 3;
 
   // Данные подсекций с переводами
   const subsections = [
@@ -91,18 +101,51 @@ const ProjectsSection = memo(() => {
     }
   ];
 
-  // Определяем мобильное устройство
+  // ОПТИМИЗАЦИЯ: Определяем мобильное устройство
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setVideoState(prev => ({ ...prev, isMobile: window.innerWidth < 768 }));
     };
 
     checkMobile();
     const resizeObserver = new ResizeObserver(checkMobile);
     resizeObserver.observe(document.body);
 
-    return () => resizeObserver.disconnect();
+    return () => {
+      resizeObserver.disconnect();
+    };
   }, []);
+
+  // Инициализируем Intersection Observer для ленивой загрузки видео
+  useEffect(() => {
+    // Создаём новый observer с актуальным processLoadingQueue
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          const videoId = entry.target.dataset.videoId;
+          if (!videoId) return;
+
+          if (entry.isIntersecting) {
+            // Видео стало видимым - добавляем в очередь загрузки
+            if (!loadingQueueRef.current.includes(videoId)) {
+              loadingQueueRef.current.push(videoId);
+              processLoadingQueue();
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '100px', // Загружаем заранее
+        threshold: 0.1
+      }
+    );
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [processLoadingQueue]);
 
   // Очистка видео при смене таба
   useEffect(() => {
@@ -114,65 +157,105 @@ const ProjectsSection = memo(() => {
     });
   }, [activeTab]);
 
-  // Упрощенная загрузка видео при смене таба
-  useEffect(() => {
-    // Собираем все видео активного таба которые еще не загружены
-    const videosToLoad = [];
-    videoRefs.current.forEach((videoEl, videoId) => {
-      if (!videoEl || !videoId.startsWith(activeTab)) return;
-      if (loadedVideos.has(videoId)) return;
-      videosToLoad.push({ videoEl, videoId });
-    });
+  // ОПТИМИЗАЦИЯ: Функция обработки очереди загрузки (макс 3 одновременно)
+  const processLoadingQueue = useCallback(() => {
+    while (
+      currentlyLoadingRef.current < MAX_CONCURRENT_LOADS &&
+      loadingQueueRef.current.length > 0
+    ) {
+      const videoId = loadingQueueRef.current.shift();
+      const videoEl = videoRefs.current.get(videoId);
 
-    if (videosToLoad.length === 0) return;
+      if (!videoEl) {
+        continue;
+      }
 
-    // Обновляем loadedVideos для всех видео сразу
-    setLoadedVideos(prev => {
-      const newSet = new Set(prev);
-      videosToLoad.forEach(({ videoId }) => newSet.add(videoId));
-      return newSet;
-    });
+      // Проверяем, не загружено ли уже
+      if (videoEl.src && videoEl.src !== window.location.href) {
+        currentlyLoadingRef.current--;
+        continue;
+      }
 
-    // Загружаем видео последовательно с задержкой
-    videosToLoad.forEach(({ videoEl, videoId }, index) => {
-      setTimeout(() => {
-        // Сразу показываем видео
-        setVisibleVideos(prev => {
-          const newSet = new Set(prev);
-          newSet.add(videoId);
-          return newSet;
-        });
+      currentlyLoadingRef.current++;
 
-        // Устанавливаем preload в зависимости от устройства
-        videoEl.preload = isMobile ? 'none' : 'metadata';
+      // На мобильных не загружаем видео, только показываем placeholder
+      if (videoState.isMobile) {
+        setVideoState(prev => ({
+          ...prev,
+          visible: new Set([...prev.visible, videoId]),
+          loaded: new Set([...prev.loaded, videoId])
+        }));
+        currentlyLoadingRef.current--;
+        // Не вызываем рекурсивно, чтобы избежать бесконечного цикла
+        setTimeout(() => processLoadingQueue(), 0);
+        continue;
+      }
 
-        const handleCanPlay = () => {
-          videoEl.removeEventListener('canplay', handleCanPlay);
-        };
+      const handleCanPlay = () => {
+        setVideoState(prev => ({
+          ...prev,
+          visible: new Set([...prev.visible, videoId]),
+          loaded: new Set([...prev.loaded, videoId])
+        }));
+        currentlyLoadingRef.current--;
+        // Загружаем следующее из очереди
+        setTimeout(() => processLoadingQueue(), 50);
+      };
 
-        const handleError = () => {
-          if (import.meta.env.DEV) {
-            console.warn('Video failed to load:', videoId);
-          }
-          videoEl.removeEventListener('error', handleError);
-        };
-
-        videoEl.addEventListener('canplay', handleCanPlay);
-        videoEl.addEventListener('error', handleError);
-
-        // Загружаем видео
-        if (videoEl.src) {
-          videoEl.load();
+      const handleError = () => {
+        if (import.meta.env.DEV) {
+          console.warn('Video failed to load:', videoId);
         }
-      }, index * 50);
-    });
+        setVideoState(prev => ({
+          ...prev,
+          loaded: new Set([...prev.loaded, videoId])
+        }));
+        currentlyLoadingRef.current--;
+        setTimeout(() => processLoadingQueue(), 50);
+      };
 
-  }, [activeTab, isMobile]);
+      videoEl.addEventListener('canplay', handleCanPlay, { once: true });
+      videoEl.addEventListener('error', handleError, { once: true });
+      videoEl.preload = 'metadata';
+
+      if (videoEl.dataset.src) {
+        videoEl.src = videoEl.dataset.src;
+        videoEl.load();
+      }
+    }
+  }, [videoState.isMobile, MAX_CONCURRENT_LOADS]);
+
+  // Наблюдаем за видео элементами при смене таба
+  useEffect(() => {
+    if (!observerRef.current) return;
+
+    // Небольшая задержка, чтобы дать время DOM обновиться
+    const timeoutId = setTimeout(() => {
+      // Очищаем очередь и останавливаем текущие загрузки
+      loadingQueueRef.current = [];
+      currentlyLoadingRef.current = 0;
+
+      // Подключаем observer к видео активного таба
+      videoRefs.current.forEach((videoEl, videoId) => {
+        if (!observerRef.current) return;
+
+        if (videoId.startsWith(activeTab)) {
+          // Наблюдаем за видео активного таба
+          observerRef.current.observe(videoEl);
+        } else {
+          // Отключаем наблюдение за видео других табов
+          observerRef.current.unobserve(videoEl);
+        }
+      });
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [activeTab]);
 
   // Упрощенные обработчики для hover
   const handleVideoMouseEnter = useCallback((e, subsectionId) => {
     // На мобильных не запускаем видео при hover
-    if (isMobile) return;
+    if (videoState.isMobile) return;
 
     if (subsectionId === 'motion' || subsectionId === 'production') {
       const video = e.currentTarget.querySelector('video');
@@ -180,7 +263,7 @@ const ProjectsSection = memo(() => {
         safePlayVideo(video);
       }
     }
-  }, [isMobile]);
+  }, [videoState.isMobile]);
 
   const handleVideoMouseLeave = useCallback((e, subsectionId) => {
     if (subsectionId === 'motion' || subsectionId === 'production') {
@@ -190,6 +273,97 @@ const ProjectsSection = memo(() => {
       }
     }
   }, []);
+
+  // НОВОЕ: Обработчик клика на poster для мобильных
+  const handlePosterClick = useCallback((videoId, videoSrc) => {
+    if (!videoState.isMobile) return;
+
+    // Помечаем, что это видео должно воспроизводиться
+    setVideoState(prev => ({
+      ...prev,
+      playingOnMobile: new Set([...prev.playingOnMobile, videoId])
+    }));
+
+    // Добавляем в очередь загрузки
+    if (!loadingQueueRef.current.includes(videoId)) {
+      loadingQueueRef.current.push(videoId);
+      processLoadingQueue();
+    }
+  }, [videoState.isMobile, processLoadingQueue]);
+
+  // НОВОЕ: Функция для получения пути к poster изображению
+  const getPosterPath = useCallback((videoPath) => {
+    if (!videoPath) return '';
+    // Из /img/projects/motion-1.webm получаем motion-1
+    const videoName = videoPath.split('/').pop().replace('.webm', '');
+    // Пытаемся использовать WebP, fallback на JPG
+    return `/img/projects/posters/${videoName}-poster.webp`;
+  }, []);
+
+  // НОВОЕ: Компонент для рендеринга видео или poster
+  const renderVideoOrPoster = useCallback((subsection, index) => {
+    const project = subsection.projects[index];
+    const videoId = `${subsection.id}-${index}`;
+
+    if (!project.video) return null;
+
+    const isPlaying = videoState.playingOnMobile.has(videoId);
+    const shouldShowPoster = videoState.isMobile && !isPlaying;
+
+    if (shouldShowPoster) {
+      // МОБИЛЬНЫЕ: Poster с кнопкой Play
+      return (
+        <div
+          className="absolute inset-0 w-full h-full cursor-pointer group"
+          onClick={() => handlePosterClick(videoId, project.video)}
+        >
+          <img
+            src={getPosterPath(project.video)}
+            alt={subsection.title[i18n.language] || subsection.title.en}
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              if (e.target.src.endsWith('.webp')) {
+                e.target.src = e.target.src.replace('.webp', '.jpg');
+              }
+            }}
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-active:bg-black/40 transition-colors">
+            <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center group-active:scale-95 transition-transform">
+              <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ДЕСКТОП или ВОСПРОИЗВЕДЕНИЕ: Видео элемент
+    return (
+      <video
+        ref={el => {
+          if (el) {
+            videoRefs.current.set(videoId, el);
+            el.dataset.videoId = videoId;
+          }
+        }}
+        data-src={project.video}
+        loop
+        muted
+        playsInline
+        autoPlay={isPlaying}
+        preload="none"
+        className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
+          videoState.visible.has(videoId) ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          visibility: videoState.visible.has(videoId) ? 'visible' : 'hidden'
+        }}
+      />
+    );
+  }, [videoState, handlePosterClick, getPosterPath, i18n.language]);
 
   // Получаем размеры для элементов коллажа
   const getSizeClasses = (size) => {
@@ -299,24 +473,7 @@ const ProjectsSection = memo(() => {
                           fetchPriority="low"
                         />
                       )}
-                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[0].video && (
-                        <video
-                          ref={el => {
-                            if (el) videoRefs.current.set(`${subsection.id}-0`, el);
-                          }}
-                          {...(loadedVideos.has(`${subsection.id}-0`) && { src: subsection.projects[0].video })}
-                          loop
-                          muted
-                          playsInline
-                          preload="none"
-                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
-                            visibleVideos.has(`${subsection.id}-0`) ? 'opacity-100' : 'opacity-0'
-                          }`}
-                          style={{
-                            visibility: visibleVideos.has(`${subsection.id}-0`) ? 'visible' : 'hidden'
-                          }}
-                        />
-                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && renderVideoOrPoster(subsection, 0)}
                     </motion.div>
                     <motion.div
                       className={`relative overflow-hidden ${getSizeClasses(subsection.projects[1].size)} w-full min-h-0`}
@@ -341,24 +498,7 @@ const ProjectsSection = memo(() => {
                           fetchPriority="low"
                         />
                       )}
-                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[1].video && (
-                        <video
-                          ref={el => {
-                            if (el) videoRefs.current.set(`${subsection.id}-1`, el);
-                          }}
-                          {...(loadedVideos.has(`${subsection.id}-1`) && { src: subsection.projects[1].video })}
-                          loop
-                          muted
-                          playsInline
-                          preload="none"
-                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
-                            visibleVideos.has(`${subsection.id}-1`) ? 'opacity-100' : 'opacity-0'
-                          }`}
-                          style={{
-                            visibility: visibleVideos.has(`${subsection.id}-1`) ? 'visible' : 'hidden'
-                          }}
-                        />
-                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && renderVideoOrPoster(subsection, 1)}
                     </motion.div>
                   </div>
 
@@ -387,24 +527,7 @@ const ProjectsSection = memo(() => {
                           fetchPriority="low"
                         />
                       )}
-                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[2].video && (
-                        <video
-                          ref={el => {
-                            if (el) videoRefs.current.set(`${subsection.id}-2`, el);
-                          }}
-                          {...(loadedVideos.has(`${subsection.id}-2`) && { src: subsection.projects[2].video })}
-                          loop
-                          muted
-                          playsInline
-                          preload="none"
-                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
-                            visibleVideos.has(`${subsection.id}-2`) ? 'opacity-100' : 'opacity-0'
-                          }`}
-                          style={{
-                            visibility: visibleVideos.has(`${subsection.id}-2`) ? 'visible' : 'hidden'
-                          }}
-                        />
-                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && renderVideoOrPoster(subsection, 2)}
                     </motion.div>
                     <motion.div
                       className={`relative overflow-hidden ${getSizeClasses(subsection.projects[3].size)} w-full min-h-0`}
@@ -429,24 +552,7 @@ const ProjectsSection = memo(() => {
                           fetchPriority="low"
                         />
                       )}
-                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[3].video && (
-                        <video
-                          ref={el => {
-                            if (el) videoRefs.current.set(`${subsection.id}-3`, el);
-                          }}
-                          {...(loadedVideos.has(`${subsection.id}-3`) && { src: subsection.projects[3].video })}
-                          loop
-                          muted
-                          playsInline
-                          preload="none"
-                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
-                            visibleVideos.has(`${subsection.id}-3`) ? 'opacity-100' : 'opacity-0'
-                          }`}
-                          style={{
-                            visibility: visibleVideos.has(`${subsection.id}-3`) ? 'visible' : 'hidden'
-                          }}
-                        />
-                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && renderVideoOrPoster(subsection, 3)}
                     </motion.div>
                   </div>
 
@@ -475,24 +581,7 @@ const ProjectsSection = memo(() => {
                           fetchPriority="low"
                         />
                       )}
-                      {(subsection.id === 'motion' || subsection.id === 'production') && subsection.projects[4].video && (
-                        <video
-                          ref={el => {
-                            if (el) videoRefs.current.set(`${subsection.id}-4`, el);
-                          }}
-                          {...(loadedVideos.has(`${subsection.id}-4`) && { src: subsection.projects[4].video })}
-                          loop
-                          muted
-                          playsInline
-                          preload="none"
-                          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
-                            visibleVideos.has(`${subsection.id}-4`) ? 'opacity-100' : 'opacity-0'
-                          }`}
-                          style={{
-                            visibility: visibleVideos.has(`${subsection.id}-4`) ? 'visible' : 'hidden'
-                          }}
-                        />
-                      )}
+                      {(subsection.id === 'motion' || subsection.id === 'production') && renderVideoOrPoster(subsection, 4)}
                     </motion.div>
                   </div>
                 </div>

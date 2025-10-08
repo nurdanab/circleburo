@@ -196,7 +196,7 @@ export default defineConfig({
             return 'pages-other';
           }
 
-          // Split sections for better mobile performance
+          // ОПТИМИЗАЦИЯ: Более гранулярное разделение секций для лучшего кэширования
           if (id.includes('src/components/sections/HeroSection')) {
             return 'section-hero';
           }
@@ -207,6 +207,18 @@ export default defineConfig({
 
           if (id.includes('src/components/sections/ContactFormSection')) {
             return 'section-contact';
+          }
+
+          if (id.includes('src/components/sections/ServicesSection')) {
+            return 'section-services';
+          }
+
+          if (id.includes('src/components/sections/AboutUsSection')) {
+            return 'section-about';
+          }
+
+          if (id.includes('src/components/sections/InteractiveSection')) {
+            return 'section-interactive';
           }
 
           if (id.includes('src/components/sections/')) {
@@ -222,7 +234,20 @@ export default defineConfig({
             return 'layout-footer';
           }
 
-          // Shared components
+          // ОПТИМИЗАЦИЯ: Разделяем компоненты по типам
+          if (id.includes('src/components/VideoHero') ||
+              id.includes('src/components/SplashCursor') ||
+              id.includes('src/components/StaticHero')) {
+            return 'components-heavy';
+          }
+
+          if (id.includes('src/components/SEOHead') ||
+              id.includes('src/components/PerformanceMeta') ||
+              id.includes('src/components/AccessibilityHelper')) {
+            return 'components-meta';
+          }
+
+          // Остальные компоненты
           if (id.includes('src/components/')) {
             return 'components';
           }
