@@ -20,7 +20,7 @@ const ProjectsSection = memo(() => {
   const observerRef = useRef(null);
   const loadingQueueRef = useRef([]);
   const currentlyLoadingRef = useRef(0);
-  const MAX_CONCURRENT_LOADS = 3;
+  const MAX_CONCURRENT_LOADS = 2; // Снижено с 3 до 2 для лучшей производительности
 
   // Данные подсекций с переводами
   const subsections = [
@@ -116,49 +116,10 @@ const ProjectsSection = memo(() => {
     };
   }, []);
 
-  // Инициализируем Intersection Observer для ленивой загрузки видео
-  useEffect(() => {
-    // Создаём новый observer с актуальным processLoadingQueue
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          const videoId = entry.target.dataset.videoId;
-          if (!videoId) return;
-
-          if (entry.isIntersecting) {
-            // Видео стало видимым - добавляем в очередь загрузки
-            if (!loadingQueueRef.current.includes(videoId)) {
-              loadingQueueRef.current.push(videoId);
-              processLoadingQueue();
-            }
-          }
-        });
-      },
-      {
-        rootMargin: '100px', // Загружаем заранее
-        threshold: 0.1
-      }
-    );
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [processLoadingQueue]);
-
-  // Очистка видео при смене таба
-  useEffect(() => {
-    // Останавливаем все видео при смене таба
-    videoRefs.current.forEach((videoEl) => {
-      if (videoEl && !videoEl.paused) {
-        safePauseVideo(videoEl, true);
-      }
-    });
-  }, [activeTab]);
-
   // ОПТИМИЗАЦИЯ: Функция обработки очереди загрузки (макс 3 одновременно)
-  const processLoadingQueue = useCallback(() => {
+  const processLoadingQueueRef = useRef();
+
+  processLoadingQueueRef.current = () => {
     while (
       currentlyLoadingRef.current < MAX_CONCURRENT_LOADS &&
       loadingQueueRef.current.length > 0
@@ -186,8 +147,6 @@ const ProjectsSection = memo(() => {
           loaded: new Set([...prev.loaded, videoId])
         }));
         currentlyLoadingRef.current--;
-        // Не вызываем рекурсивно, чтобы избежать бесконечного цикла
-        setTimeout(() => processLoadingQueue(), 0);
         continue;
       }
 
@@ -199,7 +158,7 @@ const ProjectsSection = memo(() => {
         }));
         currentlyLoadingRef.current--;
         // Загружаем следующее из очереди
-        setTimeout(() => processLoadingQueue(), 50);
+        processLoadingQueueRef.current?.();
       };
 
       const handleError = () => {
@@ -211,7 +170,7 @@ const ProjectsSection = memo(() => {
           loaded: new Set([...prev.loaded, videoId])
         }));
         currentlyLoadingRef.current--;
-        setTimeout(() => processLoadingQueue(), 50);
+        processLoadingQueueRef.current?.();
       };
 
       videoEl.addEventListener('canplay', handleCanPlay, { once: true });
@@ -223,7 +182,52 @@ const ProjectsSection = memo(() => {
         videoEl.load();
       }
     }
-  }, [videoState.isMobile, MAX_CONCURRENT_LOADS]);
+  };
+
+  const processLoadingQueue = useCallback(() => {
+    processLoadingQueueRef.current?.();
+  }, []);
+
+  // Инициализируем Intersection Observer для ленивой загрузки видео
+  useEffect(() => {
+    // Создаём новый observer с актуальным processLoadingQueue
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          const videoId = entry.target.dataset.videoId;
+          if (!videoId) return;
+
+          if (entry.isIntersecting) {
+            // Видео стало видимым - добавляем в очередь загрузки
+            if (!loadingQueueRef.current.includes(videoId)) {
+              loadingQueueRef.current.push(videoId);
+              processLoadingQueue();
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '50px', // Уменьшено с 100px - загружаем только когда ближе
+        threshold: 0.15 // Увеличено с 0.1 - более строгий порог видимости
+      }
+    );
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [processLoadingQueue]);
+
+  // Очистка видео при смене таба
+  useEffect(() => {
+    // Останавливаем все видео при смене таба
+    videoRefs.current.forEach((videoEl) => {
+      if (videoEl && !videoEl.paused) {
+        safePauseVideo(videoEl, true);
+      }
+    });
+  }, [activeTab]);
 
   // Наблюдаем за видео элементами при смене таба
   useEffect(() => {
@@ -291,16 +295,16 @@ const ProjectsSection = memo(() => {
     }
   }, [videoState.isMobile, processLoadingQueue]);
 
-  // НОВОЕ: Функция для получения пути к poster изображению
+  // НОВОЕ: Функция для получения пути к poster изображению (мемоизирована)
   const getPosterPath = useCallback((videoPath) => {
     if (!videoPath) return '';
     // Из /img/projects/motion-1.webm получаем motion-1
     const videoName = videoPath.split('/').pop().replace('.webm', '');
     // Пытаемся использовать WebP, fallback на JPG
     return `/img/projects/posters/${videoName}-poster.webp`;
-  }, []);
+  }, []); // Пустой массив - функция не зависит от внешних переменных
 
-  // НОВОЕ: Компонент для рендеринга видео или poster
+  // НОВОЕ: Компонент для рендеринга видео или poster (оптимизирован)
   const renderVideoOrPoster = useCallback((subsection, index) => {
     const project = subsection.projects[index];
     const videoId = `${subsection.id}-${index}`;
@@ -309,7 +313,7 @@ const ProjectsSection = memo(() => {
 
     const isPlaying = videoState.playingOnMobile.has(videoId);
     const shouldShowPoster = videoState.isMobile && !isPlaying;
-    const currentLang = i18n.language;
+    const currentLang = i18n.language || 'en'; // Fallback на 'en'
 
     if (shouldShowPoster) {
       // МОБИЛЬНЫЕ: Poster с кнопкой Play
