@@ -116,7 +116,7 @@ const ProjectsSection = memo(() => {
     };
   }, []);
 
-  // ОПТИМИЗАЦИЯ: Функция обработки очереди загрузки (макс 3 одновременно)
+  // ОПТИМИЗАЦИЯ: Функция обработки очереди загрузки (макс 2 одновременно)
   const processLoadingQueueRef = useRef();
 
   processLoadingQueueRef.current = () => {
@@ -132,8 +132,7 @@ const ProjectsSection = memo(() => {
       }
 
       // Проверяем, не загружено ли уже
-      if (videoEl.src && videoEl.src !== window.location.href) {
-        currentlyLoadingRef.current--;
+      if (videoEl.readyState >= 3 || (videoEl.src && videoEl.src !== window.location.href)) {
         continue;
       }
 
@@ -151,6 +150,9 @@ const ProjectsSection = memo(() => {
       }
 
       const handleCanPlay = () => {
+        if (import.meta.env.DEV) {
+          console.log('Video loaded:', videoId);
+        }
         setVideoState(prev => ({
           ...prev,
           visible: new Set([...prev.visible, videoId]),
@@ -161,12 +163,13 @@ const ProjectsSection = memo(() => {
         processLoadingQueueRef.current?.();
       };
 
-      const handleError = () => {
+      const handleError = (e) => {
         if (import.meta.env.DEV) {
-          console.warn('Video failed to load:', videoId);
+          console.warn('Video failed to load:', videoId, e);
         }
         setVideoState(prev => ({
           ...prev,
+          visible: new Set([...prev.visible, videoId]),
           loaded: new Set([...prev.loaded, videoId])
         }));
         currentlyLoadingRef.current--;
@@ -352,6 +355,16 @@ const ProjectsSection = memo(() => {
           if (el) {
             videoRefs.current.set(videoId, el);
             el.dataset.videoId = videoId;
+
+            // Устанавливаем src сразу, если его еще нет
+            if (!el.src && project.video) {
+              el.dataset.src = project.video;
+              // Для десктопа загружаем сразу
+              if (!videoState.isMobile) {
+                el.src = project.video;
+                el.load();
+              }
+            }
           }
         }}
         data-src={project.video}
@@ -359,12 +372,24 @@ const ProjectsSection = memo(() => {
         muted
         playsInline
         autoPlay={isPlaying}
-        preload="none"
+        preload="metadata"
         className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
-          videoState.visible.has(videoId) ? 'opacity-100' : 'opacity-0'
+          videoState.loaded.has(videoId) ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
-          visibility: videoState.visible.has(videoId) ? 'visible' : 'hidden'
+          visibility: videoState.loaded.has(videoId) ? 'visible' : 'hidden'
+        }}
+        onCanPlay={() => {
+          setVideoState(prev => ({
+            ...prev,
+            visible: new Set([...prev.visible, videoId]),
+            loaded: new Set([...prev.loaded, videoId])
+          }));
+        }}
+        onError={(e) => {
+          if (import.meta.env.DEV) {
+            console.error('Video error:', videoId, e);
+          }
         }}
       />
     );
