@@ -1,0 +1,13 @@
+Если не хотите генерировать poster'ы прямо сейчас,
+можно вернуть простой placeholder:
+
+В src/components/sections/ProjectsSection.jsx
+измените функцию renderVideoOrPoster:
+
+if (shouldShowPoster) {
+  return (
+    <div className="absolute inset-0 w-full h-full bg-gray-900 flex items-center justify-center">
+      <span className="text-white/50 text-sm">Видео</span>
+    </div>
+  );
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Test Page</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: monospace;
+            padding: 20px;
+        }
+        .video-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+        video {
+            max-width: 600px;
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+        }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            background: #111;
+            border-left: 3px solid #0f0;
+        }
+        .error {
+            border-left-color: #f00;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+        .status.loading { background: #ff9800; }
+        .status.loaded { background: #4caf50; }
+        .status.error { background: #f44336; }
+    </style>
+</head>
+<body>
+    <h1>🎬 Video Loading Test</h1>
+    <p>Testing all project videos for loading and playback</p>
+
+    <div id="videos"></div>
+
+    <script>
+        const videos = [
+            '/img/projects/motion-1.webm',
+            '/img/projects/motion-2.webm',
+            '/img/projects/motion-3.webm',
+            '/img/projects/motion-4.webm',
+            '/img/projects/motion-5.webm',
+            '/img/projects/prod1.webm',
+            '/img/projects/prod2.webm',
+            '/img/projects/prod3.webm',
+            '/img/projects/prod4.webm',
+            '/img/projects/prod5.webm'
+        ];
+
+        const container = document.getElementById('videos');
+
+        videos.forEach((videoSrc, index) => {
+            const videoName = videoSrc.split('/').pop();
+
+            const div = document.createElement('div');
+            div.className = 'video-container';
+            div.id = `container-${index}`;
+
+            div.innerHTML = `
+                <h3>${videoName} <span class="status loading" id="status-${index}">Loading...</span></h3>
+                <div class="info" id="info-${index}">
+                    <strong>Status:</strong> Initializing...<br>
+                    <strong>Size:</strong> Unknown<br>
+                    <strong>Duration:</strong> Unknown<br>
+                    <strong>Dimensions:</strong> Unknown
+                </div>
+                <video
+                    id="video-${index}"
+                    src="${videoSrc}"
+                    loop
+                    muted
+                    playsinline
+                    controls
+                    preload="metadata"
+                ></video>
+            `;
+
+            container.appendChild(div);
+
+            const video = document.getElementById(`video-${index}`);
+            const info = document.getElementById(`info-${index}`);
+            const status = document.getElementById(`status-${index}`);
+
+            // Обработчики событий
+            video.addEventListener('loadedmetadata', () => {
+                const sizeKB = Math.round(video.duration * 1000); // Примерно
+                info.innerHTML = `
+                    <strong>Status:</strong> Metadata loaded ✓<br>
+                    <strong>Duration:</strong> ${video.duration?.toFixed(2)}s<br>
+                    <strong>Dimensions:</strong> ${video.videoWidth}x${video.videoHeight}<br>
+                    <strong>ReadyState:</strong> ${video.readyState}/4
+                `;
+            });
+
+            video.addEventListener('loadeddata', () => {
+                status.textContent = 'Data Loaded';
+                status.className = 'status loaded';
+                info.classList.remove('error');
+
+                // Пробуем воспроизвести
+                video.play().catch(err => {
+                    console.error(`Play error for ${videoName}:`, err);
+                    info.innerHTML += `<br><strong>Play Error:</strong> ${err.message}`;
+                    info.classList.add('error');
+                });
+            });
+
+            video.addEventListener('canplay', () => {
+                info.innerHTML += `<br><strong>CanPlay:</strong> ✓ (readyState: ${video.readyState})`;
+            });
+
+            video.addEventListener('canplaythrough', () => {
+                info.innerHTML += `<br><strong>CanPlayThrough:</strong> ✓`;
+            });
+
+            video.addEventListener('error', (e) => {
+                status.textContent = 'Error!';
+                status.className = 'status error';
+                info.classList.add('error');
+
+                const error = video.error;
+                info.innerHTML = `
+                    <strong>Error Code:</strong> ${error?.code}<br>
+                    <strong>Error Message:</strong> ${error?.message || 'Unknown error'}<br>
+                    <strong>Media Error:</strong> ${getMediaErrorName(error?.code)}
+                `;
+            });
+
+            video.addEventListener('stalled', () => {
+                info.innerHTML += `<br><strong>⚠️ Stalled</strong> - Network issue?`;
+            });
+
+            video.addEventListener('waiting', () => {
+                info.innerHTML += `<br><strong>⏳ Waiting</strong> - Buffering...`;
+            });
+
+            video.addEventListener('playing', () => {
+                info.innerHTML += `<br><strong>▶️ Playing</strong>`;
+            });
+        });
+
+        function getMediaErrorName(code) {
+            const errors = {
+                1: 'MEDIA_ERR_ABORTED',
+                2: 'MEDIA_ERR_NETWORK',
+                3: 'MEDIA_ERR_DECODE',
+                4: 'MEDIA_ERR_SRC_NOT_SUPPORTED'
+            };
+            return errors[code] || 'UNKNOWN';
+        }
+    </script>
+</body>
+</html>
