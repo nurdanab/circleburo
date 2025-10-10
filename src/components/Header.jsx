@@ -94,12 +94,14 @@ const Header = () => {
         position: 'fixed',
         top: 0,
         left: 0,
+        right: 0,
         width: '100%',
         zIndex: 9999,
         padding: '1.5rem 3rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: 'rgba(0, 0, 0, 0.95)',
         backdropFilter: 'blur(8px)',
         willChange: 'auto',
+        pointerEvents: 'auto',
       }}
     >
       <nav
@@ -371,7 +373,6 @@ const Header = () => {
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
-                  paddingLeft: '1rem',
                   opacity: 0.8,
                 }}
               >
