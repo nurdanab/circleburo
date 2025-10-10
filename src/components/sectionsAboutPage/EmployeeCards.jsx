@@ -5,7 +5,7 @@ import StructuredData from '../StructuredData';
 
 const employeeKeys = [
   'employee1', 'employee2', 'employee3', 'employee4', 'employee5',
-  'employee6', 'employee7', 'employee8', 'employee9', 'employee10', 
+  'employee6', 'employee8', 'employee9',
   'employee11', 'employee12', 'employee13', 'employee14',
 ];
 
