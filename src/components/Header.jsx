@@ -68,13 +68,17 @@ const Header = () => {
 
   // Функция для перехода на отдельные страницы проектов
   const navigateToProject = (projectPath) => {
-    navigate(projectPath);
-    // Прокрутка к началу страницы
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
     setIsServicesOpen(false);
     setIsMenuOpen(false);
+    navigate(projectPath);
+    // Принудительная прокрутка вверх сразу и с задержкой для надежности
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
   };
 
   const serviceItems = [
@@ -91,7 +95,7 @@ const Header = () => {
         top: 0,
         left: 0,
         width: '100%',
-        zIndex: 50,
+        zIndex: 9999,
         padding: '1.5rem 3rem',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         backdropFilter: 'blur(8px)',
@@ -269,7 +273,7 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4">
+        <div className="flex lg:hidden items-center gap-4" style={{ position: 'relative', zIndex: 10000 }}>
           <LanguageSwitcher />
           <button
             onClick={toggleMenu}
@@ -279,6 +283,18 @@ const Header = () => {
             style={{
               color: '#FFFFFF',
               fontSize: '1.5rem',
+              position: 'relative',
+              zIndex: 10001,
+              padding: '0.5rem',
+              minWidth: '44px',
+              minHeight: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              WebkitTapHighlightColor: 'transparent',
             }}
           >
             {isMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
@@ -300,6 +316,8 @@ const Header = () => {
               alignItems: 'center',
               marginTop: '1rem',
               gap: '1rem',
+              position: 'relative',
+              zIndex: 9998,
             }}
           >
             {/* Главная */}

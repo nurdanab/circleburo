@@ -71,6 +71,7 @@ import PerformanceMeta from './components/PerformanceMeta';
 import AccessibilityHelper from './components/AccessibilityHelper';
 import ErrorBoundary from './components/ErrorBoundary';
 import PerformanceOptimizer from './components/PerformanceOptimizer';
+import ScrollToTop from './components/ScrollToTop';
 const PrerenderManager = createLazyComponent(() => import('./components/PrerenderManager'), 'PrerenderManager');
 
 const ProtectedRoute = ({ children }) => {
@@ -156,6 +157,7 @@ function AppContent() {
   return (
     <ErrorBoundary>
       <PerformanceOptimizer>
+        <ScrollToTop />
         <PrerenderManager />
         <PerformanceMeta />
         {/* SplashCursor отключен для оптимизации - тяжелый WebGL */}

@@ -43,6 +43,32 @@
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, 0.95) !important;
+    z-index: 9999 !important;
+  }
+
+  /* Убеждаемся что все кнопки в header кликабельны */
+  header button,
+  header a {
+    position: relative;
+    z-index: 10000;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Мобильное меню */
+  #mobile-menu {
+    position: relative;
+    z-index: 9998 !important;
+  }
+
+  #mobile-menu button,
+  #mobile-menu a {
+    position: relative;
+    z-index: 9999;
+    min-height: 44px;
+    width: 100%;
+    touch-action: manipulation;
   }
 }
 
@@ -479,6 +505,8 @@ select:focus-visible {
     min-height: 44px;
     min-width: 44px;
     -webkit-tap-highlight-color: transparent !important;
+    position: relative;
+    z-index: 10;
   }
 
   .btn-dark-theme:hover {
@@ -489,6 +517,17 @@ select:focus-visible {
   .btn-dark-theme:active {
     transform: scale(0.98) !important;
     transition: transform 0.1s ease !important;
+  }
+
+  /* Увеличенная область клика для мобильных */
+  button::before, a::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
   }
 }
 

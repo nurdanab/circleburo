@@ -142,7 +142,10 @@ const FooterSection = () => {
                         {link.isLink ? (
                           <Link
                             to={link.to}
-                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            onClick={() => {
+                              window.scrollTo(0, 0);
+                              setTimeout(() => window.scrollTo(0, 0), 0);
+                            }}
                             className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
                           >
                             {link.name}
@@ -206,7 +209,10 @@ const FooterSection = () => {
                     <li key={index}>
                       <Link
                         to={service.to}
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          setTimeout(() => window.scrollTo(0, 0), 0);
+                        }}
                         className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
                         // whileHover={{ x: 5 }}
                         // transition={{ duration: 0.2 }}

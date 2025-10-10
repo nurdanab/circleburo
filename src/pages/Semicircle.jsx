@@ -1,22 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Header from "../components/Header";
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/SEOHead';
 import useSEO from '../hooks/useSEO';
 import { navigateToSection } from '../utils/navigation';
 
 const SemiCircle = () => {
-  const seoData = useSEO('semicircle'); 
+  const seoData = useSEO('semicircle');
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-
-  // Прокрутка к началу страницы при загрузке
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   // Функция для навигации к секции контактов на главной странице
   const scrollToSection = (sectionId) => {
@@ -33,8 +27,7 @@ const SemiCircle = () => {
   return (
     <>
     {seoData && <SEOHead {...seoData} />}
-      <Header />
-      
+
       {/* Hero Section */}
       <section className="bg-neutral-950 text-white min-h-screen pt-30 px-4">
         <div className="max-w-7xl mx-auto">

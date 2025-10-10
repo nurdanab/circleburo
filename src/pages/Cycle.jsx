@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Header from "../components/Header";
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/SEOHead';
 import useSEO from '../hooks/useSEO';
@@ -14,11 +13,6 @@ const Cycle = () => {
   const location = useLocation();
   const { t } = useTranslation();
 
-  // Прокрутка к началу страницы при загрузке
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // Функция для навигации к секции контактов на главной странице
   const scrollToSection = (sectionId) => {
     navigateToSection(navigate, location.pathname, '/', sectionId, {
@@ -30,9 +24,7 @@ const Cycle = () => {
   return (
     <>
     {seoData && <SEOHead {...seoData} />}
-      {/* Компонент Header для навигации */}
-      <Header />
-      
+
       {/* Главная секция страницы с тёмным фоном */}
       <section className="bg-neutral-950 text-white min-h-screen pt-30 px-4 pb-0">
         <div className="max-w-7xl mx-auto pb-16">
