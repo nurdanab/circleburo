@@ -32,10 +32,39 @@ const Header = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, []);
+
+  // Предотвращаем скролл при открытом мобильном меню
+  useEffect(() => {
+    if (isMenuOpen) {
+      // Сохраняем текущую позицию скролла
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Восстанавливаем скролл
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+
+    return () => {
+      // Cleanup при размонтировании
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
+  }, [isMenuOpen]);
 
   // Функция для навигации к секции на главной странице
   const scrollToSection = (sectionId) => {
@@ -275,28 +304,31 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4" style={{ position: 'relative', zIndex: 10000 }}>
+        <div className="flex lg:hidden items-center gap-4" style={{ position: 'fixed', right: '1rem', top: '1.5rem', zIndex: 10002 }}>
           <LanguageSwitcher />
           <button
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
+            className="burger-menu-button"
             style={{
               color: '#FFFFFF',
               fontSize: '1.5rem',
               position: 'relative',
-              zIndex: 10001,
+              zIndex: 10003,
               padding: '0.5rem',
-              minWidth: '44px',
-              minHeight: '44px',
+              minWidth: '48px',
+              minHeight: '48px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'transparent',
-              border: 'none',
+              background: 'rgba(0, 0, 0, 0.9)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '8px',
               cursor: 'pointer',
               WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation',
             }}
           >
             {isMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
@@ -304,24 +336,39 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Выпадающее меню для мобильных устройств */}
+      {/* Оверлей для закрытия меню при клике вне области */}
       <AnimatePresence>
         {isMenuOpen && (
-          <div
-            id="mobile-menu"
-            className="lg:hidden mobile-menu-animate"
-            role="menu"
-            aria-label="Мобильное меню навигации"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              marginTop: '1rem',
-              gap: '1rem',
-              position: 'relative',
-              zIndex: 9998,
-            }}
-          >
+          <>
+            <div
+              className="mobile-menu-overlay"
+              onClick={toggleMenu}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                zIndex: 9997,
+                backdropFilter: 'blur(4px)',
+              }}
+            />
+            <div
+              id="mobile-menu"
+              className="lg:hidden mobile-menu-animate"
+              role="menu"
+              aria-label="Мобильное меню навигации"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                marginTop: '1rem',
+                gap: '1rem',
+                position: 'relative',
+                zIndex: 9998,
+              }}
+            >
             {/* Главная */}
             <Link
               to="/"
@@ -433,6 +480,7 @@ const Header = () => {
               {t('nav.contact')}
             </button>
           </div>
+          </>
         )}
       </AnimatePresence>
     </header>

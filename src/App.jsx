@@ -204,6 +204,24 @@ function App() {
         initGA();
       }
     }).catch(() => {});
+
+    // Дополнительная оптимизация для мобильных - управление scroll restoration
+    // Отключаем автоматическое восстановление позиции скролла браузером
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    // Обработка событий popstate (кнопка назад/вперед)
+    const handlePopState = () => {
+      // При навигации назад/вперед также прокручиваем наверх
+      window.scrollTo(0, 0);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   return (
