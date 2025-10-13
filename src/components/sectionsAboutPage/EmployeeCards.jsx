@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import StructuredData from '../StructuredData';
@@ -22,7 +22,8 @@ const colorSchemes = [
 const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
-  
+  const [isMobile, setIsMobile] = useState(false);
+
   const employee = {
     name: t(`employeeCards.${employeeKey}.name`),
     specialty: t(`employeeCards.${employeeKey}.specialty`),
@@ -32,7 +33,7 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   };
 
   const colorScheme = colorSchemes[index % colorSchemes.length];
-  
+
   // Уникальные креативные формы для каждой карточки
   const creativeShapes = [
     { transform: 'rotate(45deg)', top: '10px', right: '10px' },
@@ -42,18 +43,26 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
     { borderRadius: '100% 0 100% 0', top: '10px', right: '10px' },
     { clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)', top: '8px', right: '8px' },
   ];
-  
+
   const creativeShape = creativeShapes[index % creativeShapes.length];
-  
+
+  // Отключаем springs на мобильных полностью
   const rotateX = useSpring(0, { stiffness: 100, damping: 30 });
   const rotateY = useSpring(0, { stiffness: 100, damping: 30 });
 
-  const handleMouseMove = (e) => {
-    // Отключаем 3D эффекты на мобильных для производительности
-    if (window.innerWidth < 768 || !cardRef.current) return;
+  // Проверяем мобильное устройство при монтировании
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-    // Игнорируем если это touch событие
-    if (e.type === 'touchmove') return;
+  const handleMouseMove = (e) => {
+    // Полностью отключаем на мобильных
+    if (isMobile || !cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -67,92 +76,104 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    if (!isMobile) {
+      setIsHovered(true);
+    }
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    rotateX.set(0);
-    rotateY.set(0);
+    if (!isMobile) {
+      setIsHovered(false);
+      rotateX.set(0);
+      rotateY.set(0);
+    }
   };
 
   return (
     <motion.div
       ref={cardRef}
-      className="relative w-[280px] min-h-[440px] flex-shrink-0 perspective-1000 lazy-below-fold"
-      initial={{ opacity: 0, y: window.innerWidth < 768 ? 10 : 30 }}
+      className="relative w-[280px] min-h-[440px] flex-shrink-0 lazy-below-fold"
+      initial={{ opacity: 0, y: isMobile ? 0 : 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        delay: index * (window.innerWidth < 768 ? 0.03 : 0.08),
-        duration: window.innerWidth < 768 ? 0.3 : 0.5
+        delay: index * (isMobile ? 0 : 0.08),
+        duration: isMobile ? 0.2 : 0.5
       }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+      onMouseEnter={!isMobile ? handleMouseEnter : undefined}
+      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
       style={{
         contentVisibility: 'auto',
         containIntrinsicSize: '280px 440px',
-        touchAction: 'pan-x'
+        touchAction: 'pan-x',
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        userSelect: 'none'
       }}
     >
-      {/* Unique creative accent */}
+      {/* Unique creative accent - отключаем на мобильных */}
+      {!isMobile && (
+        <motion.div
+          className="absolute w-8 h-8 opacity-20"
+          style={{
+            background: `linear-gradient(135deg, ${colorScheme.accentColor}, ${colorScheme.accentColor}60)`,
+            ...creativeShape
+          }}
+          animate={{
+            opacity: isHovered ? 0.4 : 0.2,
+            scale: isHovered ? 1.1 : 1
+          }}
+          transition={{ duration: 0.4 }}
+        />
+      )}
+
       <motion.div
-        className="absolute w-8 h-8 opacity-20"
+        className={`relative w-full h-full overflow-hidden ${isMobile ? 'bg-gray-900/60' : 'bg-gray-900/40 backdrop-blur-md'} border border-gray-700/30 rounded-2xl`}
         style={{
-          background: `linear-gradient(135deg, ${colorScheme.accentColor}, ${colorScheme.accentColor}60)`,
-          ...creativeShape
+          rotateX: !isMobile ? rotateX : 0,
+          rotateY: !isMobile ? rotateY : 0,
+          transformStyle: !isMobile ? 'preserve-3d' : 'flat',
+          zIndex: isHovered ? 50 : 1,
+          pointerEvents: 'auto',
+          backdropFilter: isMobile ? 'none' : undefined,
+          WebkitBackdropFilter: isMobile ? 'none' : undefined
         }}
-        animate={{ 
-          opacity: isHovered ? 0.4 : 0.2,
-          scale: isHovered ? 1.1 : 1
-        }}
-        transition={{ duration: 0.4 }}
-      />
-      
-      <motion.div
-        className="relative w-full h-full overflow-hidden bg-gray-900/40 backdrop-blur-md border border-gray-700/30 rounded-2xl"
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: 'preserve-3d',
-          zIndex: isHovered ? 50 : 1
-        }}
-        animate={{ 
+        animate={!isMobile ? {
           scale: isHovered ? 1.02 : 1,
           borderColor: isHovered ? colorScheme.borderColor : 'rgba(55, 65, 81, 0.3)'
-        }}
+        } : {}}
         transition={{ duration: 0.3 }}
       >
         {/* Geometric accent line */}
         <motion.div
           className="absolute top-0 left-0 right-0 h-0.5"
           style={{ background: colorScheme.gradient }}
-          animate={{ 
+          animate={!isMobile ? {
             opacity: isHovered ? 0.6 : 0.3,
             scaleX: isHovered ? 1 : 0.7
-          }}
+          } : { opacity: 0.3, scaleX: 1 }}
           transition={{ duration: 0.4 }}
         />
-        
+
         {/* Side accent bar */}
         <motion.div
           className="absolute top-4 left-0 w-1 h-12 rounded-r-full"
           style={{ backgroundColor: colorScheme.accentColor }}
-          animate={{ 
+          animate={!isMobile ? {
             opacity: isHovered ? 0.8 : 0.4,
             height: isHovered ? '60px' : '48px'
-          }}
+          } : { opacity: 0.4, height: '48px' }}
           transition={{ duration: 0.3 }}
         />
-        
+
         {/* Card number */}
         <motion.div
           className="absolute bottom-4 right-4 w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center text-xs font-medium"
           style={{ color: colorScheme.accentColor }}
-          animate={{ 
+          animate={!isMobile ? {
             borderColor: isHovered ? colorScheme.accentColor : '#4b5563',
             backgroundColor: isHovered ? `${colorScheme.accentColor}10` : 'transparent'
-          }}
+          } : { borderColor: '#4b5563', backgroundColor: 'transparent' }}
           transition={{ duration: 0.3 }}
         >
           {String(index + 1).padStart(2, '0')}
@@ -164,7 +185,7 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
           <div className="flex flex-col items-center mb-5">
             <motion.div
               className="relative w-32 h-32 rounded-full overflow-hidden flex-shrink-0 mb-3"
-              whileHover={{ scale: 1.05 }}
+              whileHover={!isMobile ? { scale: 1.05 } : undefined}
               transition={{ duration: 0.3 }}
             >
               <div 
@@ -205,9 +226,9 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
               </h3>
               <motion.p
                 className="text-sm font-normal"
-                animate={{
+                animate={!isMobile ? {
                   color: isHovered ? colorScheme.accentColor : '#9ca3af'
-                }}
+                } : { color: '#9ca3af' }}
                 transition={{ duration: 0.3 }}
               >
                 {employee.specialty}
@@ -217,12 +238,12 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
           
           {/* Simple divider */}
           <div className="relative mb-4">
-            <motion.div 
+            <motion.div
               className="h-px bg-gray-600 w-16 mx-auto"
-              animate={{ 
+              animate={!isMobile ? {
                 backgroundColor: isHovered ? colorScheme.accentColor : '#4b5563',
                 width: isHovered ? '80px' : '64px'
-              }}
+              } : { backgroundColor: '#4b5563', width: '64px' }}
               transition={{ duration: 0.3 }}
             />
           </div>
