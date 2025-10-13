@@ -493,6 +493,7 @@ const Header = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 scrollToSection('projects');
+                toggleMenu();
               }}
               onTouchEnd={(e) => {
                 e.stopPropagation();
@@ -519,6 +520,7 @@ const Header = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 scrollToSection('contact');
+                toggleMenu();
               }}
               onTouchEnd={(e) => {
                 e.stopPropagation();

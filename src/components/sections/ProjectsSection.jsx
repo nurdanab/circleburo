@@ -285,18 +285,43 @@ const ProjectsSection = memo(() => {
   const handlePosterClick = useCallback((videoId, videoSrc) => {
     if (!videoState.isMobile) return;
 
+    if (import.meta.env.DEV) {
+      console.log('Poster clicked:', videoId);
+    }
+
     // Помечаем, что это видео должно воспроизводиться
     setVideoState(prev => ({
       ...prev,
       playingOnMobile: new Set([...prev.playingOnMobile, videoId])
     }));
 
-    // Добавляем в очередь загрузки
-    if (!loadingQueueRef.current.includes(videoId)) {
-      loadingQueueRef.current.push(videoId);
-      processLoadingQueue();
-    }
-  }, [videoState.isMobile, processLoadingQueue]);
+    // Получаем видео элемент и запускаем его немедленно
+    setTimeout(() => {
+      const videoEl = videoRefs.current.get(videoId);
+      if (videoEl) {
+        if (import.meta.env.DEV) {
+          console.log('Starting video playback:', videoId);
+        }
+
+        // Устанавливаем src если его нет
+        if (!videoEl.src || videoEl.src === window.location.href) {
+          videoEl.src = videoSrc;
+        }
+
+        // Загружаем и воспроизводим
+        videoEl.load();
+        videoEl.play().then(() => {
+          if (import.meta.env.DEV) {
+            console.log('Video playing successfully:', videoId);
+          }
+        }).catch(err => {
+          if (import.meta.env.DEV) {
+            console.error('Failed to play video:', videoId, err);
+          }
+        });
+      }
+    }, 100);
+  }, [videoState.isMobile]);
 
   // НОВОЕ: Функция для получения пути к poster изображению (мемоизирована)
   const getPosterPath = useCallback((videoPath) => {
@@ -363,6 +388,10 @@ const ProjectsSection = memo(() => {
               if (!videoState.isMobile) {
                 el.src = project.video;
                 el.load();
+              } else if (isPlaying) {
+                // Для мобильных загружаем только если нужно воспроизвести
+                el.src = project.video;
+                el.load();
               }
             }
           }
@@ -371,13 +400,12 @@ const ProjectsSection = memo(() => {
         loop
         muted
         playsInline
-        autoPlay={isPlaying}
-        preload="metadata"
+        preload={videoState.isMobile ? "none" : "metadata"}
         className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
-          videoState.loaded.has(videoId) ? 'opacity-100' : 'opacity-0'
+          videoState.loaded.has(videoId) || isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
-          visibility: videoState.loaded.has(videoId) ? 'visible' : 'hidden'
+          visibility: videoState.loaded.has(videoId) || isPlaying ? 'visible' : 'hidden'
         }}
         onCanPlay={() => {
           setVideoState(prev => ({
@@ -385,6 +413,11 @@ const ProjectsSection = memo(() => {
             visible: new Set([...prev.visible, videoId]),
             loaded: new Set([...prev.loaded, videoId])
           }));
+        }}
+        onLoadedData={() => {
+          if (import.meta.env.DEV) {
+            console.log('Video loaded data:', videoId);
+          }
         }}
         onError={(e) => {
           if (import.meta.env.DEV) {

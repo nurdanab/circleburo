@@ -52,6 +52,9 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
     // Отключаем 3D эффекты на мобильных для производительности
     if (window.innerWidth < 768 || !cardRef.current) return;
 
+    // Игнорируем если это touch событие
+    if (e.type === 'touchmove') return;
+
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -88,7 +91,8 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
       onMouseLeave={handleMouseLeave}
       style={{
         contentVisibility: 'auto',
-        containIntrinsicSize: '280px 440px'
+        containIntrinsicSize: '280px 440px',
+        touchAction: 'pan-x'
       }}
     >
       {/* Unique creative accent */}
@@ -294,7 +298,7 @@ const AnimatedEmployeeCards = () => {
         </motion.div>
 
         {/* Cards - Horizontal scroll container with enhanced styling */}
-        <div className="relative overflow-x-auto overflow-y-visible scrollbar-hide touch-pan-x" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div className="relative overflow-x-auto overflow-y-visible scrollbar-hide touch-pan-x" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x', overscrollBehaviorX: 'contain' }}>
           {/* Gradient overlays for scroll indication */}
           <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />

@@ -14,12 +14,22 @@ const FooterSection = () => {
 
   // Функция для навигации к секциям (используем улучшенную утилиту)
   const scrollToSection = (sectionId) => {
+    if (import.meta.env.DEV) {
+      console.log('Footer scrollToSection called:', { sectionId, currentPath: location.pathname });
+    }
+
     // Всегда переходим на главную страницу, затем скроллим к секции
     if (location.pathname !== '/') {
       // Если мы не на главной, переходим туда и скроллим к секции
+      if (import.meta.env.DEV) {
+        console.log('Navigating to home with scroll target:', sectionId);
+      }
       navigate('/', { state: { scrollTo: sectionId } });
     } else {
       // Если уже на главной, просто скроллим
+      if (import.meta.env.DEV) {
+        console.log('Already on home, scrolling to:', sectionId);
+      }
       navigateToSection(navigate, location.pathname, '/', sectionId, {
         maxAttempts: 15,
         delay: 150,
