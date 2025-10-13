@@ -98,9 +98,15 @@
 
   /* Мобильное меню */
   #mobile-menu {
-    position: relative;
+    position: fixed !important;
     z-index: 9998 !important;
     pointer-events: auto !important;
+    touch-action: pan-y !important;
+    /* Предотвращаем случайное закрытие */
+    -webkit-user-select: none;
+    user-select: none;
+    /* Изоляция для предотвращения перекрытия */
+    isolation: isolate;
   }
 
   #mobile-menu button,
@@ -113,6 +119,19 @@
     pointer-events: auto !important;
     /* Увеличенная область клика */
     padding: 0.75rem 1rem;
+    display: block;
+    text-align: center;
+    -webkit-user-select: none;
+    user-select: none;
+    /* Убеждаемся что кнопки всегда на переднем плане */
+    isolation: isolate;
+  }
+
+  /* Оверлей меню не должен блокировать кнопки */
+  .mobile-menu-overlay {
+    pointer-events: auto !important;
+    touch-action: none !important;
+    z-index: 9997 !important;
   }
 
   /* Убеждаемся что navigation всегда кликабельна */

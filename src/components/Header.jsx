@@ -343,6 +343,10 @@ const Header = () => {
             <div
               className="mobile-menu-overlay"
               onClick={toggleMenu}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                toggleMenu();
+              }}
               style={{
                 position: 'fixed',
                 top: 0,
@@ -352,6 +356,7 @@ const Header = () => {
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',
                 zIndex: 9997,
                 backdropFilter: 'blur(4px)',
+                touchAction: 'none',
               }}
             />
             <div
@@ -364,32 +369,51 @@ const Header = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 marginTop: '1rem',
-                gap: '1rem',
-                position: 'relative',
+                gap: '0.5rem',
+                position: 'fixed',
+                top: '5rem',
+                left: 0,
+                right: 0,
                 zIndex: 9998,
+                backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                padding: '1rem',
+                maxHeight: 'calc(100vh - 6rem)',
+                overflowY: 'auto',
               }}
             >
             {/* Главная */}
             <Link
               to="/"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 toggleMenu();
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
               }}
               style={{
                 color: '#FFFFFF',
                 fontSize: '1rem',
                 fontWeight: 300,
                 transition: 'all 0.3s ease',
+                width: '100%',
+                textAlign: 'center',
+                padding: '0.75rem 1rem',
+                touchAction: 'manipulation',
               }}
             >
               {t('nav.home')}
             </Link>
 
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 scrollToSection('services');
                 toggleMenu();
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
               }}
               style={{
                 color: '#FFFFFF',
@@ -399,6 +423,10 @@ const Header = () => {
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
+                width: '100%',
+                textAlign: 'center',
+                padding: '0.75rem 1rem',
+                touchAction: 'manipulation',
               }}
             >
               {t('nav.services')}
@@ -408,9 +436,13 @@ const Header = () => {
             {serviceItems.map((service) => (
               <button
                 key={service.path}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   navigateToProject(service.path);
                   toggleMenu();
+                }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
                 }}
                 style={{
                   color: '#FFFFFF',
@@ -421,6 +453,10 @@ const Header = () => {
                   border: 'none',
                   cursor: 'pointer',
                   opacity: 0.8,
+                  width: '100%',
+                  textAlign: 'center',
+                  padding: '0.75rem 1rem',
+                  touchAction: 'manipulation',
                 }}
               >
                 {service.name}
@@ -430,15 +466,23 @@ const Header = () => {
             {/* О нас */}
             <Link
               to="/about"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 toggleMenu();
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
               }}
               style={{
                 color: '#FFFFFF',
                 fontSize: '1rem',
                 fontWeight: 300,
                 transition: 'all 0.3s ease',
+                width: '100%',
+                textAlign: 'center',
+                padding: '0.75rem 1rem',
+                touchAction: 'manipulation',
               }}
             >
               {t('nav.about')}
@@ -446,7 +490,13 @@ const Header = () => {
 
             {/* Портфолио */}
             <button
-              onClick={() => scrollToSection('projects')}
+              onClick={(e) => {
+                e.stopPropagation();
+                scrollToSection('projects');
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
+              }}
               style={{
                 color: '#FFFFFF',
                 fontSize: '1rem',
@@ -455,6 +505,10 @@ const Header = () => {
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
+                width: '100%',
+                textAlign: 'center',
+                padding: '0.75rem 1rem',
+                touchAction: 'manipulation',
               }}
             >
               {t('nav.portfolio')}
@@ -462,7 +516,13 @@ const Header = () => {
 
             {/* Контакты */}
             <button
-              onClick={() => scrollToSection('contact')}
+              onClick={(e) => {
+                e.stopPropagation();
+                scrollToSection('contact');
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
+              }}
               className="btn-dark-theme"
               style={{
                 padding: '0.5rem 1.2rem',
@@ -475,6 +535,7 @@ const Header = () => {
                 border: '1px solid rgba(255, 255, 255, 0.3)',
                 cursor: 'pointer',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                touchAction: 'manipulation',
               }}
             >
               {t('nav.contact')}
