@@ -66,18 +66,25 @@
   }
 
   /* Бургер-кнопка с активным состоянием */
-  header button[aria-controls="mobile-menu"] {
+  .mobile-burger-button {
     transition: transform 0.15s ease, opacity 0.15s ease;
+    position: relative !important;
+    z-index: 1002 !important;
+    pointer-events: auto !important;
+    -webkit-user-select: none;
+    user-select: none;
+    isolation: isolate;
   }
 
-  header button[aria-controls="mobile-menu"]:active {
-    transform: scale(0.92);
-    opacity: 0.8;
+  .mobile-burger-button:active {
+    transform: scale(0.95);
+    opacity: 0.9;
   }
 
   /* Мобильное меню */
   #mobile-menu {
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   #mobile-menu button,
@@ -91,6 +98,12 @@
   #mobile-menu button:active,
   #mobile-menu a:active {
     background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Оверлей для мобильного меню */
+  .mobile-menu-overlay {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
   }
 }
 

@@ -45,25 +45,25 @@ const Header = () => {
     if (isMenuOpen) {
       // Сохраняем текущую позицию скролла
       const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      document.body.setAttribute('data-scroll-y', scrollY.toString());
     } else {
       // Восстанавливаем скролл
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      const scrollY = document.body.getAttribute('data-scroll-y');
+      document.body.removeAttribute('data-scroll-y');
       if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        window.scrollTo(0, parseInt(scrollY || '0'));
       }
     }
 
     return () => {
       // Cleanup при размонтировании
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      document.body.removeAttribute('data-scroll-y');
     };
   }, [isMenuOpen]);
 
@@ -304,18 +304,15 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4">
+        <div className="flex lg:hidden items-center gap-4" style={{ position: 'relative', zIndex: 1002 }}>
           <LanguageSwitcher />
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleMenu();
-            }}
+            onClick={toggleMenu}
             type="button"
             aria-label={isMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
+            className="mobile-burger-button"
             style={{
               color: '#FFFFFF',
               fontSize: '1.5rem',
@@ -329,6 +326,10 @@ const Header = () => {
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '8px',
               cursor: 'pointer',
+              position: 'relative',
+              zIndex: 1002,
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'transparent',
             }}
           >
             {isMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
@@ -350,7 +351,7 @@ const Header = () => {
                 right: 0,
                 bottom: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                zIndex: 999,
+                zIndex: 998,
               }}
             />
             <div
@@ -368,11 +369,12 @@ const Header = () => {
                 top: '5rem',
                 left: 0,
                 right: 0,
-                zIndex: 1001,
+                zIndex: 999,
                 backgroundColor: 'rgba(0, 0, 0, 0.95)',
                 padding: '1rem',
                 maxHeight: 'calc(100vh - 6rem)',
                 overflowY: 'auto',
+                WebkitOverflowScrolling: 'touch',
               }}
             >
             {/* Главная */}
