@@ -95,7 +95,7 @@ const AccessibilityHelper = () => {
           border: 2px solid #000;
           border-radius: 8px;
           padding: 16px;
-          z-index: 9999;
+          z-index: 10000;
           box-shadow: 0 4px 12px rgba(0,0,0,0.15);
           min-width: 250px;
         }

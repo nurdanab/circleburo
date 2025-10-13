@@ -125,7 +125,7 @@ const Header = () => {
         left: 0,
         right: 0,
         width: '100%',
-        zIndex: 9999,
+        zIndex: 10002,
         padding: '1.5rem 3rem',
         backgroundColor: 'rgba(0, 0, 0, 0.95)',
         backdropFilter: 'blur(8px)',
@@ -304,7 +304,7 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4 mobile-controls-container" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="flex lg:hidden items-center gap-4 mobile-controls-container">
           <LanguageSwitcher />
           <button
             onClick={toggleMenu}
@@ -315,8 +315,6 @@ const Header = () => {
             style={{
               color: '#FFFFFF',
               fontSize: '1.5rem',
-              position: 'relative',
-              zIndex: 2,
               padding: '0.5rem',
               minWidth: '48px',
               minHeight: '48px',
@@ -354,7 +352,6 @@ const Header = () => {
                 right: 0,
                 bottom: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                zIndex: 9997,
                 backdropFilter: 'blur(4px)',
                 touchAction: 'none',
               }}
@@ -374,7 +371,6 @@ const Header = () => {
                 top: '5rem',
                 left: 0,
                 right: 0,
-                zIndex: 9998,
                 backgroundColor: 'rgba(0, 0, 0, 0.95)',
                 padding: '1rem',
                 maxHeight: 'calc(100vh - 6rem)',

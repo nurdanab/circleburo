@@ -63,14 +63,16 @@
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
-    transform: translateZ(1000px) !important;
+    /* Убрали translateZ(1000px) - вызывал проблемы с кликабельностью */
+    transform: translateZ(0) !important;
+    isolation: isolate;
   }
 
   /* Убеждаемся что все кнопки в header кликабельны */
   header button,
   header a {
     position: relative;
-    z-index: 10000;
+    z-index: 10005 !important;
     touch-action: manipulation;
     -webkit-user-select: none;
     user-select: none;
@@ -80,7 +82,7 @@
   /* Особая обработка для бургер-меню - всегда поверх всего */
   .burger-menu-button {
     position: relative !important;
-    z-index: 2 !important;
+    z-index: 10006 !important;
     pointer-events: auto !important;
     touch-action: manipulation !important;
     -webkit-user-select: none !important;
@@ -94,13 +96,14 @@
     .mobile-controls-container {
       pointer-events: auto !important;
       isolation: isolate;
+      z-index: 10005 !important;
     }
   }
 
   /* Мобильное меню */
   #mobile-menu {
     position: fixed !important;
-    z-index: 9998 !important;
+    z-index: 10003 !important;
     pointer-events: auto !important;
     touch-action: pan-y !important;
     /* Предотвращаем случайное закрытие */
@@ -113,7 +116,7 @@
   #mobile-menu button,
   #mobile-menu a {
     position: relative;
-    z-index: 9999;
+    z-index: 10004 !important;
     min-height: 48px;
     width: 100%;
     touch-action: manipulation;
@@ -132,14 +135,14 @@
   .mobile-menu-overlay {
     pointer-events: auto !important;
     touch-action: none !important;
-    z-index: 9997 !important;
+    z-index: 10001 !important;
   }
 
   /* Убеждаемся что navigation всегда кликабельна */
   #navigation {
     pointer-events: auto !important;
     position: relative;
-    z-index: 10000;
+    z-index: 10005 !important;
   }
 
   #navigation > * {
@@ -159,11 +162,6 @@
   body > *:not(header) {
     position: relative;
     z-index: 1;
-  }
-
-  header {
-    z-index: 10002 !important;
-    isolation: isolate;
   }
 
   /* Убеждаемся что все интерактивные элементы в header кликабельны */
@@ -208,6 +206,19 @@ body {
 /* Убеждаемся что header всегда поверх всех элементов */
 header {
   isolation: isolate;
+  z-index: 10002 !important;
+}
+
+/* Глобальная защита от перекрытия навигации на всех устройствах */
+main, section, div, article, aside {
+  z-index: auto;
+  position: relative;
+}
+
+/* Убеждаемся что никакие элементы не перекрывают навигацию */
+body > div:not(#root),
+#root > div:not(header) {
+  z-index: 1;
 }
 
 #root {
