@@ -304,7 +304,7 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4" style={{ position: 'fixed', right: '1rem', top: '1.5rem', zIndex: 10002 }}>
+        <div className="flex lg:hidden items-center gap-4 mobile-controls-container" style={{ position: 'relative', zIndex: 1 }}>
           <LanguageSwitcher />
           <button
             onClick={toggleMenu}
@@ -316,7 +316,7 @@ const Header = () => {
               color: '#FFFFFF',
               fontSize: '1.5rem',
               position: 'relative',
-              zIndex: 10003,
+              zIndex: 2,
               padding: '0.5rem',
               minWidth: '48px',
               minHeight: '48px',

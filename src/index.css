@@ -78,10 +78,22 @@
 
   /* Особая обработка для бургер-меню - всегда поверх всего */
   .burger-menu-button {
-    position: fixed !important;
-    z-index: 10003 !important;
+    position: relative !important;
+    z-index: 2 !important;
     pointer-events: auto !important;
     touch-action: manipulation !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    /* Убеждаемся что кнопка всегда кликабельна */
+    isolation: isolate;
+  }
+
+  /* Контейнер для mobile controls */
+  @media (max-width: 1023px) {
+    .mobile-controls-container {
+      pointer-events: auto !important;
+      isolation: isolate;
+    }
   }
 
   /* Мобильное меню */
@@ -124,13 +136,19 @@
   }
 
   /* Убеждаемся что никакие элементы не перекрывают header */
-  body > * {
+  body > *:not(header) {
     position: relative;
     z-index: 1;
   }
 
   header {
     z-index: 10002 !important;
+    isolation: isolate;
+  }
+
+  /* Убеждаемся что все интерактивные элементы в header кликабельны */
+  header * {
+    pointer-events: auto !important;
   }
 }
 
