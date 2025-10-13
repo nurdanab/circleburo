@@ -343,10 +343,6 @@ const Header = () => {
             <div
               className="mobile-menu-overlay"
               onClick={toggleMenu}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                toggleMenu();
-              }}
               style={{
                 position: 'fixed',
                 top: 0,
@@ -355,8 +351,6 @@ const Header = () => {
                 bottom: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',
                 zIndex: 9997,
-                backdropFilter: 'blur(4px)',
-                touchAction: 'none',
               }}
             />
             <div
@@ -384,49 +378,37 @@ const Header = () => {
             {/* Главная */}
             <Link
               to="/"
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
+                setIsMenuOpen(false);
               }}
               style={{
                 color: '#FFFFFF',
                 fontSize: '1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
                 width: '100%',
                 textAlign: 'center',
                 padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
+                display: 'block',
               }}
             >
               {t('nav.home')}
             </Link>
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={() => {
                 scrollToSection('services');
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
               }}
               style={{
                 color: '#FFFFFF',
                 fontSize: '1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
                 width: '100%',
                 textAlign: 'center',
                 padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
               }}
             >
               {t('nav.services')}
@@ -436,19 +418,13 @@ const Header = () => {
             {serviceItems.map((service) => (
               <button
                 key={service.path}
-                onClick={(e) => {
-                  e.stopPropagation();
+                onClick={() => {
                   navigateToProject(service.path);
-                  toggleMenu();
-                }}
-                onTouchEnd={(e) => {
-                  e.stopPropagation();
                 }}
                 style={{
                   color: '#FFFFFF',
                   fontSize: '0.9rem',
                   fontWeight: 300,
-                  transition: 'all 0.3s ease',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -456,7 +432,6 @@ const Header = () => {
                   width: '100%',
                   textAlign: 'center',
                   padding: '0.75rem 1rem',
-                  touchAction: 'manipulation',
                 }}
               >
                 {service.name}
@@ -466,23 +441,18 @@ const Header = () => {
             {/* О нас */}
             <Link
               to="/about"
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
+                setIsMenuOpen(false);
               }}
               style={{
                 color: '#FFFFFF',
                 fontSize: '1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
                 width: '100%',
                 textAlign: 'center',
                 padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
+                display: 'block',
               }}
             >
               {t('nav.about')}
@@ -490,26 +460,19 @@ const Header = () => {
 
             {/* Портфолио */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={() => {
                 scrollToSection('projects');
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
               }}
               style={{
                 color: '#FFFFFF',
                 fontSize: '1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
                 width: '100%',
                 textAlign: 'center',
                 padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
               }}
             >
               {t('nav.portfolio')}
@@ -517,13 +480,8 @@ const Header = () => {
 
             {/* Контакты */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={() => {
                 scrollToSection('contact');
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
               }}
               className="btn-dark-theme"
               style={{
@@ -536,8 +494,6 @@ const Header = () => {
                 marginTop: '1rem',
                 border: '1px solid rgba(255, 255, 255, 0.3)',
                 cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                touchAction: 'manipulation',
               }}
             >
               {t('nav.contact')}

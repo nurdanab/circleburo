@@ -105,10 +105,6 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
       style={{
         contentVisibility: 'auto',
         containIntrinsicSize: '280px 440px',
-        touchAction: 'pan-x',
-        WebkitTouchCallout: 'none',
-        WebkitUserSelect: 'none',
-        userSelect: 'none'
       }}
     >
       {/* Unique creative accent - отключаем на мобильных */}
@@ -319,7 +315,7 @@ const AnimatedEmployeeCards = () => {
         </motion.div>
 
         {/* Cards - Horizontal scroll container with enhanced styling */}
-        <div className="relative overflow-x-auto overflow-y-visible scrollbar-hide touch-pan-x" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x', overscrollBehaviorX: 'contain' }}>
+        <div className="relative overflow-x-auto overflow-y-visible scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch', overscrollBehaviorX: 'contain' }}>
           {/* Gradient overlays for scroll indication */}
           <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
@@ -355,11 +351,7 @@ const AnimatedEmployeeCards = () => {
           -ms-overflow-style: none;
           scrollbar-width: none;
           scroll-behavior: smooth;
-          scroll-snap-type: x proximity;
           overscroll-behavior-x: contain;
-        }
-        .scrollbar-hide > div {
-          scroll-snap-align: start;
         }
         @media (prefers-reduced-motion: no-preference) {
           .scrollbar-hide {
@@ -368,14 +360,10 @@ const AnimatedEmployeeCards = () => {
         }
         @media (max-width: 768px) {
           .scrollbar-hide {
-            scroll-snap-type: x proximity;
             -webkit-overflow-scrolling: touch;
+            scroll-snap-type: none;
           }
         }
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        /* Removed line-clamp classes to show full text */
       `}</style>
     </section>
   );
