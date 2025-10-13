@@ -17,6 +17,7 @@ const Header = () => {
   const servicesDropdownRef = useRef(null);
 
   const toggleMenu = () => {
+    console.log('Toggle menu clicked, current state:', isMenuOpen);
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -125,12 +126,11 @@ const Header = () => {
         left: 0,
         right: 0,
         width: '100%',
-        zIndex: 9999,
+        zIndex: 1000,
         padding: '1.5rem 3rem',
         backgroundColor: 'rgba(0, 0, 0, 0.95)',
         backdropFilter: 'blur(8px)',
         willChange: 'auto',
-        pointerEvents: 'auto',
       }}
     >
       <nav
@@ -304,19 +304,21 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4 mobile-controls-container" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="flex lg:hidden items-center gap-4">
           <LanguageSwitcher />
           <button
-            onClick={toggleMenu}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleMenu();
+            }}
+            type="button"
             aria-label={isMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
-            className="burger-menu-button"
             style={{
               color: '#FFFFFF',
               fontSize: '1.5rem',
-              position: 'relative',
-              zIndex: 2,
               padding: '0.5rem',
               minWidth: '48px',
               minHeight: '48px',
@@ -327,8 +329,6 @@ const Header = () => {
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '8px',
               cursor: 'pointer',
-              WebkitTapHighlightColor: 'transparent',
-              touchAction: 'manipulation',
             }}
           >
             {isMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
@@ -350,7 +350,7 @@ const Header = () => {
                 right: 0,
                 bottom: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                zIndex: 9997,
+                zIndex: 999,
               }}
             />
             <div
@@ -368,7 +368,7 @@ const Header = () => {
                 top: '5rem',
                 left: 0,
                 right: 0,
-                zIndex: 9998,
+                zIndex: 1001,
                 backgroundColor: 'rgba(0, 0, 0, 0.95)',
                 padding: '1rem',
                 maxHeight: 'calc(100vh - 6rem)',

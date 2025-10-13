@@ -62,14 +62,17 @@
   /* Убеждаемся что все кнопки в header кликабельны */
   header button,
   header a {
-    touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
   }
 
-  /* Особая обработка для бургер-меню */
-  .burger-menu-button {
-    touch-action: manipulation !important;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
+  /* Бургер-кнопка с активным состоянием */
+  header button[aria-controls="mobile-menu"] {
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  header button[aria-controls="mobile-menu"]:active {
+    transform: scale(0.92);
+    opacity: 0.8;
   }
 
   /* Мобильное меню */
@@ -81,8 +84,13 @@
   #mobile-menu a {
     min-height: 48px;
     width: 100%;
-    touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s ease;
+  }
+
+  #mobile-menu button:active,
+  #mobile-menu a:active {
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }
 
