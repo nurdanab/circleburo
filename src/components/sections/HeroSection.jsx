@@ -97,8 +97,8 @@ const HeroSection = memo(() => {
       </div>
 
       {/* 3D анимация видео загружается после критического контента */}
-      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
-        <div className="transform translate-y-0 sm:translate-y-0 md:translate-y-0 lg:translate-y-0">
+      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center" style={{ marginTop: '2rem' }}>
+        <div className="transform translate-y-0">
           <Suspense fallback={
             <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
               <div style={{
@@ -120,6 +120,7 @@ const HeroSection = memo(() => {
       {/* Главный контент */}
       <motion.div
         className="relative z-20 text-center px-4 w-full h-full flex flex-col justify-center items-center"
+        style={{ marginTop: '2rem' }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
