@@ -126,7 +126,7 @@ const Header = () => {
         left: 0,
         right: 0,
         width: '100%',
-        zIndex: 1000,
+        zIndex: 1050,
         padding: '1.5rem 3rem',
         backgroundColor: 'rgba(0, 0, 0, 0.95)',
         backdropFilter: 'blur(8px)',
@@ -304,7 +304,7 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4" style={{ position: 'relative', zIndex: 1002 }}>
+        <div className="flex lg:hidden items-center gap-4" style={{ position: 'relative', zIndex: 1100 }}>
           <LanguageSwitcher />
           <button
             onClick={toggleMenu}
@@ -327,9 +327,10 @@ const Header = () => {
               borderRadius: '8px',
               cursor: 'pointer',
               position: 'relative',
-              zIndex: 1002,
+              zIndex: 1100,
               touchAction: 'manipulation',
               WebkitTapHighlightColor: 'transparent',
+              pointerEvents: 'auto',
             }}
           >
             {isMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
@@ -351,7 +352,7 @@ const Header = () => {
                 right: 0,
                 bottom: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                zIndex: 998,
+                zIndex: 1040,
               }}
             />
             <div
@@ -369,7 +370,7 @@ const Header = () => {
                 top: '5rem',
                 left: 0,
                 right: 0,
-                zIndex: 999,
+                zIndex: 1045,
                 backgroundColor: 'rgba(0, 0, 0, 0.95)',
                 padding: '1rem',
                 maxHeight: 'calc(100vh - 6rem)',

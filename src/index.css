@@ -67,18 +67,31 @@
 
   /* Бургер-кнопка с активным состоянием */
   .mobile-burger-button {
-    transition: transform 0.15s ease, opacity 0.15s ease;
+    transition: transform 0.15s ease, opacity 0.15s ease !important;
     position: relative !important;
-    z-index: 1002 !important;
+    z-index: 1100 !important;
     pointer-events: auto !important;
     -webkit-user-select: none;
     user-select: none;
     isolation: isolate;
+    /* Убираем любые потенциальные блокировки */
+    -webkit-touch-callout: none;
   }
 
   .mobile-burger-button:active {
     transform: scale(0.95);
     opacity: 0.9;
+  }
+
+  /* Увеличенная область клика для лучшего UX */
+  .mobile-burger-button::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    z-index: -1;
   }
 
   /* Мобильное меню */

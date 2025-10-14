@@ -97,27 +97,29 @@ const HeroSection = memo(() => {
       </div>
 
       {/* 3D анимация видео загружается после критического контента */}
-      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center -translate-y-16 sm:-translate-y-12 md:-translate-y-14 lg:-translate-y-16">
-        <Suspense fallback={
-          <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
-            <div style={{
-              width: '3rem',
-              height: '3rem',
-              border: '2px solid rgba(255,255,255,0.2)',
-              borderTop: '2px solid rgba(255,255,255,0.6)',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
-              transform: 'translateZ(0)'
-            }}></div>
-          </div>
-        }>
-          <VideoHero />
-        </Suspense>
+      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
+        <div className="transform translate-y-0 sm:translate-y-0 md:translate-y-0 lg:translate-y-0">
+          <Suspense fallback={
+            <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
+              <div style={{
+                width: '3rem',
+                height: '3rem',
+                border: '2px solid rgba(255,255,255,0.2)',
+                borderTop: '2px solid rgba(255,255,255,0.6)',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite',
+                transform: 'translateZ(0)'
+              }}></div>
+            </div>
+          }>
+            <VideoHero />
+          </Suspense>
+        </div>
       </div>
 
       {/* Главный контент */}
       <motion.div
-        className="relative z-20 text-center px-4 w-full h-full flex flex-col justify-center items-center translate-y-0 sm:translate-y-8 md:translate-y-12 lg:translate-y-16"
+        className="relative z-20 text-center px-4 w-full h-full flex flex-col justify-center items-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
