@@ -29,7 +29,8 @@ const AboutUsSection = () => {
       className="bg-black text-gray-300 py-20 md:py-32 px-6 md:px-20 relative overflow-hidden min-h-screen flex items-center"
     >
 
-      <motion.div 
+      {/* Мобильная версия круга скрыта для оптимизации */}
+      {/* <motion.div
         className="absolute top-0 right-0 lg:hidden z-0"
       >
         <div className="relative w-[20rem] h-[20rem] overflow-hidden">
@@ -46,7 +47,7 @@ const AboutUsSection = () => {
             />
           </motion.div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       <motion.div 
         className="hidden lg:block absolute top-1/2 right-0 transform -translate-y-1/2 z-0"
@@ -80,19 +81,19 @@ const AboutUsSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm uppercase tracking-widest text-white/80 backdrop-blur-sm">
+              <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm uppercase tracking-widest text-white backdrop-blur-sm">
                 {t('aboutUs.subtitle')}
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
                 {t('aboutUs.creative')}{' '}
-                <span className="block bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+                <span className="block text-white">
                   {t('aboutUs.vision')}
                 </span>
               </h2>
             </motion.div>
 
             <motion.div
-              className="space-y-6 text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl"
+              className="space-y-6 text-white text-lg md:text-xl leading-relaxed max-w-2xl"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -101,7 +102,7 @@ const AboutUsSection = () => {
               <p>
                 {t('aboutUs.paragraph1')}
               </p>
-              <p className="text-gray-400">
+              <p className="text-white">
                 {t('aboutUs.paragraph2')}
               </p>
             </motion.div>

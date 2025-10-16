@@ -171,27 +171,17 @@ const PerformanceOptimizer = ({ children }) => {
     // Start memory optimization
     optimizeMemoryUsage();
 
-    // Add performance CSS
+    // Add performance CSS - БЕЗ GPU стилей которые создают stacking context
     const performanceStyles = document.createElement('style');
     performanceStyles.id = 'performance-styles';
     performanceStyles.textContent = `
-      /* GPU acceleration for better performance */
-      .gpu-accelerated {
-        transform: translateZ(0);
-        backface-visibility: hidden;
-        perspective: 1000px;
-      }
+      /* УДАЛЕНЫ GPU acceleration стили - они создают stacking context и блокируют header */
+      /* .gpu-accelerated, .optimized-animation - УДАЛЕНЫ */
 
       /* Optimize scrolling */
       .smooth-scroll {
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
-      }
-
-      /* Optimize animations */
-      .optimized-animation {
-        will-change: transform, opacity;
-        transform: translateZ(0);
       }
 
       /* Reduce motion for users who prefer it */
@@ -204,10 +194,10 @@ const PerformanceOptimizer = ({ children }) => {
         }
       }
 
-      /* Battery optimization */
+      /* Battery optimization - БЕЗ filter который создает stacking context */
       @media (prefers-reduced-motion: reduce), (prefers-color-scheme: dark) {
         .battery-optimized {
-          filter: brightness(0.8);
+          opacity: 0.8;
         }
       }
 

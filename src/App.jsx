@@ -104,17 +104,35 @@ function AppContent() {
     setIsMobileState(checkIsMobile);
     if (checkIsMobile) {
       document.body.classList.add('is-mobile');
-      // Мобильные оптимизации
-      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
 
-      // Обработка изменения ориентации и resize
+      // iOS Safari viewport height fix - предотвращаем прыжки при изменении высоты адресной строки
+      let ticking = false;
       const updateVh = () => {
-        document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            // Используем visualViewport для более стабильного значения на iOS
+            const vh = window.visualViewport ? window.visualViewport.height * 0.01 : window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            ticking = false;
+          });
+          ticking = true;
+        }
       };
+
+      // Устанавливаем начальное значение
+      updateVh();
+
+      // Слушаем изменения viewport (для iOS Safari)
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateVh);
+      }
       window.addEventListener('resize', updateVh);
       window.addEventListener('orientationchange', updateVh);
 
       return () => {
+        if (window.visualViewport) {
+          window.visualViewport.removeEventListener('resize', updateVh);
+        }
         window.removeEventListener('resize', updateVh);
         window.removeEventListener('orientationchange', updateVh);
       };
@@ -156,6 +174,9 @@ function AppContent() {
 
   return (
     <ErrorBoundary>
+      {/* Header вынесен ВНЕ PerformanceOptimizer чтобы избежать stacking context */}
+      {!isAdminRoute && <Header />}
+
       <PerformanceOptimizer>
         <ScrollToTop />
         <PrerenderManager />
@@ -163,7 +184,7 @@ function AppContent() {
         {/* SplashCursor отключен для оптимизации - тяжелый WebGL */}
         {/* {!disableAnimations && !isMobile && <SplashCursor />} */}
         <AccessibilityHelper />
-        {!isAdminRoute && <Header />}
+
         <Routes>
         {/* Russian routes (default) */}
         <Route path="/" element={<LazyPage component={HomePage} />} />

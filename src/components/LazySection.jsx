@@ -50,14 +50,15 @@ const LazySection = ({
   }, [rootMargin, threshold, hasLoaded, priority]);
 
   const getTransitionStyle = () => {
+    // КРИТИЧНО: НЕ используем inline transform - он создаёт stacking context и блокирует header
+    // Вместо этого используем только opacity
     if (!animate || reduceMotion) {
       return { opacity: isVisible ? 1 : 0 };
     }
-    
+
     return {
       opacity: isVisible ? 1 : 0,
-      transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-      transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+      transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
     };
   };
 
@@ -73,14 +74,13 @@ const LazySection = ({
       className={`lazy-section ${isVisible ? 'loaded' : ''} ${className}`}
       style={{
         minHeight: !isVisible && !priority ? '200px' : 'auto',
-        contentVisibility: priority ? 'visible' : 'auto',
-        containIntrinsicSize: !isVisible ? '1px 200px' : 'none',
+        // УДАЛЕНО: contentVisibility и containIntrinsicSize - они могут создавать stacking context
         ...getTransitionStyle()
       }}
     >
-      {isLoading && !isVisible ? 
-        (fallback || defaultFallback) : 
-        isVisible ? children : 
+      {isLoading && !isVisible ?
+        (fallback || defaultFallback) :
+        isVisible ? children :
         (fallback || <div className="h-48 bg-gray-50" />)
       }
     </div>

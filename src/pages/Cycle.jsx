@@ -102,7 +102,7 @@ const Cycle = () => {
               </p>
               {/* Разделитель */}
               <div className="hidden md:block w-1 h-16 bg-white rounded-full"></div>
-              <p className="text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 tracking-tight">
+              <p className="text-6xl md:text-7xl font-extrabold text-white tracking-tight">
                 580 000 KZT
               </p>
             </div>

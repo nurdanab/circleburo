@@ -28,7 +28,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
             >
-                <p className="text-base md:text-lg text-white/80 leading-relaxed">
+                <p className="text-base md:text-lg text-white leading-relaxed">
                     Полный цикл создания бренда:<br />
                     от маркетинговой стратегии до технической реализации
                 </p>

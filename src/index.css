@@ -1,111 +1,95 @@
 /* src/index.css */
 @import "tailwindcss";
 
-/* ОПТИМИЗАЦИЯ: CSS анимации для Header вместо Framer Motion */
-@keyframes headerSlideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* Предотвращаем прыжки скролла - скроллбар всегда видим */
+html {
+  overflow-y: scroll !important;
+  overflow-x: hidden;
+  width: 100%;
 }
 
-@keyframes mobileMenuFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+body {
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* Простой header без прыжков - БЕЗ GPU-оптимизаций */
+header {
+  -webkit-tap-highlight-color: transparent;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 9999 !important;
+  height: 64px !important;
+  background-color: #000000 !important;
+  /* КРИТИЧНО: НЕ используем transform, will-change, isolation - они блокируют клики */
+  /* Браузер сам создаст fixed layer без наших вмешательств */
+  pointer-events: auto !important;
 }
 
-.header-animate {
-  animation: headerSlideDown 0.3s ease-out forwards;
-}
-
-.mobile-menu-animate {
-  animation: mobileMenuFadeIn 0.2s ease-out forwards;
-}
-
-.mobile-menu-overlay {
-  animation: overlayFadeIn 0.2s ease-out forwards;
-}
-
-/* Оптимизация для мобильных устройств */
-@media (max-width: 768px) {
-  .header-animate {
-    animation-duration: 0.2s;
-  }
-
-  /* Отключаем backdrop-filter на мобильных - очень тяжелый */
+/* Мобильные устройства */
+@media (max-width: 1024px) {
   header {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background-color: rgba(0, 0, 0, 0.98) !important;
-    will-change: auto !important;
+    height: 64px !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    /* УДАЛЕНЫ ВСЕ GPU оптимизации: transform, will-change, contain, backface-visibility */
+    /* Они создают stacking context и блокируют pointer-events */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    /* Предотвращаем webkit touch callout */
+    -webkit-touch-callout: none !important;
   }
 
-  /* Убеждаемся что все кнопки в header кликабельны */
+  #navigation {
+    padding: 0 1rem !important;
+    pointer-events: auto !important;
+    height: 64px !important;
+    /* Предотвращаем прыжки при изменении содержимого */
+    min-height: 64px !important;
+  }
+
   header button,
   header a {
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-  }
-
-  /* Бургер-кнопка с активным состоянием */
-  .mobile-burger-button {
-    transition: transform 0.15s ease, opacity 0.15s ease !important;
-    position: relative !important;
-    z-index: 1100 !important;
-    pointer-events: auto !important;
+    -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
-    isolation: isolate;
-    /* Убираем любые потенциальные блокировки */
-    -webkit-touch-callout: none;
-  }
-
-  .mobile-burger-button:active {
-    transform: scale(0.95);
-    opacity: 0.9;
-  }
-
-  /* Увеличенная область клика для лучшего UX */
-  .mobile-burger-button::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    z-index: -1;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    position: relative !important;
+    z-index: 10 !important;
+    /* Увеличиваем область клика */
+    min-width: 44px;
+    min-height: 44px;
   }
 
   /* Мобильное меню */
   #mobile-menu {
     -webkit-overflow-scrolling: touch;
+    top: 64px !important;
+    max-height: calc(100dvh - 64px) !important;
+    z-index: 9998 !important;
+    /* Предотвращаем проблемы с overflow */
     overscroll-behavior: contain;
   }
 
   #mobile-menu button,
   #mobile-menu a {
-    min-height: 48px;
+    display: block;
     width: 100%;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-    transition: background-color 0.2s ease;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    /* Увеличиваем область тапа */
+    padding: 1rem !important;
+    min-height: 48px;
   }
 
   #mobile-menu button:active,
@@ -113,20 +97,11 @@
     background-color: rgba(255, 255, 255, 0.05);
   }
 
-  /* Оверлей для мобильного меню */
-  .mobile-menu-overlay {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: none;
-  }
-}
-
-/* Убираем анимации для пользователей с prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .header-animate,
-  .mobile-menu-animate {
-    animation: none;
-    opacity: 1;
-    transform: none;
+  /* Фиксация body при открытом меню - предотвращаем прыжки */
+  body.menu-open {
+    position: fixed !important;
+    width: 100% !important;
+    overflow: hidden !important;
   }
 }
 
@@ -147,20 +122,22 @@ body {
   touch-action: manipulation;
   /* Предотвращаем проблемы с overflow на мобильных */
   overflow-x: hidden;
-  position: relative;
   /* Мобильная высота viewport */
-  min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100);
+  min-height: 100dvh;
 }
 
-/* Убеждаемся что header всегда поверх всех элементов */
-header {
-  isolation: isolate;
+/* УДАЛЕНО isolation - оно создаёт stacking context и блокирует fixed позиционирование */
+/* header не нуждается в isolation, т.к. он уже fixed с z-index: 9999 */
+
+/* Убеждаемся, что header всегда поверх контента страницы */
+/* НЕ используем isolation на sections - это создаёт stacking context и блокирует header */
+section {
+  position: relative;
+  /* НЕ устанавливаем z-index на section - это создаст stacking context */
 }
 
 #root {
   background-color: #000000;
-  min-height: 100vh;
   min-height: 100dvh; /* Динамическая высота viewport для мобильных */
 }
 
@@ -195,10 +172,17 @@ header {
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Убрали scroll-behavior: smooth для предотвращения прыжков */
   /* Оптимизация скролла на мобильных */
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: none; /* Предотвращаем bounce на iOS */
+}
+
+/* Smooth scroll только на десктопе */
+@media (min-width: 769px) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Дополнительные оптимизации производительности */
@@ -664,4 +648,58 @@ select:focus {
   outline: none !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Оптимизация горизонтальной прокрутки для карточек на мобильных */
+@media (max-width: 768px) {
+  /* КРИТИЧНО: Убираем ВСЕ что может блокировать touch на родительских секциях */
+  section {
+    transform: none !important;
+    will-change: auto !important;
+    contain: none !important;
+    isolation: auto !important;
+    filter: none !important;
+    perspective: none !important;
+    backface-visibility: visible !important;
+  }
+}
+
+/* ==========================================
+   КРИТИЧЕСКИЙ FIX ДЛЯ HEADER
+   Удаляем все свойства, которые создают stacking context
+   в родительских элементах header
+   ========================================== */
+
+/* Удаляем stacking context из ВСЕХ родительских элементов */
+html, body, #root, main, .App, [class*="App"], [id*="app"] {
+  transform: none !important;
+  contain: none !important;
+  isolation: auto !important;
+  filter: none !important;
+  perspective: none !important;
+  will-change: auto !important;
+}
+
+/* Усиление стилей для header - абсолютный приоритет */
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  pointer-events: auto !important;
+  contain: none !important;
+  isolation: auto !important;
+  filter: none !important;
+  perspective: none !important;
+}
+
+/* Убедимся что ErrorBoundary не создаёт stacking context */
+.min-h-screen {
+  transform: none !important;
+  contain: none !important;
+  isolation: auto !important;
 }
