@@ -357,6 +357,33 @@ const AnimatedEmployeeCards = () => {
     };
   }, [isMobile]);
 
+  // Обработчик колесика мыши для десктопа
+  useEffect(() => {
+    if (isMobile || !scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+
+    const handleWheel = (e) => {
+      const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+
+      // Если есть явный горизонтальный жест (трекпад)
+      if (isHorizontalScroll && e.deltaX !== 0) {
+        e.preventDefault();
+        container.scrollLeft += e.deltaX;
+        return;
+      }
+
+      // Во всех остальных случаях (вертикальный скролл или колесико мыши)
+      // пропускаем событие для прокрутки страницы
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, [isMobile]);
+
   return (
     <section className="bg-black py-20 text-white relative" style={{ overflow: 'hidden', zIndex: 1, position: 'relative', isolation: 'auto', transform: 'none', willChange: 'auto' }}>
       {/* Structured Data for each employee */}
@@ -423,8 +450,8 @@ const AnimatedEmployeeCards = () => {
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             cursor: isMobile ? 'default' : 'grab',
-            // Критично для плавной нативной прокрутки
-            touchAction: 'pan-x',
+            // Позволяет и горизонтальную, и вертикальную прокрутку
+            touchAction: 'auto',
           }}
         >
           {/* Gradient overlays for scroll indication - скрываем на мобильных */}
@@ -462,9 +489,9 @@ const AnimatedEmployeeCards = () => {
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
-          /* Критично для предотвращения скролла родительских элементов */
+          /* Предотвращаем горизонтальный overscroll, но разрешаем вертикальный */
           overscroll-behavior-x: contain;
-          overscroll-behavior-y: none;
+          overscroll-behavior-y: auto;
           /* Отключаем scroll snap для избежания рывков */
           scroll-snap-type: none;
           /* Плавная прокрутка для всех устройств */
