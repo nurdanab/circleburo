@@ -6,23 +6,33 @@ const VideoHero = memo(({ className = "" }) => {
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(true); // Загружаем сразу
 
-  // Проверка на очень медленное соединение
-  useEffect(() => {
+  // ОПТИМИЗАЦИЯ: Проверяем соединение синхронно для быстрого принятия решения
+  const [connectionInfo] = useState(() => {
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     const slowConnection = connection && (
       connection.effectiveType === 'slow-2g' ||
       connection.effectiveType === '2g' ||
       connection.saveData
     );
+    return {
+      isSlow: slowConnection,
+      // ОПТИМИЗАЦИЯ: Определяем стратегию preload на основе соединения
+      preloadStrategy: slowConnection ? 'none' : 'metadata'
+    };
+  });
 
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(!connectionInfo.isSlow);
+
+  // ОПТИМИЗАЦИЯ: Проверка на очень медленное соединение убрана из useEffect
+  // Теперь проверка происходит синхронно при инициализации
+  useEffect(() => {
     // На очень медленном соединении показываем fallback
-    if (slowConnection) {
+    if (connectionInfo.isSlow) {
       setHasError(true);
       setShouldLoadVideo(false);
     }
-  }, []);
+  }, [connectionInfo.isSlow]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -126,7 +136,7 @@ const VideoHero = memo(({ className = "" }) => {
         loop
         muted
         playsInline
-        preload="auto"
+        preload={connectionInfo.preloadStrategy}
         poster="/img/circle-fill.webp"
         disablePictureInPicture
         disableRemotePlayback

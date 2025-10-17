@@ -13,7 +13,9 @@ const HeroSection = memo(() => {
   // Проверяем предпочтения пользователя по анимациям
   const prefersReducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // ОПТИМИЗАЦИЯ: Вычисляем isMobile синхронно, без лишних ре-рендеров
+  const [isMobile] = useState(() => window.innerWidth < 768);
 
   // КРИТИЧНО: Отключаем scroll-анимации на мобильных для производительности
   // Scroll-анимации вызывают janky scrolling на мобильных и слабых устройствах
@@ -23,7 +25,8 @@ const HeroSection = memo(() => {
     setMounted(true);
   }, []);
 
-  const containerVariants = {
+  // ОПТИМИЗАЦИЯ: Мемоизируем variants чтобы они не создавались заново при каждом рендере
+  const containerVariants = useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -32,9 +35,9 @@ const HeroSection = memo(() => {
         duration: isMobile ? 0.15 : 0.3, // Сокращено вдвое
       },
     },
-  };
+  }), [isMobile]);
 
-  const titleVariants = {
+  const titleVariants = useMemo(() => ({
     hidden: {
       opacity: 0,
       y: isMobile ? 5 : 20, // Минимальное движение на мобильных
@@ -47,9 +50,9 @@ const HeroSection = memo(() => {
         ease: "easeOut", // Упрощенный easing для лучшей производительности
       },
     },
-  };
+  }), [isMobile]);
 
-  const scrollIndicatorVariants = {
+  const scrollIndicatorVariants = useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -58,27 +61,7 @@ const HeroSection = memo(() => {
         duration: isMobile ? 0.2 : 0.3,
       },
     },
-  };
-
-  // Мемоизируем массив звездочек для фона (МИНИМАЛЬНО для Performance)
-  // ОТКЛЮЧЕНО для максимальной производительности
-  const stars = useMemo(() => [], []);
-
-  const starVariants = {
-    hidden: { 
-      scale: 0,
-      opacity: 0,
-    },
-    visible: (custom) => ({
-      scale: 1,
-      opacity: custom.opacity,
-      transition: {
-        delay: custom.delay,
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    }),
-  };
+  }), [isMobile]);
 
 
   return (

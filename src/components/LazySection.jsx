@@ -74,7 +74,11 @@ const LazySection = ({
       className={`lazy-section ${isVisible ? 'loaded' : ''} ${className}`}
       style={{
         minHeight: !isVisible && !priority ? '200px' : 'auto',
-        // УДАЛЕНО: contentVisibility и containIntrinsicSize - они могут создавать stacking context
+        // ОПТИМИЗАЦИЯ: Добавляем content-visibility только для невидимых секций
+        // Это позволяет браузеру пропускать рендеринг и layout невидимого контента
+        // containIntrinsicSize предотвращает layout shift
+        contentVisibility: !isVisible && !priority ? 'auto' : 'visible',
+        containIntrinsicSize: !isVisible && !priority ? '0 200px' : 'none',
         ...getTransitionStyle()
       }}
     >

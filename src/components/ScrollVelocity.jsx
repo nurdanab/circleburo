@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState } from "react";
+import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
@@ -19,8 +19,19 @@ function useElementWidth(ref) {
       }
     }
     updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
+
+    // ОПТИМИЗАЦИЯ: Throttle resize events для снижения нагрузки
+    let resizeTimeout;
+    const throttledUpdate = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateWidth, 150);
+    };
+
+    window.addEventListener("resize", throttledUpdate, { passive: true });
+    return () => {
+      window.removeEventListener("resize", throttledUpdate);
+      clearTimeout(resizeTimeout);
+    };
   }, [ref]);
 
   return width;
@@ -74,6 +85,39 @@ export const ScrollVelocity = ({
     const copyRef = useRef(null);
     const copyWidth = useElementWidth(copyRef);
 
+    // ОПТИМИЗАЦИЯ: Отслеживаем видимость компонента
+    const [isVisible, setIsVisible] = useState(true);
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+      // ОПТИМИЗАЦИЯ: Останавливаем анимацию когда не видно
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsVisible(entry.isIntersecting);
+        },
+        { rootMargin: '50px' }
+      );
+
+      if (containerRef.current) {
+        observer.observe(containerRef.current);
+      }
+
+      return () => observer.disconnect();
+    }, []);
+
+    // ОПТИМИЗАЦИЯ: Проверяем prefers-reduced-motion
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+    useEffect(() => {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      setPrefersReducedMotion(mediaQuery.matches);
+
+      const handleChange = (e) => setPrefersReducedMotion(e.matches);
+      mediaQuery.addEventListener('change', handleChange);
+
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }, []);
+
     function wrap(min, max, v) {
       const range = max - min;
       const mod = (((v - min) % range) + range) % range;
@@ -86,7 +130,19 @@ export const ScrollVelocity = ({
     });
 
     const directionFactor = useRef(1);
+    const frameSkipCounter = useRef(0);
+
     useAnimationFrame((t, delta) => {
+      // ОПТИМИЗАЦИЯ: Пропускаем анимацию если не видно или prefers-reduced-motion
+      if (!isVisible || prefersReducedMotion) return;
+
+      // ОПТИМИЗАЦИЯ: Пропускаем каждый второй кадр на мобильных для экономии CPU
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        frameSkipCounter.current++;
+        if (frameSkipCounter.current % 2 !== 0) return;
+      }
+
       let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
       if (velocityFactor.get() < 0) {
@@ -114,12 +170,18 @@ export const ScrollVelocity = ({
 
     return (
       <div
+        ref={containerRef}
         className={`${parallaxClassName} relative overflow-hidden`}
         style={parallaxStyle}
       >
         <motion.div
           className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[5rem]`}
-          style={{ x, ...scrollerStyle }}
+          style={{
+            x,
+            ...scrollerStyle,
+            // ОПТИМИЗАЦИЯ: Добавляем CSS hint для браузера
+            willChange: isVisible ? 'transform' : 'auto'
+          }}
         >
           {spans}
         </motion.div>

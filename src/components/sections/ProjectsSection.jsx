@@ -12,9 +12,11 @@ const ProjectsSection = memo(() => {
   const [videoState, setVideoState] = useState({
     loaded: new Set(),
     visible: new Set(),
-    isMobile: false,
     playingOnMobile: new Set() // Видео, которые воспроизводятся на мобильных после клика
   });
+
+  // ОПТИМИЗАЦИЯ: Вынесли isMobile в ref чтобы избежать re-renders при resize
+  const isMobileRef = useRef(window.innerWidth < 768);
 
   const videoRefs = useRef(new Map());
   const observerRef = useRef(null);
@@ -101,18 +103,37 @@ const ProjectsSection = memo(() => {
     }
   ];
 
-  // ОПТИМИЗАЦИЯ: Определяем мобильное устройство
+  // ОПТИМИЗАЦИЯ: Обновляем isMobile через throttled resize listener
   useEffect(() => {
+    let resizeTimeout;
     const checkMobile = () => {
-      setVideoState(prev => ({ ...prev, isMobile: window.innerWidth < 768 }));
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        isMobileRef.current = window.innerWidth < 768;
+      }, 150);
     };
 
-    checkMobile();
-    const resizeObserver = new ResizeObserver(checkMobile);
-    resizeObserver.observe(document.body);
+    // ОПТИМИЗАЦИЯ: Используем matchMedia для более эффективного отслеживания
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const handleMediaChange = (e) => {
+      isMobileRef.current = e.matches;
+    };
+
+    // Современные браузеры
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleMediaChange);
+    } else {
+      // Fallback для старых браузеров
+      window.addEventListener('resize', checkMobile, { passive: true });
+    }
 
     return () => {
-      resizeObserver.disconnect();
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleMediaChange);
+      } else {
+        window.removeEventListener('resize', checkMobile);
+      }
+      clearTimeout(resizeTimeout);
     };
   }, []);
 
@@ -138,13 +159,24 @@ const ProjectsSection = memo(() => {
 
       currentlyLoadingRef.current++;
 
+      // ОПТИМИЗАЦИЯ: Используем ref вместо state для проверки
       // На мобильных не загружаем видео, только показываем placeholder
-      if (videoState.isMobile) {
-        setVideoState(prev => ({
-          ...prev,
-          visible: new Set([...prev.visible, videoId]),
-          loaded: new Set([...prev.loaded, videoId])
-        }));
+      if (isMobileRef.current) {
+        setVideoState(prev => {
+          // ОПТИМИЗАЦИЯ: Избегаем создания новых Set если элемент уже есть
+          if (prev.visible.has(videoId) && prev.loaded.has(videoId)) {
+            return prev;
+          }
+          const newVisible = new Set(prev.visible);
+          newVisible.add(videoId);
+          const newLoaded = new Set(prev.loaded);
+          newLoaded.add(videoId);
+          return {
+            ...prev,
+            visible: newVisible,
+            loaded: newLoaded
+          };
+        });
         currentlyLoadingRef.current--;
         continue;
       }
@@ -153,11 +185,21 @@ const ProjectsSection = memo(() => {
         if (import.meta.env.DEV) {
           console.log('Video loaded:', videoId);
         }
-        setVideoState(prev => ({
-          ...prev,
-          visible: new Set([...prev.visible, videoId]),
-          loaded: new Set([...prev.loaded, videoId])
-        }));
+        setVideoState(prev => {
+          // ОПТИМИЗАЦИЯ: Избегаем создания новых Set если элемент уже есть
+          if (prev.visible.has(videoId) && prev.loaded.has(videoId)) {
+            return prev;
+          }
+          const newVisible = new Set(prev.visible);
+          newVisible.add(videoId);
+          const newLoaded = new Set(prev.loaded);
+          newLoaded.add(videoId);
+          return {
+            ...prev,
+            visible: newVisible,
+            loaded: newLoaded
+          };
+        });
         currentlyLoadingRef.current--;
         // Загружаем следующее из очереди
         processLoadingQueueRef.current?.();
@@ -167,11 +209,21 @@ const ProjectsSection = memo(() => {
         if (import.meta.env.DEV) {
           console.warn('Video failed to load:', videoId, e);
         }
-        setVideoState(prev => ({
-          ...prev,
-          visible: new Set([...prev.visible, videoId]),
-          loaded: new Set([...prev.loaded, videoId])
-        }));
+        setVideoState(prev => {
+          // ОПТИМИЗАЦИЯ: Избегаем создания новых Set если элемент уже есть
+          if (prev.visible.has(videoId) && prev.loaded.has(videoId)) {
+            return prev;
+          }
+          const newVisible = new Set(prev.visible);
+          newVisible.add(videoId);
+          const newLoaded = new Set(prev.loaded);
+          newLoaded.add(videoId);
+          return {
+            ...prev,
+            visible: newVisible,
+            loaded: newLoaded
+          };
+        });
         currentlyLoadingRef.current--;
         processLoadingQueueRef.current?.();
       };
@@ -261,8 +313,9 @@ const ProjectsSection = memo(() => {
 
   // Упрощенные обработчики для hover
   const handleVideoMouseEnter = useCallback((e, subsectionId) => {
+    // ОПТИМИЗАЦИЯ: Используем ref вместо state
     // На мобильных не запускаем видео при hover
-    if (videoState.isMobile) return;
+    if (isMobileRef.current) return;
 
     if (subsectionId === 'motion' || subsectionId === 'production') {
       const video = e.currentTarget.querySelector('video');
@@ -270,7 +323,7 @@ const ProjectsSection = memo(() => {
         safePlayVideo(video);
       }
     }
-  }, [videoState.isMobile]);
+  }, []); // Теперь нет зависимостей!
 
   const handleVideoMouseLeave = useCallback((e, subsectionId) => {
     if (subsectionId === 'motion' || subsectionId === 'production') {
@@ -283,17 +336,26 @@ const ProjectsSection = memo(() => {
 
   // НОВОЕ: Обработчик клика на poster для мобильных
   const handlePosterClick = useCallback((videoId, videoSrc) => {
-    if (!videoState.isMobile) return;
+    // ОПТИМИЗАЦИЯ: Используем ref вместо state
+    if (!isMobileRef.current) return;
 
     if (import.meta.env.DEV) {
       console.log('Poster clicked:', videoId);
     }
 
     // Помечаем, что это видео должно воспроизводиться
-    setVideoState(prev => ({
-      ...prev,
-      playingOnMobile: new Set([...prev.playingOnMobile, videoId])
-    }));
+    setVideoState(prev => {
+      // ОПТИМИЗАЦИЯ: Избегаем создания нового Set если элемент уже есть
+      if (prev.playingOnMobile.has(videoId)) {
+        return prev;
+      }
+      const newPlayingOnMobile = new Set(prev.playingOnMobile);
+      newPlayingOnMobile.add(videoId);
+      return {
+        ...prev,
+        playingOnMobile: newPlayingOnMobile
+      };
+    });
 
     // Получаем видео элемент и запускаем его немедленно
     setTimeout(() => {
@@ -321,7 +383,7 @@ const ProjectsSection = memo(() => {
         });
       }
     }, 100);
-  }, [videoState.isMobile]);
+  }, []); // ОПТИМИЗАЦИЯ: Теперь нет зависимостей - используем только ref
 
   // НОВОЕ: Функция для получения пути к poster изображению (мемоизирована)
   const getPosterPath = useCallback((videoPath) => {
@@ -340,7 +402,8 @@ const ProjectsSection = memo(() => {
     if (!project.video) return null;
 
     const isPlaying = videoState.playingOnMobile.has(videoId);
-    const shouldShowPoster = videoState.isMobile && !isPlaying;
+    // ОПТИМИЗАЦИЯ: Используем ref вместо state
+    const shouldShowPoster = isMobileRef.current && !isPlaying;
     const currentLang = i18n.language || 'en'; // Fallback на 'en'
 
     if (shouldShowPoster) {
@@ -384,8 +447,9 @@ const ProjectsSection = memo(() => {
             // Устанавливаем src сразу, если его еще нет
             if (!el.src && project.video) {
               el.dataset.src = project.video;
+              // ОПТИМИЗАЦИЯ: Используем ref вместо state
               // Для десктопа загружаем сразу
-              if (!videoState.isMobile) {
+              if (!isMobileRef.current) {
                 el.src = project.video;
                 el.load();
               } else if (isPlaying) {
@@ -400,7 +464,7 @@ const ProjectsSection = memo(() => {
         loop
         muted
         playsInline
-        preload={videoState.isMobile ? "none" : "metadata"}
+        preload={isMobileRef.current ? "none" : "metadata"}
         className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 ease-out ${
           videoState.loaded.has(videoId) || isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
@@ -408,11 +472,21 @@ const ProjectsSection = memo(() => {
           visibility: videoState.loaded.has(videoId) || isPlaying ? 'visible' : 'hidden'
         }}
         onCanPlay={() => {
-          setVideoState(prev => ({
-            ...prev,
-            visible: new Set([...prev.visible, videoId]),
-            loaded: new Set([...prev.loaded, videoId])
-          }));
+          setVideoState(prev => {
+            // ОПТИМИЗАЦИЯ: Избегаем создания новых Set если элемент уже есть
+            if (prev.visible.has(videoId) && prev.loaded.has(videoId)) {
+              return prev;
+            }
+            const newVisible = new Set(prev.visible);
+            newVisible.add(videoId);
+            const newLoaded = new Set(prev.loaded);
+            newLoaded.add(videoId);
+            return {
+              ...prev,
+              visible: newVisible,
+              loaded: newLoaded
+            };
+          });
         }}
         onLoadedData={() => {
           if (import.meta.env.DEV) {
