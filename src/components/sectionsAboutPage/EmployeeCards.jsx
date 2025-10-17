@@ -357,32 +357,9 @@ const AnimatedEmployeeCards = () => {
     };
   }, [isMobile]);
 
-  // Обработчик колесика мыши для десктопа
-  useEffect(() => {
-    if (isMobile || !scrollContainerRef.current) return;
-
-    const container = scrollContainerRef.current;
-
-    const handleWheel = (e) => {
-      const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-
-      // Если есть явный горизонтальный жест (трекпад)
-      if (isHorizontalScroll && e.deltaX !== 0) {
-        e.preventDefault();
-        container.scrollLeft += e.deltaX;
-        return;
-      }
-
-      // Во всех остальных случаях (вертикальный скролл или колесико мыши)
-      // пропускаем событие для прокрутки страницы
-    };
-
-    container.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      container.removeEventListener('wheel', handleWheel);
-    };
-  }, [isMobile]);
+  // Обработчик колесика мыши для десктопа - убран для нативной прокрутки
+  // Браузер сам отлично справляется с горизонтальной прокруткой через трекпад
+  // Удаление этого обработчика устраняет тяжелую прокрутку
 
   return (
     <section className="bg-black py-20 text-white relative" style={{ overflow: 'hidden', zIndex: 1, position: 'relative', isolation: 'auto', transform: 'none', willChange: 'auto' }}>
@@ -449,8 +426,7 @@ const AnimatedEmployeeCards = () => {
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
-            cursor: isMobile ? 'default' : 'grab',
-            // Позволяет и горизонтальную, и вертикальную прокрутку
+            // Позволяет нативную прокрутку
             touchAction: 'auto',
           }}
         >
