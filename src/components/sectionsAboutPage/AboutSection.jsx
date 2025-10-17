@@ -343,8 +343,11 @@ const AboutSection = () => {
                 style={{
                   width: isMobile ? '250px' : '600px',
                   height: isMobile ? '250px' : '600px',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
                   opacity: hideCenterImage ? 0 : 1,
-                  animation: hideCenterImage ? 'fadeOut 0.5s ease-out forwards' : (isMobile ? 'fadeIn 0.8s ease-out' : 'fadeIn 1.5s ease-out'),
+                  animation: hideCenterImage ? 'fadeOutCenter 0.5s ease-out forwards' : (isMobile ? 'fadeInCenter 0.8s ease-out' : 'fadeInCenter 1.5s ease-out'),
                   transition: 'opacity 0.5s ease-out'
                 }} >
 
@@ -361,10 +364,20 @@ const AboutSection = () => {
                  </div>
             )}
               <div
-                className="relative z-30 text-center opacity-0"
-                style={{ animation: isMobile ? 'fadeIn 1s ease-out 1s forwards' : 'fadeIn 2s ease-out 5s forwards', pointerEvents: 'auto', position: 'relative' }}
+                className="absolute text-center"
+                style={{
+                  animation: 'fadeInText 2s ease-out 6s forwards',
+                  pointerEvents: 'auto',
+                  zIndex: 100,
+                  opacity: 0,
+                  top: '50%',
+                  left: '50%',
+                  width: '100%'
+                }}
               >
-                <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight tracking-wider">
+                <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight tracking-wider" style={{
+                  textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
+                }}>
                   <div className="text-white mb-3">{t('aboutPage.subtitle')}</div>
                   <div className="text-white mb-3">{t('aboutPage.subtitlebtn')}</div>
                 </div>
@@ -376,9 +389,48 @@ const AboutSection = () => {
       </CursorTrail>
 
       <style>{`
+        @keyframes fadeInText {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+
         @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.9); }
-          to { opacity: 1; transform: scale(1); }
+          from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+
+        @keyframes fadeInCenter {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+
+        @keyframes fadeOutCenter {
+          from {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+          to {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+          }
         }
 
         @keyframes fadeOut {

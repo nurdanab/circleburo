@@ -16,6 +16,7 @@ const Header = () => {
   const navigate = useNavigate();
   const servicesDropdownRef = useRef(null);
   const headerRef = useRef(null);
+  const isNavigatingToSection = useRef(false);
 
   // УДАЛЕНЫ все GPU-оптимизации - они создают stacking context и блокируют клики
   // Позволяем браузеру управлять fixed-элементом нативно без transform/willChange
@@ -60,7 +61,7 @@ const Header = () => {
       document.body.style.width = '100%';
       document.body.style.overflowY = 'scroll';
     } else {
-      // Восстанавливаем позицию скролла
+      // Восстанавливаем позицию скролла ТОЛЬКО если это не навигация к секции
       const savedPosition = parseInt(document.body.dataset.scrollPosition || '0', 10);
       document.body.style.position = '';
       document.body.style.top = '';
@@ -69,10 +70,18 @@ const Header = () => {
       document.body.style.width = '';
       document.body.style.overflowY = '';
       delete document.body.dataset.scrollPosition;
-      // Восстанавливаем скролл после того как стили убраны
-      requestAnimationFrame(() => {
-        window.scrollTo(0, savedPosition);
-      });
+
+      // Восстанавливаем скролл только если НЕ навигируемся к секции
+      if (!isNavigatingToSection.current) {
+        requestAnimationFrame(() => {
+          window.scrollTo(0, savedPosition);
+        });
+      } else {
+        // Сбрасываем флаг после небольшой задержки
+        setTimeout(() => {
+          isNavigatingToSection.current = false;
+        }, 300);
+      }
     }
 
     return () => {
@@ -94,6 +103,9 @@ const Header = () => {
       console.log('Header scrollToSection called:', { sectionId, currentPath: location.pathname });
     }
 
+    // Устанавливаем флаг навигации к секции
+    isNavigatingToSection.current = true;
+
     // Всегда переходим на главную страницу, затем скроллим к секции
     if (location.pathname !== '/') {
       // Если мы не на главной, переходим туда и скроллим к секции
@@ -101,20 +113,27 @@ const Header = () => {
         console.log('Navigating to home with scroll target:', sectionId);
       }
       navigate('/', { state: { scrollTo: sectionId } });
+      setIsMenuOpen(false);
+      setIsServicesOpen(false);
     } else {
-      // Если уже на главной, просто скроллим
+      // Если уже на главной, закрываем меню и скроллим
       if (import.meta.env.DEV) {
         console.log('Already on home, scrolling to:', sectionId);
       }
-      navigateToSection(navigate, location.pathname, '/', sectionId, {
-        maxAttempts: 15,
-        delay: 150,
-        offset: 80 // Account for fixed header
-      });
-    }
 
-    setIsMenuOpen(false);
-    setIsServicesOpen(false);
+      // Закрываем меню
+      setIsMenuOpen(false);
+      setIsServicesOpen(false);
+
+      // Скроллим к секции после того как меню закроется
+      setTimeout(() => {
+        navigateToSection(navigate, location.pathname, '/', sectionId, {
+          maxAttempts: 15,
+          delay: 150,
+          offset: 80 // Account for fixed header
+        });
+      }, 100);
+    }
   };
 
   // Функция для перехода на отдельные страницы проектов

@@ -84,11 +84,7 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
     return (
       <div className="w-[280px] min-h-[420px] flex-shrink-0">
         <div
-          className="w-full h-full border rounded-xl p-4 flex flex-col"
-          style={{
-            background: colorScheme.gradient,
-            borderColor: colorScheme.borderColor,
-          }}
+          className="w-full h-full bg-gray-900/40 border border-gray-700/30 rounded-xl p-4 flex flex-col"
         >
           {/* Card number */}
           <div
@@ -307,11 +303,59 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
 const AnimatedEmployeeCards = () => {
   const { t } = useTranslation();
   const [isMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const scrollContainerRef = useRef(null);
 
   // Прокрутка вверх при монтировании компонента
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Лёгкий momentum scroll для улучшения отклика на мобильных
+  useEffect(() => {
+    if (!isMobile || !scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+    let touchStartX = 0;
+    let touchStartTime = 0;
+    let touchEndX = 0;
+    let touchEndTime = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartTime = Date.now();
+    };
+
+    const handleTouchEnd = (e) => {
+      touchEndX = e.changedTouches[0].clientX;
+      touchEndTime = Date.now();
+
+      const distance = touchStartX - touchEndX;
+      const duration = touchEndTime - touchStartTime;
+
+      // Вычисляем скорость свайпа (пиксели/мс)
+      const velocity = Math.abs(distance) / duration;
+
+      // Снижаем порог для более лёгкого срабатывания и увеличиваем duration
+      if (velocity > 0.3 && duration < 400) {
+        // Увеличиваем множитель инерции для более плавной прокрутки
+        const momentum = distance * Math.min(velocity * 2.5, 5);
+
+        // Плавная прокрутка с инерцией
+        container.scrollBy({
+          left: momentum,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isMobile]);
 
   return (
     <section className="bg-black py-20 text-white relative" style={{ overflow: 'hidden', zIndex: 1, position: 'relative', isolation: 'auto', transform: 'none', willChange: 'auto' }}>
@@ -370,24 +414,17 @@ const AnimatedEmployeeCards = () => {
 
         {/* Cards - Horizontal scroll container with enhanced styling */}
         <div
+          ref={scrollContainerRef}
           className="scrollbar-hide"
-          style={isMobile ? {
-            overflowX: 'scroll',
-            overflowY: 'hidden',
-            WebkitOverflowScrolling: 'touch',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            touchAction: 'pan-x',
-            pointerEvents: 'auto',
-            willChange: 'scroll-position',
-            position: 'relative',
-            zIndex: 10,
-          } : {
+          style={{
             overflowX: 'auto',
             overflowY: 'hidden',
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
+            cursor: isMobile ? 'default' : 'grab',
+            // Критично для плавной нативной прокрутки
+            touchAction: 'pan-x',
           }}
         >
           {/* Gradient overlays for scroll indication - скрываем на мобильных */}
@@ -403,8 +440,6 @@ const AnimatedEmployeeCards = () => {
             className="flex px-8 py-16 min-w-max"
             style={{
               gap: isMobile ? '16px' : '24px',
-              touchAction: isMobile ? 'pan-x' : 'auto',
-              pointerEvents: 'auto',
             }}
           >
             {employeeKeys.map((employeeKey, index) => (
@@ -427,34 +462,42 @@ const AnimatedEmployeeCards = () => {
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
-          /* Критично для мобильного скролла */
+          /* Критично для предотвращения скролла родительских элементов */
           overscroll-behavior-x: contain;
+          overscroll-behavior-y: none;
+          /* Отключаем scroll snap для избежания рывков */
           scroll-snap-type: none;
+          /* Плавная прокрутка для всех устройств */
+          scroll-behavior: smooth;
         }
+
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-        @media (min-width: 769px) {
-          .scrollbar-hide {
-            scroll-behavior: smooth;
-          }
-        }
-        /* Mobile-specific optimizations for native scroll feel */
+
+        /* Оптимизация специально для мобильных устройств */
         @media (max-width: 768px) {
           .scrollbar-hide {
+            /* Критично для iOS - нативная плавная прокрутка */
             -webkit-overflow-scrolling: touch;
-            /* Максимальная производительность для мобильного скролла */
-            scroll-behavior: auto;
-            overscroll-behavior: contain;
-            /* Упрощаем рендеринг */
-            transform: translateZ(0);
-            backface-visibility: hidden;
+            /* Аппаратное ускорение */
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+            /* Убираем GPU throttling для более отзывчивой прокрутки */
+            will-change: scroll-position;
           }
 
-          /* Оптимизация карточек на мобильных */
+          /* Упрощаем рендеринг карточек */
           .scrollbar-hide > div > div {
-            will-change: auto;
-            contain: layout style paint;
+            contain: layout style;
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+          }
+
+          /* Убираем backdrop-blur на мобильных для повышения производительности */
+          .scrollbar-hide .backdrop-blur-md {
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
           }
         }
       `}</style>
