@@ -457,10 +457,8 @@ const ProjectsSection = memo(() => {
           <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm uppercase tracking-widest text-white/80 backdrop-blur-sm mb-4">
             {t('projects.subtitle')}
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-            <span className="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-white">
-              {t('projects.title')}
-            </span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+            {t('projects.title')}
           </h1>
         </motion.div>
 
@@ -474,7 +472,7 @@ const ProjectsSection = memo(() => {
                 className={`relative px-6 py-3 text-lg md:text-xl font-semibold transition-all duration-300 ${
                   activeTab === subsection.id
                     ? 'text-white'
-                    : 'text-white/60 hover:text-white/80'
+                    : 'text-white/60 hover:text-white'
                 }`}
               >
                 {subsection.title[i18n.language] || subsection.title.en}

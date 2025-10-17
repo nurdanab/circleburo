@@ -40,7 +40,7 @@ const StackCard = ({ reason, index, totalCards }) => {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
     >
-      <div className="bg-stone-900 p-8 rounded-2xl border border-white hover:border-white/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+      <div className="bg-stone-900 p-8 rounded-2xl border border-white hover:border-white transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
         <div className="text-white mb-6 flex justify-center">
           {reason.icon}
         </div>

@@ -23,8 +23,10 @@ const LanguageSwitcher = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, []);
 
@@ -40,48 +42,63 @@ const LanguageSwitcher = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 px-2 py-1 text-white/70 hover:text-white transition-colors duration-200 text-sm font-light"
+        className="flex items-center gap-1"
         style={{
+          color: 'rgba(255, 255, 255, 0.8)',
           background: 'none',
           border: 'none',
           cursor: 'pointer',
+          padding: '0.5rem',
+          fontSize: '0.875rem',
+          fontWeight: 300,
         }}
+        type="button"
       >
         <span>{currentLang?.name || 'EN'}</span>
-        <FaChevronDown 
-          className={`w-3 h-3 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : 'rotate-0'
-          }`}
+        <FaChevronDown
+          style={{
+            width: '0.75rem',
+            height: '0.75rem',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.2s',
+          }}
         />
       </button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
-        <div 
-          className="absolute top-full right-0 mt-1 bg-black/90 backdrop-blur-md rounded-lg shadow-lg border border-white/10 overflow-hidden"
+        <div
           style={{
+            position: 'absolute',
+            top: '100%',
+            right: 0,
+            marginTop: '0.25rem',
+            backgroundColor: '#000000',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '0.5rem',
             minWidth: '120px',
-            zIndex: 1000,
+            zIndex: 2000,
           }}
         >
           {languages.map((language) => (
             <button
               key={language.code}
               onClick={() => changeLanguage(language.code)}
-              className={`w-full text-left px-3 py-2 text-sm transition-colors duration-150 ${
-                currentLanguage === language.code
-                  ? 'bg-white/10 text-white'
-                  : 'text-white/70 hover:bg-white/5 hover:text-white'
-              }`}
               style={{
-                background: currentLanguage === language.code ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                width: '100%',
+                textAlign: 'left',
+                padding: '0.75rem 1rem',
+                fontSize: '0.875rem',
+                color: currentLanguage === language.code ? '#FFFFFF' : 'rgba(255, 255, 255, 0.7)',
+                backgroundColor: currentLanguage === language.code ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
+                fontWeight: 300,
               }}
+              type="button"
             >
-              <div className="flex items-center justify-between">
-                <span className="font-light">{language.name}</span>
-                <span className="text-xs opacity-60">{language.fullName}</span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>{language.name}</span>
+                <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>{language.fullName}</span>
               </div>
             </button>
           ))}

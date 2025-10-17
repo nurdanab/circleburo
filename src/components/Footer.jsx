@@ -101,12 +101,10 @@ const FooterSection = () => {
                   decoding="async"
                   fetchPriority="low"
                 />
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                  <span className="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
-                    CIRCLE
-                  </span>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">
+                  CIRCLE
                 </h3>
-                <p className="text-gray-400 text-lg leading-relaxed max-w-md">
+                <p className="text-white text-lg leading-relaxed max-w-md">
                   {t('footer.description')}
                 </p>
               </motion.div>

@@ -478,7 +478,7 @@ ID: ${recordId}
           {t('contactForm.title')}
         </motion.h1>
         <motion.p
-          className="text-lg md:text-xl text-gray-400 text-center"
+          className="text-lg md:text-xl text-white text-center"
           style={{ textAlign: 'center', marginTop: '40px' }}
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -514,7 +514,7 @@ ID: ${recordId}
     : t('contactForm.requestSent')}
               </h2>
               
-              <div className="space-y-4 mb-8 text-gray-300">
+              <div className="space-y-4 mb-8 text-white">
               <p className="text-lg">
   {t('contactForm.receivedBooking')}
 </p>
@@ -540,7 +540,7 @@ ID: ${recordId}
                 
               </div>
               
-              <p className="text-gray-400 mb-8">
+              <p className="text-white mb-8">
   {bookingStatus === BOOKING_STATUSES.CONFIRMED 
     ? t('contactForm.meetingConfirmed')
     : t('contactForm.managerContact')

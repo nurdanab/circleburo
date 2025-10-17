@@ -82,12 +82,15 @@ const HeroSection = memo(() => {
 
 
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center text-white bg-black overflow-hidden">
-      
-      {/* Звезды отключены для производительности - stars.length === 0 */}
-
+    <section className="w-full h-screen flex flex-col items-center justify-center text-white bg-black" style={{
+      position: 'relative',
+      height: '100vh', // Точная высота вьюпорта
+      minHeight: '100vh', // Гарантируем минимум 100vh
+      maxHeight: '100vh', // Ограничиваем максимум 100vh
+      overflow: 'hidden' // Контент не выходит за пределы
+    }}>
       {/* LCP Статичный контент для быстрого рендеринга */}
-      <div className="absolute inset-0 z-5 pointer-events-none flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: 1, pointerEvents: 'none' }}>
         <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
           {/* Статичный элемент для LCP */}
           <div className="w-full h-full bg-gradient-to-br from-gray-900/20 to-gray-800/10 rounded-2xl border border-white/5 backdrop-blur-sm">
@@ -97,29 +100,38 @@ const HeroSection = memo(() => {
       </div>
 
       {/* 3D анимация видео загружается после критического контента */}
-      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
-        <div className="transform -translate-y-8 sm:-translate-y-12 md:-translate-y-14 lg:-translate-y-14 xl:-translate-y-14 2xl:-translate-y-18">
-          <Suspense fallback={
-            <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
-              <div style={{
-                width: '3rem',
-                height: '3rem',
-                border: '2px solid rgba(255,255,255,0.2)',
-                borderTop: '2px solid rgba(255,255,255,0.6)',
-                borderRadius: '50%',
-                animation: 'spin 1s linear infinite',
-                transform: 'translateZ(0)'
-              }}></div>
-            </div>
-          }>
-            <VideoHero />
-          </Suspense>
-        </div>
+      <div
+        className="absolute inset-0 flex items-center justify-center"
+        style={{
+          marginTop: isMobile ? '-25vh' : '0',
+          zIndex: 2,
+          pointerEvents: 'none',
+        }}
+      >
+        <Suspense fallback={
+          <div className="w-full max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[50vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] flex items-center justify-center">
+            <div style={{
+              width: '3rem',
+              height: '3rem',
+              border: '2px solid rgba(255,255,255,0.2)',
+              borderTop: '2px solid rgba(255,255,255,0.6)',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite'
+            }}></div>
+          </div>
+        }>
+          <VideoHero />
+        </Suspense>
       </div>
 
-      {/* Главный контент */}
+      {/* Главный контент - НЕ внутри overflow wrapper */}
       <motion.div
-        className="relative z-20 text-center px-4 w-full h-full flex flex-col justify-center items-center translate-y-0 sm:translate-y-8 md:translate-y-12 lg:translate-y-16"
+        className="relative text-center px-4 w-full h-full flex flex-col justify-center items-center"
+        style={{
+          marginTop: isMobile ? '-10vh' : '15vh', // На мобильных поднимаем выше, на десктопах опускаем
+          zIndex: 3,
+          pointerEvents: 'auto', // Контент кликабельный
+        }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -130,9 +142,9 @@ const HeroSection = memo(() => {
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
             textShadow: '0 0 20px rgba(255, 255, 255, 0.08)',
             WebkitTextStroke: '1px rgba(255, 255, 255, 0.08)',
-            willChange: 'auto', // Убираем will-change для лучшей производительности
-            transform: 'translateZ(0)',
+            willChange: 'auto',
             contain: 'layout style paint',
+            marginTop: '0',
           }}
           variants={titleVariants}
         >
@@ -141,7 +153,7 @@ const HeroSection = memo(() => {
 
         {/* Подзаголовок с ключевыми словами */}
         <motion.h2
-          className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-white/80 mt-16 sm:mt-20 md:mt-24 lg:mt-32 text-center max-w-4xl px-4 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-white mt-6 sm:mt-8 md:mt-10 lg:mt-12 text-center max-w-4xl px-4 leading-relaxed"
           variants={titleVariants}
           initial="hidden"
           animate="visible"
@@ -153,7 +165,13 @@ const HeroSection = memo(() => {
 
       {/* Индикатор скролла */}
       <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center"
+        className="absolute bottom-8 flex flex-col items-center"
+        style={{
+          left: '50%',
+          transform: 'translateX(-50%)', // Центрируем точно
+          zIndex: 4,
+          pointerEvents: 'auto', // Scroll indicator кликабельный
+        }}
         variants={scrollIndicatorVariants}
         initial="hidden"
         animate="visible"

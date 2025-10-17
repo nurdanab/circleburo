@@ -1,5 +1,5 @@
 // src/components/Header.jsx
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -15,8 +15,13 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const servicesDropdownRef = useRef(null);
+  const headerRef = useRef(null);
+
+  // УДАЛЕНЫ все GPU-оптимизации - они создают stacking context и блокируют клики
+  // Позволяем браузеру управлять fixed-элементом нативно без transform/willChange
 
   const toggleMenu = () => {
+    console.log('Toggle menu clicked, current state:', isMenuOpen);
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -39,30 +44,47 @@ const Header = () => {
     };
   }, []);
 
-  // Предотвращаем скролл при открытом мобильном меню
+  // Предотвращение скролла без layout shift
   useEffect(() => {
+    // Используем ref для надёжного хранения позиции скролла
+    let scrollPosition = 0;
+
     if (isMenuOpen) {
       // Сохраняем текущую позицию скролла
-      const scrollY = window.scrollY;
+      scrollPosition = window.scrollY;
+      document.body.dataset.scrollPosition = String(scrollPosition);
       document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = `-${scrollPosition}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.width = '100%';
+      document.body.style.overflowY = 'scroll';
     } else {
-      // Восстанавливаем скролл
-      const scrollY = document.body.style.top;
+      // Восстанавливаем позицию скролла
+      const savedPosition = parseInt(document.body.dataset.scrollPosition || '0', 10);
       document.body.style.position = '';
       document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.width = '';
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
+      document.body.style.overflowY = '';
+      delete document.body.dataset.scrollPosition;
+      // Восстанавливаем скролл после того как стили убраны
+      requestAnimationFrame(() => {
+        window.scrollTo(0, savedPosition);
+      });
     }
 
     return () => {
-      // Cleanup при размонтировании
       document.body.style.position = '';
       document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.width = '';
+      document.body.style.overflowY = '';
+      if (document.body.dataset.scrollPosition) {
+        delete document.body.dataset.scrollPosition;
+      }
     };
   }, [isMenuOpen]);
 
@@ -118,18 +140,18 @@ const Header = () => {
 
   return (
     <header
-      className="header-animate"
+      ref={headerRef}
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         width: '100%',
-        zIndex: 10002,
-        padding: '1.5rem 3rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.95)',
-        backdropFilter: 'blur(8px)',
-        willChange: 'auto',
+        zIndex: 9999,
+        height: '64px',
+        backgroundColor: '#000000',
+        margin: 0,
+        padding: 0,
         pointerEvents: 'auto',
       }}
     >
@@ -143,14 +165,15 @@ const Header = () => {
           justifyContent: 'space-between',
           maxWidth: '1920px',
           margin: '0 auto',
-          position: 'relative',
+          height: '100%',
+          padding: '0 1.5rem',
         }}
       >
         {/* Логотип */}
         <div style={{ flexShrink: 0 }}>
           <Link
             to="/"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo(0, 0)}
             aria-label="Circle Buro - На главную страницу"
           >
             <OptimizedImage
@@ -176,15 +199,12 @@ const Header = () => {
           {/* Главная */}
           <Link
             to="/"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo(0, 0)}
             style={{
-              color: '#ffffff',
+              color: location.pathname === '/' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
               fontWeight: 400,
               fontSize: '1rem',
-              transition: 'all 0.3s ease',
-              textShadow: location.pathname === '/' ? '0 0 8px rgba(255, 255, 255, 0.8)' : 'none',
             }}
-            className="hover:text-shadow"
           >
             {t('nav.home')}
           </Link>
@@ -194,10 +214,9 @@ const Header = () => {
             <button
               onClick={() => setIsServicesOpen(!isServicesOpen)}
               style={{
-                color: '#ffffff',
+                color: 'rgba(255, 255, 255, 0.8)',
                 fontWeight: 400,
                 fontSize: '1rem',
-                transition: 'all 0.3s ease',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
@@ -205,13 +224,14 @@ const Header = () => {
                 alignItems: 'center',
                 gap: '0.5rem',
               }}
-              className="hover:text-shadow"
             >
               {t('nav.services')}
-              <FaChevronDown 
-                className={`w-3 h-3 transition-transform duration-200 ${
-                  isServicesOpen ? 'rotate-180' : 'rotate-0'
-                }`}
+              <FaChevronDown
+                style={{
+                  width: '0.75rem',
+                  height: '0.75rem',
+                  transform: isServicesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                }}
               />
             </button>
 
@@ -249,15 +269,12 @@ const Header = () => {
           {/* О нас */}
           <Link
             to="/about"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo(0, 0)}
             style={{
-              color: '#ffffff',
+              color: location.pathname === '/about' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
               fontWeight: 400,
               fontSize: '1rem',
-              transition: 'all 0.3s ease',
-              textShadow: location.pathname === '/about' ? '0 0 8px rgba(255, 255, 255, 0.8)' : 'none',
             }}
-            className="hover:text-shadow"
           >
             {t('nav.about')}
           </Link>
@@ -266,15 +283,13 @@ const Header = () => {
           <button
             onClick={() => scrollToSection('projects')}
             style={{
-              color: '#ffffff',
+              color: 'rgba(255, 255, 255, 0.8)',
               fontWeight: 400,
               fontSize: '1rem',
-              transition: 'all 0.3s ease',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
             }}
-            className="hover:text-shadow"
           >
             {t('nav.portfolio')}
           </button>
@@ -285,17 +300,14 @@ const Header = () => {
           <LanguageSwitcher />
           <button
             onClick={() => scrollToSection('contact')}
-            className="btn-dark-theme"
             style={{
-              margin: '0rem 1.4rem',
-              padding: '0.5rem 1.4rem',
+              padding: '0.5rem 1.5rem',
               backgroundColor: '#FFFFFF',
-              color: '#282729',
+              color: '#000000',
               fontWeight: 600,
               fontSize: '1rem',
-              borderRadius: '9999px',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '50px',
+              border: 'none',
               cursor: 'pointer',
             }}
           >
@@ -304,246 +316,187 @@ const Header = () => {
         </div>
 
         {/* Переключатель языка и кнопка-гамбургер для мобильных устройств */}
-        <div className="flex lg:hidden items-center gap-4 mobile-controls-container">
+        <div className="flex lg:hidden items-center gap-3">
           <LanguageSwitcher />
           <button
             onClick={toggleMenu}
-            aria-label={isMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
+            type="button"
+            aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-            className="burger-menu-button"
             style={{
               color: '#FFFFFF',
               fontSize: '1.5rem',
               padding: '0.5rem',
-              minWidth: '48px',
-              minHeight: '48px',
+              width: '44px',
+              height: '44px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'rgba(0, 0, 0, 0.9)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '8px',
+              background: 'transparent',
+              border: 'none',
               cursor: 'pointer',
-              WebkitTapHighlightColor: 'transparent',
-              touchAction: 'manipulation',
             }}
           >
-            {isMenuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </nav>
 
-      {/* Оверлей для закрытия меню при клике вне области */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <>
-            <div
-              className="mobile-menu-overlay"
-              onClick={toggleMenu}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                toggleMenu();
-              }}
-              style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                backdropFilter: 'blur(4px)',
-                touchAction: 'none',
-              }}
-            />
-            <div
-              id="mobile-menu"
-              className="lg:hidden mobile-menu-animate"
-              role="menu"
-              aria-label="Мобильное меню навигации"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                marginTop: '1rem',
-                gap: '0.5rem',
-                position: 'fixed',
-                top: '5rem',
-                left: 0,
-                right: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.95)',
-                padding: '1rem',
-                maxHeight: 'calc(100vh - 6rem)',
-                overflowY: 'auto',
-              }}
-            >
-            {/* Главная */}
+      {/* Мобильное меню */}
+      {isMenuOpen && (
+        <>
+          <div
+            onClick={toggleMenu}
+            style={{
+              position: 'fixed',
+              top: '64px',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              zIndex: 9997,
+              touchAction: 'none',
+            }}
+          />
+          <div
+            id="mobile-menu"
+            className="lg:hidden"
+            style={{
+              position: 'fixed',
+              top: '64px',
+              left: 0,
+              right: 0,
+              zIndex: 9998,
+              backgroundColor: '#000000',
+              padding: '1rem',
+              maxHeight: 'calc(100dvh - 64px)',
+              overflowY: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
             <Link
               to="/"
-              onClick={(e) => {
-                e.stopPropagation();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
+              onClick={() => {
+                setIsMenuOpen(false);
+                window.scrollTo(0, 0);
               }}
               style={{
                 color: '#FFFFFF',
-                fontSize: '1rem',
+                fontSize: '1.1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
-                width: '100%',
+                padding: '1rem',
+                display: 'block',
                 textAlign: 'center',
-                padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                width: '100%',
               }}
             >
               {t('nav.home')}
             </Link>
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                scrollToSection('services');
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
-              }}
+              onClick={() => scrollToSection('services')}
               style={{
                 color: '#FFFFFF',
-                fontSize: '1rem',
+                fontSize: '1.1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
                 background: 'none',
                 border: 'none',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                 cursor: 'pointer',
                 width: '100%',
+                padding: '1rem',
                 textAlign: 'center',
-                padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
               }}
             >
               {t('nav.services')}
             </button>
 
-            {/* Проекты услуг */}
             {serviceItems.map((service) => (
               <button
                 key={service.path}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigateToProject(service.path);
-                  toggleMenu();
-                }}
-                onTouchEnd={(e) => {
-                  e.stopPropagation();
-                }}
+                onClick={() => navigateToProject(service.path)}
                 style={{
-                  color: '#FFFFFF',
-                  fontSize: '0.9rem',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  fontSize: '0.95rem',
                   fontWeight: 300,
-                  transition: 'all 0.3s ease',
                   background: 'none',
                   border: 'none',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                   cursor: 'pointer',
-                  opacity: 0.8,
                   width: '100%',
+                  padding: '0.875rem 1rem',
                   textAlign: 'center',
-                  padding: '0.75rem 1rem',
-                  touchAction: 'manipulation',
                 }}
               >
                 {service.name}
               </button>
             ))}
 
-            {/* О нас */}
             <Link
               to="/about"
-              onClick={(e) => {
-                e.stopPropagation();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
+              onClick={() => {
+                setIsMenuOpen(false);
+                window.scrollTo(0, 0);
               }}
               style={{
                 color: '#FFFFFF',
-                fontSize: '1rem',
+                fontSize: '1.1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
-                width: '100%',
+                padding: '1rem',
+                display: 'block',
                 textAlign: 'center',
-                padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                width: '100%',
               }}
             >
               {t('nav.about')}
             </Link>
 
-            {/* Портфолио */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                scrollToSection('projects');
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
-              }}
+              onClick={() => scrollToSection('projects')}
               style={{
                 color: '#FFFFFF',
-                fontSize: '1rem',
+                fontSize: '1.1rem',
                 fontWeight: 300,
-                transition: 'all 0.3s ease',
                 background: 'none',
                 border: 'none',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                 cursor: 'pointer',
                 width: '100%',
+                padding: '1rem',
                 textAlign: 'center',
-                padding: '0.75rem 1rem',
-                touchAction: 'manipulation',
               }}
             >
               {t('nav.portfolio')}
             </button>
 
-            {/* Контакты */}
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                scrollToSection('contact');
-                toggleMenu();
-              }}
-              onTouchEnd={(e) => {
-                e.stopPropagation();
-              }}
-              className="btn-dark-theme"
+              onClick={() => scrollToSection('contact')}
               style={{
-                padding: '0.5rem 1.2rem',
+                padding: '0.875rem 2rem',
                 backgroundColor: '#FFFFFF',
-                color: '#282729',
+                color: '#000000',
                 fontWeight: 600,
                 fontSize: '1rem',
-                borderRadius: '9999px',
-                marginTop: '1rem',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '50px',
+                marginTop: '1.5rem',
+                border: 'none',
                 cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                touchAction: 'manipulation',
+                display: 'block',
               }}
             >
               {t('nav.contact')}
             </button>
           </div>
-          </>
-        )}
-      </AnimatePresence>
+        </>
+      )}
     </header>
   );
 };
 
-export default memo(Header);
+// Экспортируем без memo - Header использует внутренний state и должен ре-рендериться при изменениях
+// React.memo блокирует все ре-рендеры, включая изменения state, что ломает isMenuOpen
+export default Header;

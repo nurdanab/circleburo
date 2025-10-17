@@ -22,7 +22,8 @@ const colorSchemes = [
 const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  // Определяем мобильное устройство сразу
+  const [isMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
 
   const employee = {
     name: t(`employeeCards.${employeeKey}.name`),
@@ -46,23 +47,12 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
 
   const creativeShape = creativeShapes[index % creativeShapes.length];
 
-  // Отключаем springs на мобильных полностью
-  const rotateX = useSpring(0, { stiffness: 100, damping: 30 });
-  const rotateY = useSpring(0, { stiffness: 100, damping: 30 });
-
-  // Проверяем мобильное устройство при монтировании
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  // Springs только для десктопа
+  const rotateX = !isMobile ? useSpring(0, { stiffness: 100, damping: 30 }) : null;
+  const rotateY = !isMobile ? useSpring(0, { stiffness: 100, damping: 30 }) : null;
 
   const handleMouseMove = (e) => {
-    // Полностью отключаем на мобильных
-    if (isMobile || !cardRef.current) return;
+    if (isMobile || !cardRef.current || !rotateX || !rotateY) return;
 
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -82,76 +72,131 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
   };
 
   const handleMouseLeave = () => {
-    if (!isMobile) {
+    if (!isMobile && rotateX && rotateY) {
       setIsHovered(false);
       rotateX.set(0);
       rotateY.set(0);
     }
   };
 
+  // Рендер для мобильных (максимально упрощенный)
+  if (isMobile) {
+    return (
+      <div className="w-[280px] min-h-[420px] flex-shrink-0">
+        <div
+          className="w-full h-full border rounded-xl p-4 flex flex-col"
+          style={{
+            background: colorScheme.gradient,
+            borderColor: colorScheme.borderColor,
+          }}
+        >
+          {/* Card number */}
+          <div
+            className="text-xs font-medium mb-3 text-right"
+            style={{ color: colorScheme.accentColor }}
+          >
+            {String(index + 1).padStart(2, '0')}
+          </div>
+
+          {/* Avatar */}
+          <div className="flex flex-col items-center mb-4">
+            <div className="w-28 h-28 rounded-full overflow-hidden mb-3 bg-gray-700">
+              <img
+                src={employee.image}
+                alt={employee.name}
+                className="w-full h-full object-cover"
+                style={{
+                  objectPosition: employeeKey === 'employee4' ? 'left top' : employeeKey === 'employee1' ? 'right top' : employeeKey === 'employee2' ? 'center center' : employeeKey === 'employee9' ? 'center center' : 'center top',
+                }}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            <h3 className="text-base font-medium text-white text-center mb-1">
+              {employee.name}
+            </h3>
+            <p className="text-sm text-gray-400 text-center">
+              {employee.specialty}
+            </p>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-gray-700/50 w-12 mx-auto mb-3" />
+
+          {/* Bio */}
+          <div className="flex-1">
+            <p className="text-gray-400 text-sm leading-relaxed text-center">
+              {employee.bio}
+            </p>
+          </div>
+
+          {/* Email */}
+          <div className="text-center pt-3 mt-auto">
+            <p className="text-gray-500 text-xs">
+              {employee.email}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Рендер для десктопа (с анимациями)
   return (
     <motion.div
       ref={cardRef}
       className="relative w-[280px] min-h-[440px] flex-shrink-0 lazy-below-fold"
-      initial={{ opacity: 0, y: isMobile ? 0 : 30 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        delay: index * (isMobile ? 0 : 0.08),
-        duration: isMobile ? 0.2 : 0.5
+        delay: index * 0.08,
+        duration: 0.5
       }}
-      onMouseMove={!isMobile ? handleMouseMove : undefined}
-      onMouseEnter={!isMobile ? handleMouseEnter : undefined}
-      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       style={{
         contentVisibility: 'auto',
         containIntrinsicSize: '280px 440px',
-        touchAction: 'pan-x',
-        WebkitTouchCallout: 'none',
-        WebkitUserSelect: 'none',
-        userSelect: 'none'
       }}
     >
-      {/* Unique creative accent - отключаем на мобильных */}
-      {!isMobile && (
-        <motion.div
-          className="absolute w-8 h-8 opacity-20"
-          style={{
-            background: `linear-gradient(135deg, ${colorScheme.accentColor}, ${colorScheme.accentColor}60)`,
-            ...creativeShape
-          }}
-          animate={{
-            opacity: isHovered ? 0.4 : 0.2,
-            scale: isHovered ? 1.1 : 1
-          }}
-          transition={{ duration: 0.4 }}
-        />
-      )}
+      {/* Unique creative accent */}
+      <motion.div
+        className="absolute w-8 h-8 opacity-20"
+        style={{
+          background: `linear-gradient(135deg, ${colorScheme.accentColor}, ${colorScheme.accentColor}60)`,
+          ...creativeShape
+        }}
+        animate={{
+          opacity: isHovered ? 0.4 : 0.2,
+          scale: isHovered ? 1.1 : 1
+        }}
+        transition={{ duration: 0.4 }}
+      />
 
       <motion.div
-        className={`relative w-full h-full overflow-hidden ${isMobile ? 'bg-gray-900/60' : 'bg-gray-900/40 backdrop-blur-md'} border border-gray-700/30 rounded-2xl`}
+        className="relative w-full h-full overflow-hidden bg-gray-900/40 backdrop-blur-md border border-gray-700/30 rounded-2xl"
         style={{
-          rotateX: !isMobile ? rotateX : 0,
-          rotateY: !isMobile ? rotateY : 0,
-          transformStyle: !isMobile ? 'preserve-3d' : 'flat',
+          rotateX: rotateX,
+          rotateY: rotateY,
+          transformStyle: 'preserve-3d',
           zIndex: isHovered ? 50 : 1,
-          pointerEvents: 'auto',
-          backdropFilter: isMobile ? 'none' : undefined,
-          WebkitBackdropFilter: isMobile ? 'none' : undefined
         }}
-        animate={!isMobile ? {
+        animate={{
           scale: isHovered ? 1.02 : 1,
           borderColor: isHovered ? colorScheme.borderColor : 'rgba(55, 65, 81, 0.3)'
-        } : {}}
+        }}
         transition={{ duration: 0.3 }}
       >
         {/* Geometric accent line */}
         <motion.div
           className="absolute top-0 left-0 right-0 h-0.5"
           style={{ background: colorScheme.gradient }}
-          animate={!isMobile ? {
+          animate={{
             opacity: isHovered ? 0.6 : 0.3,
             scaleX: isHovered ? 1 : 0.7
-          } : { opacity: 0.3, scaleX: 1 }}
+          }}
           transition={{ duration: 0.4 }}
         />
 
@@ -159,10 +204,10 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
         <motion.div
           className="absolute top-4 left-0 w-1 h-12 rounded-r-full"
           style={{ backgroundColor: colorScheme.accentColor }}
-          animate={!isMobile ? {
+          animate={{
             opacity: isHovered ? 0.8 : 0.4,
             height: isHovered ? '60px' : '48px'
-          } : { opacity: 0.4, height: '48px' }}
+          }}
           transition={{ duration: 0.3 }}
         />
 
@@ -170,30 +215,27 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
         <motion.div
           className="absolute bottom-4 right-4 w-8 h-8 rounded-full border border-gray-600 flex items-center justify-center text-xs font-medium"
           style={{ color: colorScheme.accentColor }}
-          animate={!isMobile ? {
+          animate={{
             borderColor: isHovered ? colorScheme.accentColor : '#4b5563',
             backgroundColor: isHovered ? `${colorScheme.accentColor}10` : 'transparent'
-          } : { borderColor: '#4b5563', backgroundColor: 'transparent' }}
+          }}
           transition={{ duration: 0.3 }}
         >
           {String(index + 1).padStart(2, '0')}
         </motion.div>
-        
-        {/* Redesigned content container */}
+
+        {/* Content container */}
         <div className="relative z-10 h-full flex flex-col p-5">
-          {/* Large centered avatar */}
           <div className="flex flex-col items-center mb-5">
             <motion.div
               className="relative w-32 h-32 rounded-full overflow-hidden flex-shrink-0 mb-3"
-              whileHover={!isMobile ? { scale: 1.05 } : undefined}
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
-              <div 
+              <div
                 className="absolute inset-0 rounded-full p-1"
-                style={{ 
-                  background: `linear-gradient(135deg, 
-                    ${colorScheme.accentColor}60, 
-                    ${colorScheme.accentColor}20)`
+                style={{
+                  background: `linear-gradient(135deg, ${colorScheme.accentColor}60, ${colorScheme.accentColor}20)`
                 }}
               >
                 <div className="w-full h-full rounded-full bg-gradient-to-br from-gray-100 to-gray-200 p-1 overflow-hidden border-2 border-gray-300">
@@ -209,46 +251,39 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
                       }}
                       loading="lazy"
                       decoding="async"
-                      onError={(e) => {
-                        e.target.style.opacity = '0';
-                        e.target.parentElement.style.background = 'linear-gradient(135deg, #f3f4f6, #e5e7eb)';
-                        e.target.parentElement.innerHTML += '<div class="absolute inset-0 flex items-center justify-center text-gray-400 text-xs font-medium">No Image</div>';
-                      }}
                     />
                   </div>
                 </div>
               </div>
             </motion.div>
-            
+
             <div className="text-center">
               <h3 className="text-lg font-medium text-white leading-tight mb-2">
                 {employee.name}
               </h3>
               <motion.p
                 className="text-sm font-normal"
-                animate={!isMobile ? {
+                animate={{
                   color: isHovered ? colorScheme.accentColor : '#9ca3af'
-                } : { color: '#9ca3af' }}
+                }}
                 transition={{ duration: 0.3 }}
               >
                 {employee.specialty}
               </motion.p>
             </div>
           </div>
-          
-          {/* Simple divider */}
+
           <div className="relative mb-4">
             <motion.div
               className="h-px bg-gray-600 w-16 mx-auto"
-              animate={!isMobile ? {
+              animate={{
                 backgroundColor: isHovered ? colorScheme.accentColor : '#4b5563',
                 width: isHovered ? '80px' : '64px'
-              } : { backgroundColor: '#4b5563', width: '64px' }}
+              }}
               transition={{ duration: 0.3 }}
             />
           </div>
-          
-          {/* Content area - full text display */}
+
           <div className="flex-1 flex flex-col">
             <div className="flex-1 mb-4">
               <p className="text-gray-400 text-sm leading-relaxed text-center px-2">
@@ -256,7 +291,6 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
               </p>
             </div>
 
-            {/* Footer */}
             <div className="text-center mt-auto pt-3">
               <p className="text-gray-500 text-sm font-light opacity-70">
                 {employee.email}
@@ -264,7 +298,6 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
             </div>
           </div>
         </div>
-        
       </motion.div>
     </motion.div>
   );
@@ -273,9 +306,15 @@ const AnimatedEmployeeCard = ({ employeeKey, index, t }) => {
 // Основной компонент
 const AnimatedEmployeeCards = () => {
   const { t } = useTranslation();
+  const [isMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+
+  // Прокрутка вверх при монтировании компонента
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <section className="bg-black py-20 text-white relative overflow-hidden">
+    <section className="bg-black py-20 text-white relative" style={{ overflow: 'hidden', zIndex: 1, position: 'relative', isolation: 'auto', transform: 'none', willChange: 'auto' }}>
       {/* Structured Data for each employee */}
       {employeeKeys.map((employeeKey) => {
         const employee = {
@@ -286,96 +325,138 @@ const AnimatedEmployeeCards = () => {
           image: t(`employeeCards.${employeeKey}.image`),
         };
         return (
-          <StructuredData 
+          <StructuredData
             key={employeeKey}
-            type="person" 
-            data={employee} 
+            type="person"
+            data={employee}
           />
         );
       })}
-     
+
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.h1 
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-white via-purple-200 to-purple-400"
-            animate={{ 
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-            style={{ backgroundSize: '200% 200%' }}
+        {isMobile ? (
+          <div className="text-center mb-16">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white">
+              {t('employeeCards.title')}
+            </h1>
+            <p className="text-base sm:text-lg text-gray-300 text-center leading-relaxed">
+              {t('employeeCards.subtitle')}
+            </p>
+          </div>
+        ) : (
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            {t('employeeCards.title')}
-          </motion.h1>
-          <p className="text-base sm:text-lg text-gray-300 text-center leading-relaxed">
-            {t('employeeCards.subtitle')}
-          </p>
-        </motion.div>
+            <motion.h1
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-white via-purple-200 to-purple-400"
+              animate={{
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              style={{ backgroundSize: '200% 200%' }}
+            >
+              {t('employeeCards.title')}
+            </motion.h1>
+            <p className="text-base sm:text-lg text-gray-300 text-center leading-relaxed">
+              {t('employeeCards.subtitle')}
+            </p>
+          </motion.div>
+        )}
 
         {/* Cards - Horizontal scroll container with enhanced styling */}
-        <div className="relative overflow-x-auto overflow-y-visible scrollbar-hide touch-pan-x" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x', overscrollBehaviorX: 'contain' }}>
-          {/* Gradient overlays for scroll indication */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+        <div
+          className="scrollbar-hide"
+          style={isMobile ? {
+            overflowX: 'scroll',
+            overflowY: 'hidden',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            touchAction: 'pan-x',
+            pointerEvents: 'auto',
+            willChange: 'scroll-position',
+            position: 'relative',
+            zIndex: 10,
+          } : {
+            overflowX: 'auto',
+            overflowY: 'hidden',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          {/* Gradient overlays for scroll indication - скрываем на мобильных */}
+          {!isMobile && (
+            <>
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+            </>
+          )}
 
           {/* Enhanced cards container */}
-          <motion.div
-            className="flex gap-8 sm:gap-10 lg:gap-12 px-8 py-16 min-w-max"
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+          <div
+            className="flex px-8 py-16 min-w-max"
+            style={{
+              gap: isMobile ? '16px' : '24px',
+              touchAction: isMobile ? 'pan-x' : 'auto',
+              pointerEvents: 'auto',
+            }}
           >
             {employeeKeys.map((employeeKey, index) => (
-              <AnimatedEmployeeCard 
-                key={employeeKey} 
+              <AnimatedEmployeeCard
+                key={employeeKey}
                 employeeKey={employeeKey}
                 index={index}
                 t={t}
               />
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
-      
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
-      
+
+      {/* Bottom gradient - ensure it doesn't block touch */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" style={{ zIndex: 1 }} />
+
       {/* Enhanced CSS for smooth scrolling */}
       <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
-          scroll-behavior: smooth;
-          scroll-snap-type: x proximity;
+          /* Критично для мобильного скролла */
           overscroll-behavior-x: contain;
+          scroll-snap-type: none;
         }
-        .scrollbar-hide > div {
-          scroll-snap-align: start;
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
         }
-        @media (prefers-reduced-motion: no-preference) {
+        @media (min-width: 769px) {
           .scrollbar-hide {
             scroll-behavior: smooth;
           }
         }
+        /* Mobile-specific optimizations for native scroll feel */
         @media (max-width: 768px) {
           .scrollbar-hide {
-            scroll-snap-type: x proximity;
             -webkit-overflow-scrolling: touch;
+            /* Максимальная производительность для мобильного скролла */
+            scroll-behavior: auto;
+            overscroll-behavior: contain;
+            /* Упрощаем рендеринг */
+            transform: translateZ(0);
+            backface-visibility: hidden;
+          }
+
+          /* Оптимизация карточек на мобильных */
+          .scrollbar-hide > div > div {
+            will-change: auto;
+            contain: layout style paint;
           }
         }
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        /* Removed line-clamp classes to show full text */
       `}</style>
     </section>
   );

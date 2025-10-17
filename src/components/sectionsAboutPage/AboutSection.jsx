@@ -157,8 +157,8 @@ const CursorTrail = ({ children, isActive = true }) => {
   }, [isAnimationComplete, cursor.x, cursor.y, isMoving, isActive, employeeImages]);
 
   return (
-    <div ref={sectionRef} className="relative">
-      {isAnimationComplete && isActive && photos.length > 0 &&
+    <div ref={sectionRef} className="relative" style={{ touchAction: 'auto', pointerEvents: 'auto' }}>
+      {!isMobile && isAnimationComplete && isActive && photos.length > 0 &&
         photos.map((photo) => (
           <div
             key={photo.id}
@@ -172,14 +172,14 @@ const CursorTrail = ({ children, isActive = true }) => {
               opacity: photo.opacity,
               zIndex: 1,
               transition: 'all 400ms cubic-bezier(0.4, 0, 0.2, 1)',
-              willChange: 'opacity, transform',
+              willChange: isMobile ? 'auto' : 'opacity, transform',
             }}
           >
             <div
               className="w-full h-full rounded-full"
               style={{
                 background: `url(${photo.src}) center/cover`,
-                mixBlendMode: 'screen',
+                mixBlendMode: isMobile ? 'normal' : 'screen',
               }}
             />
           </div>
@@ -192,10 +192,21 @@ const CursorTrail = ({ children, isActive = true }) => {
 
 const AboutSection = () => {
   const { t } = useTranslation();
+  const [isMobile, setIsMobile] = useState(false);
   const [isAnimationStarted, setIsAnimationStarted] = useState(false);
   const [showCenterImage, setShowCenterImage] = useState(false);
   const [hideEmployeePhotos, setHideEmployeePhotos] = useState(false);
   const [hideCenterImage] = useState(false);
+
+  // Проверка мобильного устройства
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const timer1 = setTimeout(() => {
@@ -275,14 +286,14 @@ const AboutSection = () => {
 
   return (
     <>
-      <CursorTrail isActive={true}>
-        <div className="bg-black text-white relative overflow-hidden" style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px 800px' }}>
-          <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
-            <div className="relative w-full max-w-6xl h-[700px] flex items-center justify-center">
+      <CursorTrail isActive={!isMobile}>
+        <div className="bg-black text-white relative overflow-hidden" style={{ touchAction: 'auto', pointerEvents: 'auto' }}>
+          <div className="relative flex flex-col items-center justify-center px-4" style={{ touchAction: 'auto', pointerEvents: 'auto', minHeight: isMobile ? '60vh' : '100vh' }}>
+            <div className="relative w-full max-w-6xl flex items-center justify-center" style={{ height: isMobile ? '400px' : '700px' }}>
               
               
 
-              {!hideEmployeePhotos && employees.map((employee) => {
+              {!isMobile && !hideEmployeePhotos && employees.map((employee) => {
                 if (import.meta.env.DEV) {
                   console.log('🟢 Rendering employee photo:', employee.id, 'hideEmployeePhotos:', hideEmployeePhotos);
                 }
@@ -301,12 +312,10 @@ const AboutSection = () => {
                       '--duration': `${employee.duration}s`,
                       '--delay': `${employee.delay}s`,
                       '--opacity': `${employee.opacity}`,
-                      opacity: isAnimating ? 1 : 0, 
+                      opacity: isAnimating ? 1 : 0,
                       animation: isAnimating
                         ? `photo-animation var(--duration) ease-in-out var(--delay) forwards`
                         : 'none',
-                      display: hideEmployeePhotos ? 'none' : 'block',
-                      visibility: hideEmployeePhotos ? 'hidden' : 'visible',
                     }}
                   >
                     <div
@@ -330,10 +339,12 @@ const AboutSection = () => {
 
                 {showCenterImage && !hideCenterImage && (
                  <div
-                   className="absolute z-20 w-[600px] h-[600px] rounded-full overflow-hidden"
+                   className="absolute z-20 rounded-full overflow-hidden"
                 style={{
+                  width: isMobile ? '250px' : '600px',
+                  height: isMobile ? '250px' : '600px',
                   opacity: hideCenterImage ? 0 : 1,
-                  animation: hideCenterImage ? 'fadeOut 0.5s ease-out forwards' : 'fadeIn 1.5s ease-out',
+                  animation: hideCenterImage ? 'fadeOut 0.5s ease-out forwards' : (isMobile ? 'fadeIn 0.8s ease-out' : 'fadeIn 1.5s ease-out'),
                   transition: 'opacity 0.5s ease-out'
                 }} >
 
@@ -341,8 +352,8 @@ const AboutSection = () => {
                     src="/img/circle-center.png"
                     alt="Circle Center"
                     className="w-full h-full object-cover"
-                    width={600}
-                    height={600}
+                    width={isMobile ? 250 : 600}
+                    height={isMobile ? 250 : 600}
                     loading="lazy"
                     decoding="async"
                     fetchPriority="low"
@@ -351,7 +362,7 @@ const AboutSection = () => {
             )}
               <div
                 className="relative z-30 text-center opacity-0"
-                style={{ animation: 'fadeIn 2s ease-out 5s forwards', pointerEvents: 'auto' }}
+                style={{ animation: isMobile ? 'fadeIn 1s ease-out 1s forwards' : 'fadeIn 2s ease-out 5s forwards', pointerEvents: 'auto', position: 'relative' }}
               >
                 <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight tracking-wider">
                   <div className="text-white mb-3">{t('aboutPage.subtitle')}</div>
