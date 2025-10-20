@@ -18,7 +18,7 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
       "height": 300
     },
     "image": `${baseUrl}/img/circle-fill.webp`,
-    "telephone": "+7 (727) 000-00-00",
+    "telephone": ["+7 776 153 60 92", "+7 775 420 18 40"],
     "email": "info@circleburo.kz",
     "address": {
       "@type": "PostalAddress",
@@ -153,7 +153,7 @@ const StructuredData = ({ type = 'organization', data = {} }) => {
     "name": "Circle Creative Buro",
     "description": "Креативное агентство полного цикла в Алматы",
     "url": baseUrl,
-    "telephone": "+7 (727) 000-00-00",
+    "telephone": ["+7 776 153 60 92", "+7 775 420 18 40"],
     "email": "info@circleburo.kz",
     "address": {
       "@type": "PostalAddress",
