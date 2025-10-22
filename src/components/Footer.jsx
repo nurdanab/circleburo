@@ -62,8 +62,8 @@ const FooterSection = () => {
 
   const socialLinks = [
     { icon: FaTiktok, href: 'https://www.tiktok.com/@madebycircle?_t=ZM-8zT1mZUDsS0&_r=1', label: 'TikTok' },
-    { icon: Instagram, href: 'https://www.instagram.com/circlemade.it/', label: 'Instagram' },
-    { icon: FaThreads, href: 'https://www.threads.com/@circlemade.it', label: 'Threads' },
+    { icon: Instagram, href: 'https://www.instagram.com/circlemadeit/', label: 'Instagram' },
+    { icon: FaThreads, href: 'https://www.threads.com/@circlemadeit', label: 'Threads' },
   ];
 
   return (
