@@ -63,15 +63,15 @@ const SemiCircle = () => {
                 <div className="space-y-8">
                   <div className="flex justify-between items-start space-x-4">
                     <p className="text-gray-300">{t('semicircle.marketing.item1')}</p>
-                    <span className="text-2xl font-bold text-white">{t('semicircle.marketing.item1Price')}</span>
+                    <span className="text-white font-semibold">{t('semicircle.marketing.item1Price')}</span>
                   </div>
                   <div className="flex justify-between items-start space-x-4">
                     <p className="text-gray-300">{t('semicircle.marketing.item2')}</p>
-                    <span className="text-2xl font-bold text-white">{t('semicircle.marketing.item2Price')}</span>
+                    <span className="text-white font-semibold">{t('semicircle.marketing.item2Price')}</span>
                   </div>
                   <div className="flex justify-between items-start space-x-4">
                     <p className="text-gray-300">{t('semicircle.marketing.item3')}</p>
-                    <span className="text-2xl font-bold text-white">{t('semicircle.marketing.item3Price')}</span>
+                    <span className="text-white font-semibold">{t('semicircle.marketing.item3Price')}</span>
                   </div>
                 </div>
               </motion.div>
@@ -99,7 +99,7 @@ const SemiCircle = () => {
                         </svg>
                         <p className="text-gray-300">{t('semicircle.smm.item2')}</p>
                       </div>
-                      <span className="text-2xl font-bold text-white">{t('semicircle.smm.item2Count')}</span>
+                      <span className="text-white font-semibold">{t('semicircle.smm.item2Count')}</span>
                     </div>
                     <div className="flex items-start justify-between space-x-4">
                       <div className="flex items-start space-x-3">
@@ -108,7 +108,7 @@ const SemiCircle = () => {
                         </svg>
                         <p className="text-gray-300">{t('semicircle.smm.item3')}</p>
                       </div>
-                      <span className="text-2xl font-bold text-white">{t('semicircle.smm.item3Count')}</span>
+                      <span className="text-white font-semibold">{t('semicircle.smm.item3Count')}</span>
                     </div>
                     <div className="flex items-start justify-between space-x-4">
                       <div className="flex items-start space-x-3">
@@ -117,7 +117,7 @@ const SemiCircle = () => {
                         </svg>
                         <p className="text-gray-300">{t('semicircle.smm.item4')}</p>
                       </div>
-                      <span className="text-2xl font-bold text-white">{t('semicircle.smm.item4Count')}</span>
+                      <span className="text-white font-semibold">{t('semicircle.smm.item4Count')}</span>
                     </div>
                     <div className="flex items-start justify-between space-x-4">
                       <div className="flex items-start space-x-3">
@@ -126,7 +126,7 @@ const SemiCircle = () => {
                       </svg>
                         <p className="text-gray-300">{t('semicircle.smm.item5')}</p>
                       </div>
-                      <span className="text-2xl font-bold text-white">{t('semicircle.smm.item5Price')}</span>
+                      <span className="text-white font-semibold">{t('semicircle.smm.item5Price')}</span>
                     </div>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ const SemiCircle = () => {
                       <div className="flex justify-between items-start flex-1">
                         <span className="flex-1 text-start">{item.pages}</span>
                         <span className="flex-1 text-start">{item.time}</span>
-                        <span className="text-white text-1xl font-medium flex-1 text-start">{item.price}</span>
+                        <span className="text-white font-semibold flex-1 text-start">{item.price}</span>
                       </div>
                     </div>
                   ))}
@@ -180,7 +180,7 @@ const SemiCircle = () => {
                     <div className="flex justify-between items-center flex-1">
                       <span className="flex-1 text-center">{t('semicircle.production.item1Count')}</span>
                       <span className="flex-1 text-center">{t('semicircle.production.item1Time')}</span>
-                      <span className="text-white text-2xl font-bold flex-1 text-right">{t('semicircle.production.item1Price')}</span>
+                      <span className="text-white font-semibold flex-1 text-right">{t('semicircle.production.item1Price')}</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-start text-gray-300">
@@ -190,7 +190,7 @@ const SemiCircle = () => {
                     <div className="flex justify-between items-center flex-1">
                       <span className="flex-1 text-center">{t('semicircle.production.item2Count')}</span>
                       <span className="flex-1 text-center">{t('semicircle.production.item2Time')}</span>
-                      <span className="text-white text-2xl font-bold flex-1 text-right">{t('semicircle.production.item2Price')}</span>
+                      <span className="text-white font-semibold flex-1 text-right">{t('semicircle.production.item2Price')}</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-start text-gray-300">
@@ -200,7 +200,7 @@ const SemiCircle = () => {
                     <div className="flex justify-between items-center flex-1">
                       {/* <span className="flex-1 text-center">{t('semicircle.production.item2Count')}</span>
                       <span className="flex-1 text-center">{t('semicircle.production.item2Time')}</span> */}
-                      <span className="text-white text-2xl font-bold flex-1 text-right">{t('semicircle.production.item3Price')}</span>
+                      <span className="text-white font-semibold flex-1 text-right">{t('semicircle.production.item3Price')}</span>
                     </div>
                   </div>
                 </div>
