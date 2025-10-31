@@ -189,20 +189,26 @@
     "cycle": {
       "socialMedia": {
         "title": "Social Media",
-        "item1": "Social media posts - 15 units",
+        "item1": "Social media posts",
+        "item1Count": "15 units",
         "item1Sub": "*Other platforms - upon request",
         "item2": "Full profile setup",
-        "item3": "Stories design - 30 units"
+        "item3": "Stories design",
+        "item3Count": "30 units"
       },
       "design": {
         "title": "Design",
-        "item1": "Highlights and avatars - 5 units",
-        "item2": "Print design - 10 units",
-        "item3": "Highlights and avatars - 10 units"
+        "item1": "Highlights and avatars",
+        "item1Count": "5 units",
+        "item2": "Print design",
+        "item2Count": "10 units",
+        "item3": "Highlights and avatars",
+        "item3Count": "10 units"
       },
       "digitalServices": {
         "title": "Digital-Services",
-        "item1": "Collaboration ideas per month (concept and design development, partnerships, event organization) - up to 4 units",
+        "item1": "Collaboration ideas per month (concept and design development, partnerships, event organization)",
+        "item1Count": "up to 4 units",
         "item2": "Targeted advertising",
         "item3": "Website technical support and updates",
         "item4": "Monthly report (what worked, audience reaction, recommendations for next steps)"

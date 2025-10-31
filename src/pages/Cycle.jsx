@@ -58,11 +58,17 @@ const Cycle = () => {
                 <h2 className="text-3xl font-bold mb-8">{t('cycle.socialMedia.title')}</h2>
                 <div className="space-y-4">
                   <div>
-                    <p className="text-gray-300">{t('cycle.socialMedia.item1')}</p>
+                    <div className="flex justify-between items-start">
+                      <p className="text-gray-300">{t('cycle.socialMedia.item1')}</p>
+                      <span className="text-white font-semibold">{t('cycle.socialMedia.item1Count')}</span>
+                    </div>
                     <p className="text-gray-400 text-sm ml-2 mt-1">{t('cycle.socialMedia.item1Sub')}</p>
                   </div>
                   <p className="text-gray-300">{t('cycle.socialMedia.item2')}</p>
-                  <p className="text-gray-300">{t('cycle.socialMedia.item3')}</p>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('cycle.socialMedia.item3')}</p>
+                    <span className="text-white font-semibold">{t('cycle.socialMedia.item3Count')}</span>
+                  </div>
                 </div>
               </div>
 
@@ -70,9 +76,18 @@ const Cycle = () => {
               <div className="space-y-6">
                 <h2 className="text-3xl font-bold mb-8">{t('cycle.design.title')}</h2>
                 <div className="space-y-4">
-                  <p className="text-gray-300">{t('cycle.design.item1')}</p>
-                  <p className="text-gray-300">{t('cycle.design.item2')}</p>
-                  <p className="text-gray-300">{t('cycle.design.item3')}</p>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('cycle.design.item1')}</p>
+                    <span className="text-white font-semibold">{t('cycle.design.item1Count')}</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('cycle.design.item2')}</p>
+                    <span className="text-white font-semibold">{t('cycle.design.item2Count')}</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('cycle.design.item3')}</p>
+                    <span className="text-white font-semibold">{t('cycle.design.item3Count')}</span>
+                  </div>
                 </div>
               </div>
 
@@ -80,7 +95,10 @@ const Cycle = () => {
               <div className="space-y-6">
                 <h2 className="text-3xl font-bold mb-8">{t('cycle.digitalServices.title')}</h2>
                 <div className="space-y-4">
-                <p className="text-gray-300">{t('cycle.digitalServices.item1')}</p>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('cycle.digitalServices.item1')}</p>
+                    <span className="text-white font-semibold">{t('cycle.digitalServices.item1Count')}</span>
+                  </div>
                   <p className="text-gray-300">{t('cycle.digitalServices.item2')}</p>
                   <p className="text-gray-300">{t('cycle.digitalServices.item3')}</p>
                   <p className="text-gray-300">{t('cycle.digitalServices.item4')}</p>
