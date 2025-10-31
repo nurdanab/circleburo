@@ -72,10 +72,19 @@ const Circle = () => {
               <div className="space-y-6">
                 <h2 className="text-3xl font-bold mb-8">{t('circle.socialMedia.title')}</h2>
                 <div className="space-y-4">
-                  <p className="text-gray-300">{t('circle.socialMedia.item1')}</p>
-                  <p className="text-gray-300">{t('circle.socialMedia.item2')}</p>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('circle.socialMedia.item1')}</p>
+                    <span className="text-white font-semibold">{t('circle.socialMedia.item1Count')}</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('circle.socialMedia.item2')}</p>
+                    <span className="text-white font-semibold">{t('circle.socialMedia.item2Count')}</span>
+                  </div>
                   <p className="text-gray-300">{t('circle.socialMedia.item3')}</p>
-                  <p className="text-gray-300">{t('circle.socialMedia.item4')}</p>
+                  <div className="flex justify-between items-start">
+                    <p className="text-gray-300">{t('circle.socialMedia.item4')}</p>
+                    <span className="text-white font-semibold">{t('circle.socialMedia.item4Count')}</span>
+                  </div>
                   <div>
                     <p className="text-gray-300">{t('circle.socialMedia.item5')}</p>
                     <p className="text-gray-400 text-sm ml-2 mt-1">{t('circle.socialMedia.item5Sub')}</p>

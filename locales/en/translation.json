@@ -150,10 +150,13 @@
       },
       "socialMedia": {
         "title": "Social Media packaging",
-        "item1": "Content plan for 1 social network - 10 units",
-        "item2": "Posts (visuals + descriptions) - 10 units",
+        "item1": "Content plan for 1 social network",
+        "item1Count": "10 units",
+        "item2": "Posts (visuals + descriptions)",
+        "item2Count": "10 units",
         "item3": "Video (editing and covers)",
-        "item4": "Stories - 30 units",
+        "item4": "Stories",
+        "item4Count": "30 units",
         "item5": "Full profile setup for Instagram / TikTok",
         "item5Sub": "*Other platforms - upon request"
       },
