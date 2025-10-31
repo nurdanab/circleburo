@@ -109,7 +109,15 @@ const VideoHero = memo(({ className = "" }) => {
     <div
       data-video-hero
       className={`w-full max-w-none sm:max-w-[60rem] lg:max-w-[70rem] xl:max-w-[80rem] 2xl:max-w-[100rem] h-[60vh] sm:h-[60rem] lg:h-[70rem] xl:h-[80rem] 2xl:h-[100rem] sm:w-[60rem] lg:w-[70rem] xl:w-[80rem] 2xl:w-[100rem] mx-auto flex items-center justify-center touch-manipulation ${className}`}
-      style={{ padding: 0, margin: 0 }}
+      style={{
+        padding: 0,
+        margin: 0,
+        // FIXED: Резервируем пространство для предотвращения CLS
+        aspectRatio: '1 / 1',
+        minHeight: '60vh',
+        // Фиксируем размер контейнера до загрузки
+        containIntrinsicSize: '960px 960px'
+      }}
     >
       {!isLoaded && <LoadingSkeleton />}
 
@@ -119,6 +127,9 @@ const VideoHero = memo(({ className = "" }) => {
           className={`w-full h-full object-contain transition-opacity duration-700 ease-out ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
+          // FIXED: Явно указываем размеры для резервирования пространства
+          width="960"
+          height="960"
           style={{
             filter: 'contrast(1.1) brightness(1.05)',
             WebkitTapHighlightColor: 'transparent',
@@ -130,7 +141,9 @@ const VideoHero = memo(({ className = "" }) => {
             // Убираем любые отступы
             margin: 0,
             padding: 0,
-            display: 'block'
+            display: 'block',
+            // FIXED: Добавляем aspect-ratio для стабильности
+            aspectRatio: '1 / 1'
           }}
         autoPlay
         loop

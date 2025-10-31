@@ -76,8 +76,10 @@ const Circle = () => {
                   <p className="text-gray-300">{t('circle.socialMedia.item2')}</p>
                   <p className="text-gray-300">{t('circle.socialMedia.item3')}</p>
                   <p className="text-gray-300">{t('circle.socialMedia.item4')}</p>
-                  <p className="text-gray-300">{t('circle.socialMedia.item5')}</p>
-                  <p className="text-gray-300 italic">{t('circle.socialMedia.item6')}</p>
+                  <div>
+                    <p className="text-gray-300">{t('circle.socialMedia.item5')}</p>
+                    <p className="text-gray-400 text-sm ml-2 mt-1">{t('circle.socialMedia.item5Sub')}</p>
+                  </div>
                 </div>
               </div>
 
@@ -88,7 +90,7 @@ const Circle = () => {
                 {designGuidebookItems.map((item, index) => (
     <div key={index} className="flex justify-between items-start py-2">
       <p className="text-gray-200 flex-1 pr-4">{item.service}</p>
-      <span className="text-white font-semibold text-right">{item.alterations}</span>
+      {item.alterations && <span className="text-white font-semibold text-right">{item.alterations}</span>}
     </div>
   ))}
                 </div>
@@ -156,8 +158,7 @@ const Circle = () => {
               <p>{t('circle.notes.note3')}</p>
               <p>{t('circle.notes.note4')}</p>
               <p>{t('circle.notes.note5')}</p>
-              <p>{t('circle.notes.note6')}</p>
-              
+
               <div className="mt-8 pt-4">
                 <button 
                   onClick={() => scrollToSection('contact')}

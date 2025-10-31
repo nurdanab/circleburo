@@ -57,7 +57,10 @@ const Cycle = () => {
               <div className="space-y-6">
                 <h2 className="text-3xl font-bold mb-8">{t('cycle.socialMedia.title')}</h2>
                 <div className="space-y-4">
-                  <p className="text-gray-300">{t('cycle.socialMedia.item1')}</p>
+                  <div>
+                    <p className="text-gray-300">{t('cycle.socialMedia.item1')}</p>
+                    <p className="text-gray-400 text-sm ml-2 mt-1">{t('cycle.socialMedia.item1Sub')}</p>
+                  </div>
                   <p className="text-gray-300">{t('cycle.socialMedia.item2')}</p>
                   <p className="text-gray-300">{t('cycle.socialMedia.item3')}</p>
                 </div>
@@ -69,6 +72,7 @@ const Cycle = () => {
                 <div className="space-y-4">
                   <p className="text-gray-300">{t('cycle.design.item1')}</p>
                   <p className="text-gray-300">{t('cycle.design.item2')}</p>
+                  <p className="text-gray-300">{t('cycle.design.item3')}</p>
                 </div>
               </div>
 
@@ -148,8 +152,6 @@ const Cycle = () => {
               <p>{t('cycle.notes.note3')}</p>
               <p>{t('cycle.notes.note4')}</p>
               <p>{t('cycle.notes.note5')}</p>
-              <p>{t('cycle.notes.note6')}</p>
-              <p>{t('cycle.notes.note7')}</p>
               
               <div className="mt-8 pt-4">
                 <button 

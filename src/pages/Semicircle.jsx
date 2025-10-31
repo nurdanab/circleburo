@@ -106,18 +106,18 @@ const SemiCircle = () => {
                         <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        <div>
-                          <p className="text-gray-300">{t('semicircle.smm.item3')}</p>
-                          <p className="text-gray-400 mt-1">{t('semicircle.smm.item3Sub')}</p>
-                        </div>
+                        <p className="text-gray-300">{t('semicircle.smm.item3')}</p>
                       </div>
                       <span className="text-2xl font-bold text-white">{t('semicircle.smm.item3Count')}</span>
                     </div>
-                    <div className="flex items-start space-x-3">
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      <p className="text-gray-300">{t('semicircle.smm.item4')}</p>
+                    <div className="flex items-start justify-between space-x-4">
+                      <div className="flex items-start space-x-3">
+                        <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <p className="text-gray-300">{t('semicircle.smm.item4')}</p>
+                      </div>
+                      <span className="text-2xl font-bold text-white">{t('semicircle.smm.item4Count')}</span>
                     </div>
                     <div className="flex items-start justify-between space-x-4">
                       <div className="flex items-start space-x-3">
@@ -126,7 +126,7 @@ const SemiCircle = () => {
                       </svg>
                         <p className="text-gray-300">{t('semicircle.smm.item5')}</p>
                       </div>
-                      <span className="text-2xl font-bold text-white">{t('semicircle.smm.item5Count')}</span>
+                      <span className="text-2xl font-bold text-white">{t('semicircle.smm.item5Price')}</span>
                     </div>
                   </div>
                 </div>
@@ -272,9 +272,7 @@ const SemiCircle = () => {
               <p>{t('semicircle.notes.note3')}</p>
               <p>{t('semicircle.notes.note4')}</p>
               <p>{t('semicircle.notes.note5')}</p>
-              <p>{t('semicircle.notes.note6')}</p>
-              <p>{t('semicircle.notes.note7')}</p>
-              
+
               <div className="mt-8 pt-4">
                 <button 
                   onClick={() => scrollToSection('contact')}

@@ -146,28 +146,26 @@
         "item4": "Creative concept development",
         "item5": "Event planning",
         "item6": "Promotional activities: barter, collaborations, influencers, and special offers",
-        "item7": "Targeted advertising"
+        "item7": "Targeted advertising / Contextual advertising"
       },
       "socialMedia": {
         "title": "Social Media packaging",
-        "item1": "Instagram & TikTok package",
-        "item2": "Posts (visuals + captions + grid adaptation) - 10",
-        "item3": "Reels (editing, covers, titles) - 10",
-        "item4": "Stories - 30",
-        "item5": "Full profile setup for Instagram and TikTok",
-        "item6": "*Other platforms upon request"
+        "item1": "Content plan for 1 social network - 10 units",
+        "item2": "Posts (visuals + descriptions) - 10 units",
+        "item3": "Video (editing and covers)",
+        "item4": "Stories - 30 units",
+        "item5": "Full profile setup for Instagram / TikTok",
+        "item5Sub": "*Other platforms - upon request"
       },
       "designGuidebook": {
         "title": "Design + Guidebook",
         "items": [
-          { "service": "LOGO", "alterations": "3 alterations" },
-          { "service": "Color palette, fonts, and patterns", "alterations": "3 alterations" },
+          { "service": "Logo", "alterations": "" },
+          { "service": "Color palette, fonts, and patterns", "alterations": "" },
           { "service": "Packaging, business cards, merchandise", "alterations": "up to 18 units" },
-          { "service": "Investor presentation", "alterations": "up to 15 pages" },
-          { "service": "2D Animations", "alterations": "up to 3" },
-          { "service": "Visual usage guidelines", "alterations": "30 pages book" },
-          { "service": "Illustrations", "alterations": "up to 15" },
-          { "service": "Mini website or landing page (if included in the task)", "alterations": "1 page" }
+          { "service": "Commercial proposal design", "alterations": "up to 15 pages" },
+          { "service": "Visual style usage guidelines", "alterations": "30 pages book" },
+          { "service": "Landing page", "alterations": "1 page" }
         ]
       },
       "totalPrice": {
@@ -179,31 +177,32 @@
       },
       "notes": {
         "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
-        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note2": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note3": "✦ Expedited completion (by agreement with the Client) is charged with a 50% markup on the base service cost.",
         "note4": "✦ After approval, changes can only be made within 2 calendar days.",
-        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
-        "note6": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
+        "note5": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
     "cycle": {
       "socialMedia": {
         "title": "Social Media",
-        "item1": "Posts for Instagram, TikTok (photos/videos) - 10",
-        "item2": "Designed stories - 30",
-        "item3": "Full profile setup"
+        "item1": "Social media posts - 15 units",
+        "item1Sub": "*Other platforms - upon request",
+        "item2": "Full profile setup",
+        "item3": "Stories design - 30 units"
       },
       "design": {
         "title": "Design",
-        "item1": "Posts and animations for social media - 10",
-        "item2": "Updating printed products - 10"
+        "item1": "Highlights and avatars - 5 units",
+        "item2": "Print design - 10 units",
+        "item3": "Highlights and avatars - 10 units"
       },
       "digitalServices": {
         "title": "Digital-Services",
-        "item1": "Collaboration ideas per month (come up with the concept and design)",
+        "item1": "Collaboration ideas per month (concept and design development, partnerships, event organization) - up to 4 units",
         "item2": "Targeted advertising",
-        "item3": "Monthly report (what worked, how people reacted, and what we recommend next)",
-        "item4": "Website maintenance and updates"
+        "item3": "Website technical support and updates",
+        "item4": "Monthly report (what worked, audience reaction, recommendations for next steps)"
       },
       "totalPrice": {
         "title": "Total Price",
@@ -213,53 +212,52 @@
       },
       "notes": {
         "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
-        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note2": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note3": "✦ Expedited completion (by agreement with the Client) is charged with a 50% markup on the base service cost.",
         "note4": "✦ After approval, changes can only be made within 2 calendar days.",
-        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
-        "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
-        "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
+        "note5": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
     "semicircle": {
       "marketing": {
         "title": "Marketing",
-        "item1": "Concept and visual packaging of the partnership/collaboration",
-        "item1Price": "80.000 KZT",
-        "item2": "Mini-event support: poster, story, video invitation, pop-up or welcome zone design, photo/video shooting",
-        "item2Price": "120.000 KZT",
-        "item3": "Audit and analysis",
-        "item3Price": "100.000 KZT"
+        "item1": "Concept and visual design of partnership/collaboration",
+        "item1Price": "80 000 KZT",
+        "item2": "Concept and visual design of partnership/collaboration",
+        "item2Price": "120 000 KZT",
+        "item3": "Concept and visual design of partnership/collaboration",
+        "item3Price": "250 000 KZT"
       },
       "smm": {
         "title": "SMM",
-        "item1": "Publication plan",
-        "item2": "Profile settings: avatar, highlights, posters",
-        "item2Count": "10",
-        "item3": "Shooting Reels / TikTok (script, shooting, editing)",
-        "item3Sub": "cover design for social media posts (instagram/tiktok)",
-        "item3Count": "12",
-        "item4": "Adapting visual and text to current trends or recommwndations",
-        "item5": "Stories",
-        "item5Count": "20",
-        "totalPrice": "250.000 KZT",
+        "item1": "Content plan (adaptation, category development)",
+        "item2": "Profile design (avatar, highlights)",
+        "item2Count": "10 units",
+        "item3": "Reels/TikTok shooting (script, shooting, editing, cover design for social media, posts)",
+        "item3Count": "12 units",
+        "item4": "Stories",
+        "item4Count": "20 units",
+        "item5": "Targeted advertising",
+        "item5Price": "250 000 KZT",
+        "totalPrice": "300 000 KZT",
         "days": "19 days"
       },
       "design": {
         "title": "Design",
         "items": [
-          { "service": "Guidebook (logo, font, color palette, merch, etc.)", "pages": "20 pages", "time": "30 days", "price": "500.000 KZT" },
-          { "service": "Presentation", "pages": "1 page", "time": "1 hour", "price": "5.900 KZT" },
-          { "service": "Illustration", "pages": "1", "time": "1-9 days", "price": "9.900-25.000 KZT" },
-          { "service": "Packaging and Brand materials", "pages": "1", "time": "4-14 days", "price": "10.000-30.000 KZT" },
-          { "service": "2D animation", "pages": "1 sec.", "time": "1 hour", "price": "3.500-9.500 KZT" },
-          { "service": "3D animation", "pages": "1 sec.", "time": "1 hour", "price": "8.500-21.500 KZT" },
-          { "service": "Pop-up visualization", "pages": "1", "time": "7 days", "price": "35.500 KZT" },
-          { "service": "Poster / Banners", "pages": "1", "time": "2 days", "price": "9.500 KZT" },
-          { "service": "Social Media design", "pages": "1", "time": "2 days", "price": "3.500-9.500 KZT" },
-          { "service": "Web design and development", "pages": "1", "time": "1 month", "price": "500.000 KZT" },
-          { "service": "Interior design", "pages": "1 m^2", "time": "1-14 days", "price": "5.900-10.000 KZT" }
-
+          { "service": "Mini guidebook (logo, font, brand font, usage rules)", "pages": "6 pages", "time": "7 days", "price": "200 000 KZT" },
+          { "service": "Presentation", "pages": "1 page", "time": "1 hour", "price": "5 900 KZT" },
+          { "service": "Packaging and branded materials", "pages": "1 unit", "time": "4-14 days", "price": "10 000-30 000 KZT" },
+          { "service": "2D animation", "pages": "1 sec.", "time": "1 hour", "price": "3 500-9 500 KZT" },
+          { "service": "3D animation", "pages": "1 sec.", "time": "1 hour", "price": "8 500-21 500 KZT" },
+          { "service": "3D visualization of conceptual solutions", "pages": "1 unit", "time": "7 days", "price": "35 500 KZT" },
+          { "service": "Posters/banners/illustrations", "pages": "1 unit", "time": "2 days", "price": "9 500 KZT" },
+          { "service": "Social media design", "pages": "1 unit", "time": "2 days", "price": "3 500-9 500 KZT" },
+          { "service": "Website development (React)", "pages": "", "time": "1 month", "price": "500 000 KZT" },
+          { "service": "Website development (Tilda)", "pages": "", "time": "7 days", "price": "250 000 KZT" },
+          { "service": "Website development (Wordpress)", "pages": "", "time": "20 days", "price": "350 000 KZT" },
+          { "service": "Interior design", "pages": "1 m²", "time": "4-14 days", "price": "5 900 KZT" },
+          { "service": "Interior design and support", "pages": "1 m²", "time": "", "price": "10 000 KZT" }
         ]
       },
       "production": {
@@ -277,12 +275,10 @@
       },
       "notes": {
         "note1": "✦ We don't take a commission for printing, you only pay for the production itself.",
-        "note2": "✦ You can choose between two trusted print shops: one is more budget-friendly, the other offers premium quality.",
-        "note3": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note2": "✦ All materials (designs, photos, videos) must be approved by the client before publication.",
+        "note3": "✦ Expedited completion (by agreement with the Client) is charged with a 50% markup on the base service cost.",
         "note4": "✦ After approval, changes can only be made within 2 calendar days.",
-        "note5": "✦ Clear content deadlines are set in advance and agreed upon by both parties.",
-        "note6": "✦ If your desired service isn't listed, we're open to custom solutions and new formats.",
-        "note7": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
+        "note5": "✦ We include 3 free rounds of revisions. Additional changes are subject to extra payment."
       }
     },
     "aboutPage": {

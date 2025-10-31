@@ -114,7 +114,6 @@ const Header = () => {
       document.body.style.width = '100%';
       document.body.style.overflowY = 'scroll';
     } else {
-      // Восстанавливаем позицию скролла ТОЛЬКО если это не навигация к секции
       const savedPosition = parseInt(document.body.dataset.scrollPosition || '0', 10);
       document.body.style.position = '';
       document.body.style.top = '';
