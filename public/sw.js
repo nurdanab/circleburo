@@ -125,7 +125,8 @@ self.addEventListener('fetch', (event) => {
     'www.google-analytics.com',
     'api.telegram.org',
     'www.googleapis.com',
-    'accounts.google.com'
+    'accounts.google.com',
+    '78.109.18.11' // MinIO storage - не кешируем
   ];
 
   if (externalDomains.some(domain => url.hostname.includes(domain))) {

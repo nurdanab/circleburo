@@ -7,8 +7,7 @@
     <!-- Security meta tags (headers are set at server level via Netlify) -->
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- TEMPORARY: Allow HTTP media from MinIO (INSECURE - setup HTTPS ASAP!) -->
-    <meta http-equiv="Content-Security-Policy" content="img-src 'self' http://78.109.18.11:9000 https: data:; media-src 'self' http://78.109.18.11:9000 https:; default-src 'self' https: 'unsafe-inline' 'unsafe-eval'">
+    <!-- CSP is configured in netlify.toml headers to allow MinIO HTTP content -->
     
     <!-- Preconnect для критических ресурсов - только на desktop -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin media="(min-width: 768px)">
