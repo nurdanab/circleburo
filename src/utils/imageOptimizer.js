@@ -58,6 +58,11 @@ export class ImageOptimizer {
       lazy: _lazy = true
     } = options;
 
+    // IMPORTANT: Don't optimize external URLs (MinIO, CDN, etc.)
+    if (src.startsWith('http://') || src.startsWith('https://')) {
+      return src;
+    }
+
     // If it's already an optimized format, return as-is
     if (src.includes('.webp') || src.includes('.avif')) {
       return src;
