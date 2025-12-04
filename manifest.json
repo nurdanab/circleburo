@@ -39,47 +39,7 @@
     }
   ],
   "screenshots": [],
-  "shortcuts": [
-    {
-      "name": "Услуги",
-      "short_name": "Услуги",
-      "description": "Наши креативные услуги",
-      "url": "/circle",
-      "icons": [
-        {
-          "src": "/img/favicon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "О нас",
-      "short_name": "О нас", 
-      "description": "Информация о команде",
-      "url": "/about",
-      "icons": [
-        {
-          "src": "/img/favicon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Кейсы",
-      "short_name": "Кейсы",
-      "description": "Наши работы",
-      "url": "/project",
-      "icons": [
-        {
-          "src": "/img/favicon-96x96.png",
-          "sizes": "96x96", 
-          "type": "image/png"
-        }
-      ]
-    }
-  ],
+  "shortcuts": [],
   "related_applications": [
     {
       "platform": "web",

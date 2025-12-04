@@ -1,11 +1,15 @@
 // src/components/LazySection.jsx
 import React, { useEffect, useRef, useState } from 'react';
-import { prefersReducedMotion } from '../utils/performance';
 import MediaLoader from './MediaLoader';
 
-const LazySection = ({ 
-  children, 
-  rootMargin = '100px', 
+// Helper function to check if user prefers reduced motion
+const prefersReducedMotion = () => {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+};
+
+const LazySection = ({
+  children,
+  rootMargin = '100px',
   threshold = 0.1,
   className = '',
   fallback = null,

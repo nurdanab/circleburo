@@ -1,9 +1,15 @@
 // src/components/LazyPage.jsx
 import React, { Suspense, useState, useEffect } from 'react';
-import { CircleLogoLoader } from './MinimalistLoader';
 import ErrorBoundary from './ErrorBoundary';
 
-const LazyPage = ({ component: _LazyComponent, fallback = <CircleLogoLoader /> }) => {
+// Simple loader component
+const SimpleLoader = () => (
+  <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
+const LazyPage = ({ component: _LazyComponent, fallback = <SimpleLoader /> }) => {
   const [isTimeout, setIsTimeout] = useState(false);
 
   useEffect(() => {
@@ -19,7 +25,7 @@ const LazyPage = ({ component: _LazyComponent, fallback = <CircleLogoLoader /> }
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="text-center">
         <div className="mb-4">
-          <CircleLogoLoader />
+          <SimpleLoader />
         </div>
         <p className="text-yellow-400 mb-4">Загрузка занимает больше времени, чем обычно...</p>
         <button

@@ -9,37 +9,27 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'ru',
-
     debug: false,
-
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
     },
-
     backend: {
       loadPath: '/locales/{{lng}}/translation.json',
-      // Добавляем обработку ошибок загрузки
       requestOptions: {
         cache: 'default'
       }
     },
-
     interpolation: {
       escapeValue: false,
     },
-
     react: {
       useSuspense: false,
     },
-
     supportedLngs: ['en', 'ru', 'kk'],
 
     ns: ['translation'],
     defaultNS: 'translation',
-
-    // Убираем встроенные ресурсы - используем только файлы из public/locales/
-    // Это исправляет проблему смешивания языков
   })
   .catch(error => {
     console.error('i18n initialization failed:', error);

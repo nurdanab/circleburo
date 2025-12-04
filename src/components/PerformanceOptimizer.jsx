@@ -1,9 +1,7 @@
 // Performance optimization component
 import { useEffect, useRef, useCallback } from 'react';
-import { useMemoryCleanup } from '../hooks/useMemoryCleanup';
 
 const PerformanceOptimizer = ({ children }) => {
-  const { cleanup } = useMemoryCleanup();
   const idleCallbackRef = useRef(null);
   const observerRef = useRef(null);
   const lastActivityRef = useRef(Date.now());
@@ -234,11 +232,8 @@ const PerformanceOptimizer = ({ children }) => {
 
       const perfStyles = document.getElementById('performance-optimization');
       if (perfStyles) document.head.removeChild(perfStyles);
-
-      // Clean up memory
-      cleanup();
     };
-  }, [handleVisibilityChange, optimizeForDevice, setupIntersectionObserver, optimizeMemoryUsage, cleanup]);
+  }, [handleVisibilityChange, optimizeForDevice, setupIntersectionObserver, optimizeMemoryUsage]);
 
   return children;
 };

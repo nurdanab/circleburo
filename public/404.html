@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Страница не найдена | Circle Buro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #F6EDCE;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .error-code {
+      font-size: clamp(80px, 15vw, 160px);
+      font-weight: 900;
+      color: #F25340;
+      line-height: 1;
+      margin-bottom: 20px;
+      text-shadow: 4px 4px 0 rgba(73, 82, 111, 0.1);
+    }
+
+    h1 {
+      font-size: clamp(24px, 5vw, 48px);
+      color: #49526F;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: clamp(16px, 3vw, 20px);
+      color: #49526F;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #0E5A4D;
+      color: #F0CD4B;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 18px;
+      transition: all 0.3s ease;
+      border: 2px solid #0E5A4D;
+    }
+
+    .button:hover {
+      background: transparent;
+      color: #0E5A4D;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(14, 90, 77, 0.2);
+    }
+
+    .circle-decoration {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #F25340 0%, #F09FB2 100%);
+      margin: 0 auto 32px;
+      opacity: 0.2;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.2;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.3;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .circle-decoration {
+        width: 60px;
+        height: 60px;
+      }
+
+      .button {
+        padding: 12px 24px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="circle-decoration"></div>
+    <div class="error-code">404</div>
+    <h1>Страница не найдена</h1>
+    <p>Похоже, эта страница куда-то пропала. Но не переживайте, мы поможем вам вернуться на главную!</p>
+    <a href="/" class="button">Вернуться на главную</a>
+  </div>
+</body>
+</html>

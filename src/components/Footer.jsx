@@ -1,307 +1,246 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Instagram} from 'lucide-react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { FaTiktok, FaThreads } from 'react-icons/fa6';
-import { navigateToSection } from '../utils/navigation'; 
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
 
 const FooterSection = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const footerRef = useRef(null);
+  const logoSectionRef = useRef(null);
+  const socialRef = useRef(null);
+  const contactSectionRef = useRef(null);
+  const bottomSectionRef = useRef(null);
 
-  // Функция для навигации к секциям (используем улучшенную утилиту)
-  const scrollToSection = (sectionId) => {
-    if (import.meta.env.DEV) {
-      console.log('Footer scrollToSection called:', { sectionId, currentPath: location.pathname });
-    }
+  // Мемоизация контактной информации с переводами
+  const contactInfo = useMemo(() => [
+    {
+      icon: Phone,
+      text: t('footer.phone1'),
+      href: 'tel:+77761536092',
+      ariaLabel: t('footer.phone1')
+    },
+    {
+      icon: Phone,
+      text: t('footer.phone2'),
+      href: 'tel:+77754201840',
+      ariaLabel: t('footer.phone2')
+    },
+    {
+      icon: MapPin,
+      text: t('footer.address'),
+      href: 'https://2gis.kz/almaty/firm/70000001104431525',
+      ariaLabel: t('footer.address')
+    },
+    {
+      icon: Mail,
+      text: t('footer.email'),
+      href: 'mailto:info@circleburo.kz',
+      ariaLabel: t('footer.email')
+    },
+  ], [t]);
 
-    // Всегда переходим на главную страницу, затем скроллим к секции
-    if (location.pathname !== '/') {
-      // Если мы не на главной, переходим туда и скроллим к секции
-      if (import.meta.env.DEV) {
-        console.log('Navigating to home with scroll target:', sectionId);
+  // Мемоизация социальных сетей с переводами
+  const socialLinks = useMemo(() => [
+    {
+      icon: FaTiktok,
+      href: 'https://www.tiktok.com/@madebycircle?_t=ZM-8zT1mZUDsS0&_r=1',
+      label: t('footer.social.tiktok')
+    },
+    {
+      icon: Instagram,
+      href: 'https://www.instagram.com/circlemadeit/',
+      label: t('footer.social.instagram')
+    },
+    {
+      icon: FaThreads,
+      href: 'https://www.threads.com/@circlemadeit',
+      label: t('footer.social.threads')
+    },
+  ], [t]);
+
+  // Оптимизированные анимации
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const fadeInUp = {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: 'power3.out'
+      };
+
+      // Анимация логотипа и описания
+      if (logoSectionRef.current) {
+        gsap.from(logoSectionRef.current.children, {
+          ...fadeInUp,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: logoSectionRef.current,
+            start: 'top 85%',
+            once: true,
+          }
+        });
       }
-      navigate('/', { state: { scrollTo: sectionId } });
-    } else {
-      // Если уже на главной, просто скроллим
-      if (import.meta.env.DEV) {
-        console.log('Already on home, scrolling to:', sectionId);
+
+      // Анимация социальных сетей
+      if (socialRef.current) {
+        gsap.from(socialRef.current.children, {
+          opacity: 0,
+          scale: 0.5,
+          y: 20,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'back.out(1.7)',
+          scrollTrigger: {
+            trigger: socialRef.current,
+            start: 'top 85%',
+            once: true,
+          }
+        });
       }
-      navigateToSection(navigate, location.pathname, '/', sectionId, {
-        maxAttempts: 15,
-        delay: 150,
-        offset: 80 // Account for fixed header
-      });
-    }
-  };
 
+      // Анимация контактов
+      if (contactSectionRef.current) {
+        const heading = contactSectionRef.current.querySelector('h4');
+        const items = contactSectionRef.current.querySelectorAll('li');
 
-  const navigationLinks = [
-    { name: t('nav.home'), to: '/', isLink: true },
-    { name: t('nav.about'), to: '/about', isLink: true },
-    { name: t('nav.services'), sectionId: 'services', isLink: false },
-    { name: t('nav.portfolio'), sectionId: 'projects', isLink: false },
-    { name: t('nav.contact'), sectionId: 'contact', isLink: false },
-  ];
+        if (heading) {
+          gsap.from(heading, {
+            ...fadeInUp,
+            scrollTrigger: {
+              trigger: contactSectionRef.current,
+              start: 'top 85%',
+              once: true,
+            }
+          });
+        }
 
-  const services = [
-    { name: 'Semicircle', to: '/semicircle' },
-    { name: 'Circle', to: '/circle' },
-    { name: 'Cycle', to: '/cycle' },
-  ];
+        gsap.from(items, {
+          opacity: 0,
+          x: -30,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: contactSectionRef.current,
+            start: 'top 85%',
+            once: true,
+          }
+        });
+      }
 
-  const contactInfo = [
-    { icon: Phone, text: '+7 776 153 60 92', href: 'tel:+7 776 153 60 92' },
-    { icon: Phone, text: '+7 775 420 18 40', href: 'tel:+7 775 420 18 40' },
-    { icon: MapPin, text: '2/2 Khodzhanova Street Almaty, Kazakhstan', href: 'https://2gis.kz/almaty/firm/70000001104431525' },
-    { icon: Mail, text: 'info@circleburo.kz', href: 'mailto:info@circleburo.kz' },
-  ];
+      // Анимация нижней секции
+      if (bottomSectionRef.current) {
+        gsap.from(bottomSectionRef.current.children, {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: bottomSectionRef.current,
+            start: 'top 90%',
+            once: true,
+          }
+        });
+      }
+    }, footerRef);
 
-  const socialLinks = [
-    { icon: FaTiktok, href: 'https://www.tiktok.com/@madebycircle?_t=ZM-8zT1mZUDsS0&_r=1', label: 'TikTok' },
-    { icon: Instagram, href: 'https://www.instagram.com/circlemadeit/', label: 'Instagram' },
-    { icon: FaThreads, href: 'https://www.threads.com/@circlemadeit', label: 'Threads' },
-  ];
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <footer className="relative bg-black text-white overflow-hidden">
+    <footer
+      ref={footerRef}
+      className="relative overflow-hidden bg-[#F0CD4B] text-[#0E5A4D]"
+      aria-label="Footer"
+    >
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
 
-      {/* Основной контент футера */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
-        
         {/* Верхняя секция */}
-        <motion.div
-          className="py-16 md:py-20 border-b border-white/10"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
-            
+        <div className="pt-12 pb-10 sm:pt-16 sm:pb-12 md:pt-20 md:pb-14 lg:pt-24 lg:pb-16 border-b border-[#0E5A4D]/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-12 lg:gap-20">
+
             {/* Логотип и описание */}
             <div className="lg:col-span-1">
-              <motion.div
-                className="mb-8"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <img
-                  src="/img/circle-logo.png"
-                  alt="Circle Logo"
-                  className="w-16 h-16 object-contain filter drop-shadow-lg mb-6"
-                  width={64}
-                  height={64}
-                  loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                />
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">
+              <div ref={logoSectionRef} className="mb-6 sm:mb-8">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold mb-3 sm:mb-4 md:mb-5 text-[#0E5A4D] leading-tight">
                   CIRCLE
                 </h3>
-                <p className="text-white text-lg leading-relaxed max-w-md">
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed text-[#0E5A4D]/90">
                   {t('footer.description')}
                 </p>
-              </motion.div>
+              </div>
 
               {/* Социальные сети */}
-              <motion.div
-                className="flex space-x-4"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
+              <div ref={socialRef} className="flex gap-3 sm:gap-4">
                 {socialLinks.map((social, index) => (
-                  <motion.a
+                  <a
                     key={index}
                     href={social.href}
-                    className="group w-12 h-12 bg-gradient-to-r from-white/8 to-white/4 hover:from-white/15 hover:to-white/10 border border-white/15 hover:border-white/30 rounded-full flex items-center justify-center transition-all duration-300"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center bg-[#0E5A4D]/8 border border-[#0E5A4D]/15 hover:bg-[#0E5A4D]/15 hover:scale-110 hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#0E5A4D]/30"
                     aria-label={social.label}
                   >
-                    <social.icon className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300" />
-                  </motion.a>
+                    <social.icon className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#0E5A4D]/70" />
+                  </a>
                 ))}
-              </motion.div>
+              </div>
             </div>
 
-            {/* Навигация и услуги */}
-            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
-              
-              {/* Навигация */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-              >
-                <h4 className="text-xl font-semibold mb-18 text-white">{t('footer.navigation')}</h4>
-                <ul className="mt-6 space-y-4">
-                  {navigationLinks.map((link, index) => {
-                    return (
-                      <li key={index}>
-                        {link.isLink ? (
-                          <Link
-                            to={link.to}
-                            onClick={() => {
-                              window.scrollTo(0, 0);
-                              setTimeout(() => window.scrollTo(0, 0), 0);
-                            }}
-                            className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
-                          >
-                            {link.name}
-                            <motion.svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              initial={{ x: -10 }}
-                              whileHover={{ x: 0 }}
-                            >
-                              <path d="M7 17L17 7" />
-                              <path d="M7 7h10v10" />
-                            </motion.svg>
-                          </Link>
-                        ) : (
-                          <button
-                            onClick={() => scrollToSection(link.sectionId)}
-                            className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center bg-transparent border-none cursor-pointer"
-                          >
-                            {link.name}
-                            <motion.svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              initial={{ x: -10 }}
-                              whileHover={{ x: 0 }}
-                            >
-                              <path d="M7 17L17 7" />
-                              <path d="M7 7h10v10" />
-                            </motion.svg>
-                          </button>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </motion.div>
-
-              {/* Услуги */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                <h4 className="text-xl font-semibold mb-8 text-white">{t('footer.services')}</h4>
-                <ul className="mt-6 space-y-4">
-                  {services.map((service, index) => (
-                    <li key={index}>
-                      <Link
-                        to={service.to}
-                        onClick={() => {
-                          window.scrollTo(0, 0);
-                          setTimeout(() => window.scrollTo(0, 0), 0);
-                        }}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
-                        // whileHover={{ x: 5 }}
-                        // transition={{ duration: 0.2 }}
-                      >
-                        {service.name}
-                        <motion.svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          initial={{ x: -10 }}
-                          whileHover={{ x: 0 }}
-                        >
-                          <path d="M7 17L17 7" />
-                          <path d="M7 7h10v10" />
-                        </motion.svg>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-
-              {/* Контакты */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                <h4 className="text-xl font-semibold mb-8 text-white">{t('footer.contact')}</h4>
-                <ul className="mt-6 space-y-4">
+            {/* Контакты */}
+            <div className="md:col-span-1 lg:col-span-2">
+              <div ref={contactSectionRef}>
+                <h4 className="text-lg sm:text-xl md:text-2xl lg:text-[28px] font-semibold mb-5 sm:mb-6 md:mb-8 text-[#0E5A4D]">
+                  {t('footer.contact')}
+                </h4>
+                <ul className="space-y-4 sm:space-y-5 md:space-y-6">
                   {contactInfo.map((contact, index) => (
                     <li key={index}>
-                      <motion.a
+                      <a
                         href={contact.href}
-                        className="text-gray-400 hover:text-white transition-colors duration-300 text-lg group flex items-center"
-                        // whileHover={{ x: 5 }}
-                        // transition={{ duration: 0.2 }}
+                        target={contact.icon === MapPin ? "_blank" : undefined}
+                        rel={contact.icon === MapPin ? "noopener noreferrer" : undefined}
+                        className="flex items-start gap-3 sm:gap-3 md:gap-4 text-sm sm:text-base md:text-lg lg:text-xl text-[#0E5A4D]/70 hover:text-[#0E5A4D] hover:translate-x-2 transition-all duration-300 group focus:outline-none focus:text-[#0E5A4D]"
+                        aria-label={contact.ariaLabel}
                       >
-                        <contact.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                        <span className="break-all">{contact.text}</span>
-                      </motion.a>
+                        <contact.icon className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0 mt-0.5 sm:mt-1 group-hover:scale-110 transition-transform duration-300" />
+                        <span className="break-words">{contact.text}</span>
+                      </a>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Нижняя секция */}
-        <motion.div
-          className="py-8 flex flex-col md:flex-row justify-between items-center text-gray-500"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
+        <div
+          ref={bottomSectionRef}
+          className="py-6 sm:py-8 md:py-10 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 text-[#0E5A4D]/60"
         >
-          <div className="text-center md:text-left mb-4 md:mb-0">
-            <p>{t('footer.copyright')}</p>
+          <div className="text-center sm:text-left">
+            <p className="text-xs sm:text-sm md:text-base">{t('footer.copyright')}</p>
           </div>
-          <div className="flex space-x-6 text-sm">
-  <motion.a
-    href="/privacy-policy-circle.pdf"
-    className="hover:text-white transition-colors duration-300"
-    whileHover={{ y: -2 }}
-  >
-    {t('footer.privacyPolicy')}
-  </motion.a>
-
-</div>
-        </motion.div>
+          <div>
+            <a
+              href="/privacy-policy-circle.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs sm:text-sm md:text-base text-[#0E5A4D]/70 hover:text-[#0E5A4D] hover:-translate-y-1 inline-block transition-all duration-300 focus:outline-none focus:text-[#0E5A4D]"
+            >
+              {t('footer.privacyPolicy')}
+            </a>
+          </div>
+        </div>
       </div>
 
-      {/* Декоративный градиент внизу */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+      {/* Декоративный градиент */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#0E5A4D]/20 to-transparent" aria-hidden="true" />
     </footer>
   );
 };

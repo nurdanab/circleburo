@@ -1,6 +1,5 @@
 // src/pages/AdminPage.jsx
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calendar, 
   Clock, 
@@ -58,6 +57,11 @@ const AdminPage = () => {
     console.log('🔥 AdminPage is rendering!');
   }
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+  const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
+
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -69,6 +73,26 @@ const AdminPage = () => {
   const [sortField, setSortField] = useState('created_at');
   const [sortDirection, setSortDirection] = useState('desc');
   const [editNotes, setEditNotes] = useState({});
+
+  // Обработчик входа
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      setAuthError('');
+      sessionStorage.setItem('adminAuth', 'true');
+    } else {
+      setAuthError('Неверный пароль');
+    }
+  };
+
+  // Проверка аутентификации при загрузке
+  useEffect(() => {
+    const auth = sessionStorage.getItem('adminAuth');
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   // Функция сортировки
   const handleSort = (field) => {
@@ -399,6 +423,57 @@ ${statusEmoji[newStatus]} new!
     );
   }
 
+  // Форма входа
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#F6EDCE] flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-white p-8 rounded-2xl border-2 border-[#49526F]">
+          <h1 className="text-3xl font-bold text-[#2d2d2d] mb-2 text-center">
+            Админ панель
+          </h1>
+          <p className="text-[#49526F] mb-8 text-center">
+            Введите пароль для доступа
+          </p>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label htmlFor="admin-password" className="block text-sm font-semibold text-[#49526F] mb-2">
+                Пароль
+              </label>
+              <input
+                id="admin-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border-2 border-[#49526F] bg-[#F6EDCE] text-[#2d2d2d] placeholder-[#49526F]/50 focus:border-[#0E5A4D] focus:bg-white transition-all duration-200 focus:outline-none"
+                placeholder="Введите пароль"
+                autoFocus
+              />
+            </div>
+
+            {authError && (
+              <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg border-2 border-red-200">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                <p className="text-sm font-medium">{authError}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full px-6 py-3 bg-[#F25340] border-2 border-[#F25340] hover:bg-[#d94333] rounded-lg text-white font-semibold transition-all duration-200"
+            >
+              Войти
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-[#49526F]">
+            Пароль настроен в переменных окружения
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <style dangerouslySetInnerHTML={{__html: `
@@ -509,13 +584,25 @@ ${statusEmoji[newStatus]} new!
       `}} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 admin-container">
         {/* Заголовок */}
-        <div className="mb-8 py-6 border-b admin-border">
-          <h1 className="text-2xl font-semibold admin-text-primary mb-2">
-            Админ панель
-          </h1>
-          <p className="admin-text-secondary text-sm">
-            Всего заявок: {leads.length} | Отфильтровано: {filteredLeads.length}
-          </p>
+        <div className="mb-8 py-6 border-b admin-border flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-semibold admin-text-primary mb-2">
+              Админ панель
+            </h1>
+            <p className="admin-text-secondary text-sm">
+              Всего заявок: {leads.length} | Отфильтровано: {filteredLeads.length}
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              setIsAuthenticated(false);
+              sessionStorage.removeItem('adminAuth');
+            }}
+            className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-200 flex items-center gap-2"
+          >
+            <XCircle className="w-4 h-4" />
+            Выйти
+          </button>
         </div>
 
         {/* Панель управления */}
@@ -561,49 +648,38 @@ ${statusEmoji[newStatus]} new!
 
             {/* Действия */}
             <div className="flex gap-2">
-              <motion.button
+              <button
                 onClick={loadLeads}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg admin-btn-primary"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg admin-btn-primary transition-all duration-200 hover:scale-[1.02] active:scale-98"
               >
                 <RefreshCw className="w-4 h-4" />
                 Обновить
-              </motion.button>
-              
-              <motion.button
+              </button>
+
+              <button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg admin-btn-success"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg admin-btn-success transition-all duration-200 hover:scale-[1.02] active:scale-98"
               >
                 <Download className="w-4 h-4" />
                 Экспорт CSV
-              </motion.button>
+              </button>
             </div>
           </div>
         </div>
 
         {/* Ошибка */}
-        <AnimatePresence>
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-center gap-3"
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+            <span className="text-red-700">{error}</span>
+            <button
+              onClick={() => setError('')}
+              className="ml-auto text-red-500 hover:text-red-700"
             >
-              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
-              <span className="text-red-700">{error}</span>
-              <button
-                onClick={() => setError('')}
-                className="ml-auto text-red-500 hover:text-red-700"
-              >
-                <XCircle className="w-4 h-4" />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <XCircle className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* Таблица лидов */}
         <div className="admin-card rounded-lg overflow-hidden">
@@ -632,10 +708,8 @@ ${statusEmoji[newStatus]} new!
                 </thead>
                 <tbody className="admin-table divide-y admin-border">
                   {filteredLeads.map((lead) => (
-                    <motion.tr
+                    <tr
                       key={lead.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
                       className="admin-table-row transition-colors"
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -704,12 +778,10 @@ ${statusEmoji[newStatus]} new!
                       <td className="px-6 py-4">
                         <div className="flex gap-2 flex-col items-start min-w-[200px]">
                           {/* Кнопка для сохранения заметок */}
-                          <motion.button
+                          <button
                             onClick={() => saveNotes(lead.id)}
                             disabled={savingNotes === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-neutral"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-neutral transition-all duration-200 hover:scale-[1.02] active:scale-98"
                           >
                             {savingNotes === lead.id ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -717,16 +789,14 @@ ${statusEmoji[newStatus]} new!
                                 <Save className="w-4 h-4" />
                             )}
                             Сохранить заметки
-                          </motion.button>
+                          </button>
                           
                           {/* Кнопка подтверждения */}
                           {lead.status !== BOOKING_STATUSES.CONFIRMED && (
-                            <motion.button
+                            <button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CONFIRMED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-success"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-success transition-all duration-200 hover:scale-[1.02] active:scale-98"
                             >
                               {updating === lead.id ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -734,17 +804,15 @@ ${statusEmoji[newStatus]} new!
                                 <CheckCircle2 className="w-4 h-4" />
                               )}
                               Подтвердить
-                            </motion.button>
+                            </button>
                           )}
                           
                           {/* Кнопка отмены */}
                           {lead.status !== BOOKING_STATUSES.CANCELLED && (
-                            <motion.button
+                            <button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.CANCELLED)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-danger"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-danger transition-all duration-200 hover:scale-[1.02] active:scale-98"
                             >
                               {updating === lead.id ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -752,17 +820,15 @@ ${statusEmoji[newStatus]} new!
                                 <XCircle className="w-4 h-4" />
                               )}
                               Отменить
-                            </motion.button>
+                            </button>
                           )}
 
                           {/* Кнопка восстановления */}
                           {lead.status === BOOKING_STATUSES.CANCELLED && (
-                            <motion.button
+                            <button
                               onClick={() => updateLeadData(lead.id, BOOKING_STATUSES.PENDING)}
                               disabled={updating === lead.id}
-                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-warning"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
+                              className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-warning transition-all duration-200 hover:scale-[1.02] active:scale-98"
                             >
                               {updating === lead.id ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -770,20 +836,18 @@ ${statusEmoji[newStatus]} new!
                                 <RefreshCw className="w-4 h-4" />
                               )}
                               Восстановить
-                            </motion.button>
+                            </button>
                           )}
 
                           {/* Кнопка удаления */}
-                          <motion.button
+                          <button
                             onClick={() => {
                               if (window.confirm('Вы уверены, что хотите удалить эту заявку? Это действие нельзя отменить.')) {
                                 deleteLead(lead.id);
                               }
                             }}
                             disabled={updating === lead.id}
-                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-danger"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed w-full justify-center admin-btn-danger transition-all duration-200 hover:scale-[1.02] active:scale-98"
                           >
                             {updating === lead.id ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -791,10 +855,10 @@ ${statusEmoji[newStatus]} new!
                               <XCircle className="w-4 h-4" />
                             )}
                             Удалить
-                          </motion.button>
+                          </button>
                         </div>
                       </td>
-                    </motion.tr>
+                    </tr>
                   ))}
                 </tbody>
               </table>

@@ -19,6 +19,22 @@ dist-ssr
 .env.test.local
 .env.production.local
 
+# Media files (hosted on MinIO)
+# Keep local copies for development, but don't commit to git
+public/img/
+public/videos/
+public/cover/
+public/fonts/
+
+# Keep important icons and manifests
+!public/img/favicon*.png
+!public/img/favicon.ico
+!public/img/favicon.svg
+!public/img/apple-touch-icon.png
+!public/img/web-app-manifest-*.png
+!public/img/circle-fill.webp
+!public/img/circle-fill.ico
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

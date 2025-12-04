@@ -1,59 +1,117 @@
-/* src/index.css */
+/* src/index.css - Чистые глобальные стили */
 @import "tailwindcss";
 
-/* Предотвращаем прыжки скролла - скроллбар всегда видим */
+/* ==========================================
+   ШРИФТЫ
+   ========================================== */
+
+/* Lilita One - для заголовков */
+@font-face {
+  font-family: 'Lilita One';
+  src: url('/fonts/Lilita-One-Regular.woff2') format('woff2'),
+       url('/fonts/Lilita-One-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Metrika - для текстов */
+@font-face {
+  font-family: 'Metrika';
+  src: url('/fonts/Metrika.woff2') format('woff2'),
+       url('/fonts/Metrika.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================
+   БАЗОВЫЕ СТИЛИ
+   ========================================== */
+
+* {
+  box-sizing: border-box;
+}
+
 html {
-  overflow-y: scroll !important;
+  overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
+  background-color: #F6EDCE;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 body {
-  overflow-x: hidden;
-  width: 100%;
   margin: 0;
   padding: 0;
+  width: 100%;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background-color: #F6EDCE;
+  font-family: 'Metrika', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Простой header без прыжков - БЕЗ GPU-оптимизаций */
+#root {
+  min-height: 100dvh;
+  background-color: #F6EDCE;
+}
+
+/* ==========================================
+   ТИПОГРАФИКА
+   ========================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lilita One', cursive;
+}
+
+p, a, span, button, input, textarea, select, li, label {
+  font-family: 'Metrika', sans-serif;
+}
+
+/* ==========================================
+   HEADER СТИЛИ
+   ========================================== */
+
 header {
-  -webkit-tap-highlight-color: transparent;
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 9999 !important;
+  width: 100% !important;
   height: 64px !important;
-  background-color: #000000 !important;
-  /* КРИТИЧНО: НЕ используем transform, will-change, isolation - они блокируют клики */
-  /* Браузер сам создаст fixed layer без наших вмешательств */
+  z-index: 9999 !important;
+  background-color: rgba(246, 237, 206, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   pointer-events: auto !important;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Мобильные устройства */
+/* Contact Button Hover Effect */
+header button[style*="backgroundColor: rgb(232, 87, 75)"] {
+  transition: all 0.3s ease !important;
+}
+
+header button[style*="backgroundColor: rgb(232, 87, 75)"]:hover {
+  background-color: #d14639 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 87, 75, 0.3);
+}
+
 @media (max-width: 1024px) {
   header {
-    height: 64px !important;
-    pointer-events: auto !important;
     touch-action: manipulation !important;
-    /* УДАЛЕНЫ ВСЕ GPU оптимизации: transform, will-change, contain, backface-visibility */
-    /* Они создают stacking context и блокируют pointer-events */
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    /* Предотвращаем webkit touch callout */
     -webkit-touch-callout: none !important;
   }
 
   #navigation {
     padding: 0 1rem !important;
-    pointer-events: auto !important;
     height: 64px !important;
-    /* Предотвращаем прыжки при изменении содержимого */
     min-height: 64px !important;
   }
 
@@ -64,40 +122,18 @@ header {
     user-select: none;
     pointer-events: auto !important;
     touch-action: manipulation !important;
-    position: relative !important;
-    z-index: 10 !important;
-    /* Увеличиваем область клика */
     min-width: 44px;
     min-height: 44px;
   }
 
-  /* Мобильное меню */
   #mobile-menu {
     -webkit-overflow-scrolling: touch;
     top: 64px !important;
     max-height: calc(100dvh - 64px) !important;
     z-index: 9998 !important;
-    /* Предотвращаем проблемы с overflow */
     overscroll-behavior: contain;
   }
 
-  #mobile-menu button,
-  #mobile-menu a {
-    display: block;
-    width: 100%;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-    /* Увеличиваем область тапа */
-    padding: 1rem !important;
-    min-height: 48px;
-  }
-
-  #mobile-menu button:active,
-  #mobile-menu a:active {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-
-  /* Фиксация body при открытом меню - предотвращаем прыжки */
   body.menu-open {
     position: fixed !important;
     width: 100% !important;
@@ -105,166 +141,53 @@ header {
   }
 }
 
-/* Глобальный черный фон для быстрой загрузки */
-html {
-  background-color: #000000 !important;
-}
+/* ==========================================
+   ОСНОВНЫЕ ЭЛЕМЕНТЫ
+   ========================================== */
 
-body {
-  background-color: #000000 !important;
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-  /* Мобильные оптимизации */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  -webkit-tap-highlight-color: transparent;
-  /* Улучшенная производительность на мобильных */
-  touch-action: manipulation;
-  /* Предотвращаем проблемы с overflow на мобильных */
-  overflow-x: hidden;
-  /* Мобильная высота viewport */
-  min-height: 100dvh;
-}
-
-/* УДАЛЕНО isolation - оно создаёт stacking context и блокирует fixed позиционирование */
-/* header не нуждается в isolation, т.к. он уже fixed с z-index: 9999 */
-
-/* Убеждаемся, что header всегда поверх контента страницы */
-/* НЕ используем isolation на sections - это создаёт stacking context и блокирует header */
-section {
-  position: relative;
-  /* НЕ устанавливаем z-index на section - это создаст stacking context */
-}
-
-#root {
-  background-color: #000000;
-  min-height: 100dvh; /* Динамическая высота viewport для мобильных */
-}
-
-/* Styles from fonts.css */
-@font-face {
-  font-family: 'Montserrat';
-  src: url('/fonts/Montserrat-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  src: url('/fonts/Montserrat-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Performance optimizations */
-* {
-  box-sizing: border-box;
-}
-
-html {
-  /* Убрали scroll-behavior: smooth для предотвращения прыжков */
-  /* Оптимизация скролла на мобильных */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: none; /* Предотвращаем bounce на iOS */
-}
-
-/* Smooth scroll только на десктопе */
-@media (min-width: 769px) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
-/* Дополнительные оптимизации производительности */
-img, video {
-  content-visibility: auto;
-  will-change: auto;
-}
-
-/* Оптимизация для мобильных устройств */
-@media (max-width: 768px) {
-  * {
-    /* Отключаем сложные эффекты на мобильных */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-
-  /* Уменьшаем сложность анимаций */
-  .motion-reduce {
-    animation-duration: 0.3s !important;
-    transition-duration: 0.3s !important;
-  }
-}
-
-/* Prevent CLS for common elements */
 img, video, canvas, svg {
   max-width: 100%;
+  height: auto;
 }
 
-/* Fixed dimensions for common containers */
-.model-container {
-  min-height: 384px;
-  width: 100%;
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
-/* Легкие CSS-анимации для мобильных устройств */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.3);
+  outline-offset: 2px;
 }
 
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ==========================================
+   АДАПТИВНОСТЬ
+   ========================================== */
 
-.animate-fadeIn {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-.animate-slideInUp {
-  animation: slideInUp 0.4s ease-out forwards;
-}
-
-/* Оптимизация для мобильных - более быстрые анимации */
 @media (max-width: 768px) {
-  .animate-fadeIn,
-  .animate-slideInUp {
-    animation-duration: 0.3s;
+  html {
+    scroll-behavior: auto;
   }
 }
 
-/* Уважаем prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .animate-fadeIn,
-  .animate-slideInUp {
-    animation: none;
-    opacity: 1;
-    transform: none;
+@media (hover: none) and (pointer: coarse) {
+  button, a {
+    min-height: 48px;
+    min-width: 48px;
+    touch-action: manipulation;
   }
 }
 
-/* Optimize animations */
+/* ==========================================
+   АНИМАЦИИ
+   ========================================== */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -276,430 +199,688 @@ img, video, canvas, svg {
   }
 }
 
-/* Performance-optimized animations for SimpleMotion */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ==========================================
+   ADMIN PANEL STYLES
+   ========================================== */
+
+/* Admin Container */
+.admin-container {
+  background: #f9fafb;
+  min-height: 100vh;
+  padding: 2rem;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Admin Cards */
+.admin-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* Admin Buttons */
+.admin-btn-primary {
+  background: #3b82f6;
+  color: white;
+  transition: all 0.2s;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+.admin-btn-primary:hover {
+  background: #2563eb;
 }
 
-/* Utility classes for animations - мобильно-оптимизированные */
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
+.admin-btn-success {
+  background: #10b981;
+  color: white;
+  transition: all 0.2s;
 }
 
-.animate-slide-up {
-  animation: slideUp 0.8s ease-out forwards;
+.admin-btn-success:hover {
+  background: #059669;
 }
 
-.animate-scale-in {
-  animation: scaleIn 0.5s ease-out forwards;
+.admin-btn-danger {
+  background: #ef4444;
+  color: white;
+  transition: all 0.2s;
 }
 
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.admin-btn-danger:hover {
+  background: #dc2626;
 }
 
-/* Быстрые анимации для медленных устройств */
-@media (max-width: 767px) {
-  .animate-fade-in {
-    animation-duration: 0.4s;
-  }
-
-  .animate-slide-up {
-    animation-duration: 0.5s;
-  }
-
-  .animate-scale-in {
-    animation-duration: 0.3s;
-  }
+.admin-btn-warning {
+  background: #f59e0b;
+  color: white;
+  transition: all 0.2s;
 }
 
-/* Отключение анимаций на очень медленных устройствах */
-body.reduce-animations .animate-fade-in,
-body.reduce-animations .animate-slide-up,
-body.reduce-animations .animate-scale-in {
-  animation: none !important;
-  opacity: 1 !important;
-  transform: none !important;
+.admin-btn-warning:hover {
+  background: #d97706;
 }
 
-/* Image optimization classes - мобильно-адаптивные */
-.img-optimized {
-  object-fit: cover;
-  content-visibility: auto;
-  contain-intrinsic-size: 300px 200px;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  /* Мобильная оптимизация для изображений */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+.admin-btn-neutral {
+  background: #6b7280;
+  color: white;
+  transition: all 0.2s;
 }
 
-/* Адаптивные стили для мобильных устройств */
-@media (max-width: 767px) {
-  .img-optimized {
-    /* Более агрессивная оптимизация на мобильных */
-    will-change: auto;
-  }
-
-  /* Уменьшаем сложность анимаций на мобильных */
-  body.is-mobile * {
-    will-change: auto !important;
-  }
-
-  /* Оптимизация GPU layers только для активных элементов */
-  body.is-mobile *:active,
-  body.is-mobile *:focus {
-    will-change: transform;
-    transform: translateZ(0);
-  }
-
-  /* Агрессивные мобильные оптимизации */
-  body.is-mobile {
-    /* Отключаем сложные фильтры и эффекты */
-    filter: none !important;
-  }
-
-  /* Упрощаем тени на мобильных */
-  body.is-mobile * {
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  /* Уменьшаем сложность blur эффектов */
-  body.is-mobile .backdrop-blur,
-  body.is-mobile [class*="backdrop-blur"] {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
+.admin-btn-neutral:hover {
+  background: #4b5563;
 }
 
-.img-hero {
-  content-visibility: auto;
-  contain-intrinsic-size: 800px 600px;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+/* Admin Table */
+.admin-table {
+  background: white;
 }
 
-/* Мобильные размеры изображений */
-@media (max-width: 767px) {
-  .img-optimized {
-    contain-intrinsic-size: 200px 150px;
-  }
-
-  .img-hero {
-    contain-intrinsic-size: 400px 300px;
-  }
+.admin-table-row:hover {
+  background: #f9fafb;
 }
 
-/* Layout optimization */
-.container-optimized {
-  contain: layout style paint;
+.admin-border {
+  border-color: #e5e7eb;
 }
 
-/* Performance hints */
-.will-change-transform {
+.admin-text-primary {
+  color: #111827;
+}
+
+.admin-text-secondary {
+  color: #6b7280;
+}
+
+.admin-text-muted {
+  color: #9ca3af;
+}
+
+/* Admin Header */
+.admin-bg-primary {
+  background: #f3f4f6;
+}
+
+/* Admin Input */
+input[type="text"].admin-input,
+input[type="search"].admin-input,
+select.admin-select,
+textarea.admin-textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  transition: all 0.2s;
+}
+
+input[type="text"].admin-input:focus,
+input[type="search"].admin-input:focus,
+select.admin-select:focus,
+textarea.admin-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ==========================================
+   FIRST SECTION (BENEFIT SECTION) - Креативный дизайн
+   ========================================== */
+
+.benefit-section {
+  min-height: 100vh;
+  background-color: #F6EDCE;
+  overflow: hidden;
+  position: relative;
+  z-index: 1; /* Базовый уровень секции */
+  isolation: isolate; /* Создает новый контекст наслоения */
+  will-change: auto;
+}
+
+/* Декоративные круги на фоне */
+.fs-decor-circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.fs-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.fs-circle-1 {
+  width: 400px;
+  height: 400px;
+  background-color: #E8574B;
+  top: -100px;
+  right: -100px;
+}
+
+.fs-circle-2 {
+  width: 250px;
+  height: 250px;
+  background-color: #4A5073;
+  bottom: 10%;
+  left: -80px;
+}
+
+.fs-circle-3 {
+  width: 180px;
+  height: 180px;
+  background-color: #2C4F4A;
+  top: 40%;
+  right: 5%;
+}
+
+.fs-circle-4 {
+  width: 320px;
+  height: 320px;
+  background-color: #F4E4A6;
+  top: 50%;
+  left: 10%;
+}
+
+/* Большой фоновый текст */
+.fs-background-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.08;
+  white-space: nowrap;
+}
+
+.fs-bg-word {
+  font-family: 'Lilita One', cursive;
+  font-size: clamp(120px, 25vw, 320px);
+  font-weight: 700;
+  color: #121112;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Контейнер для карточек */
+.benefit-section .cards-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10; /* Карточки выше декоративных элементов */
+}
+
+/* Wrapper для каждой карточки */
+.benefit-section .card-wrapper {
+  position: absolute;
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+  will-change: transform, opacity;
+}
+
+/* Компонент StyledCard */
+.styled-card {
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   will-change: transform;
+  min-width: 280px;
 }
 
-.will-change-opacity {
-  will-change: opacity;
+.styled-card-text {
+  font-family: 'Lilita One', cursive;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-align: center;
+  word-wrap: break-word;
 }
 
-/* Глобальные стили для лучшей производительности */
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
+/* Позиционирование карточек - улучшенная композиция */
+.benefit-section .card-1 {
+  top: 5%;
+  left: 8%;
+  /* z-index управляется через родителя cards-container */
 }
 
-/* Оптимизация рендеринга для анимаций */
-.optimize-animations {
-  contain: layout style paint;
-  content-visibility: auto;
+.benefit-section .card-2 {
+  top: 25%;
+  left: -2%;
+  /* z-index управляется через родителя cards-container */
 }
 
-/* Убираем желтую обводку полностью */
-*:focus,
-*:active,
-*:visited {
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-focus-ring-color: transparent !important;
-  -webkit-appearance: none;
+.benefit-section .card-3 {
+  top: 25%;
+  right: -2%;
+  /* z-index управляется через родителя cards-container */
 }
 
-button, a, input, textarea, select, [role="button"] {
-  -webkit-tap-highlight-color: transparent !important;
-  outline: none !important;
-  -webkit-focus-ring-color: transparent !important;
+.benefit-section .card-4 {
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* z-index управляется через родителя cards-container */
 }
 
-/* Улучшенные accessibility фокус стили только для клавиатурной навигации */
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.6) !important;
-  outline-offset: 2px;
-  border-radius: 6px;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-}
-
-/* Улучшенные стили для кнопок в темной теме */
-.btn-dark-theme {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
-  color: #000000 !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.025em !important;
-}
-
-.btn-dark-theme:hover {
-  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25), 0 4px 15px rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-}
-
-.btn-dark-theme:active {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15) !important;
-}
-
-.btn-dark-theme:focus {
-  outline: none !important;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3), 0 8px 25px rgba(255, 255, 255, 0.2) !important;
-}
-
-/* Адаптивные улучшения */
-@media (max-width: 640px) {
-  .container-optimized {
-    padding-left: 1rem;
-    padding-right: 1rem;
+/* Адаптивные стили для планшетов */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .styled-card {
+    padding: 1.5rem 2.5rem;
+    min-width: 220px;
   }
 
-  .text-responsive {
-    font-size: clamp(1rem, 4vw, 1.5rem);
+  .styled-card-text {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
   }
 
-  .heading-responsive {
-    font-size: clamp(1.5rem, 6vw, 3rem);
-    line-height: 1.2;
+  .benefit-section .cards-container {
+    max-width: 700px;
+    min-height: 400px;
   }
-}
 
-/* Улучшенная адаптивность для больших экранов */
-@media (min-width: 1920px) {
-  .container-optimized {
-    max-width: 1600px;
-    margin: 0 auto;
+  .benefit-section .card-1 {
+    left: 5%;
+  }
+
+  .benefit-section .card-2 {
+    left: -5%;
+  }
+
+  .benefit-section .card-3 {
+    right: -5%;
+  }
+
+  /* Декоративные круги для планшетов */
+  .fs-circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -80px;
+    right: -80px;
+  }
+
+  .fs-circle-2 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .fs-circle-3 {
+    width: 140px;
+    height: 140px;
+  }
+
+  .fs-circle-4 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .fs-bg-word {
+    font-size: clamp(100px, 20vw, 200px);
   }
 }
 
-/* Оптимизация для touch устройств */
-@media (hover: none) and (pointer: coarse) {
-  button, a {
-    min-height: 48px;
-    min-width: 48px;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
-    position: relative;
-    z-index: 10;
-    touch-action: manipulation;
-    cursor: pointer;
-  }
-
-  /* Убеждаемся что все кнопки имеют правильный pointer-events */
-  button, a, [role="button"] {
-    pointer-events: auto !important;
-  }
-
-  .btn-dark-theme:hover {
-    transform: none !important;
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1) !important;
-  }
-
-  .btn-dark-theme:active {
-    transform: scale(0.98) !important;
-    transition: transform 0.1s ease !important;
-  }
-
-  /* Увеличенная область клика для мобильных */
-  button::after, a::after {
-    content: '';
-    position: absolute;
-    top: -12px;
-    left: -12px;
-    right: -12px;
-    bottom: -12px;
-    z-index: -1;
-    border-radius: inherit;
-  }
-
-  /* Специальная обработка для кнопок в навигации */
-  nav button, nav a {
-    padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-/* Адаптивная оптимизация для медленных соединений */
-body.reduce-animations *,
-body.reduce-animations *::before,
-body.reduce-animations *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-}
-
-/* Отключаем тяжелые трансформации на медленных соединениях */
-body.reduce-animations .gpu-accelerated {
-  transform: none !important;
-}
-
-/* Упрощаем hover эффекты */
-body.reduce-animations .btn-dark-theme:hover {
-  transform: none !important;
-}
-
-/* Быстрая загрузка изображений на медленных соединениях */
-body.reduce-animations img {
-  loading: eager;
-}
-
-/* Дополнительные стили для улучшения адаптивности */
-@media (max-width: 480px) {
-  .heading-responsive {
-    font-size: clamp(1.25rem, 5vw, 2.5rem) !important;
-  }
-
-  .text-responsive {
-    font-size: clamp(0.9rem, 3.5vw, 1.25rem) !important;
-  }
-
-  .btn-dark-theme {
-    padding: 0.75rem 1.5rem !important;
-    font-size: 0.9rem !important;
-  }
-}
-
-/* Исправление всех элементов с желтой обводкой */
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="password"],
-input[type="search"],
-textarea,
-select,
-.form-control {
-  -webkit-appearance: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  outline: none !important;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus,
-input[type="password"]:focus,
-input[type="search"]:focus,
-textarea:focus,
-select:focus {
-  outline: none !important;
-  border-color: rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
-}
-
-/* Оптимизация горизонтальной прокрутки для карточек на мобильных */
+/* Адаптивные стили для мобильных */
 @media (max-width: 768px) {
-  /* КРИТИЧНО: Убираем ВСЕ что может блокировать touch на родительских секциях */
-  section {
+  .styled-card {
+    padding: 1rem 1.8rem;
+    min-width: 160px;
+    border-radius: 15px;
+  }
+
+  .styled-card-text {
+    font-size: clamp(1.1rem, 5vw, 1.6rem);
+  }
+
+  .benefit-section .cards-container {
+    max-width: 100%;
+    min-height: 480px;
+    padding: 0 1rem;
+  }
+
+  .benefit-section .card-1 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .benefit-section .card-2 {
+    top: 20%;
+    left: 3%;
+  }
+
+  .benefit-section .card-3 {
+    top: 20%;
+    right: 3%;
+  }
+
+  .benefit-section .card-4 {
+    top: 62%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Декоративные круги для мобильных */
+  .fs-circle-1 {
+    width: 200px;
+    height: 200px;
+    top: -60px;
+    right: -60px;
+    opacity: 0.3;
+  }
+
+  .fs-circle-2 {
+    width: 150px;
+    height: 150px;
+    bottom: 15%;
+    left: -50px;
+    opacity: 0.3;
+  }
+
+  .fs-circle-3 {
+    width: 100px;
+    height: 100px;
+    top: 35%;
+    right: -20px;
+    opacity: 0.3;
+  }
+
+  .fs-circle-4 {
+    width: 180px;
+    height: 180px;
+    top: 45%;
+    left: -40px;
+    opacity: 0.3;
+  }
+
+  .fs-bg-word {
+    font-size: clamp(80px, 30vw, 140px);
+    opacity: 0.05;
+  }
+}
+
+/* Обертка для видео секции */
+.benefit-section .overlay-box {
+  position: relative;
+  width: 100%;
+  z-index: 20; /* Видео выше карточек */
+}
+
+/* Стили для видео секции */
+.benefit-section .vd-pin-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* Создает новый контекст наслоения */
+}
+
+@media (min-width: 1025px) {
+  .benefit-section .vd-pin-section {
+    height: 110vh;
+    transform: translateY(-15%) !important;
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .benefit-section .vd-pin-section {
+    height: 100vh;
+    transform: translateY(-10%) !important;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .benefit-section .vd-pin-section {
+    height: 100vh;
+    margin-top: 3rem;
     transform: none !important;
-    will-change: auto !important;
-    contain: none !important;
-    isolation: auto !important;
-    filter: none !important;
-    perspective: none !important;
-    backface-visibility: visible !important;
+  }
+}
+
+.benefit-section .vd-pin-section video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  will-change: transform; /* Оптимизация для плавной анимации */
+}
+
+.benefit-section .vd-pin-section .play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 9vw;
+  height: 9vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(18, 17, 18, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 9999px;
+}
+
+@media (max-width: 768px) {
+  .benefit-section .vd-pin-section .play-btn {
+    width: 20vw;
+    height: 20vw;
+  }
+}
+
+.benefit-section .vd-pin-section img:first-of-type {
+  width: 15vw;
+  height: 15vw;
+}
+
+@media (max-width: 768px) {
+  .benefit-section .vd-pin-section img:first-of-type {
+    width: 30vw;
+    height: 30vw;
   }
 }
 
 /* ==========================================
-   КРИТИЧЕСКИЙ FIX ДЛЯ HEADER
-   Удаляем все свойства, которые создают stacking context
-   в родительских элементах header
+   SECOND SECTION (TESTIMONIALS) - Анимированный текст
    ========================================== */
 
-/* Удаляем stacking context из ВСЕХ родительских элементов */
-html, body, #root, main, .App, [class*="App"], [id*="app"] {
-  transform: none !important;
-  contain: none !important;
-  isolation: auto !important;
-  filter: none !important;
-  perspective: none !important;
-  will-change: auto !important;
+.testimonials-section-text {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #F6EDCE;
+  overflow: hidden;
+  isolation: isolate; /* Создает новый контекст наслоения */
+  contain: layout style paint; /* Оптимизация производительности */
+  z-index: 50; /* КРИТИЧНО: Выше FirstSection для наложения */
+  /* marginTop устанавливается через GSAP для эффекта перекрытия */
 }
 
-/* Усиление стилей для header - абсолютный приоритет */
-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  z-index: 9999 !important;
-  transform: none !important;
-  will-change: auto !important;
-  backface-visibility: visible !important;
-  pointer-events: auto !important;
-  contain: none !important;
-  isolation: auto !important;
-  filter: none !important;
-  perspective: none !important;
+/* Компенсация header для правильного позиционирования */
+.testimonials-section-text .container {
+  padding-top: 7rem; /* 112px - компенсация header + отступ */
+  padding-bottom: 7rem;
 }
 
-/* Убедимся что ErrorBoundary не создаёт stacking context */
-.min-h-screen {
-  transform: none !important;
-  contain: none !important;
-  isolation: auto !important;
+/* Текст "О людях" */
+.testimonials-section-text .about-people-text {
+  transition: color 0.3s ease;
+  will-change: color; /* Оптимизация для GSAP анимации */
+}
+
+/* Текст "История" */
+.testimonials-section-text .story-text {
+  transition: color 0.3s ease;
+  will-change: color; /* Оптимизация для GSAP анимации */
+}
+
+/* Адаптивные стили для планшетов */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .testimonials-section-text .container {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* Адаптивные стили для мобильных */
+@media (max-width: 768px) {
+  .testimonials-section-text {
+    min-height: calc(100vh - 64px);
+  }
+
+  .testimonials-section-text .container {
+    padding-top: 5rem; /* 80px - увеличенный отступ для мобильных */
+    padding-bottom: 4rem;
+  }
+
+  /* На мобильных отключаем will-change для экономии ресурсов */
+  .testimonials-section-text .about-people-text,
+  .testimonials-section-text .story-text {
+    will-change: auto;
+  }
+}
+
+/* ==========================================
+   SECTIONS Z-INDEX HIERARCHY - Иерархия наслоения секций
+   ========================================== */
+
+/*
+ * Z-index иерархия секций:
+ * - FirstSection (benefit-section): z-index: 1
+ * - SecondSection (testimonials-section-text): z-index: 50 (накладывается поверх First)
+ * - FourthSection и остальные: z-index: 100+ (выше Second для нормального flow)
+ */
+
+/* Все основные секции (кроме First и Second с особой логикой) */
+main section {
+  position: relative;
+  z-index: 100; /* Выше SecondSection */
+  isolation: isolate;
+}
+
+/* FirstSection с более низким z-index */
+.benefit-section {
+  z-index: 1 !important;
+}
+
+/* SecondSection с промежуточным z-index для наложения */
+.testimonials-section-text {
+  z-index: 50 !important;
+}
+
+/* ==========================================
+   FOURTH SECTION - Галерея с фоновым текстом
+   ========================================== */
+
+/* Фоновый текст четвертой секции */
+.fourth-bg-text {
+  position: absolute;
+  z-index: 1; /* Позади карточек внутри секции */
+}
+
+.fourth-bg-text,
+.fourth-bg-text * {
+  font-family: 'Lilita One', cursive !important;
+}
+
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+
+/* Utility classes */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.general-title {
+  font-size: clamp(2.5rem, 8vw, 3rem); /* Адаптивный размер для мобильных */
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-family: 'Lilita One', cursive;
+  will-change: transform, opacity; /* Оптимизация для анимаций */
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+  .general-title {
+    font-size: clamp(2rem, 7vw, 2.5rem);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Планшеты */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .general-title {
+    font-size: clamp(4rem, 7vw, 5rem);
+    line-height: 1.2;
+  }
+}
+
+/* Десктоп */
+@media (min-width: 1025px) and (max-width: 1535px) {
+  .general-title {
+    font-size: clamp(5rem, 6vw, 6.5rem);
+  }
+}
+
+/* Большие экраны */
+@media (min-width: 1536px) {
+  .general-title {
+    font-size: clamp(7rem, 5.5vw, 8.5rem);
+  }
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+.spin-circle {
+  animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

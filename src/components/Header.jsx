@@ -1,12 +1,12 @@
 // src/components/Header.jsx
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import OptimizedImage from './OptimizedImage';
 import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import LanguageSwitcher from './LanguageSwitcher';
 import { navigateToSection } from '../utils/navigation';
+import { getMediaUrl } from '../utils/media';
 
 // ОПТИМИЗАЦИЯ: Выносим статические стили в константы вне компонента
 const HEADER_STYLE = {
@@ -17,7 +17,9 @@ const HEADER_STYLE = {
   width: '100%',
   zIndex: 9999,
   height: '64px',
-  backgroundColor: '#000000',
+  backgroundColor: 'rgba(246, 237, 206, 0.8)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
   margin: 0,
   padding: 0,
   pointerEvents: 'auto',
@@ -51,13 +53,14 @@ const BUTTON_BASE_STYLE = {
 
 const CONTACT_BUTTON_STYLE = {
   padding: '0.5rem 1.5rem',
-  backgroundColor: '#FFFFFF',
-  color: '#000000',
+  backgroundColor: '#E8574B',
+  color: '#FFFFFF',
   fontWeight: 600,
   fontSize: '1rem',
   borderRadius: '50px',
   border: 'none',
   cursor: 'pointer',
+  transition: 'all 0.3s ease',
 };
 
 const Header = () => {
@@ -70,19 +73,10 @@ const Header = () => {
   const headerRef = useRef(null);
   const isNavigatingToSection = useRef(false);
 
-  // УДАЛЕНЫ все GPU-оптимизации - они создают stacking context и блокируют клики
-  // Позволяем браузеру управлять fixed-элементом нативно без transform/willChange
-
-  // ОПТИМИЗАЦИЯ: Мемоизируем callback
   const toggleMenu = useCallback(() => {
-    console.log('Toggle menu clicked, current state:', isMenuOpen);
     setIsMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
 
-  // ОПТИМИЗАЦИЯ: Убрали isMobile и screenWidth state - используем CSS media queries
-  // Это убирает постоянные re-renders при resize
-
-  // Закрыть dropdown при клике вне его области
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (servicesDropdownRef.current && !servicesDropdownRef.current.contains(event.target)) {
@@ -98,13 +92,10 @@ const Header = () => {
     };
   }, []);
 
-  // Предотвращение скролла без layout shift
   useEffect(() => {
-    // Используем ref для надёжного хранения позиции скролла
     let scrollPosition = 0;
 
     if (isMenuOpen) {
-      // Сохраняем текущую позицию скролла
       scrollPosition = window.scrollY;
       document.body.dataset.scrollPosition = String(scrollPosition);
       document.body.style.position = 'fixed';
@@ -229,7 +220,7 @@ const Header = () => {
             aria-label="Circle Buro - На главную страницу"
           >
             <OptimizedImage
-              src="/img/logo-header.png"
+              src={getMediaUrl('img/logo-header.png')}
               alt="Circle Buro - Креативное агентство полного цикла в Алматы"
               width={60}
               height={27}
@@ -240,99 +231,7 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Навигационные ссылки для десктопа */}
-        <div className="hidden lg:flex flex-1 justify-center gap-4 xl:gap-8 items-center min-w-0">
-          {/* Главная */}
-          <Link
-            to="/"
-            onClick={() => window.scrollTo(0, 0)}
-            style={{
-              color: location.pathname === '/' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
-              fontWeight: 400,
-              fontSize: '1rem',
-            }}
-          >
-            {t('nav.home')}
-          </Link>
-
-          {/* Услуги с Dropdown */}
-          <div className="relative" ref={servicesDropdownRef}>
-            <button
-              onClick={() => setIsServicesOpen(!isServicesOpen)}
-              style={{
-                ...BUTTON_BASE_STYLE,
-                color: 'rgba(255, 255, 255, 0.8)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-              }}
-            >
-              {t('nav.services')}
-              <FaChevronDown
-                style={{
-                  width: '0.75rem',
-                  height: '0.75rem',
-                  transform: isServicesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                }}
-              />
-            </button>
-
-            {/* Services Dropdown Menu */}
-            {isServicesOpen && (
-              <div 
-                className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-black/90 backdrop-blur-md rounded-lg shadow-lg border border-white/10 overflow-hidden"
-                style={{
-                  minWidth: '160px',
-                  zIndex: 1000,
-                }}
-              >
-                <button
-                  onClick={() => scrollToSection('services')}
-                  className="w-full text-left px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white transition-colors duration-150"
-                  style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
-                >
-                  {t('nav.services')}
-                </button>
-                <div className="border-t border-white/10"></div>
-                {serviceItems.map((service) => (
-                  <button
-                    key={service.path}
-                    onClick={() => navigateToProject(service.path)}
-                    className="w-full text-left px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white transition-colors duration-150"
-                    style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
-                  >
-                    {service.name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* О нас */}
-          <Link
-            to="/about"
-            onClick={() => window.scrollTo(0, 0)}
-            style={{
-              color: location.pathname === '/about' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
-              fontWeight: 400,
-              fontSize: '1rem',
-            }}
-          >
-            {t('nav.about')}
-          </Link>
-
-          {/* Портфолио */}
-          <button
-            onClick={() => scrollToSection('projects')}
-            style={{
-              ...BUTTON_BASE_STYLE,
-              color: 'rgba(255, 255, 255, 0.8)',
-            }}
-          >
-            {t('nav.portfolio')}
-          </button>
-        </div>
-
+       
         {/* Переключатель языка и кнопка "Contact us" для десктопа */}
         <div className="hidden lg:flex items-center gap-4">
           <LanguageSwitcher />
@@ -353,7 +252,7 @@ const Header = () => {
             aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={isMenuOpen}
             style={{
-              color: '#FFFFFF',
+              color: '#121112',
               fontSize: '1.5rem',
               padding: '0.5rem',
               width: '44px',
@@ -396,7 +295,9 @@ const Header = () => {
               left: 0,
               right: 0,
               zIndex: 9998,
-              backgroundColor: '#000000',
+              backgroundColor: 'rgba(246, 237, 206, 0.98)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
               padding: '1rem',
               maxHeight: 'calc(100dvh - 64px)',
               overflowY: 'auto',
@@ -412,13 +313,13 @@ const Header = () => {
                 window.scrollTo(0, 0);
               }}
               style={{
-                color: '#FFFFFF',
+                color: '#121112',
                 fontSize: '1.1rem',
                 fontWeight: 300,
                 padding: '1rem',
                 display: 'block',
                 textAlign: 'center',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                borderBottom: '1px solid rgba(18, 17, 18, 0.1)',
                 width: '100%',
               }}
             >
@@ -429,10 +330,10 @@ const Header = () => {
               onClick={() => scrollToSection('services')}
               style={{
                 ...BUTTON_BASE_STYLE,
-                color: '#FFFFFF',
+                color: '#121112',
                 fontSize: '1.1rem',
                 fontWeight: 300,
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                borderBottom: '1px solid rgba(18, 17, 18, 0.1)',
                 width: '100%',
                 padding: '1rem',
                 textAlign: 'center',
@@ -446,12 +347,12 @@ const Header = () => {
                 key={service.path}
                 onClick={() => navigateToProject(service.path)}
                 style={{
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: 'rgba(18, 17, 18, 0.7)',
                   fontSize: '0.95rem',
                   fontWeight: 300,
                   background: 'none',
                   border: 'none',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderBottom: '1px solid rgba(18, 17, 18, 0.1)',
                   cursor: 'pointer',
                   width: '100%',
                   padding: '0.875rem 1rem',
@@ -469,13 +370,13 @@ const Header = () => {
                 window.scrollTo(0, 0);
               }}
               style={{
-                color: '#FFFFFF',
+                color: '#121112',
                 fontSize: '1.1rem',
                 fontWeight: 300,
                 padding: '1rem',
                 display: 'block',
                 textAlign: 'center',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                borderBottom: '1px solid rgba(18, 17, 18, 0.1)',
                 width: '100%',
               }}
             >
@@ -486,10 +387,10 @@ const Header = () => {
               onClick={() => scrollToSection('projects')}
               style={{
                 ...BUTTON_BASE_STYLE,
-                color: '#FFFFFF',
+                color: '#121112',
                 fontSize: '1.1rem',
                 fontWeight: 300,
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                borderBottom: '1px solid rgba(18, 17, 18, 0.1)',
                 width: '100%',
                 padding: '1rem',
                 textAlign: 'center',
@@ -502,8 +403,8 @@ const Header = () => {
               onClick={() => scrollToSection('contact')}
               style={{
                 padding: '0.875rem 2rem',
-                backgroundColor: '#FFFFFF',
-                color: '#000000',
+                backgroundColor: '#E8574B',
+                color: '#FFFFFF',
                 fontWeight: 600,
                 fontSize: '1rem',
                 borderRadius: '50px',

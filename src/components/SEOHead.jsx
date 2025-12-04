@@ -1,7 +1,6 @@
 // src/components/SEOHead.jsx
 import { Helmet } from '@dr.pogodin/react-helmet';
-import StructuredData from './StructuredData';
-import useKeywords from '../hooks/useKeywords';
+import { getMediaUrl } from '../utils/media';
 
 const SEOHead = ({
   title,
@@ -10,43 +9,26 @@ const SEOHead = ({
   ogDescription,
   canonicalUrl,
   language = 'ru',
-  ogImage = '/img/circle-fill.webp',
+  ogImage = getMediaUrl("img/circle-fill.webp"),
   alternateUrls = [],
   structuredData = true,
   breadcrumbs = null,
   pageName = null,
-  autoOptimize = true
+  autoOptimize = true,
+  robots = 'index, follow'
 }) => {
   const baseUrl = 'https://circleburo.kz/';
 
-  // Интеграция ключевых слов
-  const keywordHook = useKeywords(pageName, { limit: 15 });
-
-  // Автоматическая оптимизация заголовка и описания
-  const optimizedTitle = autoOptimize && !title.includes('Circle')
-    ? keywordHook.generateTitle(title, true)
-    : title;
-
-  const optimizedDescription = autoOptimize && keywordHook.keywords.length > 0
-    ? keywordHook.generateDescription(description, 3)
-    : description;
-
   // Динамические ключевые слова
-  const dynamicKeywords = keywordHook.keywordsString || 'креативное агентство алматы, рекламное агентство, маркетинговое агентство, digital маркетинг';
+  const dynamicKeywords = 'креативное агентство алматы, рекламное агентство, маркетинговое агентство, digital маркетинг';
 
   return (
     <>
-      {/* Structured Data */}
-      {structuredData && <StructuredData type="organization" />}
-      {structuredData && <StructuredData type="website" />}
-      {structuredData && <StructuredData type="localBusiness" />}
-      {breadcrumbs && <StructuredData type="breadcrumb" data={breadcrumbs} />}
-      
       <Helmet>
       {/* Основные мета-теги */}
-      <title>{optimizedTitle}</title>
-      <meta name="description" content={optimizedDescription} />
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta name="robots" content={`${robots}, max-image-preview:large, max-snippet:-1, max-video-preview:-1`} />
       <meta name="author" content="Circle Creative Buro" />
       <meta name="keywords" content={dynamicKeywords} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -62,8 +44,8 @@ const SEOHead = ({
       <meta name="msapplication-config" content="/browserconfig.xml" />
       
       {/* Open Graph */}
-      <meta property="og:title" content={ogTitle || optimizedTitle} />
-      <meta property="og:description" content={ogDescription || optimizedDescription} />
+      <meta property="og:title" content={ogTitle || title} />
+      <meta property="og:description" content={ogDescription || description} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={`${baseUrl}${ogImage}`} />
@@ -117,12 +99,12 @@ const SEOHead = ({
       <meta name="apple-mobile-web-app-title" content="Circle Buro" />
       
       {/* Favicon и иконки */}
-      <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
-      <link rel="icon" href="/img/favicon.ico" />
+      <link rel="icon" type="image/svg+xml" href={getMediaUrl("img/favicon.svg")} />
+      <link rel="apple-touch-icon" sizes="180x180" href={getMediaUrl("img/apple-touch-icon.png")} />
+      <link rel="icon" type="image/png" sizes="96x96" href={getMediaUrl("img/favicon-96x96.png")} />
+      <link rel="icon" type="image/png" sizes="32x32" href={getMediaUrl("img/favicon-32x32.png")} />
+      <link rel="icon" type="image/png" sizes="16x16" href={getMediaUrl("img/favicon-16x16.png")} />
+      <link rel="icon" href={getMediaUrl("img/favicon.ico")} />
 
       <html lang={language} />
       

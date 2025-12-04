@@ -8,6 +8,9 @@ export default {
   
   theme: {
     extend: {
+      borderWidth: {
+        '3': '3px',
+      },
       colors: {
         'dark': {
           '900': '#000000',

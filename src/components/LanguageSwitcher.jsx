@@ -44,13 +44,13 @@ const LanguageSwitcher = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1"
         style={{
-          color: 'rgba(255, 255, 255, 0.8)',
+          color: '#121112',
           background: 'none',
           border: 'none',
           cursor: 'pointer',
           padding: '0.5rem',
           fontSize: '0.875rem',
-          fontWeight: 300,
+          fontWeight: 500,
         }}
         type="button"
       >
@@ -72,11 +72,14 @@ const LanguageSwitcher = () => {
             top: '100%',
             right: 0,
             marginTop: '0.25rem',
-            backgroundColor: '#000000',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+            backgroundColor: 'rgba(246, 237, 206, 0.98)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(18, 17, 18, 0.1)',
             borderRadius: '0.5rem',
             minWidth: '120px',
             zIndex: 2000,
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
           }}
         >
           {languages.map((language) => (
@@ -88,11 +91,11 @@ const LanguageSwitcher = () => {
                 textAlign: 'left',
                 padding: '0.75rem 1rem',
                 fontSize: '0.875rem',
-                color: currentLanguage === language.code ? '#FFFFFF' : 'rgba(255, 255, 255, 0.7)',
-                backgroundColor: currentLanguage === language.code ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                color: currentLanguage === language.code ? '#E8574B' : '#121112',
+                backgroundColor: currentLanguage === language.code ? 'rgba(232, 87, 75, 0.1)' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                fontWeight: 300,
+                fontWeight: currentLanguage === language.code ? 500 : 400,
               }}
               type="button"
             >

@@ -1,14 +1,12 @@
 // src/App.jsx
 import React, { useEffect, lazy, useState } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { shouldDisableHeavyAnimations } from './utils/networkDetection';
-// Analytics will be loaded dynamically for better performance
 
-// Enhanced lazy loading with retry mechanism and intelligent prefetch
+// Enhanced lazy loading with retry mechanism
 const componentCache = new Map();
 
-const createLazyComponent = (importFn, name, priority = 'low') => {
-  // Cache the import promise to avoid duplicate requests
+const createLazyComponent = (importFn, name) => {
   if (!componentCache.has(name)) {
     componentCache.set(name, importFn);
   }
@@ -17,7 +15,6 @@ const createLazyComponent = (importFn, name, priority = 'low') => {
 
   return lazy(() =>
     cachedImport().catch(() => {
-      // Clear cache and retry once
       componentCache.delete(name);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -30,57 +27,24 @@ const createLazyComponent = (importFn, name, priority = 'low') => {
   );
 };
 
-// Intelligent prefetch based on route priority and connection speed
-const prefetchComponent = (importFn, name) => {
-  if (componentCache.has(name)) return;
-
-  // Check connection before prefetching
-  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  const slowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.saveData);
-
-  if (slowConnection) return;
-
-  // Prefetch during idle time
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => {
-      componentCache.set(name, importFn);
-      importFn().catch(() => componentCache.delete(name));
-    }, { timeout: 2000 });
-  } else {
-    setTimeout(() => {
-      componentCache.set(name, importFn);
-      importFn().catch(() => componentCache.delete(name));
-    }, 1000);
-  }
-};
-
+// Lazy load страниц
 const HomePage = createLazyComponent(() => import('./pages/HomePage'), 'HomePage');
-const AboutPage = createLazyComponent(() => import('./pages/AboutPage'), 'AboutPage');
-const Circle = createLazyComponent(() => import('./pages/Circle'), 'Circle');
-const Cycle = createLazyComponent(() => import('./pages/Cycle'), 'Cycle');
-const Semicircle = createLazyComponent(() => import('./pages/Semicircle'), 'Semicircle');
 const AdminPage = createLazyComponent(() => import('./pages/AdminPage'), 'AdminPage');
-const LoginPage = createLazyComponent(() => import('./pages/LoginPage'), 'LoginPage');
 const NotFoundPage = createLazyComponent(() => import('./pages/NotFoundPage'), 'NotFoundPage');
 
+// Lazy load компонентов
 const Header = createLazyComponent(() => import('./components/Header'), 'Header');
 const Footer = createLazyComponent(() => import('./components/Footer'), 'Footer');
-const SplashCursor = createLazyComponent(() => import('./components/SplashCursor'), 'SplashCursor');
+
+// Импортируем необходимые компоненты напрямую
 import LazyPage from './components/LazyPage';
 import PerformanceMeta from './components/PerformanceMeta';
 import AccessibilityHelper from './components/AccessibilityHelper';
 import ErrorBoundary from './components/ErrorBoundary';
 import PerformanceOptimizer from './components/PerformanceOptimizer';
 import ScrollToTop from './components/ScrollToTop';
-const PrerenderManager = createLazyComponent(() => import('./components/PrerenderManager'), 'PrerenderManager');
 
-const ProtectedRoute = ({ children }) => {
-  const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-  if (!isAdminLoggedIn) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-};
+const PrerenderManager = createLazyComponent(() => import('./components/PrerenderManager'), 'PrerenderManager');
 
 function AppContent() {
   const location = useLocation();
@@ -99,18 +63,17 @@ function AppContent() {
       document.body.classList.remove('reduce-animations');
     }
 
-    // Мобильная оптимизация - добавляем класс для мобильных устройств
+    // Мобильная оптимизация
     const checkIsMobile = window.innerWidth < 768;
     setIsMobileState(checkIsMobile);
     if (checkIsMobile) {
       document.body.classList.add('is-mobile');
 
-      // iOS Safari viewport height fix - предотвращаем прыжки при изменении высоты адресной строки
+      // iOS Safari viewport height fix
       let ticking = false;
       const updateVh = () => {
         if (!ticking) {
           window.requestAnimationFrame(() => {
-            // Используем visualViewport для более стабильного значения на iOS
             const vh = window.visualViewport ? window.visualViewport.height * 0.01 : window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             ticking = false;
@@ -119,10 +82,8 @@ function AppContent() {
         }
       };
 
-      // Устанавливаем начальное значение
       updateVh();
 
-      // Слушаем изменения viewport (для iOS Safari)
       if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', updateVh);
       }
@@ -141,20 +102,10 @@ function AppContent() {
     if (import.meta.env.DEV && shouldDisable) {
       console.log('Heavy animations disabled due to slow connection');
     }
-
-    // Intelligent prefetching of high-priority pages
-    // Prefetch AboutPage and common pages after initial load - ТОЛЬКО на десктопе с хорошим соединением
-    if (!shouldDisable && !checkIsMobile) {
-      setTimeout(() => {
-        prefetchComponent(() => import('./pages/AboutPage'), 'AboutPage');
-        prefetchComponent(() => import('./components/Footer'), 'Footer');
-      }, 5000); // Еще больше увеличен timeout для лучшего FID и TTI
-    }
   }, []);
 
   useEffect(() => {
-    // Load and execute analytics dynamically for better performance
-    // Откладываем загрузку аналитики на медленных соединениях и мобильных
+    // Load and execute analytics dynamically
     const loadDelay = disableAnimations ? 10000 : (isMobile ? 3000 : 1000);
 
     const timeout = setTimeout(() => {
@@ -168,50 +119,34 @@ function AppContent() {
     return () => clearTimeout(timeout);
   }, [location, disableAnimations]);
 
-  // Handle scroll to section from navigation state - logic moved to HomePage.jsx
-
-  const isAdminRoute = location.pathname === '/admin' || location.pathname === '/login';
-
   return (
     <ErrorBoundary>
-      {/* Header вынесен ВНЕ PerformanceOptimizer чтобы избежать stacking context */}
-      {!isAdminRoute && <Header />}
+      <Header />
 
       <PerformanceOptimizer>
         <ScrollToTop />
         <PrerenderManager />
         <PerformanceMeta />
-        {/* SplashCursor отключен для оптимизации - тяжелый WebGL */}
-        {/* {!disableAnimations && !isMobile && <SplashCursor />} */}
         <AccessibilityHelper />
 
         <Routes>
-        {/* Russian routes (default) */}
-        <Route path="/" element={<LazyPage component={HomePage} />} />
-        <Route path="/about" element={<LazyPage component={AboutPage} />} />
-        <Route path="/circle" element={<LazyPage component={Circle} />} />
-        <Route path="/cycle" element={<LazyPage component={Cycle} />} />
-        <Route path="/semicircle" element={<LazyPage component={Semicircle} />} />
+          {/* Russian routes (default) */}
+          <Route path="/" element={<LazyPage component={HomePage} />} />
 
-        {/* English routes */}
-        <Route path="/en" element={<LazyPage component={HomePage} />} />
-        <Route path="/en/about" element={<LazyPage component={AboutPage} />} />
-        <Route path="/en/circle" element={<LazyPage component={Circle} />} />
-        <Route path="/en/cycle" element={<LazyPage component={Cycle} />} />
-        <Route path="/en/semicircle" element={<LazyPage component={Semicircle} />} />
+          {/* English routes */}
+          <Route path="/en" element={<LazyPage component={HomePage} />} />
 
-        {/* Admin routes */}
-        <Route path="/login" element={<LazyPage component={LoginPage} />} />
-        <Route
-          path="/admin"
-          element={
-            <AdminPage />
-          }
-        />
+          {/* Kazakh routes */}
+          <Route path="/kk" element={<LazyPage component={HomePage} />} />
 
-        <Route path="*" element={<LazyPage component={NotFoundPage} />} />
+          {/* Admin page */}
+          <Route path="/admin" element={<LazyPage component={AdminPage} />} />
+
+          {/* 404 page */}
+          <Route path="*" element={<LazyPage component={NotFoundPage} />} />
         </Routes>
-        {!isAdminRoute && <Footer />}
+
+        <Footer />
       </PerformanceOptimizer>
     </ErrorBoundary>
   );
@@ -226,15 +161,13 @@ function App() {
       }
     }).catch(() => {});
 
-    // Дополнительная оптимизация для мобильных - управление scroll restoration
-    // Отключаем автоматическое восстановление позиции скролла браузером
+    // Управление scroll restoration
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
 
-    // Обработка событий popstate (кнопка назад/вперед)
+    // Обработка событий popstate
     const handlePopState = () => {
-      // При навигации назад/вперед также прокручиваем наверх
       window.scrollTo(0, 0);
     };
 

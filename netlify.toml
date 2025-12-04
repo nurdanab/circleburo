@@ -5,6 +5,8 @@
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
+  # MinIO media storage URL - должно быть настроено в Netlify Environment Variables
+  # VITE_MEDIA_BASE_URL = "http://78.109.18.11:9000/media"
 
 [[headers]]
   for = "/assets/js/*"

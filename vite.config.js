@@ -96,10 +96,6 @@ export default defineConfig({
             }
 
             // Animation libraries - lazy load (low priority for mobile)
-            if (id.includes('framer-motion/')) {
-              return 'framer-motion';
-            }
-
             if (id.includes('gsap/')) {
               return 'gsap';
             }
@@ -143,10 +139,6 @@ export default defineConfig({
               return 'newrelic';
             }
 
-            // Form utilities - split separately
-            if (id.includes('cleave.js/')) {
-              return 'form-utils';
-            }
 
             // Utilities - rarely change, good for long-term caching
             if (
@@ -172,56 +164,16 @@ export default defineConfig({
             return 'page-home';
           }
 
-          if (id.includes('src/pages/AboutPage')) {
-            return 'page-about';
-          }
-
           if (id.includes('src/pages/NotFoundPage')) {
             return 'page-404';
-          }
-
-          if (id.includes('src/pages/Circle')) {
-            return 'page-circle';
-          }
-
-          if (id.includes('src/pages/Cycle')) {
-            return 'page-cycle';
-          }
-
-          if (id.includes('src/pages/Semicircle')) {
-            return 'page-semicircle';
           }
 
           if (id.includes('src/pages/')) {
             return 'pages-other';
           }
 
-          // ОПТИМИЗАЦИЯ: Более гранулярное разделение секций для лучшего кэширования
-          if (id.includes('src/components/sections/HeroSection')) {
-            return 'section-hero';
-          }
-
-          if (id.includes('src/components/sections/ProjectsSection')) {
-            return 'section-projects';
-          }
-
-          if (id.includes('src/components/sections/ContactFormSection')) {
-            return 'section-contact';
-          }
-
-          if (id.includes('src/components/sections/ServicesSection')) {
-            return 'section-services';
-          }
-
-          if (id.includes('src/components/sections/AboutUsSection')) {
-            return 'section-about';
-          }
-
-          if (id.includes('src/components/sections/InteractiveSection')) {
-            return 'section-interactive';
-          }
-
-          if (id.includes('src/components/sections/')) {
+          // New sections from src/sections/ - split for better caching
+          if (id.includes('src/sections/')) {
             return 'sections';
           }
 
@@ -235,9 +187,7 @@ export default defineConfig({
           }
 
           // ОПТИМИЗАЦИЯ: Разделяем компоненты по типам
-          if (id.includes('src/components/VideoHero') ||
-              id.includes('src/components/SplashCursor') ||
-              id.includes('src/components/StaticHero')) {
+          if (id.includes('src/components/StaticHero')) {
             return 'components-heavy';
           }
 
@@ -318,11 +268,8 @@ export default defineConfig({
     ],
     exclude: [
       'gsap', // Load on demand
-      'framer-motion', // Load on demand
       'googleapis', // Load on demand
       'newrelic',
-      'cleave.js',
-      'sass',
       'terser'
     ],
     esbuildOptions: {

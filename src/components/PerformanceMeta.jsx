@@ -1,16 +1,17 @@
 // src/components/PerformanceMeta.jsx
 import React from 'react';
 import { Helmet } from '@dr.pogodin/react-helmet';
+import { getMediaUrl } from '../utils/media';
 
 const PerformanceMeta = () => {
   return (
     <Helmet>
       {/* Preload critical resources */}
-      <link rel="preload" href="/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-      <link rel="preload" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-      
+      <link rel="preload" href={getMediaUrl("fonts/Montserrat-Regular.woff2")} as="font" type="font/woff2" crossOrigin="anonymous" />
+      <link rel="preload" href={getMediaUrl("fonts/Montserrat-Bold.woff2")} as="font" type="font/woff2" crossOrigin="anonymous" />
+
       {/* Preload critical images */}
-      <link rel="preload" href="/img/logo-header.png" as="image" />
+      <link rel="preload" href={getMediaUrl("img/logo-header.png")} as="image" />
       
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />

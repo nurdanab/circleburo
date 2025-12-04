@@ -19,7 +19,7 @@ const loadGA = async () => {
       const module = await import('react-ga4');
       ReactGA = module.default;
     } catch (error) {
-      console.warn('Failed to load analytics:', error);
+      // Silently handle analytics loading error
     }
   }
   return ReactGA;
