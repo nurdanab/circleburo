@@ -1,70 +1,12 @@
-# Security and performance headers for Circle Creative Buro - Production Optimized
+# Netlify headers file for Circle Buro
 
+# Allow HTTP MinIO content (TEMPORARY)
 /*
-  # Security Headers
-  X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
-  X-XSS-Protection: 1; mode=block
+  X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' http://78.109.18.11:9000 https: data: blob:; media-src 'self' http://78.109.18.11:9000 https:; connect-src 'self' http://78.109.18.11:9000 https: wss:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
 
-  # Content Security Policy - Optimized for performance and security
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://js-agent.newrelic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' blob: data:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://api.telegram.org https://www.googleapis.com https://accounts.google.com https://bam.nr-data.net https://ztvcjmtocqyewbfthjdg.supabase.co; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; form-action 'self'
-
-  # HSTS (HTTP Strict Transport Security)
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-
-  # Performance Headers - Default long cache
-  Cache-Control: public, max-age=31536000, immutable
-
-# JavaScript files - ensure correct MIME type
-/assets/js/*
-  Content-Type: application/javascript; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable
-
-/assets/*.js
-  Content-Type: application/javascript; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable
-
-# All JS files at root
-/*.js
-  Content-Type: application/javascript; charset=utf-8
-
-# CSS files - ensure correct MIME type
-/assets/*.css
-  Content-Type: text/css; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.css
-  Content-Type: text/css; charset=utf-8
-
-# Service Worker
-/sw.js
-  Content-Type: application/javascript; charset=utf-8
-  Cache-Control: no-cache, no-store, must-revalidate
-
-# Cache headers for static assets
+# Cache static assets
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
-
-# Cache headers for images
-/img/*
-  Cache-Control: public, max-age=31536000, immutable
-
-# Cache headers for videos  
-/videos/*
-  Cache-Control: public, max-age=31536000, immutable
-
-# Cache headers for fonts
-/fonts/*
-  Cache-Control: public, max-age=31536000, immutable
-  Access-Control-Allow-Origin: *
-
-# Shorter cache for main HTML
-/
-  Cache-Control: public, max-age=0, must-revalidate
-
-# No cache for admin routes
-/admin/*
-  Cache-Control: no-store, no-cache, must-revalidate
-  X-Robots-Tag: noindex, nofollow

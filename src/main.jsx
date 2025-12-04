@@ -17,20 +17,30 @@ if (root) {
   );
 }
 
+// TEMPORARY: Service Worker disabled until MinIO HTTPS setup
 // Register Service Worker for offline support and caching
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then((registration) => {
-        if (import.meta.env.DEV) {
-          console.log('SW registered:', registration);
-        }
-      })
-      .catch((error) => {
-        if (import.meta.env.DEV) {
-          console.log('SW registration failed:', error);
-        }
-      });
+// if ('serviceWorker' in navigator && import.meta.env.PROD) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker
+//       .register('/sw.js')
+//       .then((registration) => {
+//         if (import.meta.env.DEV) {
+//           console.log('SW registered:', registration);
+//         }
+//       })
+//       .catch((error) => {
+//         if (import.meta.env.DEV) {
+//           console.log('SW registration failed:', error);
+//         }
+//       });
+//   });
+// }
+
+// Unregister existing service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((registration) => {
+      registration.unregister();
+    });
   });
 }
