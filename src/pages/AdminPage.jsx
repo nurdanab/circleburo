@@ -18,6 +18,7 @@ import {
   Save
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
+import '../styles/admin.css';
 
 const BOOKING_STATUSES = {
   PENDING: 'pending',

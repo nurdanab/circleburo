@@ -199,12 +199,12 @@ const SectionTen = () => {
 
   const leftPanelStyle = {
     width: isMobile ? '100%' : '50%',
-    height: isMobile ? '40%' : '100%',
+    height: isMobile ? '35%' : '100%',
     backgroundColor: slides[activeIndex].color,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    padding: isMobile ? '30px 20px' : '60px',
+    padding: isMobile ? '24px 16px' : '60px',
     transition: 'background-color 0.5s ease',
     position: 'relative',
     zIndex: 5
@@ -212,7 +212,7 @@ const SectionTen = () => {
 
   const rightPanelStyle = {
     width: isMobile ? '100%' : '50%',
-    height: isMobile ? '60%' : '100%',
+    height: isMobile ? '65%' : '100%',
     position: 'relative',
     overflow: 'hidden',
     zIndex: 1
@@ -223,11 +223,12 @@ const SectionTen = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: isMobile ? '200px' : '400px',
-    height: isMobile ? '200px' : '400px',
+    width: isMobile ? '160px' : '400px',
+    height: isMobile ? '160px' : '400px',
     borderRadius: '50%',
     border: `2px solid ${slides[activeIndex].textColor}20`,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    opacity: isMobile ? 0.5 : 1
   };
 
   const decorCircleStyle2 = {
@@ -235,29 +236,30 @@ const SectionTen = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: isMobile ? '150px' : '300px',
-    height: isMobile ? '150px' : '300px',
+    width: isMobile ? '120px' : '300px',
+    height: isMobile ? '120px' : '300px',
     borderRadius: '50%',
     border: `2px solid ${slides[activeIndex].textColor}15`,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    opacity: isMobile ? 0.5 : 1
   };
 
   const numberStyle = {
-    fontSize: isMobile ? '80px' : '160px',
+    fontSize: isMobile ? '64px' : '160px',
     fontWeight: 'bold',
     color: slides[activeIndex].textColor,
     lineHeight: '0.9',
-    marginTop: isMobile ? '20px' : '40px',
+    marginTop: isMobile ? '12px' : '40px',
     fontFamily: "'Lilita One', sans-serif",
     textShadow: `4px 4px 0 ${slides[activeIndex].textColor}15`
   };
 
   const listStyle = {
-    fontSize: isMobile ? '9px' : '11px',
+    fontSize: isMobile ? '8px' : '11px',
     color: slides[activeIndex].textColor,
-    marginBottom: '10px',
-    letterSpacing: '1.5px',
-    lineHeight: '1.8',
+    marginBottom: isMobile ? '6px' : '10px',
+    letterSpacing: isMobile ? '1px' : '1.5px',
+    lineHeight: '1.6',
     opacity: 0.7,
     fontWeight: '500'
   };
@@ -312,7 +314,7 @@ const SectionTen = () => {
               width: '100%',
               height: '100%',
               backgroundColor: slide.textColor,
-              padding: isMobile ? '30px 20px' : '80px 60px',
+              padding: isMobile ? '24px 16px' : '80px 60px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'flex-start',
@@ -321,20 +323,20 @@ const SectionTen = () => {
             }}
           >
             {/* Заголовок секции */}
-            <div style={{ marginBottom: isMobile ? '30px' : '50px' }}>
+            <div style={{ marginBottom: isMobile ? '20px' : '50px' }}>
               <div style={{
-                fontSize: isMobile ? '28px' : '48px',
+                fontSize: isMobile ? '24px' : '48px',
                 fontWeight: 'bold',
                 color: slide.color,
                 fontFamily: "'Lilita One', sans-serif",
                 letterSpacing: '-0.5px',
-                marginBottom: '15px'
+                marginBottom: isMobile ? '10px' : '15px'
               }}>
                 {slide.title}
               </div>
               <div style={{
-                width: isMobile ? '50px' : '80px',
-                height: isMobile ? '3px' : '4px',
+                width: isMobile ? '40px' : '80px',
+                height: isMobile ? '2.5px' : '4px',
                 backgroundColor: slide.color,
                 borderRadius: '2px'
               }}/>
@@ -347,10 +349,10 @@ const SectionTen = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: isMobile ? '18px' : '28px',
-                  paddingBottom: isMobile ? '15px' : '20px',
+                  marginBottom: isMobile ? '14px' : '28px',
+                  paddingBottom: isMobile ? '12px' : '20px',
                   borderBottom: `1.5px solid ${slide.color}25`,
-                  gap: isMobile ? '15px' : '30px',
+                  gap: isMobile ? '12px' : '30px',
                   flexDirection: isMobile ? 'column' : 'row'
                 }}>
                   <div style={{
@@ -359,16 +361,16 @@ const SectionTen = () => {
                     minWidth: 0
                   }}>
                     <div style={{
-                      fontSize: isMobile ? '16px' : '20px',
+                      fontSize: isMobile ? '14px' : '20px',
                       fontWeight: '600',
-                      marginBottom: '4px',
+                      marginBottom: '3px',
                       lineHeight: '1.3'
                     }}>
                       {item.name}
                     </div>
                     {item.detail && (
                       <div style={{
-                        fontSize: isMobile ? '12px' : '14px',
+                        fontSize: isMobile ? '11px' : '14px',
                         opacity: '0.7',
                         fontWeight: '400'
                       }}>
@@ -377,15 +379,15 @@ const SectionTen = () => {
                     )}
                   </div>
                   <div style={{
-                    fontSize: isMobile ? '14px' : '18px',
+                    fontSize: isMobile ? '12px' : '18px',
                     color: slide.color,
                     fontWeight: '600',
                     whiteSpace: 'nowrap',
                     textAlign: 'right',
                     minWidth: 'fit-content',
-                    padding: isMobile ? '4px 12px' : '6px 16px',
+                    padding: isMobile ? '3px 10px' : '6px 16px',
                     backgroundColor: `${slide.color}15`,
-                    borderRadius: '6px'
+                    borderRadius: isMobile ? '4px' : '6px'
                   }}>
                     {item.price}
                   </div>

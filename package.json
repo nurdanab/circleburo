@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build && npm run prerender",
     "build:no-prerender": "vite build",
     "prerender": "node scripts/prerender.js",

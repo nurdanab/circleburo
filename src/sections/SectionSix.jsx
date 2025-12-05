@@ -48,8 +48,8 @@ const SectionSix = () => {
     getMediaUrl("img/design/7d.png"),
     getMediaUrl("img/design/8d.png"),
     getMediaUrl("img/design/9d.png"),
-    // getMediaUrl("img/design/10d.png"),
-    // getMediaUrl("img/design/11d.png"),
+    getMediaUrl("img/design/10d.png"),
+    getMediaUrl("img/design/11d.png"),
     getMediaUrl("img/design/12d.png"),
     getMediaUrl("img/design/13d.png"),
     getMediaUrl("img/design/14d.png"),
@@ -275,6 +275,96 @@ const SectionSix = () => {
     };
   }, { scope: sectionRef, dependencies: [isMobile, isTablet, getPositions] });
 
+  // Мобильная версия - простая горизонтальная галерея
+  if (isMobile) {
+    return (
+      <section
+        ref={sectionRef}
+        className="relative w-full"
+        style={{
+          backgroundColor: "#F6EDCE",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: "2rem 0",
+        }}
+      >
+        {/* Заголовок */}
+        <div className="text-center px-4 mb-6">
+          <h2
+            className="font-bold"
+            style={{
+              fontFamily: "Lilita One, sans-serif",
+              color: "#49526F",
+              fontSize: "2.5rem",
+              lineHeight: 1.2,
+            }}
+          >
+            {t('sectionSix.stages.design.main')}
+          </h2>
+          <p
+            className="mt-2"
+            style={{
+              fontFamily: "Metrika, sans-serif",
+              color: "#49526F",
+              opacity: 0.7,
+              fontSize: "0.875rem",
+            }}
+          >
+            {t('sectionSix.stages.design.sub')}
+          </p>
+        </div>
+
+        {/* Горизонтальная прокрутка фотографий */}
+        <div
+          className="w-full"
+          style={{
+            overflowX: "auto",
+            overflowY: "hidden",
+            WebkitOverflowScrolling: "touch",
+            scrollSnapType: "x mandatory",
+            display: "flex",
+            gap: "1rem",
+            padding: "0 1rem",
+          }}
+        >
+          {allImages.map((img, index) => (
+            <div
+              key={index}
+              style={{
+                flex: "0 0 85vw",
+                scrollSnapAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={img}
+                alt={`${t('sectionSix.imageAlt')} ${index + 1}`}
+                loading="lazy"
+                decoding="async"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "70vh",
+                  objectFit: "contain",
+                  borderRadius: "12px",
+                  boxShadow: "0 5px 20px rgba(39, 62, 143, 0.15)",
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  // Десктопная версия - сложная анимация с GSAP
   return (
     <section
       ref={sectionRef}

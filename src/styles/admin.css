@@ -1,0 +1,130 @@
+/* ==========================================
+   ADMIN PANEL STYLES
+   ========================================== */
+
+/* Admin Container */
+.admin-container {
+  background: #f9fafb;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Admin Cards */
+.admin-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Admin Buttons */
+.admin-btn-primary {
+  background: #3b82f6;
+  color: white;
+  transition: all 0.2s;
+}
+
+.admin-btn-primary:hover {
+  background: #2563eb;
+}
+
+.admin-btn-success {
+  background: #10b981;
+  color: white;
+  transition: all 0.2s;
+}
+
+.admin-btn-success:hover {
+  background: #059669;
+}
+
+.admin-btn-danger {
+  background: #ef4444;
+  color: white;
+  transition: all 0.2s;
+}
+
+.admin-btn-danger:hover {
+  background: #dc2626;
+}
+
+.admin-btn-warning {
+  background: #f59e0b;
+  color: white;
+  transition: all 0.2s;
+}
+
+.admin-btn-warning:hover {
+  background: #d97706;
+}
+
+.admin-btn-neutral {
+  background: #6b7280;
+  color: white;
+  transition: all 0.2s;
+}
+
+.admin-btn-neutral:hover {
+  background: #4b5563;
+}
+
+/* Admin Table */
+.admin-table {
+  background: white;
+}
+
+.admin-table-row:hover {
+  background: #f9fafb;
+}
+
+.admin-border {
+  border-color: #e5e7eb;
+}
+
+.admin-text-primary {
+  color: #111827;
+}
+
+.admin-text-secondary {
+  color: #6b7280;
+}
+
+.admin-text-muted {
+  color: #9ca3af;
+}
+
+/* Admin Header */
+.admin-bg-primary {
+  background: #f3f4f6;
+}
+
+/* Admin Input */
+input[type="text"].admin-input,
+input[type="search"].admin-input,
+select.admin-select,
+textarea.admin-textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  transition: all 0.2s;
+}
+
+input[type="text"].admin-input:focus,
+input[type="search"].admin-input:focus,
+select.admin-select:focus,
+textarea.admin-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

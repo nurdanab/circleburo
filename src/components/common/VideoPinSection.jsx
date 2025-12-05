@@ -60,7 +60,7 @@ const VideoPinSection = () => {
           muted
           loop
           autoPlay
-          preload="auto"
+          preload="none"
           aria-label="Демонстрационное видео Circle"
         />
 

@@ -34,10 +34,13 @@ const SectionEight = () => {
   }, []);
 
   useGSAP(() => {
+    // На мобильных не используем GSAP анимации
+    if (isMobile) return;
+
     if (!sectionRef.current || !videoContainerRef.current || !titleRef.current) return;
 
-    const endScale = isMobile ? 0.85 : isTablet ? 0.75 : 0.65;
-    const borderRadius = isMobile ? "16px" : isTablet ? "24px" : "32px";
+    const endScale = isTablet ? 0.75 : 0.65;
+    const borderRadius = isTablet ? "24px" : "32px";
     const scrubValue = 1;
 
     // Устанавливаем начальное состояние для videoContainer
@@ -126,6 +129,41 @@ const SectionEight = () => {
     };
   }, [isMobile, isTablet, index, videoSrc]);
 
+  // На мобильных - упрощенная версия без анимаций
+  if (isMobile) {
+    return (
+      <section
+        ref={sectionRef}
+        className="relative w-full overflow-hidden"
+        style={{
+          backgroundColor: "#000000",
+          aspectRatio: "16/9",
+          maxHeight: "70vh"
+        }}
+      >
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          src={videoSrc}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+        />
+        <div className="absolute inset-0 z-10 flex items-center justify-center">
+          <h2
+            className="text-3xl font-bold text-white text-center px-6"
+            style={{ fontFamily: "Lilita One, sans-serif" }}
+          >
+            STEPPEE COFFEE
+          </h2>
+        </div>
+      </section>
+    );
+  }
+
+  // На десктопе - полная версия с анимациями
   return (
     <section
       ref={sectionRef}
@@ -153,7 +191,7 @@ const SectionEight = () => {
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="none"
           disablePictureInPicture
           disableRemotePlayback
           style={{

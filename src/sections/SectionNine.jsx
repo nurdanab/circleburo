@@ -368,72 +368,27 @@ const SectionNine = () => {
 
         @media (max-width: 768px) {
           .section-nine-card {
-            width: 95%;
-            height: 550px;
-          }
-
-          .section-nine-card-inner {
-            padding: 25px 35px 12px 35px;
-          }
-
-          .card-main-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-          }
-
-          .card-price {
-            font-size: 16px;
-            padding: 0 35px 6px 35px;
-            margin: 0 -35px;
-          }
-
-          .service-item {
-            grid-template-columns: 25px 1fr;
-            gap: 8px;
-            padding-left: 35px;
-            padding-right: 35px;
-            margin: 0 -35px;
-          }
-
-          .service-number {
-            font-size: 14px;
-          }
-
-          .service-title {
-            font-size: 14px;
-          }
-
-          .service-description {
-            font-size: 11px;
-          }
-
-          .card-pattern {
-            grid-template-rows: repeat(2, 40px);
-          }
-        }
-
-        @media (max-width: 480px) {
-          .section-nine-card {
-            width: 90%;
+            width: 92%;
             height: 520px;
           }
 
           .section-nine-card-inner {
-            padding: 20px 30px 10px 30px;
+            padding: 22px 30px 10px 30px;
           }
 
           .card-main-title {
-            font-size: 16px;
+            font-size: 17px;
+            margin-bottom: 8px;
           }
 
           .card-price {
-            font-size: 14px;
+            font-size: 15px;
             padding: 0 30px 6px 30px;
             margin: 0 -30px;
           }
 
           .service-item {
-            grid-template-columns: 22px 1fr;
+            grid-template-columns: 24px 1fr;
             gap: 8px;
             padding-left: 30px;
             padding-right: 30px;
@@ -449,11 +404,58 @@ const SectionNine = () => {
           }
 
           .service-description {
-            font-size: 10px;
+            font-size: 10.5px;
           }
 
           .card-pattern {
-            grid-template-rows: repeat(2, 35px);
+            grid-template-rows: repeat(2, 38px);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .section-nine-card {
+            width: 90%;
+            height: 500px;
+            border-radius: 16px;
+          }
+
+          .section-nine-card-inner {
+            padding: 18px 24px 8px 24px;
+          }
+
+          .card-main-title {
+            font-size: 15px;
+            margin-bottom: 6px;
+          }
+
+          .card-price {
+            font-size: 13px;
+            padding: 0 24px 5px 24px;
+            margin: 0 -24px;
+          }
+
+          .service-item {
+            grid-template-columns: 20px 1fr;
+            gap: 6px;
+            padding-left: 24px;
+            padding-right: 24px;
+            margin: 0 -24px;
+          }
+
+          .service-number {
+            font-size: 12px;
+          }
+
+          .service-title {
+            font-size: 12px;
+          }
+
+          .service-description {
+            font-size: 9.5px;
+          }
+
+          .card-pattern {
+            grid-template-rows: repeat(2, 32px);
           }
         }
       `}</style>
