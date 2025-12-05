@@ -4,12 +4,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useBreakpoint } from "../../utils/breakpoints";
 import { getMediaUrl } from '../../utils/media';
+import { useVideoLazyLoad } from '../../hooks/useVideoLazyLoad';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const VideoPinSection = () => {
   const sectionRef = useRef(null);
   const videoBoxRef = useRef(null);
+  const { videoRef } = useVideoLazyLoad({ threshold: 0.1, rootMargin: '100px' });
 
   // Унифицированное определение размера экрана
   const { isMobile, isTablet } = useBreakpoint();
@@ -55,11 +57,11 @@ const VideoPinSection = () => {
         className="size-full video-box"
       >
         <video
+          ref={videoRef}
           src={getMediaUrl("videos/motion-circle.mp4")}
           playsInline
           muted
           loop
-          autoPlay
           preload="none"
           aria-label="Демонстрационное видео Circle"
         />

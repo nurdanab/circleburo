@@ -54,13 +54,7 @@ const SectionEightB = () => {
       opacity: 1,
     });
 
-    // Загружаем видео и обновляем ScrollTrigger
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.addEventListener('loadedmetadata', () => {
-        ScrollTrigger.refresh();
-      }, { once: true });
-    }
+    // Отложенная загрузка видео - загружаем только когда секция близко к viewport
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -74,8 +68,12 @@ const SectionEightB = () => {
         invalidateOnRefresh: true,
         refreshPriority: index,
         markers: false,
+        fastScrollEnd: true,
         onEnter: () => {
           if (videoRef.current) {
+            if (videoRef.current.readyState === 0) {
+              videoRef.current.load();
+            }
             videoRef.current.play().catch(() => {});
           }
         },
@@ -118,13 +116,7 @@ const SectionEightB = () => {
       "<"
     );
 
-    // Обновляем ScrollTrigger после небольшой задержки для корректной работы с LazySection
-    const refreshTimeout = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
-
     return () => {
-      clearTimeout(refreshTimeout);
       if (tl) tl.kill();
     };
   }, [isMobile, isTablet, index, videoSrc]);

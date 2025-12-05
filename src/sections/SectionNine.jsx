@@ -288,7 +288,7 @@ const SectionNine = () => {
         }
 
         .card-price {
-          font-family: "Metrika", sans-serif;
+          font-family: "Gentium Plus", Georgia, serif;
           font-size: 18px;
           font-weight: 400;
           padding: 0 40px 8px 40px;
@@ -337,7 +337,7 @@ const SectionNine = () => {
         }
 
         .service-description {
-          font-family: "Metrika", sans-serif;
+          font-family: "Gentium Plus", Georgia, serif;
           font-size: 13px;
           font-weight: 400;
           margin: 0;
@@ -347,7 +347,7 @@ const SectionNine = () => {
 
         /* Специальный стиль для карточек без описаний */
         .service-content:has(.service-title:only-child) .service-title {
-          font-family: "Metrika", sans-serif;
+          font-family: "Gentium Plus", Georgia, serif;
           font-size: 16px;
           font-weight: 400;
           text-transform: uppercase;

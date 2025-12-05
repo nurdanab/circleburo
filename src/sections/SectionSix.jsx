@@ -306,7 +306,7 @@ const SectionSix = () => {
           <p
             className="mt-2"
             style={{
-              fontFamily: "Metrika, sans-serif",
+              fontFamily: "'Gentium Plus', Georgia, serif",
               color: "#49526F",
               opacity: 0.7,
               fontSize: "0.875rem",
@@ -416,7 +416,7 @@ const SectionSix = () => {
                 <p
                   className="mt-2 sm:mt-3"
                   style={{
-                    fontFamily: "Metrika, sans-serif",
+                    fontFamily: "'Gentium Plus', Georgia, serif",
                     color: "#49526F",
                     opacity: 0.7,
                     fontSize: isMobile ? "0.875rem" : isTablet ? "1.125rem" : "1.5rem",

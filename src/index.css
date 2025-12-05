@@ -5,25 +5,17 @@
    ШРИФТЫ
    ========================================== */
 
-/* Lilita One - для заголовков */
+/* Lilita One - для заголовков (локальный fallback, основной источник - Google Fonts) */
 @font-face {
   font-family: 'Lilita One';
   src: url('/fonts/Lilita-One-Regular.woff2') format('woff2'),
        url('/fonts/Lilita-One-Regular.woff') format('woff');
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-/* Metrika - для текстов */
-@font-face {
-  font-family: 'Metrika';
-  src: url('/fonts/Metrika.woff2') format('woff2'),
-       url('/fonts/Metrika.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+/* Gentium Plus - для текстов (загружается из Google Fonts) */
 
 /* ==========================================
    БАЗОВЫЕ СТИЛИ
@@ -49,7 +41,7 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   background-color: #F6EDCE;
-  font-family: 'Metrika', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Gentium Plus', Georgia, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -66,11 +58,11 @@ body {
    ========================================== */
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Lilita One', cursive;
+  font-family: 'Lilita One', sans-serif;
 }
 
 p, a, span, button, input, textarea, select, li, label {
-  font-family: 'Metrika', sans-serif;
+  font-family: 'Gentium Plus', Georgia, serif;
 }
 
 /* ==========================================
@@ -321,7 +313,7 @@ textarea:focus-visible {
 }
 
 .fs-bg-word {
-  font-family: 'Lilita One', cursive;
+  font-family: 'Lilita One', sans-serif;
   font-size: clamp(120px, 25vw, 320px);
   font-weight: 700;
   color: #121112;
@@ -330,6 +322,7 @@ textarea:focus-visible {
 }
 
 /* Контейнер для карточек */
+/* Базовые стили для контейнера */
 .benefit-section .cards-container {
   width: 100%;
   max-width: 900px;
@@ -339,159 +332,282 @@ textarea:focus-visible {
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 10; /* Карточки выше декоративных элементов */
+  z-index: 10;
 }
 
-/* Wrapper для каждой карточки */
+/* Базовые стили для wrapper */
 .benefit-section .card-wrapper {
   position: absolute;
-  opacity: 0;
-  transform: translateY(-20px) scale(0.95);
-  will-change: transform, opacity;
-}
-
-/* Компонент StyledCard */
-.styled-card {
-  padding: 2rem 3rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  opacity: 1;
   will-change: transform;
-  min-width: 280px;
 }
 
-.styled-card-text {
-  font-family: 'Lilita One', cursive;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin: 0;
-  text-align: center;
-  word-wrap: break-word;
-}
-
-/* Позиционирование карточек - улучшенная композиция */
+/* КАРТОЧКА 1 - ADVERTISING AGENCY */
 .benefit-section .card-1 {
-  top: 5%;
-  left: 8%;
-  /* z-index управляется через родителя cards-container */
+  top: 10%;
+  left: 18%;
 }
 
+.benefit-section .card-1 .styled-card {
+  padding: 0.1rem 1rem;
+  min-width: 320px;
+  border-radius: 12px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
+
+.benefit-section .card-1 .styled-card-text {
+  font-size: 2.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+
+/* КАРТОЧКА 2 - CREATIVITY */
 .benefit-section .card-2 {
-  top: 25%;
-  left: -2%;
-  /* z-index управляется через родителя cards-container */
+  top: 35%;
+  left: -12%;
+  
 }
 
+.benefit-section .card-2 .styled-card {
+  padding: 3.7rem 3.3rem;
+  min-width: 280px;
+  border-radius: 16px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
+
+.benefit-section .card-2 .styled-card-text {
+  font-size: 4.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+}
+
+/* КАРТОЧКА 3 - WITHOUT EDGES */
 .benefit-section .card-3 {
-  top: 25%;
-  right: -2%;
-  /* z-index управляется через родителя cards-container */
+  top: 20%;
+  right: 2%;
 }
 
+.benefit-section .card-3 .styled-card {
+  padding: 1.8rem 2.8rem;
+  min-width: 300px;
+  max-width: 430px;
+  border-radius: 16px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
+
+.benefit-section .card-3 .styled-card-text {
+  font-size: 4.5rem;
+  font-weight: 700;
+  letter-spacing: 0.2rem;;
+}
+
+/* КАРТОЧКА 4 - CIRCLE */
 .benefit-section .card-4 {
-  top: 60%;
+  top: 73%;
   left: 50%;
   transform: translateX(-50%);
-  /* z-index управляется через родителя cards-container */
+}
+
+.benefit-section .card-4 .styled-card {
+  padding: 2.2rem 4rem;
+  min-width: 250px;
+  border-radius: 16px;
+  border-color: #F6EDCE;
+  border-width: 3px;
+}
+
+.benefit-section .card-4 .styled-card-text {
+  font-size: 7rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 /* Адаптивные стили для планшетов */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .styled-card {
-    padding: 1.5rem 2.5rem;
-    min-width: 220px;
-  }
-
-  .styled-card-text {
-    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
-  }
-
   .benefit-section .cards-container {
     max-width: 700px;
     min-height: 400px;
   }
 
-  .benefit-section .card-1 {
-    left: 5%;
-  }
+  /* КАРТОЧКА 1 - ADVERTISING AGENCY */
+.benefit-section .card-1 {
+  top: 15%;
+  left: 18%;
+}
 
-  .benefit-section .card-2 {
-    left: -5%;
-  }
+.benefit-section .card-1 .styled-card {
+  padding: 0.1rem 1rem;
+  min-width: 320px;
+  border-radius: 10px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
 
-  .benefit-section .card-3 {
-    right: -5%;
-  }
+.benefit-section .card-1 .styled-card-text {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+}
 
-  /* Декоративные круги для планшетов */
-  .fs-circle-1 {
-    width: 300px;
-    height: 300px;
-    top: -80px;
-    right: -80px;
-  }
+/* КАРТОЧКА 2 - CREATIVITY */
+.benefit-section .card-2 {
+  top: 40%;
+  left: -5%;
+  
+}
 
-  .fs-circle-2 {
-    width: 200px;
-    height: 200px;
-  }
+.benefit-section .card-2 .styled-card {
+  padding: 3.4rem 3.0rem;
+  min-width: 280px;
+  border-radius: 14px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
 
-  .fs-circle-3 {
-    width: 140px;
-    height: 140px;
-  }
+.benefit-section .card-2 .styled-card-text {
+  font-size: 3.5rem;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+}
 
-  .fs-circle-4 {
-    width: 250px;
-    height: 250px;
-  }
+/* КАРТОЧКА 3 - WITHOUT EDGES */
+.benefit-section .card-3 {
+  top: 50%;
+  right: 1%;
+}
 
-  .fs-bg-word {
-    font-size: clamp(100px, 20vw, 200px);
-  }
+.benefit-section .card-3 .styled-card {
+  padding: 1.8rem 2.8rem;
+  min-width: 300px;
+  max-width: 350px;
+  border-radius: 14px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
+
+.benefit-section .card-3 .styled-card-text {
+  font-size: 3.4rem;
+  font-weight: 700;
+  letter-spacing: 0.2rem;;
+}
+
+/* КАРТОЧКА 4 - CIRCLE */
+.benefit-section .card-4 {
+  top: 103%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.benefit-section .card-4 .styled-card {
+  padding: 2.2rem 4rem;
+  min-width: 250px;
+  border-radius: 16px;
+  border-color: #F6EDCE;
+  border-width: 3px;
+}
+
+.benefit-section .card-4 .styled-card-text {
+  font-size: 7rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
 }
 
 /* Адаптивные стили для мобильных */
 @media (max-width: 768px) {
-  .styled-card {
-    padding: 1rem 1.8rem;
-    min-width: 160px;
-    border-radius: 15px;
-  }
-
-  .styled-card-text {
-    font-size: clamp(1.1rem, 5vw, 1.6rem);
-  }
-
   .benefit-section .cards-container {
     max-width: 100%;
     min-height: 480px;
     padding: 0 1rem;
   }
 
-  .benefit-section .card-1 {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  /* КАРТОЧКА 1 - ADVERTISING AGENCY */
+.benefit-section .card-1 {
+  top: 10%;
+  left: 10%;
+  rotate: -10;
+}
 
-  .benefit-section .card-2 {
-    top: 20%;
-    left: 3%;
-  }
+.benefit-section .card-1 .styled-card {
+  padding: 0.1rem 1rem;
+  min-width: 320px;
+  border-radius: 6px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
 
-  .benefit-section .card-3 {
-    top: 20%;
-    right: 3%;
-  }
+.benefit-section .card-1 .styled-card-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+}
 
-  .benefit-section .card-4 {
-    top: 62%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+/* КАРТОЧКА 2 - CREATIVITY */
+.benefit-section .card-2 {
+  top: 25%;
+  left: 12%;
+  
+}
+
+.benefit-section .card-2 .styled-card {
+  padding: 2rem 1rem;
+  min-width: 280px;
+  border-radius: 16px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
+
+.benefit-section .card-2 .styled-card-text {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+}
+
+/* КАРТОЧКА 3 - WITHOUT EDGES */
+.benefit-section .card-3 {
+  top: 50%;
+  right: 2%;
+}
+
+.benefit-section .card-3 .styled-card {
+  padding: 1.8rem 2.8rem;
+  min-width: 300px;
+  max-width: 430px;
+  border-radius: 16px;
+  border-color: #F6EDCE;
+  border-width: 2px;
+}
+
+.benefit-section .card-3 .styled-card-text {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.2rem;;
+}
+
+/* КАРТОЧКА 4 - CIRCLE */
+.benefit-section .card-4 {
+  top: 73%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.benefit-section .card-4 .styled-card {
+  padding: 2.2rem 4rem;
+  min-width: 250px;
+  border-radius: 16px;
+  border-color: #F6EDCE;
+  border-width: 3px;
+}
+
+.benefit-section .card-4 .styled-card-text {
+  font-size: 7rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
 
   /* Упрощенные декоративные круги для мобильных - уменьшаем количество и сложность */
   .fs-circle-1 {
@@ -703,7 +819,7 @@ main section {
 
 .fourth-bg-text,
 .fourth-bg-text * {
-  font-family: 'Lilita One', cursive !important;
+  font-family: 'Lilita One', 'Impact', 'Arial Black', sans-serif !important;
 }
 
 /* ==========================================
@@ -737,7 +853,7 @@ main section {
   text-transform: uppercase;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  font-family: 'Lilita One', cursive;
+  font-family: 'Lilita One', sans-serif;
   will-change: transform, opacity; /* Оптимизация для анимаций */
 }
 

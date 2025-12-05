@@ -122,13 +122,13 @@ const SecondSection = () => {
               className="about-people-text text-4xl md:text-5xl lg:text-6xl font-bold text-center leading-relaxed px-4 max-w-7xl"
               style={{ fontFamily: 'Lilita One, sans-serif', textTransform: "uppercase" }}
             >
-              <span className="about-people-1 block" style={{ color: isMobile ? "#0E5A4D" : "#C3E2DC", fontFamily: "'Lilita One', cursive" }}>
+              <span className="about-people-1 block" style={{ color: isMobile ? "#0E5A4D" : "#C3E2DC", fontFamily: "'Lilita One', sans-serif" }}>
                 {t('secondSection.aboutPeople1', 'Circle - это про людей.')}
               </span>
-              <span className="about-people-2 block" style={{ color: isMobile ? "#F25340" : "#FFBCB4", fontFamily: "'Lilita One', cursive" }}>
+              <span className="about-people-2 block" style={{ color: isMobile ? "#F25340" : "#FFBCB4", fontFamily: "'Lilita One', sans-serif" }}>
                 {t('secondSection.aboutPeople2', 'Людей, которые умеют создавать.')}
               </span>
-              <span className="about-people-3 block" style={{ color: isMobile ? "#49526F" : "#C1CCED", fontFamily: "'Lilita One', cursive" }}>
+              <span className="about-people-3 block" style={{ color: isMobile ? "#49526F" : "#C1CCED", fontFamily: "'Lilita One', sans-serif" }}>
                 {t('secondSection.aboutPeople3', 'Чувствовать. Видеть дальше.')}
               </span>
             </h2>
@@ -139,7 +139,7 @@ const SecondSection = () => {
             <div className="max-w-3xl px-10">
               <p
                 className="story-text text-center text-lg md:text-xl lg:text-2xl leading-relaxed"
-                style={{ fontFamily: "Metrika, sans-serif", color: isMobile ? "#121112" : "#999" }}
+                style={{ fontFamily: "'Gentium Plus', Georgia, serif", color: isMobile ? "#121112" : "#999" }}
               >
                 {t('secondSection.storyText', 'Всё начиналось с небольшой кофейни, где начал раскрываться потенциал людей. Пять людей собирали хаос в единый ритм. Разные люди, но одинаково горящие и каждый добавил в круг свою точку. Точки начали соединяться. Дизайн. Маркетинг. Стратегия. Смысл. Драйв.')}
               </p>

@@ -1,13 +1,23 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { getMediaUrl } from '../utils/media';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const FourthSection = () => {
   const sectionRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const mediaItems = [
     { type: 'video', src: getMediaUrl("cover/cover2.mp4") },
@@ -64,9 +74,9 @@ const FourthSection = () => {
           opacity: 0.3,
         }}
       >
-        {Array.from({ length: 40 }).map((_, rowIndex) => (
+        {Array.from({ length: isMobile ? 20 : 40 }).map((_, rowIndex) => (
           <div key={rowIndex} style={{ whiteSpace: 'nowrap', marginBottom: '0.5rem' }}>
-            {Array.from({ length: 10 }).map((_, colIndex) => (
+            {Array.from({ length: isMobile ? 5 : 10 }).map((_, colIndex) => (
               <span key={colIndex} className="inline-block px-4">
                 CIRCLE MADE IT
               </span>
@@ -91,6 +101,8 @@ const FourthSection = () => {
                   loop
                   muted
                   playsInline
+                  preload="none"
+                  loading="lazy"
                   style={{ display: 'block' }}
                 />
               ) : (

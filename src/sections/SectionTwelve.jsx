@@ -479,7 +479,7 @@ ID: ${recordId}
 
 
   return (
-    <section id="contact" className="bg-[#F6EDCE] py-24 px-6 md:px-12 lg:px-20 relative overflow-hidden min-h-screen flex items-center">
+    <section id="contact" className="bg-[#49526F] py-24 px-6 md:px-12 lg:px-20 relative overflow-hidden min-h-screen flex items-center">
 
       <div className="relative z-10 w-full max-w-7xl mx-auto">
         {/* Заголовок секции */}
@@ -502,14 +502,14 @@ ID: ${recordId}
             ref={confirmationRef}
             className="max-w-2xl mx-auto text-center"
           >
-            <div className="bg-white p-12 rounded-2xl border-2 border-[#0E5A4D] shadow-xl">
+            <div className="bg-[#F6EDCE] p-12 rounded-2xl border-2 border-[#49526F] shadow-xl">
               <div
 
-                className="w-20 h-20 mx-auto mb-8 rounded-full bg-[#0E5A4D] flex items-center justify-center shadow-lg"
+                className="w-20 h-20 mx-auto mb-8 rounded-full bg-[#F6EDCE] flex items-center justify-center"
               >
-                {bookingStatus === BOOKING_STATUSES.CONFIRMED && <CheckCircle2 className="w-10 h-10 text-white" />}
-                {bookingStatus === BOOKING_STATUSES.PENDING && <CheckCircle2 className="w-10 h-10 text-white" />}
-                {bookingStatus === BOOKING_STATUSES.CANCELLED && <XCircle className="w-10 h-10 text-white" />}
+                {bookingStatus === BOOKING_STATUSES.CONFIRMED && <CheckCircle2 className="w-10 h-10 text-[#49526F]" />}
+                {bookingStatus === BOOKING_STATUSES.PENDING && <CheckCircle2 className="w-10 h-10 text-[#49526F]" />}
+                {bookingStatus === BOOKING_STATUSES.CANCELLED && <XCircle className="w-10 h-10 text-[#49526F]" />}
               </div>
 
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#49526F]">
@@ -522,10 +522,10 @@ ID: ${recordId}
               <p className="text-lg text-[#49526F]">
   {t('contactForm.receivedBooking')}
 </p>
-                <div className="bg-[#F6EDCE] border-2 border-[#0E5A4D] rounded-xl p-6">
+                <div className="bg-[#F6EDCE] border-2 border-[#49526F] rounded-xl p-6">
                   <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-3">
-                      <Calendar className="w-5 h-5 text-[#0E5A4D]" />
+                      <Calendar className="w-5 h-5 text-[#49526F]" />
                       <span className="font-semibold text-[#49526F]">
                         {selectedDate?.toLocaleDateString('ru-RU', {
                           weekday: 'long',
@@ -535,7 +535,7 @@ ID: ${recordId}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Clock className="w-5 h-5 text-[#0E5A4D]" />
+                      <Clock className="w-5 h-5 text-[#49526F]" />
                       <span className="font-semibold text-[#49526F]">{selectedTime}</span>
                     </div>
                   </div>
@@ -551,7 +551,7 @@ ID: ${recordId}
 
               <button
                 onClick={resetForm}
-                className="px-8 py-4 bg-[#49526F] border-2 border-[#F25340] hover:bg-[#d94333] rounded-xl text-white font-semibold text-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                className="px-8 py-4 bg-[#49526F] border-2 border-[#F0CD4B] hover:bg-[#d94333] rounded-xl text-[#49526F] font-semibold text-lg transition-all duration-200 shadow-md hover:shadow-lg"
               >
   {t('contactForm.bookAnotherSlot')}
               </button>
@@ -566,10 +566,10 @@ ID: ${recordId}
             {/* Левая колонка - выбор даты и времени */}
             <div
 
-              className="bg-[#F6EDCE] p-8 rounded-2xl border-2 border-[#F25340] shadow-lg h-fit"
+              className="bg-[#F6EDCE] p-8 rounded-2xl border-2 border-[#F0CD4B] shadow-lg h-fit"
             >
               <div className="flex items-center gap-3 mb-8">
-                <Calendar className="w-6 h-6 text-[#F25340]" />
+                <Calendar className="w-6 h-6 text-[#49526F]" />
 <h3 className="text-2xl font-bold text-[#49526F]">{t('contactForm.selectDateTime')}</h3>
               </div>
 
@@ -581,7 +581,7 @@ ID: ${recordId}
                 <div className="flex items-center justify-between mb-6">
                   <button
                     onClick={() => navigateMonth(-1)}
-                    className="p-2 rounded-lg bg-[#F25340] text-white hover:bg-[#d94333] transition-all duration-200 focus:outline-none"
+                    className="p-2 rounded-lg bg-[#F25340] text-[#49526F] hover:bg-[#d94333] transition-all duration-200 focus:outline-none"
                     aria-label={`Предыдущий месяц - ${monthNames[currentMonth.getMonth() - 1] || monthNames[11]} ${currentMonth.getMonth() === 0 ? currentMonth.getFullYear() - 1 : currentMonth.getFullYear()}`}
                     title="Перейти к предыдущему месяцу"
                   >
@@ -596,7 +596,7 @@ ID: ${recordId}
 
                   <button
                     onClick={() => navigateMonth(1)}
-                    className="p-2 rounded-lg bg-[#F25340] text-white hover:bg-[#d94333] transition-all duration-200 focus:outline-none"
+                    className="p-2 rounded-lg bg-[#F25340] text-[#49526F] hover:bg-[#d94333] transition-all duration-200 focus:outline-none"
                     aria-label={`Следующий месяц - ${monthNames[currentMonth.getMonth() + 1] || monthNames[0]} ${currentMonth.getMonth() === 11 ? currentMonth.getFullYear() + 1 : currentMonth.getFullYear()}`}
                     title="Перейти к следующему месяцу"
                   >
@@ -644,9 +644,9 @@ ID: ${recordId}
                             aria-disabled={!isAvailable}
                             className={`w-full h-full rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center relative ${
                               isSelected
-                                ? 'bg-[#F6EDCE] text-[#49526F] border-3 border-[#F25340] shadow-md'
+                                ? 'bg-[#F0CD4B] text-[#F25340] border-3 border-[#49526F] shadow-md'
                                 : isAvailable
-                                  ? 'bg-[#F6EDCE] text-[#49526F] border-2 border-[#49526F] border-opacity-30 hover:border-[#F25340] hover:border-opacity-100'
+                                  ? 'bg-[#F0CD4B] text-[#49526F] border-2 border-[#49526F] border-opacity-30 hover:border-[#F25340] hover:border-opacity-100'
                                   : 'bg-gray-100 text-gray-400 cursor-not-allowed border-2 border-gray-200'
                             }`}
                           >
@@ -700,7 +700,7 @@ ID: ${recordId}
                           aria-pressed={selectedTime === time}
                           className={`px-4 py-3 rounded-xl border-2 font-semibold transition-all duration-200 ${
                             selectedTime === time
-                              ? 'bg-[#F25340] text-white border-[#F25340] shadow-md'
+                              ? 'bg-[#F25340] text-[#49526F] border-[#F25340] shadow-md'
                               : 'bg-[#F6EDCE] text-[#49526F] border-[#49526F] border-opacity-30 hover:border-[#F25340] hover:border-opacity-100'
                           }`}
                         >
@@ -725,7 +725,7 @@ ID: ${recordId}
             {/* Правая колонка - форма */}
             <div
 
-              className="bg-white p-8 rounded-2xl border-2 border-[#49526F] shadow-lg h-fit"
+              className="bg-[#F6EDCE] p-8 rounded-2xl border-2 border-[#F0CD4B] shadow-lg h-fit"
             >
               <div className="flex items-center gap-3 mb-8">
                 <User className="w-6 h-6 text-[#49526F]" />
@@ -743,7 +743,7 @@ ID: ${recordId}
                     placeholder={t('contactForm.fullNamePlaceholder')}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-4 rounded-xl border-2 border-[#49526F] border-opacity-30 bg-[#F6EDCE] text-[#49526F] placeholder-[#49526F]/40 focus:border-[#49526F] focus:bg-white transition-all duration-200 focus:outline-none"
+                    className="w-full px-4 py-4 rounded-xl border-2 bg-[#F6EDCE] text-[#49526F] placeholder-[#49526F]/40 focus:bg-[#F6EDCE] transition-all duration-200 focus:outline-none"
                     aria-required="true"
                     aria-describedby={error && error.includes('имя') ? 'name-error' : undefined}
                     aria-invalid={error && error.includes('имя') ? 'true' : 'false'}
@@ -760,7 +760,7 @@ ID: ${recordId}
                     placeholder="+7 XXX XXX XX XX"
                     value={formData.phone}
                     onChange={handlePhoneChange}
-                    className="w-full px-4 py-4 rounded-xl border-2 border-[#49526F] border-opacity-30 bg-[#F6EDCE] text-[#49526F] placeholder-[#49526F]/40 focus:border-[#49526F] focus:bg-white transition-all duration-200 focus:outline-none"
+                    className="w-full px-4 py-4 rounded-xl border-2 border-[#49526F] border-opacity-30 bg-[#F6EDCE] text-[#49526F] placeholder-[#49526F]/40 focus:border-[#49526F] focus:bg-[#F6EDCE] transition-all duration-200 focus:outline-none"
                     aria-required="true"
                     aria-describedby={error && error.includes('телефон') ? 'phone-error' : 'phone-help'}
                     aria-invalid={error && error.includes('телефон') ? 'true' : 'false'}
@@ -811,7 +811,7 @@ ID: ${recordId}
                 className={`mt-8 w-full px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none border-2
                   ${loading
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300'
-                    : 'bg-[#F25340] text-white border-[#F25340] hover:bg-[#d94333] hover:border-[#d94333] shadow-md hover:shadow-lg'
+                    : 'bg-[#F25340] text-[#49526F] border-[#F25340] hover:bg-[#d94333] hover:border-[#d94333] shadow-md hover:shadow-lg'
                   }`}
               >
                 {loading ? (
