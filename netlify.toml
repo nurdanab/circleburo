@@ -5,8 +5,8 @@
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
-  # MinIO media storage URL
-  VITE_MEDIA_BASE_URL = "http://78.109.18.11:9000/media"
+  # MinIO media storage via CloudFlare HTTPS proxy
+  VITE_MEDIA_BASE_URL = "https://media.circleburo.kz"
 
 [[headers]]
   for = "/assets/js/*"
@@ -141,11 +141,9 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-XSS-Protection = "1; mode=block"
-    # TEMPORARY: Removed HSTS to allow HTTP MinIO content
-    # Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=()"
-    # Allow HTTP content from MinIO (TEMPORARY until HTTPS setup)
-    Content-Security-Policy = "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' http://78.109.18.11:9000 https: data: blob:; media-src 'self' http://78.109.18.11:9000 https:; connect-src 'self' http://78.109.18.11:9000 https:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline';"
+    Content-Security-Policy = "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data: blob:; media-src 'self' https:; connect-src 'self' https: wss:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline';"
 
 [[headers]]
   for = "/*"

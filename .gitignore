@@ -45,3 +45,4 @@ public/fonts/
 *.njsproj
 *.sln
 *.sw?
+cloudflare-worker.js
