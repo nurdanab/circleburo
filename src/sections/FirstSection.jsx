@@ -26,7 +26,7 @@ const FirstSection = () => {
           <div className="cards-container relative">
           <div ref={title3Ref} className="card-wrapper card-3">
               <StyledCard
-                title={t('firstSection.title3', 'WITHOUT EDGES')}
+                title="WITHOUT EDGES"
                 bgColor="#2C4F4A"
                 textColor="#F0CD4B"
                 rotation={10}
@@ -35,7 +35,7 @@ const FirstSection = () => {
             </div>
             <div ref={title2Ref} className="card-wrapper card-2">
               <StyledCard
-                title={t('firstSection.title2', 'CREATIVITY')}
+                title="CREATIVITY"
                 bgColor="#4A5073"
                 textColor="#F5B4C4"
                 rotation={-15}
@@ -54,7 +54,7 @@ const FirstSection = () => {
             </div>
             <div ref={title1Ref} className="card-wrapper card-1">
               <StyledCard
-                title={t('firstSection.title1', 'ADVERTISING AGENCY')}
+                title="ADVERTISING AGENCY"
                 bgColor="#F0CD4B"
                 textColor="#E8574B"
                 rotation={-20}
