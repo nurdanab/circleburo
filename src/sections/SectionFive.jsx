@@ -34,6 +34,7 @@ const SectionFive = () => {
         ref={videoRef}
         className="w-full h-full object-cover"
         src={videoSrc}
+        poster={getMediaUrl("cover/prod1-poster.webp")}
         playsInline
         muted
         loop

@@ -46,3 +46,9 @@ public/fonts/
 *.sln
 *.sw?
 cloudflare-worker.js
+
+# Optimized media files
+public/backup/
+public/optimized/
+public\/backup/
+public\/optimized/

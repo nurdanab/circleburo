@@ -139,6 +139,7 @@ const SectionEight = () => {
           ref={videoRef}
           className="w-full h-full object-cover"
           src={videoSrc}
+          poster={getMediaUrl("cover/arc-video1-poster.webp")}
           autoPlay
           loop
           muted
