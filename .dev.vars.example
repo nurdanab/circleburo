@@ -1,0 +1,5 @@
+# CloudFlare Worker environment variables (optional)
+# These can override hardcoded values in cloudflare-worker.js
+
+# MINIO_ORIGIN=http://minio.circleburo.kz:9000
+# BUCKET=media

@@ -1,0 +1,16 @@
+# Cloudflare Workers configuration for CircleBuro media proxy
+name = "circleburo-media"
+main = "cloudflare-worker.js"
+compatibility_date = "2024-01-01"
+
+# Worker type
+workers_dev = true
+
+# Routes - после развертывания можно настроить custom domain
+# routes = [
+#   { pattern = "media.circleburo.kz/*", zone_name = "circleburo.kz" }
+# ]
+
+# Environment variables (опционально)
+[vars]
+# MINIO_ORIGIN можно вынести в переменные окружения для гибкости
