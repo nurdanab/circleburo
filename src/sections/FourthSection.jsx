@@ -101,8 +101,11 @@ const FourthSection = () => {
                   loop
                   muted
                   playsInline
-                  preload="none"
+                  preload="metadata"
                   loading="lazy"
+                  disablePictureInPicture
+                  disableRemotePlayback
+                  x-webkit-airplay="deny"
                   style={{ display: 'block' }}
                 />
               ) : (

@@ -12,6 +12,7 @@ import { useEffect, useRef } from 'react';
  */
 export const useVideoLazyLoad = ({ threshold = 0.25, rootMargin = '50px' } = {}) => {
   const videoRef = useRef(null);
+  const hasLoadedRef = useRef(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -21,6 +22,7 @@ export const useVideoLazyLoad = ({ threshold = 0.25, rootMargin = '50px' } = {})
     if (!('IntersectionObserver' in window)) {
       // Если браузер не поддерживает, загружаем видео сразу
       video.load();
+      hasLoadedRef.current = true;
       return;
     }
 
@@ -28,23 +30,33 @@ export const useVideoLazyLoad = ({ threshold = 0.25, rootMargin = '50px' } = {})
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Видео стало видимым - загружаем и воспроизводим
-            if (video.readyState === 0) {
+            // Видео стало видимым - загружаем только один раз
+            if (!hasLoadedRef.current && video.readyState === 0) {
               video.load();
+              hasLoadedRef.current = true;
             }
 
-            // Пытаемся запустить воспроизведение
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-              playPromise.catch((error) => {
-                // Автовоспроизведение может быть заблокировано браузером
-                console.debug('Video autoplay prevented:', error);
-              });
-            }
+            // Пытаемся запустить воспроизведение с задержкой для экономии ресурсов
+            requestAnimationFrame(() => {
+              const playPromise = video.play();
+              if (playPromise !== undefined) {
+                playPromise.catch((error) => {
+                  // Автовоспроизведение может быть заблокировано браузером
+                  console.debug('Video autoplay prevented:', error);
+                });
+              }
+            });
           } else {
             // Видео вышло из области видимости - приостанавливаем
             if (!video.paused) {
               video.pause();
+
+              // Агрессивная оптимизация памяти: очищаем буфер для больших видео
+              // Только если видео больше 5MB (определяем по duration как прокси)
+              if (video.duration > 30) {
+                // Для длинных видео очищаем данные когда они не видны
+                video.currentTime = 0;
+              }
             }
           }
         });

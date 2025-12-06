@@ -59,6 +59,7 @@ const VideoPinSection = () => {
         <video
           ref={videoRef}
           src={getMediaUrl("videos/motion-circle.mp4")}
+          poster={getMediaUrl("cover/motion-circle-poster.webp")}
           playsInline
           muted
           loop
