@@ -15,7 +15,8 @@ export const getMediaUrl = (path) => {
 
   // Если есть MinIO URL, используем его
   if (MEDIA_BASE_URL) {
-    return `${MEDIA_BASE_URL}/${cleanPath}`;
+    // Добавляем /media/ для bucket в MinIO
+    return `${MEDIA_BASE_URL}/media/${cleanPath}`;
   }
 
   // Иначе возвращаем локальный путь

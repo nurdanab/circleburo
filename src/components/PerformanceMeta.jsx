@@ -4,19 +4,25 @@ import { Helmet } from '@dr.pogodin/react-helmet';
 import { getMediaUrl } from '../utils/media';
 
 const PerformanceMeta = () => {
+  const mediaBaseUrl = import.meta.env.VITE_MEDIA_BASE_URL;
+
   return (
     <Helmet>
-      {/* Preload critical resources */}
-      <link rel="preload" href={getMediaUrl("fonts/Montserrat-Regular.woff2")} as="font" type="font/woff2" crossOrigin="anonymous" />
-      <link rel="preload" href={getMediaUrl("fonts/Montserrat-Bold.woff2")} as="font" type="font/woff2" crossOrigin="anonymous" />
+      {/* Preconnect to media CDN for faster media loading */}
+      {mediaBaseUrl && (
+        <>
+          <link rel="preconnect" href={mediaBaseUrl} crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href={mediaBaseUrl} />
+        </>
+      )}
 
       {/* Preload critical images */}
       <link rel="preload" href={getMediaUrl("img/logo-header.png")} as="image" />
-      
+
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-      
+
       {/* Resource hints */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://www.googletagmanager.com" />
