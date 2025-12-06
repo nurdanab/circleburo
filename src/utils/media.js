@@ -16,7 +16,15 @@ export const getMediaUrl = (path) => {
   // Если есть MinIO URL, используем его
   if (MEDIA_BASE_URL) {
     // Добавляем /media/ для bucket в MinIO
-    return `${MEDIA_BASE_URL}/media/${cleanPath}`;
+    // Добавляем версию для обхода кэша CloudFlare (временно)
+    const url = `${MEDIA_BASE_URL}/media/${cleanPath}`;
+
+    // Для видео добавляем версию для обхода кэша
+    if (cleanPath.endsWith('.mp4')) {
+      return `${url}?v=20251206`;
+    }
+
+    return url;
   }
 
   // Иначе возвращаем локальный путь
