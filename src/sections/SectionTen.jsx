@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -6,80 +7,25 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const SectionTen = () => {
-  const slides = [
-    {
-      number: "01",
-      title: "MARKETING",
-      color: "#F0CD4B",
-      textColor: "#0E5A4D",
-      items: [
-        { name: "Concept/Visualisation", price: "250,000 KZT" },
-        { name: "Mini events", price: "Individual pricing" },
-        { name: "Audit and analysis", price: "250,000 KZT" }
-      ]
-    },
-    {
-      number: "02",
-      title: "DESIGN",
-      color: "#F25340",
-      textColor: "#F0CD4B",
-      items: [
-        { name: "Mini guidebook", detail: "(6 pages)", price: "500,000 KZT" },
-        { name: "Presentation", detail: "(1 page)", price: "10,000 KZT" },
-        { name: "Packaging and branding", detail: "(1 pc.)", price: "Individual pricing" },
-        { name: "2D Animation", detail: "(1 sec.)", price: "10,000 KZT" },
-        { name: "3D Animation", detail: "(1 sec.)", price: "20,000 KZT" },
-        { name: "3D visualisation of conceptualization", detail: "(1 sec.)", price: "35,000 KZT" },
-        { name: "Posters, banners, illustrations", detail: "(1 pc.)", price: "20,000 KZT" },
-        { name: "Design for social media", price: "10,000 KZT" }
-      ]
-    },
-    {
-      number: "03",
-      title: "WEB DESIGN",
-      color: "#F09FB2",
-      textColor: "#49526F",
-      items: [
-        { name: "Website development (React)/Pro", price: "2,500,000-5,000,000 KZT" },
-        { name: "Website development (Tilda)/Business", price: "1,000,000 KZT" },
-        { name: "Site care", price: "150,000 KZT" }
-      ]
-    },
-    {
-      number: "04",
-      title: "INTERIOR DESIGN",
-      color: "#0E5A4D",
-      textColor: "#F09FB2",
-      items: [
-        { name: "Interior design (1 m^2)", price: "30,000 KZT" },
-        { name: "Interior design (1 m^2) turnkey", price: "50,000 KZT" }
-      ]
-    },
-    {
-      number: "05",
-      title: "SMM",
-      color: "#F6EDCE",
-      textColor: "#F25340",
-      items: [
-        { name: "Content Plan", price: "Individual pricing" },
-        { name: "Set-up profile", detail: "(10 pc.)", price: "Individual pricing" },
-        { name: "Filming reels/tiktok", detail: "(12 pc.)", price: "Individual pricing" },
-        { name: "Stories", detail: "(20 pc.)", price: "Individual pricing" },
-        { name: "Target", price: "Individual pricing" }
-      ]
-    },
-    {
-      number: "06",
-      title: "PRODUCTION",
-      color: "#49526F",
-      textColor: "#F0CD4B",
-      items: [
-        { name: "Video editing", detail: "(1pc.)", price: "100,000 KZT" },
-        { name: "Videoproduction", detail: "(1 hr.)", price: "50,000 KZT" },
-        { name: "Photoproduction", detail: "(1 hr.)", price: "35,000 KZT" }
-      ]
-    }
+  const { t } = useTranslation();
+
+  // Получаем переведенные данные из i18n
+  const translatedSlides = t('sectionTen.slides', { returnObjects: true });
+
+  // Добавляем статические данные (номер, цвета) к переведенным данным
+  const slideColors = [
+    { number: "01", color: "#F0CD4B", textColor: "#0E5A4D" },
+    { number: "02", color: "#F25340", textColor: "#F0CD4B" },
+    { number: "03", color: "#F09FB2", textColor: "#49526F" },
+    { number: "04", color: "#0E5A4D", textColor: "#F09FB2" },
+    { number: "05", color: "#F6EDCE", textColor: "#F25340" },
+    { number: "06", color: "#49526F", textColor: "#F0CD4B" }
   ];
+
+  const slides = translatedSlides.map((slide, index) => ({
+    ...slide,
+    ...slideColors[index]
+  }));
 
   const sectionRef = useRef(null);
   const slidesRef = useRef([]);
@@ -289,12 +235,12 @@ const SectionTen = () => {
 
         <div style={{ position: 'relative', zIndex: 1 }}>
           <div style={listStyle}>
-            01. MARKETING<br/>
-            02. DESIGN<br/>
-            03. WEB DESIGN<br/>
-            04. INTERIOR DESIGN<br/>
-            05. SMM<br/>
-            06. PRODUCTION
+            {slides.map((slide, i) => (
+              <React.Fragment key={i}>
+                {slide.number}. {slide.title}
+                {i < slides.length - 1 && <br/>}
+              </React.Fragment>
+            ))}
           </div>
           <div style={numberStyle}>
             {currentSlide.number}
@@ -311,7 +257,7 @@ const SectionTen = () => {
           position: 'relative',
           zIndex: 1
         }}>
-          01. MARKETING<br/>
+          {slides[0]?.number}. {slides[0]?.title}<br/>
           {currentSlide.number}. {currentSlide.title}
         </div>
       </div>

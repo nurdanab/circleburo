@@ -139,6 +139,9 @@ function AppContent() {
           {/* Kazakh routes */}
           <Route path="/kk" element={<LazyPage component={HomePage} />} />
 
+          {/* Chinese routes */}
+          <Route path="/zh" element={<LazyPage component={HomePage} />} />
+
           {/* Admin page */}
           <Route path="/admin" element={<LazyPage component={AdminPage} />} />
 

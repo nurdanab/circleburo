@@ -240,5 +240,63 @@
       },
       "imageAlt": "Design work",
       "photos": "photos"
+    },
+    "sectionTen": {
+      "slides": [
+        {
+          "title": "MARKETING",
+          "items": [
+            { "name": "Concept/Visualisation", "price": "250,000 KZT" },
+            { "name": "Mini events", "price": "Individual pricing" },
+            { "name": "Audit and analysis", "price": "250,000 KZT" }
+          ]
+        },
+        {
+          "title": "DESIGN",
+          "items": [
+            { "name": "Mini guidebook", "detail": "(6 pages)", "price": "500,000 KZT" },
+            { "name": "Presentation", "detail": "(1 page)", "price": "10,000 KZT" },
+            { "name": "Packaging and branding", "detail": "(1 pc.)", "price": "Individual pricing" },
+            { "name": "2D Animation", "detail": "(1 sec.)", "price": "10,000 KZT" },
+            { "name": "3D Animation", "detail": "(1 sec.)", "price": "20,000 KZT" },
+            { "name": "3D visualisation of conceptualization", "detail": "(1 sec.)", "price": "35,000 KZT" },
+            { "name": "Posters, banners, illustrations", "detail": "(1 pc.)", "price": "20,000 KZT" },
+            { "name": "Design for social media", "price": "10,000 KZT" }
+          ]
+        },
+        {
+          "title": "WEB DESIGN",
+          "items": [
+            { "name": "Website development (React)/Pro", "price": "2,500,000-5,000,000 KZT" },
+            { "name": "Website development (Tilda)/Business", "price": "1,000,000 KZT" },
+            { "name": "Site care", "price": "150,000 KZT" }
+          ]
+        },
+        {
+          "title": "INTERIOR DESIGN",
+          "items": [
+            { "name": "Interior design (1 m^2)", "price": "30,000 KZT" },
+            { "name": "Interior design (1 m^2) turnkey", "price": "50,000 KZT" }
+          ]
+        },
+        {
+          "title": "SMM",
+          "items": [
+            { "name": "Content Plan", "price": "Individual pricing" },
+            { "name": "Set-up profile", "detail": "(10 pc.)", "price": "Individual pricing" },
+            { "name": "Filming reels/tiktok", "detail": "(12 pc.)", "price": "Individual pricing" },
+            { "name": "Stories", "detail": "(20 pc.)", "price": "Individual pricing" },
+            { "name": "Target", "price": "Individual pricing" }
+          ]
+        },
+        {
+          "title": "PRODUCTION",
+          "items": [
+            { "name": "Video editing", "detail": "(1pc.)", "price": "100,000 KZT" },
+            { "name": "Videoproduction", "detail": "(1 hr.)", "price": "50,000 KZT" },
+            { "name": "Photoproduction", "detail": "(1 hr.)", "price": "35,000 KZT" }
+          ]
+        }
+      ]
     }
   }

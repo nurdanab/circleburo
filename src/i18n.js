@@ -26,7 +26,7 @@ i18n
     react: {
       useSuspense: false,
     },
-    supportedLngs: ['en', 'ru', 'kk'],
+    supportedLngs: ['en', 'ru', 'kk', 'zh'],
 
     ns: ['translation'],
     defaultNS: 'translation',

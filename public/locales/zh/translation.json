@@ -1,0 +1,306 @@
+{
+    "nav": {
+      "contact": "联系我们"
+    },
+    "footer": {
+      "description": "Circle Creative Buro——阿拉木图创意代理机构，提供全周期营销和广告服务，助力业务发展。",
+      "navigation": "导航",
+      "services": "服务",
+      "contact": "联系方式",
+      "copyright": "© 2025 Circle. 版权所有。",
+      "privacyPolicy": "隐私政策",
+      "termsOfService": "服务条款",
+      "phone": "+7 708 268 69 82",
+      "address": "拜扎科娃街280号，阿拉木图",
+      "email": "info@circleburo.kz",
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "threads": "Threads"
+      }
+    },
+    "notFound": {
+      "title": "页面未找到",
+      "description": "请求的页面不存在。可能已被移动、删除，或者您输入了错误的URL。",
+      "goHome": "返回首页",
+      "aboutUs": "关于我们"
+    },
+    "firstSection": {
+      "subtitle": "全周期创意代理机构",
+      "title1": "广告代理",
+      "title2": "创意无限",
+      "title3": "突破边界",
+      "description": "将创意转化为生动现实"
+    },
+    "secondSection": {
+      "firstMessage": "我们创造大胆的营销活动，将品牌转变为",
+      "secondMessage": "激发灵感、吸引参与、改变市场",
+      "description": "与CIRCLE一起将您的愿景变为现实，创意与策略在此相遇，品牌成为市场上不可阻挡的力量。",
+      "aboutPeople1": "Circle关乎人。",
+      "aboutPeople2": "懂得创造的人。",
+      "aboutPeople3": "感知。看得更远。",
+      "storyText": "一切始于一家小咖啡馆，人们的潜力在那里开始绽放。五个人将混乱汇聚成统一的节奏。不同的人，但同样充满激情，每个人都为圆圈添加了自己的点。点开始连接。设计。营销。策略。意义。动力。"
+    },
+    "sectionSeven": {
+      "title": "网页开发",
+      "subtitle": "作品展示",
+      "description": "从概念到执行——我们创造为您的品牌服务并留在受众记忆中的设计解决方案。",
+      "button": "查看更多作品"
+    },
+    "sectionEight": {
+      "title": "案例研究"
+    },
+    "contactForm": {
+      "title": "联系我们",
+      "subtitle": "预约咨询我们的专家，讨论您的项目需求并获得个性化建议",
+      "selectDateTime": "选择日期和时间",
+      "yourInformation": "您的信息",
+      "availableDates": "可用日期：",
+      "availableTimes": "可用时间：",
+      "fullName": "全名",
+      "fullNamePlaceholder": "输入您的姓名",
+      "phoneNumber": "电话号码",
+      "phonePlaceholder": "+7 XXX XXX XX XX",
+      "selectedSlot": "已选时间段：",
+      "bookConsultation": "预约咨询",
+      "submitting": "提交中...",
+      "bookingConfirmed": "预约已确认！",
+      "requestSent": "请求已成功发送！",
+      "receivedBooking": "我们已收到您的预约请求：",
+      "managerContact": "我们的经理将很快与您联系以确认详细信息。",
+      "meetingConfirmed": "您的会议已由我们的经理确认！",
+      "bookAnotherSlot": "预约其他时间段",
+      "noAvailableSlots": "所选日期没有可用时间段",
+      "chooseAnotherDate": "请选择其他日期",
+      "loadingSlots": "正在加载可用时间段...",
+      "errors": {
+        "invalidName": "请输入有效的姓名",
+        "invalidPhone": "请输入有效的电话号码",
+        "noDateOrTime": "请选择日期和时间",
+        "slotUnavailable": "所选时间已不可用。请选择其他时间段。",
+        "submissionError": "提交申请时发生错误。请重试。"
+      },
+      "legend": {
+        "selected": "已选择",
+        "available": "可用",
+        "unavailable": "不可用"
+      },
+      "status": {
+        "pending": "待处理",
+        "confirmed": "已确认",
+        "cancelled": "已取消"
+      }
+    },
+    "calendar": {
+      "january": "一月",
+      "february": "二月",
+      "march": "三月",
+      "april": "四月",
+      "may": "五月",
+      "june": "六月",
+      "july": "七月",
+      "august": "八月",
+      "september": "九月",
+      "october": "十月",
+      "november": "十一月",
+      "december": "十二月",
+      "sun": "日",
+      "mon": "一",
+      "tue": "二",
+      "wed": "三",
+      "thu": "四",
+      "fri": "五",
+      "sat": "六"
+    },
+    "beforeAfter": {
+      "toggleText": "点击上色",
+      "beforeAlt": "之前",
+      "afterAlt": "之后"
+    },
+    "packages": {
+      "card1": {
+        "title": "产品基础核心",
+        "price": "1,500,000 坚戈",
+        "services": {
+          "1": {
+            "title": "包装设计",
+            "description": "主包装设计·标签和法规布局·模型·修订"
+          },
+          "2": {
+            "title": "迷你视觉识别套件",
+            "description": "标志（主要+次要）·调色板·排版·布局系统·应用·迷你品牌手册"
+          },
+          "3": {
+            "title": "单页网站",
+            "description": "UX线框·UI设计·开发·响应式移动端·分析"
+          },
+          "4": {
+            "title": "商业演示",
+            "description": "产品推介材料"
+          },
+          "5": {
+            "title": "社交媒体内容",
+            "description": "静态帖子·短视频·故事·仅材料"
+          }
+        }
+      },
+      "card2": {
+        "title": "品牌360套装",
+        "price": "3,000,000 坚戈",
+        "services": {
+          "1": {
+            "title": "品牌策略",
+            "description": "品牌发现工作坊·品牌策略文件"
+          },
+          "2": {
+            "title": "品牌手册",
+            "description": "完整的品牌识别规则"
+          },
+          "3": {
+            "title": "完整视觉识别系统",
+            "description": "标志系统·调色板·排版系统·图标·照片和艺术指导·应用·修订"
+          },
+          "4": {
+            "title": "包装系统（多SKU）",
+            "description": "主包装模板·SKU适配模型"
+          },
+          "5": {
+            "title": "企业网站",
+            "description": "UX线框·UI设计·开发·SEO"
+          },
+          "6": {
+            "title": "分销商资料包",
+            "description": "完整的商业资料"
+          }
+        }
+      },
+      "card3": {
+        "title": "市场桥梁",
+        "price": "2,000,000 坚戈",
+        "services": {
+          "1": {
+            "title": "市场本地化",
+            "description": "哈萨克斯坦文化洞察·消费者行为适配·竞争格局·信息传递建议"
+          },
+          "2": {
+            "title": "SMM完整内容制作",
+            "description": "1个月·内容策略·月度日历·故事·短视频·视频拍摄·封面·文案"
+          },
+          "3": {
+            "title": "社交媒体账户设置与优化",
+            "description": "个人资料专业化·网格布局规划·标签/主题集群"
+          },
+          "4": {
+            "title": "分析与报告",
+            "description": "一个月绩效报告"
+          }
+        }
+      },
+      "card4": {
+        "title": "CIRCLE套餐",
+        "price": "5,000,000 坚戈",
+        "services": {
+          "1": "品牌与商业策略",
+          "2": "品牌识别创建",
+          "3": "产品与包装设计",
+          "4": "网站与数字化展示",
+          "5": "市场进入与本地化适配",
+          "6": "SMM策略与创意执行",
+          "7": "商业演示与投资者材料"
+        }
+      },
+      "card5": {
+        "title": "创意咨询",
+        "price": "定制价格",
+        "services": {
+          "1": "品牌策略咨询",
+          "2": "广告与创意咨询",
+          "3": "产品与包装咨询",
+          "4": "市场进入与增长策略",
+          "5": "B2B与招标支持",
+          "6": "电子商务策略（KASPI | WILDBERRIES | FLIPKZ）",
+          "7": "数据与分析咨询（关键部分）"
+        }
+      }
+    },
+    "sectionSix": {
+      "stages": {
+        "design": {
+          "main": "设计",
+          "sub": "创建视觉识别"
+        },
+        "graphics": {
+          "main": "图形",
+          "sub": "开发图形解决方案"
+        },
+        "illustration": {
+          "main": "插画",
+          "sub": "将创意变为现实"
+        },
+        "motion": {
+          "main": "动效",
+          "sub": "为设计注入动画"
+        }
+      },
+      "imageAlt": "设计作品",
+      "photos": "照片"
+    },
+    "sectionTen": {
+      "slides": [
+        {
+          "title": "营销",
+          "items": [
+            { "name": "概念/可视化", "price": "250,000 坚戈" },
+            { "name": "小型活动", "price": "定制价格" },
+            { "name": "审计与分析", "price": "250,000 坚戈" }
+          ]
+        },
+        {
+          "title": "设计",
+          "items": [
+            { "name": "迷你指南手册", "detail": "(6页)", "price": "500,000 坚戈" },
+            { "name": "演示文稿", "detail": "(1页)", "price": "10,000 坚戈" },
+            { "name": "包装和品牌", "detail": "(1件)", "price": "定制价格" },
+            { "name": "2D动画", "detail": "(1秒)", "price": "10,000 坚戈" },
+            { "name": "3D动画", "detail": "(1秒)", "price": "20,000 坚戈" },
+            { "name": "3D概念化可视化", "detail": "(1秒)", "price": "35,000 坚戈" },
+            { "name": "海报、横幅、插画", "detail": "(1件)", "price": "20,000 坚戈" },
+            { "name": "社交媒体设计", "price": "10,000 坚戈" }
+          ]
+        },
+        {
+          "title": "网页设计",
+          "items": [
+            { "name": "网站开发(React)/专业版", "price": "2,500,000-5,000,000 坚戈" },
+            { "name": "网站开发(Tilda)/商务版", "price": "1,000,000 坚戈" },
+            { "name": "网站维护", "price": "150,000 坚戈" }
+          ]
+        },
+        {
+          "title": "室内设计",
+          "items": [
+            { "name": "室内设计(1平方米)", "price": "30,000 坚戈" },
+            { "name": "室内设计(1平方米)全包", "price": "50,000 坚戈" }
+          ]
+        },
+        {
+          "title": "社交媒体营销",
+          "items": [
+            { "name": "内容计划", "price": "定制价格" },
+            { "name": "账号设置", "detail": "(10件)", "price": "定制价格" },
+            { "name": "短视频/抖音拍摄", "detail": "(12件)", "price": "定制价格" },
+            { "name": "快拍", "detail": "(20件)", "price": "定制价格" },
+            { "name": "定向广告", "price": "定制价格" }
+          ]
+        },
+        {
+          "title": "制作",
+          "items": [
+            { "name": "视频剪辑", "detail": "(1件)", "price": "100,000 坚戈" },
+            { "name": "视频制作", "detail": "(1小时)", "price": "50,000 坚戈" },
+            { "name": "摄影制作", "detail": "(1小时)", "price": "35,000 坚戈" }
+          ]
+        }
+      ]
+    }
+  }
