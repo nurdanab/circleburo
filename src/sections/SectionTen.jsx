@@ -85,6 +85,7 @@ const SectionTen = () => {
   const slidesRef = useRef([]);
   const leftPanelRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0); // Ref для отслеживания актуального индекса в callback
   const [isMobile, setIsMobile] = useState(false);
 
   // Проверка мобильного устройства
@@ -138,7 +139,8 @@ const SectionTen = () => {
         const index = Math.max(0, Math.min(slides.length - 1, Math.round(rawIndex)));
 
         // Обновляем активный индекс только при изменении
-        if (index !== activeIndex) {
+        if (index !== activeIndexRef.current) {
+          activeIndexRef.current = index;
           setActiveIndex(index);
         }
 
@@ -198,6 +200,9 @@ const SectionTen = () => {
     };
   }, { scope: sectionRef, dependencies: [] });
 
+  // Безопасный доступ к текущему слайду
+  const currentSlide = slides[Math.max(0, Math.min(slides.length - 1, activeIndex))] || slides[0];
+
   // Стили для адаптивности
   const containerStyle = {
     height: '100vh',
@@ -236,7 +241,7 @@ const SectionTen = () => {
     width: isMobile ? '160px' : '400px',
     height: isMobile ? '160px' : '400px',
     borderRadius: '50%',
-    border: `2px solid ${slides[activeIndex].textColor}20`,
+    border: `2px solid ${currentSlide.textColor}20`,
     pointerEvents: 'none',
     opacity: isMobile ? 0.5 : 1
   };
@@ -249,7 +254,7 @@ const SectionTen = () => {
     width: isMobile ? '120px' : '300px',
     height: isMobile ? '120px' : '300px',
     borderRadius: '50%',
-    border: `2px solid ${slides[activeIndex].textColor}15`,
+    border: `2px solid ${currentSlide.textColor}15`,
     pointerEvents: 'none',
     opacity: isMobile ? 0.5 : 1
   };
@@ -257,16 +262,16 @@ const SectionTen = () => {
   const numberStyle = {
     fontSize: isMobile ? '64px' : '160px',
     fontWeight: 'bold',
-    color: slides[activeIndex].textColor,
+    color: currentSlide.textColor,
     lineHeight: '0.9',
     marginTop: isMobile ? '12px' : '40px',
     fontFamily: "'Lilita One', sans-serif",
-    textShadow: `4px 4px 0 ${slides[activeIndex].textColor}15`
+    textShadow: `4px 4px 0 ${currentSlide.textColor}15`
   };
 
   const listStyle = {
     fontSize: isMobile ? '8px' : '11px',
-    color: slides[activeIndex].textColor,
+    color: currentSlide.textColor,
     marginBottom: isMobile ? '6px' : '10px',
     letterSpacing: isMobile ? '1px' : '1.5px',
     lineHeight: '1.6',
@@ -292,13 +297,13 @@ const SectionTen = () => {
             06. PRODUCTION
           </div>
           <div style={numberStyle}>
-            {slides[activeIndex].number}
+            {currentSlide.number}
           </div>
         </div>
 
         <div style={{
           fontSize: isMobile ? '9px' : '11px',
-          color: slides[activeIndex].textColor,
+          color: currentSlide.textColor,
           marginTop: 'auto',
           letterSpacing: '1.5px',
           opacity: 0.7,
@@ -307,7 +312,7 @@ const SectionTen = () => {
           zIndex: 1
         }}>
           01. MARKETING<br/>
-          {slides[activeIndex].number}. {slides[activeIndex].title}
+          {currentSlide.number}. {currentSlide.title}
         </div>
       </div>
 
