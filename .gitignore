@@ -32,8 +32,6 @@ public/fonts/
 !public/img/favicon.svg
 !public/img/apple-touch-icon.png
 !public/img/web-app-manifest-*.png
-!public/img/circle-fill.webp
-!public/img/circle-fill.ico
 
 # Editor directories and files
 .vscode/*
