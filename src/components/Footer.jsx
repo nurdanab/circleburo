@@ -19,15 +19,9 @@ const FooterSection = () => {
   const contactInfo = useMemo(() => [
     {
       icon: Phone,
-      text: t('footer.phone1'),
-      href: 'tel:+77761536092',
-      ariaLabel: t('footer.phone1')
-    },
-    {
-      icon: Phone,
-      text: t('footer.phone2'),
-      href: 'tel:+77754201840',
-      ariaLabel: t('footer.phone2')
+      text: t('footer.phone'),
+      href: 'tel:+77082686982',
+      ariaLabel: t('footer.phone')
     },
     {
       icon: MapPin,
