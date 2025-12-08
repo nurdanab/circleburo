@@ -37,30 +37,29 @@ const SectionSix = () => {
     { mainKey: "sectionSix.stages.motion.main", subKey: "sectionSix.stages.motion.sub" },
   ];
 
-  // Все изображения
+  // Все изображения (WebP для быстрой загрузки)
   const allImages = [
-    getMediaUrl("img/design/1d.png"),
-    getMediaUrl("img/design/2d.png"),
-    getMediaUrl("img/design/3d.png"),
-    getMediaUrl("img/design/4d.png"),
-    getMediaUrl("img/design/5d.png"),
-    getMediaUrl("img/design/6d.png"),
-    getMediaUrl("img/design/7d.png"),
-    getMediaUrl("img/design/8d.png"),
-    getMediaUrl("img/design/9d.png"),
-    getMediaUrl("img/design/10d.png"),
-    getMediaUrl("img/design/11d.png"),
-    getMediaUrl("img/design/12d.png"),
-    getMediaUrl("img/design/13d.png"),
-    getMediaUrl("img/design/14d.png"),
-    getMediaUrl("img/design/15d.png"),
-    getMediaUrl("img/design/16d.jpeg"),
-    getMediaUrl("img/design/17d.png"),
-    getMediaUrl("img/design/18d.png"),
-    getMediaUrl("img/design/19d.png"),
-    getMediaUrl("img/design/20d.png"),
-    getMediaUrl("img/design/21d.png"),
-    getMediaUrl("img/design/22d.png"),
+    getMediaUrl("img/design/1d.webp"),
+    getMediaUrl("img/design/2d.webp"),
+    getMediaUrl("img/design/3d.webp"),
+    getMediaUrl("img/design/4d.webp"),
+    getMediaUrl("img/design/5d.webp"),
+    getMediaUrl("img/design/6d.webp"),
+    getMediaUrl("img/design/7d.webp"),
+    getMediaUrl("img/design/8d.webp"),
+    getMediaUrl("img/design/9d.webp"),
+    // 10d and 11d are Git LFS pointers - skipped
+    getMediaUrl("img/design/12d.webp"),
+    getMediaUrl("img/design/13d.webp"),
+    getMediaUrl("img/design/14d.webp"),
+    getMediaUrl("img/design/15d.webp"),
+    getMediaUrl("img/design/16d.webp"),
+    getMediaUrl("img/design/17d.webp"),
+    getMediaUrl("img/design/18d.webp"),
+    getMediaUrl("img/design/19d.webp"),
+    getMediaUrl("img/design/20d.webp"),
+    getMediaUrl("img/design/21d.webp"),
+    getMediaUrl("img/design/22d.webp"),
   ];
 
   // Адаптивные позиции для разных устройств

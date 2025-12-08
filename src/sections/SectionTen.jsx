@@ -102,6 +102,13 @@ const SectionTen = () => {
   useGSAP(() => {
     if (!sectionRef.current || slidesRef.current.length === 0) return;
 
+    // Инициализация левой панели
+    if (leftPanelRef.current) {
+      gsap.set(leftPanelRef.current, {
+        backgroundColor: slides[0].color
+      });
+    }
+
     // Инициализация слайдов
     slidesRef.current.forEach((slide, i) => {
       if (slide) {
@@ -127,7 +134,8 @@ const SectionTen = () => {
         const progress = self.progress;
         // Улучшенный расчет индекса для плавной обратной прокрутки
         const rawIndex = progress * (slides.length - 1);
-        const index = Math.round(rawIndex);
+        // Ограничиваем index в пределах валидного диапазона
+        const index = Math.max(0, Math.min(slides.length - 1, Math.round(rawIndex)));
 
         // Обновляем активный индекс только при изменении
         if (index !== activeIndex) {
@@ -141,8 +149,9 @@ const SectionTen = () => {
           const distance = i - rawIndex;
           let x, opacity, zIndex;
 
-          if (Math.abs(distance) < 0.5) {
-            // Текущий активный слайд (увеличен порог)
+          // Увеличенный порог для более стабильного отображения активного слайда
+          if (Math.abs(distance) < 0.6) {
+            // Текущий активный слайд
             x = "0%";
             opacity = 1;
             zIndex = 10;
@@ -172,6 +181,8 @@ const SectionTen = () => {
         // Анимация левой панели (синхронизация цветов)
         if (leftPanelRef.current) {
           const currentColor = slides[index].color;
+          const currentTextColor = slides[index].textColor;
+
           gsap.to(leftPanelRef.current, {
             backgroundColor: currentColor,
             duration: 0.3,
@@ -200,12 +211,11 @@ const SectionTen = () => {
   const leftPanelStyle = {
     width: isMobile ? '100%' : '50%',
     height: isMobile ? '35%' : '100%',
-    backgroundColor: slides[activeIndex].color,
+    // backgroundColor управляется через GSAP для плавности
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     padding: isMobile ? '24px 16px' : '60px',
-    transition: 'background-color 0.5s ease',
     position: 'relative',
     zIndex: 5
   };
