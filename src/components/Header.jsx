@@ -87,10 +87,15 @@ const Header = () => {
         console.log('Already on home, scrolling to:', sectionId);
       }
 
+      // Определяем мобильное устройство
+      const isMobile = window.innerWidth < 768;
+
+      // Плавный скролл к секции (SectionTwelve загружается сразу, не требует предзагрузки)
+      // На мобильных нужно больше попыток, так как другие секции загружаются медленнее
       navigateToSection(navigate, location.pathname, '/', sectionId, {
-        maxAttempts: 15,
-        delay: 150,
-        offset: 80 // Account for fixed header
+        maxAttempts: isMobile ? 40 : 20,
+        delay: isMobile ? 200 : 150,
+        offset: isMobile ? 72 : 80 // Account for fixed header (меньше на мобильных)
       });
     }
   }, [location.pathname, navigate]);

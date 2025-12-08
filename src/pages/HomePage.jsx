@@ -17,7 +17,9 @@ const SectionEightC = React.lazy(() => import('../sections/SectionEightC'));
 const SectionNine = React.lazy(() => import('../sections/SectionNine'));
 const SectionTen = React.lazy(() => import('../sections/SectionTen'));
 const SectionEleven = React.lazy(() => import('../sections/SectionEleven'));
-const SectionTwelve = React.lazy(() => import('../sections/SectionTwelve'));
+
+// SectionTwelve загружается сразу (не lazy) для надёжной работы кнопки "Связаться"
+import SectionTwelve from '../sections/SectionTwelve';
 
 function HomePage() {
   const seoData = useSEO('home');
@@ -109,12 +111,8 @@ function HomePage() {
         </Suspense>
       </LazySection>
 
-      {/* SectionTwelve */}
-      <LazySection priority={true} rootMargin="200px">
-        <Suspense fallback={<div style={{ minHeight: '100vh' }} aria-label="Загрузка секции" />}>
-          <SectionTwelve />
-        </Suspense>
-      </LazySection>
+      {/* SectionTwelve - загружается сразу для работы кнопки "Связаться" */}
+      <SectionTwelve />
     </main>
   );
 }
