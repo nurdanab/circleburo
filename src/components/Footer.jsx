@@ -26,7 +26,7 @@ const FooterSection = () => {
     {
       icon: MapPin,
       text: t('footer.address'),
-      href: 'https://2gis.kz/almaty/firm/70000001104431525',
+      href: 'https://2gis.kz/almaty/search/%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%91%D0%B0%D0%B9%D0%B7%D0%B0%D0%BA%D0%BE%D0%B2%D0%B0%20280',
       ariaLabel: t('footer.address')
     },
     {
