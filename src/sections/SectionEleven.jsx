@@ -34,30 +34,35 @@ const SectionEleven = () => {
     });
   }, []);
 
-  // Мемоизированные пути к изображениям
-  const imageSrc = useMemo(
-    () => (isAfter ? getMediaUrl("img/team/after.PNG") : getMediaUrl("img/team/before.PNG")),
-    [isAfter]
-  );
+  // Мемоизированные пути к изображениям (WebP версии для быстрой загрузки)
+  const beforeSrc = useMemo(() => getMediaUrl("img/team/before.webp"), []);
+  const afterSrc = useMemo(() => getMediaUrl("img/team/after.webp"), []);
 
-  const imageAlt = useMemo(
-    () => t(isAfter ? 'beforeAfter.afterAlt' : 'beforeAfter.beforeAlt'),
-    [isAfter, t]
-  );
+  const beforeAlt = useMemo(() => t('beforeAfter.beforeAlt'), [t]);
+  const afterAlt = useMemo(() => t('beforeAfter.afterAlt'), [t]);
 
   // Массив фейерверков для оптимизации
   const fireworks = useMemo(() => Array.from({ length: 12 }, (_, i) => i), []);
 
   return (
     <section className="section-eleven" aria-label={t('beforeAfter.toggleText')}>
-      {/* Фоновое изображение */}
+      {/* Фоновые изображения - оба предзагружены для мгновенного переключения */}
       <div className="image-container">
         <img
-          src={imageSrc}
-          alt={imageAlt}
-          className="background-image"
-          loading="lazy"
+          src={beforeSrc}
+          alt={beforeAlt}
+          className={`background-image ${!isAfter ? 'active' : ''}`}
+          loading="eager"
           decoding="async"
+          fetchpriority="high"
+        />
+        <img
+          src={afterSrc}
+          alt={afterAlt}
+          className={`background-image ${isAfter ? 'active' : ''}`}
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
         />
       </div>
 
