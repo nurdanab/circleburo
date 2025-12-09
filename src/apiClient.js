@@ -50,31 +50,26 @@ class TableQuery {
     try {
       const results = [];
       for (const record of this.insertData) {
-        console.log('[apiClient] POST request:', `${this.baseURL}/api/${this.table}`, record);
+        const url = `${this.baseURL}/api/${this.table}`;
 
-        const response = await fetch(`${this.baseURL}/api/${this.table}`, {
+        const response = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(record)
         });
 
-        console.log('[apiClient] Response status:', response.status, response.statusText);
-
         if (!response.ok) {
-          const errorData = await response.json();
-          console.error('[apiClient] Error response:', errorData);
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
           return { data: null, error: { message: errorData.error || 'Failed to insert data' } };
         }
 
         const data = await response.json();
-        console.log('[apiClient] Success response:', data);
         results.push(data);
       }
 
       return { data: results, error: null };
     } catch (error) {
-      console.error('[apiClient] Exception:', error);
-      return { data: null, error: { message: error.message } };
+      return { data: null, error: { message: error.message || 'Network error' } };
     }
   }
 
