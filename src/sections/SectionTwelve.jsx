@@ -282,8 +282,12 @@ const ContactFormSection = () => {
       // Дополнительная проверка с сервера для надежности
       const isAvailableOnServer = await checkSlotAvailabilityFromServer(selectedTime, selectedDate);
 
+      // Debug: Show which check failed
       if (!isAvailableLocally || !isAvailableOnServer) {
-        setError(t('contactForm.errors.slotUnavailable'));
+        const debugMsg = !isAvailableLocally
+          ? '(Debug: Local check failed)'
+          : '(Debug: Server check failed)';
+        setError(`${t('contactForm.errors.slotUnavailable')} ${debugMsg}`);
         setLoading(false);
         return;
       }
