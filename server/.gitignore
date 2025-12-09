@@ -1,0 +1,36 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Docker
+docker-compose.override.yml
+
+# Data exports
+data/
+backups/
+
+# Node modules
+node_modules/
+
+# SSL certificates
+nginx/ssl/*.pem
+nginx/ssl/*.key
+
+# Database data
+postgres_data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
