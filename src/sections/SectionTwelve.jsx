@@ -145,10 +145,10 @@ const ContactFormSection = () => {
     try {
       const { data, error } = await supabase
         .from('leads')
-        .select('meeting_time, status, id, name')
         .eq('meeting_date', dateStr)
         .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
-        .order('meeting_time', { ascending: true });
+        .order('meeting_time', { ascending: true })
+        .select('meeting_time, status, id, name');
 
       if (error) throw error;
 
@@ -215,10 +215,10 @@ const ContactFormSection = () => {
     try {
       const { data, error } = await supabase
         .from('leads')
-        .select('meeting_time, status, id, name')
         .eq('meeting_date', dateStr)
         .eq('meeting_time', timeSlot)
-        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED]);
+        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
+        .select('meeting_time, status, id, name');
 
       if (error) {
         return false; // В случае ошибки считаем слот недоступным
@@ -260,10 +260,10 @@ const ContactFormSection = () => {
       // Загружаем актуальные слоты и используем их для проверки
       const { data: currentSlotsData, error: fetchError } = await supabase
         .from('leads')
-        .select('meeting_time, status, id, name')
         .eq('meeting_date', dateStr)
         .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
-        .order('meeting_time', { ascending: true });
+        .order('meeting_time', { ascending: true })
+        .select('meeting_time, status, id, name');
 
       if (fetchError) throw fetchError;
 
@@ -406,8 +406,8 @@ ID: ${recordId}
     try {
       const { data, error } = await supabase
         .from('leads')
-        .select('status')
         .eq('id', bookingId)
+        .select('status')
         .single();
 
       if (error) throw error;
