@@ -74,7 +74,7 @@ class TableQuery {
   }
 
   // UPDATE
-  async update(updates) {
+  update(updates) {
     this.updateData = updates;
     return this;
   }
