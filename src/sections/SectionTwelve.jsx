@@ -217,20 +217,28 @@ const ContactFormSection = () => {
       : timeSlot;
 
     try {
+      // Get all leads for the date
       const { data, error } = await supabase
         .from('leads')
         .eq('meeting_date', dateStr)
-        .eq('meeting_time', timeSlotWithSeconds)
-        .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
         .select('meeting_time, status, id, name');
 
       if (error) {
+        console.error('[checkSlotAvailability] Error:', error);
         return false; // В случае ошибки считаем слот недоступным
       }
 
-      const isBooked = data && data.length > 0;
+      // Filter on client-side for matching time and status
+      const bookedSlots = (data || []).filter(slot => {
+        const slotTime = slot.meeting_time.slice(0, 5) + ':00';
+        return slotTime === timeSlotWithSeconds &&
+               [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED].includes(slot.status);
+      });
+
+      const isBooked = bookedSlots.length > 0;
       return !isBooked;
     } catch (err) {
+      console.error('[checkSlotAvailability] Exception:', err);
       return false; // В случае ошибки считаем слот недоступным
     }
   }, []);
