@@ -135,13 +135,18 @@ const AdminPage = () => {
     }
     setUpdating(leadId);
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('leads')
+        .update({ status: newStatus, updated_at: new Date().toISOString() })
         .eq('id', leadId)
-        .update({ status: newStatus, updated_at: new Date() })
         .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Update error:', error);
+        throw error;
+      }
+
+      console.log('Update response data:', data);
 
       if (import.meta.env.DEV) {
         console.log('Lead status updated successfully');
@@ -167,16 +172,21 @@ const AdminPage = () => {
   
   // Новая функция для сохранения только заметок
   const saveNotes = async (leadId) => {
-    setSavingNotes(leadId); 
+    setSavingNotes(leadId);
     try {
       const notesToUpdate = editNotes[leadId];
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('leads')
+        .update({ notes: notesToUpdate, updated_at: new Date().toISOString() })
         .eq('id', leadId)
-        .update({ notes: notesToUpdate, updated_at: new Date() })
         .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Save notes error:', error);
+        throw error;
+      }
+
+      console.log('Save notes response data:', data);
 
       // Обновляем локальное состояние только для заметок
       setLeads(prev => prev.map(lead =>

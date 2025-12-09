@@ -146,20 +146,29 @@ class TableQuery {
         throw new Error('Update requires .eq() clause');
       }
 
-      const response = await fetch(`${this.baseURL}/api/${this.table}/${this.eqValue}`, {
+      const url = `${this.baseURL}/api/${this.table}/${this.eqValue}`;
+      console.log('[apiClient] PATCH request:', url);
+      console.log('[apiClient] Update data:', this.updateData);
+
+      const response = await fetch(url, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.updateData)
       });
 
+      console.log('[apiClient] PATCH response status:', response.status, response.statusText);
+
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('[apiClient] PATCH error:', errorData);
         return { data: null, error: { message: errorData.error || 'Failed to update data' } };
       }
 
       const data = await response.json();
+      console.log('[apiClient] PATCH success:', data);
       return { data: [data], error: null };
     } catch (error) {
+      console.error('[apiClient] PATCH exception:', error);
       return { data: null, error: { message: error.message } };
     }
   }
