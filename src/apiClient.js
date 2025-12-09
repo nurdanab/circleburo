@@ -40,13 +40,16 @@ class TableQuery {
   }
 
   // INSERT
-  async insert(records) {
-    try {
-      const recordsArray = Array.isArray(records) ? records : [records];
+  insert(records) {
+    this.insertData = Array.isArray(records) ? records : [records];
+    return this; // Return this to allow chaining with .select()
+  }
 
-      // Make separate requests for each record (since our API creates one at a time)
+  // Execute INSERT
+  async _executeInsert() {
+    try {
       const results = [];
-      for (const record of recordsArray) {
+      for (const record of this.insertData) {
         console.log('[apiClient] POST request:', `${this.baseURL}/api/${this.table}`, record);
 
         const response = await fetch(`${this.baseURL}/api/${this.table}`, {
@@ -166,8 +169,14 @@ class TableQuery {
     }
   }
 
-  // Override select() to handle update case
+  // Override select() to handle update and insert cases
   async select(columns = '*') {
+    // Handle insert case
+    if (this.insertData) {
+      return this._executeInsert();
+    }
+
+    // Handle update case
     if (this.updateData) {
       return this._executeUpdate();
     }
