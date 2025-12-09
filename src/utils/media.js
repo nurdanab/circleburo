@@ -21,7 +21,7 @@ export const getMediaUrl = (path) => {
 
     // Для видео добавляем версию для обхода кэша
     if (cleanPath.endsWith('.mp4')) {
-      return `${url}?v=20251206`;
+      return `${url}?v=20251209`;
     }
 
     return url;
