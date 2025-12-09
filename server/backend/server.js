@@ -29,11 +29,35 @@ pool.query('SELECT NOW()', (err, res) => {
 
 // Middleware
 app.use(helmet());
+
+// CORS configuration - allow requests from frontend
+const allowedOrigins = [
+  'https://circleburo.kz',
+  'https://www.circleburo.kz',
+  'http://localhost:5173', // for local development
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+
+    // Allow any origin if CORS_ORIGIN is set to '*'
+    if (process.env.CORS_ORIGIN === '*') return callback(null, true);
+
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
+
 app.use(express.json());
 
 // Rate limiting
