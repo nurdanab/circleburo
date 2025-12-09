@@ -137,8 +137,9 @@ const AdminPage = () => {
     try {
       const { error } = await supabase
         .from('leads')
+        .eq('id', leadId)
         .update({ status: newStatus, updated_at: new Date() })
-        .eq('id', leadId);
+        .select();
 
       if (error) throw error;
 
@@ -171,8 +172,9 @@ const AdminPage = () => {
       const notesToUpdate = editNotes[leadId];
       const { error } = await supabase
         .from('leads')
+        .eq('id', leadId)
         .update({ notes: notesToUpdate, updated_at: new Date() })
-        .eq('id', leadId);
+        .select();
 
       if (error) throw error;
 
