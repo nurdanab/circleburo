@@ -5,7 +5,7 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Content-Security-Policy: default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' http://78.109.18.11:9000 https: data: blob:; media-src 'self' http://78.109.18.11:9000 https:; connect-src 'self' http://78.109.18.11:9000 https: wss:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
+  Content-Security-Policy: default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' http://78.109.18.11:9000 https: data: blob:; media-src 'self' http://78.109.18.11:9000 https:; connect-src 'self' http://78.109.18.11:3000 http://78.109.18.11:9000 https: wss:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval';
 
 # Cache static assets
 /assets/*

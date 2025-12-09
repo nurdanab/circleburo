@@ -143,7 +143,7 @@
     X-XSS-Protection = "1; mode=block"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=()"
-    Content-Security-Policy = "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data: blob:; media-src 'self' https:; connect-src 'self' https: wss:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline';"
+    Content-Security-Policy = "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' http://78.109.18.11:9000 https: data: blob:; media-src 'self' http://78.109.18.11:9000 https:; connect-src 'self' http://78.109.18.11:3000 http://78.109.18.11:9000 https: wss:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline';"
 
 [[headers]]
   for = "/*"
