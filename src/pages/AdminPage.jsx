@@ -111,8 +111,8 @@ const AdminPage = () => {
     try {
       const { data, error } = await supabase
         .from('leads')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .select('*');
 
       if (error) throw error;
       setLeads(data || []);

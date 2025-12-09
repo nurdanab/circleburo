@@ -306,7 +306,7 @@ const ContactFormSection = () => {
         setBookingStatus(data[0].status);
       }
 
-      await sendTelegramNotification(bookingData, data[0]?.id);
+      // Telegram notification is sent from backend
 
       // Обновляем локальное состояние сразу
       const newBookedSlot = {
