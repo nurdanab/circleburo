@@ -325,9 +325,7 @@ const ContactFormSection = () => {
       setFormStep(3);
     } catch (err) {
       console.error('Error submitting form:', err);
-      // Temporary debug
-      const errorMsg = err?.message || err?.toString() || 'Unknown error';
-      setError(`${t('contactForm.errors.submissionError')} (Debug: ${errorMsg})`);
+      setError(t('contactForm.errors.submissionError'));
     } finally {
       setLoading(false);
     }
