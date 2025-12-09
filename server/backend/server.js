@@ -39,6 +39,18 @@ const allowedOrigins = [
   'http://localhost:3000'
 ];
 
+// Add CORS_ORIGIN from environment if set
+if (process.env.CORS_ORIGIN && process.env.CORS_ORIGIN !== '*') {
+  const envOrigins = process.env.CORS_ORIGIN.split(',').map(o => o.trim());
+  envOrigins.forEach(origin => {
+    if (!allowedOrigins.includes(origin)) {
+      allowedOrigins.push(origin);
+    }
+  });
+}
+
+logger.info('Allowed CORS origins:', allowedOrigins);
+
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, Postman, etc.)
@@ -49,9 +61,11 @@ app.use(cors({
 
     // Check if origin is in allowed list
     if (allowedOrigins.includes(origin)) {
+      logger.info(`CORS: Allowing origin ${origin}`);
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      logger.warn(`CORS: Blocking origin ${origin}`);
+      callback(new Error(`Not allowed by CORS: ${origin}`));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
