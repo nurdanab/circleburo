@@ -34,6 +34,7 @@ app.use(helmet());
 const allowedOrigins = [
   'https://circleburo.kz',
   'https://www.circleburo.kz',
+  'https://circleburo.netlify.app', // Netlify deployment
   'http://localhost:5173', // for local development
   'http://localhost:3000'
 ];

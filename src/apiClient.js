@@ -47,23 +47,30 @@ class TableQuery {
       // Make separate requests for each record (since our API creates one at a time)
       const results = [];
       for (const record of recordsArray) {
+        console.log('[apiClient] POST request:', `${this.baseURL}/api/${this.table}`, record);
+
         const response = await fetch(`${this.baseURL}/api/${this.table}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(record)
         });
 
+        console.log('[apiClient] Response status:', response.status, response.statusText);
+
         if (!response.ok) {
           const errorData = await response.json();
+          console.error('[apiClient] Error response:', errorData);
           return { data: null, error: { message: errorData.error || 'Failed to insert data' } };
         }
 
         const data = await response.json();
+        console.log('[apiClient] Success response:', data);
         results.push(data);
       }
 
       return { data: results, error: null };
     } catch (error) {
+      console.error('[apiClient] Exception:', error);
       return { data: null, error: { message: error.message } };
     }
   }
@@ -172,10 +179,13 @@ class TableQuery {
       if (this.eqField === 'id' && this.eqValue) {
         url = `${url}/${this.eqValue}`;
 
+        console.log('[apiClient] GET request (by ID):', url);
         const response = await fetch(url);
+        console.log('[apiClient] Response status:', response.status, response.statusText);
 
         if (!response.ok) {
           const errorData = await response.json();
+          console.error('[apiClient] Error response:', errorData);
           return { data: null, error: { message: errorData.error || 'Failed to fetch data' } };
         }
 
@@ -189,10 +199,13 @@ class TableQuery {
         url += '?' + params.toString();
       }
 
+      console.log('[apiClient] GET request:', url);
       const response = await fetch(url);
+      console.log('[apiClient] Response status:', response.status, response.statusText);
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('[apiClient] Error response:', errorData);
         return { data: null, error: { message: errorData.error || 'Failed to fetch data' } };
       }
 
