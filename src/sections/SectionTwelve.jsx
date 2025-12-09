@@ -211,12 +211,16 @@ const ContactFormSection = () => {
 
     const dateNoTimezone = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     const dateStr = dateNoTimezone.toISOString().split('T')[0];
+    // Add seconds to match database format (HH:MM:SS)
+    const timeSlotWithSeconds = timeSlot.includes(':') && timeSlot.split(':').length === 2
+      ? `${timeSlot}:00`
+      : timeSlot;
 
     try {
       const { data, error } = await supabase
         .from('leads')
         .eq('meeting_date', dateStr)
-        .eq('meeting_time', timeSlot)
+        .eq('meeting_time', timeSlotWithSeconds)
         .in('status', [BOOKING_STATUSES.PENDING, BOOKING_STATUSES.CONFIRMED])
         .select('meeting_time, status, id, name');
 
