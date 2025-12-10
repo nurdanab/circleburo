@@ -57,6 +57,14 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             dist/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/server/frontend/dist/
 
+          # Синхронизация исходного кода frontend для Docker build
+          rsync -avz --delete \
+            --exclude 'node_modules' \
+            --exclude 'dist' \
+            --exclude '.env' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            src/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/server/frontend/src/
+
       - name: Deploy backend to server
         run: |
           # Синхронизация backend кода

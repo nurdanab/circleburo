@@ -15,8 +15,8 @@ export const getMediaUrl = (path) => {
 
   // Если есть MinIO URL, используем его
   if (MEDIA_BASE_URL) {
-    // CloudFlare tunnel уже проксирует на /media bucket, поэтому не дублируем путь
-    const url = `${MEDIA_BASE_URL}/${cleanPath}`;
+    // Добавляем /media/ для bucket в MinIO
+    const url = `${MEDIA_BASE_URL}/media/${cleanPath}`;
 
     // Для видео добавляем версию для обхода кэша
     if (cleanPath.endsWith('.mp4')) {
