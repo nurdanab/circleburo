@@ -85,6 +85,8 @@ jobs:
 
               if [ "$FRONTEND_HEALTH" = "healthy" ] && [ "$BACKEND_HEALTH" = "healthy" ]; then
                 echo "All containers are healthy!"
+                echo "Restarting nginx to refresh upstream connections..."
+                docker-compose restart nginx
                 exit 0
               fi
 
