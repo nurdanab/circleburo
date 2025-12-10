@@ -1,0 +1,130 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Позволяет запускать вручную
+
+env:
+  SERVER_HOST: ${{ secrets.SERVER_HOST }}
+  SERVER_USER: ${{ secrets.SERVER_USER }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Error: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful, dist contains:"
+          ls -la dist/
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy frontend to server
+        run: |
+          # Синхронизация dist на сервер
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            dist/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/server/frontend/dist/
+
+      - name: Deploy backend to server
+        run: |
+          # Синхронизация backend кода
+          rsync -avz --delete \
+            --exclude 'node_modules' \
+            --exclude 'logs' \
+            --exclude '.env' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            server/backend/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/server/backend/
+
+      - name: Rebuild and restart containers
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            cd ~/server
+
+            # Пересоздать образы и перезапустить контейнеры
+            docker-compose build frontend backend
+            docker-compose up -d --no-deps frontend backend
+
+            # Подождать пока контейнеры станут healthy
+            echo "Waiting for containers to become healthy..."
+            for i in {1..30}; do
+              FRONTEND_HEALTH=$(docker inspect circle-buro-frontend --format='{{.State.Health.Status}}' 2>/dev/null || echo "starting")
+              BACKEND_HEALTH=$(docker inspect circle-buro-backend --format='{{.State.Health.Status}}' 2>/dev/null || echo "starting")
+
+              echo "Frontend: $FRONTEND_HEALTH, Backend: $BACKEND_HEALTH"
+
+              if [ "$FRONTEND_HEALTH" = "healthy" ] && [ "$BACKEND_HEALTH" = "healthy" ]; then
+                echo "All containers are healthy!"
+                exit 0
+              fi
+
+              sleep 5
+            done
+
+            echo "Timeout waiting for containers to become healthy"
+            docker-compose logs --tail=50 frontend backend
+            exit 1
+          EOF
+
+      - name: Verify deployment
+        run: |
+          # Проверка что API отвечает
+          for i in {1..5}; do
+            if curl -f -s https://api.circleburo.kz/health > /dev/null; then
+              echo "API is responding!"
+              exit 0
+            fi
+            echo "Attempt $i: API not responding yet, waiting..."
+            sleep 5
+          done
+          echo "API health check failed"
+          exit 1
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f ~/.ssh/deploy_key
+
+      - name: Send Telegram notification on success
+        if: success()
+        run: |
+          MESSAGE="✅ Деплой успешно завершен!%0A%0AКоммит: ${{ github.sha }}%0AАвтор: ${{ github.actor }}%0AСообщение: ${{ github.event.head_commit.message }}"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=$MESSAGE" > /dev/null || true
+
+      - name: Send Telegram notification on failure
+        if: failure()
+        run: |
+          MESSAGE="❌ Деплой завершился с ошибкой!%0A%0AКоммит: ${{ github.sha }}%0AАвтор: ${{ github.actor }}%0AПроверьте логи: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=$MESSAGE" > /dev/null || true
