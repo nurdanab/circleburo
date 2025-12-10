@@ -1,6 +1,10 @@
 # Multi-stage build for optimized production frontend
 FROM node:20-alpine AS builder
 
+# Build arguments for Vite environment variables
+ARG VITE_API_URL=https://api.circleburo.kz
+ARG VITE_MEDIA_BASE_URL=https://media.circleburo.kz
+
 # Install build dependencies for native modules
 RUN apk add --no-cache \
     python3 \
@@ -12,6 +16,8 @@ WORKDIR /app
 
 # Set npm configuration to increase memory and timeout
 ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_MEDIA_BASE_URL=$VITE_MEDIA_BASE_URL
 
 # Copy package.json first
 COPY package.json ./
