@@ -5,6 +5,7 @@ import { useVideoLazyLoad } from '../hooks/useVideoLazyLoad';
 const SectionFive = () => {
   const { videoRef } = useVideoLazyLoad({ threshold: 0.1, rootMargin: '100px' });
   const [isMobile, setIsMobile] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   // Одно видео
   const videoSrc = getMediaUrl("videos/prod1.mp4");
@@ -19,6 +20,11 @@ const SectionFive = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Переключение звука по клику
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
 
   return (
     <section
@@ -32,13 +38,14 @@ const SectionFive = () => {
     >
       <video
         ref={videoRef}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover cursor-pointer"
         src={videoSrc}
         poster={getMediaUrl("cover/prod1-poster.webp")}
         playsInline
-        muted
+        muted={isMuted}
         loop
         preload="none"
+        onClick={toggleMute}
       />
     </section>
   );
