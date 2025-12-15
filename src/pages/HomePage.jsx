@@ -98,11 +98,11 @@ function HomePage() {
       </LazySection>
 
       {/* SectionTen */}
-      <LazySection>
+      {/* <LazySection>
         <Suspense fallback={<div style={{ minHeight: '100vh' }} aria-label="Загрузка секции" />}>
           <SectionTen />
         </Suspense>
-      </LazySection>
+      </LazySection> */}
 
       {/* SectionEleven - Before/After toggle */}
       <LazySection>
