@@ -92,8 +92,8 @@ export default function ProjectSection({
                       <Image
                         src={getMediaUrl("/projects-video/icons/arrow-right-video.svg")}
                         alt=""
-                        width={28}
-                        height={28}
+                        width={40}
+                        height={40}
                         className={styles.nextIcon}
                       />
                     </span>

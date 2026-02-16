@@ -1,6 +1,7 @@
 import Image from "next/image";
 import InterierSlider from "@/app/components/shared/showCases/interier/interierBlocks/InterierSlider";
 
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./homeBank.module.scss";
 
 export default function SteppeCoffeeProject() {
@@ -10,7 +11,7 @@ export default function SteppeCoffeeProject() {
       <section className={`${styles.section}`}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/steppe-coffee/hero.png"
+            src={getMediaUrl("/projects-pages/steppe-coffee/hero.png")}
             alt="Steppe Coffee hero"
             fill
             className={styles.sectionBg}
@@ -22,7 +23,7 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section2}>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -43,7 +44,7 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section3}>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -52,7 +53,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -76,7 +77,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -88,7 +89,7 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section5}>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -123,7 +124,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -134,7 +135,7 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section7}>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -167,7 +168,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -181,7 +182,7 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section10}>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}
@@ -190,7 +191,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/home-bank/home-bank-logo.png"
+            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
             alt="Home Bank logo"
             width={520}
             height={920}

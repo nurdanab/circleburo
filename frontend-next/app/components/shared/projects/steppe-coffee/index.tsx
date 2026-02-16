@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import ChartSteppeCoffee from "@/app/components/ui/chart-steppe-coffee/ChartSteppeCoffee";
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./steppe-coffee.module.scss";
 
 export default function SteppeCoffeeProject() {
@@ -10,7 +11,7 @@ export default function SteppeCoffeeProject() {
       <section className={`${styles.hero}`}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/steppe-coffee/hero.png"
+            src={getMediaUrl("/projects-pages/steppe-coffee/hero.png")}
             alt="Steppe Coffee hero"
             fill
             priority
@@ -35,7 +36,7 @@ export default function SteppeCoffeeProject() {
 
           <div className={styles.section2video}>
             <video
-              src="/projects-pages/steppe-coffee/section2.mp4"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section2.mp4")}
               playsInline
               muted
               loop
@@ -51,7 +52,7 @@ export default function SteppeCoffeeProject() {
             <span>До</span>
             <div className={styles.section3ImgWrap}>
               <Image
-                src="/projects-pages/steppe-coffee/section-3.png"
+                src={getMediaUrl("/projects-pages/steppe-coffee/section-3.png")}
                 alt="Steppe Coffee До"
                 width={800}
                 height={600}
@@ -63,7 +64,7 @@ export default function SteppeCoffeeProject() {
             <span>После</span>
             <div className={styles.section3ImgWrap}>
               <Image
-                src="/projects-pages/steppe-coffee/section-3-second.png"
+                src={getMediaUrl("/projects-pages/steppe-coffee/section-3-second.png")}
                 alt="Steppe Coffee После"
                 width={800}
                 height={600}
@@ -77,7 +78,7 @@ export default function SteppeCoffeeProject() {
         <section className={styles.section4}>
           <div className={styles.section4PhoneWrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section4.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section4.png")}
               alt="Steppe Coffee section 4"
               width={519}
               height={792}
@@ -100,7 +101,7 @@ export default function SteppeCoffeeProject() {
             </div>
             <div className={styles.section4ImgWrap}>
               <Image
-                src="/projects-pages/steppe-coffee/section4-second.png"
+                src={getMediaUrl("/projects-pages/steppe-coffee/section4-second.png")}
                 alt="Steppe Coffee интерьер"
                 width={800}
                 height={500}
@@ -114,7 +115,7 @@ export default function SteppeCoffeeProject() {
         <section className={styles.section5}>
           <div className={styles.section5ImgWrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section5.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section5.png")}
               alt="Steppe Coffee section 5"
               width={1200}
               height={675}
@@ -127,7 +128,7 @@ export default function SteppeCoffeeProject() {
         <section className={styles.section6}>
           <div className={styles.section6ImgWrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section6.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section6.png")}
               alt="Steppe Coffee section 6"
               width={800}
               height={600}
@@ -136,7 +137,7 @@ export default function SteppeCoffeeProject() {
           </div>
           <div className={styles.section6ImgWrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section6-second.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section6-second.png")}
               alt="Steppe Coffee section 6"
               width={800}
               height={600}
@@ -176,7 +177,7 @@ export default function SteppeCoffeeProject() {
           <div className={styles.section7PhoneWrap}>
             <div className={styles.phoneInner}>
               <Image
-                src="/projects-pages/steppe-coffee/section7.png"
+                src={getMediaUrl("/projects-pages/steppe-coffee/section7.png")}
                 alt="Steppe Coffee section 7"
                 fill
                 style={{ objectFit: "contain" }}
@@ -219,7 +220,7 @@ export default function SteppeCoffeeProject() {
         <section className={styles.section9}>
           <div className={styles.section9ImgWrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section9.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section9.png")}
               alt="Steppe Coffee section 9"
               width={600}
               height={800}
@@ -249,7 +250,7 @@ export default function SteppeCoffeeProject() {
           </div>
           <div className={styles.section10ImgWrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section10.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section10.png")}
               alt="Steppe Coffee section 10"
               width={600}
               height={800}
@@ -262,7 +263,7 @@ export default function SteppeCoffeeProject() {
         <section className={styles.section11}>
           <div className={styles.section11Img1Wrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section11.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section11.png")}
               alt="Steppe Coffee section 11"
               width={800}
               height={600}
@@ -272,7 +273,7 @@ export default function SteppeCoffeeProject() {
 
           <div className={styles.section11Img2Wrap}>
             <Image
-              src="/projects-pages/steppe-coffee/section11-second.png"
+              src={getMediaUrl("/projects-pages/steppe-coffee/section11-second.png")}
               alt="Steppe Coffee section 11"
               width={800}
               height={600}
@@ -295,7 +296,7 @@ export default function SteppeCoffeeProject() {
         {/* SECTION 12 */}
         <section className={styles.section13}>
           <Image
-            src="/projects-pages/steppe-coffee/section12.png"
+            src={getMediaUrl("/projects-pages/steppe-coffee/section12.png")}
             alt="Steppe Coffee section 13"
             width={1200}
             height={750}

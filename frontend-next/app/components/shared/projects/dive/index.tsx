@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import ChartDive from "@/app/components/ui/chart-dive/ChartDive";
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./dive.module.scss";
 
 export default function SteppeCoffeeProject() {
@@ -10,7 +11,7 @@ export default function SteppeCoffeeProject() {
       <section className={`${styles.section}`}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/steppe-coffee/hero.png"
+            src={getMediaUrl("/projects-pages/steppe-coffee/hero.png")}
             alt="Steppe Coffee hero"
             fill
             className={styles.sectionBg}
@@ -41,7 +42,7 @@ export default function SteppeCoffeeProject() {
           </div>
         </div>
         <Image
-          src="/projects-pages/dive/dive-logo.png"
+          src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
           alt="Dive logo"
           width={410}
           height={740}
@@ -52,7 +53,7 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section3}>
         <div>
           <Image
-            src="/projects-pages/dive/dive-logo.png"
+            src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
             alt="Dive logo"
             fill
             className={styles.sectionBg}
@@ -60,7 +61,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/dive/dive-logo.png"
+            src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
             alt="Dive logo"
             fill
             className={styles.sectionBg}
@@ -68,7 +69,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/dive/dive-logo.png"
+            src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
             alt="Dive logo"
             fill
             className={styles.sectionBg}
@@ -76,7 +77,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/dive/dive-logo.png"
+            src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
             alt="Dive logo"
             fill
             className={styles.sectionBg}
@@ -84,7 +85,7 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/dive/dive-logo.png"
+            src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
             alt="Dive logo"
             fill
             className={styles.sectionBg}
@@ -94,7 +95,7 @@ export default function SteppeCoffeeProject() {
 
       <section className={styles.section4}>
         <Image
-          src="/projects-pages/dive/dive-logo.png"
+          src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
           alt="Dive logo"
           fill
           className={styles.sectionBg}
@@ -146,7 +147,7 @@ export default function SteppeCoffeeProject() {
 
       <section className={styles.section6}>
         <Image
-          src="/projects-pages/dive/dive-logo.png"
+          src={getMediaUrl("/projects-pages/dive/dive-logo.png")}
           alt="Dive logo"
           fill
           className={styles.sectionBg}

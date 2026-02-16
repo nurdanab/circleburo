@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./sany.module.scss";
 
 const SLIDER_SLIDES = [
-  { src: "/projects-pages/sany/section2.jpg", alt: "Sany — слайд 1" },
-  { src: "/projects-pages/sany/section3.png", alt: "Sany — слайд 2" },
-  { src: "/projects-pages/sany/section3.png", alt: "Sany — слайд 3" },
-  { src: "/projects-pages/sany/section4.png", alt: "Sany — слайд 4" },
+  { src: getMediaUrl("/projects-pages/sany/section2.jpg"), alt: "Sany — слайд 1" },
+  { src: getMediaUrl("/projects-pages/sany/section3.png"), alt: "Sany — слайд 2" },
+  { src: getMediaUrl("/projects-pages/sany/section3.png"), alt: "Sany — слайд 3" },
+  { src: getMediaUrl("/projects-pages/sany/section4.png"), alt: "Sany — слайд 4" },
 ];
 
 export default function SanyProject() {
@@ -21,7 +22,7 @@ export default function SanyProject() {
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/sany/hero.png"
+            src={getMediaUrl("/projects-pages/sany/hero.png")}
             alt="Sany hero — Quality changes the world"
             fill
             priority
@@ -44,7 +45,7 @@ export default function SanyProject() {
           </div>
           <div className={styles.section2ImgWrap}>
             <Image
-              src="/projects-pages/sany/section1.jpg"
+              src={getMediaUrl("/projects-pages/sany/section1.jpg")}
               alt="Sany интерьер"
               width={620}
               height={980}
@@ -107,7 +108,7 @@ export default function SanyProject() {
         <section className={styles.section5}>
           <div className={styles.section5BannerWrap}>
             <Image
-              src="/projects-pages/sany/section4.png"
+              src={getMediaUrl("/projects-pages/sany/section4.png")}
               alt="Sany новогодний баннер"
               width={700}
               height={520}
@@ -138,7 +139,7 @@ export default function SanyProject() {
           </div>
           <div className={styles.section6ImgWrap}>
             <Image
-              src="/projects-pages/sany/section4.png"
+              src={getMediaUrl("/projects-pages/sany/section4.png")}
               alt="Sany приглашение"
               width={410}
               height={650}

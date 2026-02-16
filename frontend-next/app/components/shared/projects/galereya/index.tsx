@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./galereya.module.scss";
 
 export default function Galereya() {
@@ -9,7 +10,7 @@ export default function Galereya() {
       <section className={styles.section}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/galereya/hero1.png"
+            src={getMediaUrl("/projects-pages/galereya/hero1.png")}
             alt="Galereya hero"
             fill
             priority
@@ -32,7 +33,7 @@ export default function Galereya() {
           </div>
           <div className={styles.section2ImgWrap}>
             <Image
-              src="/projects-pages/galereya/section1.png"
+              src={getMediaUrl("/projects-pages/galereya/section1.png")}
               alt="Galereya"
               width={600}
               height={980}
@@ -45,7 +46,7 @@ export default function Galereya() {
         <section className={styles.section3}>
           <div className={styles.section3VideoWrapper}>
             <video
-              src="/projects-pages/galereya/section2.mp4"
+              src={getMediaUrl("/projects-pages/galereya/section2.mp4")}
               autoPlay
               muted
               loop
@@ -74,7 +75,7 @@ export default function Galereya() {
         {/* SECTION 4 */}
         <section className={styles.section4}>
           <Image
-            src="/projects-pages/galereya/Component3.png"
+            src={getMediaUrl("/projects-pages/galereya/Component3.png")}
             alt="Galereya"
             width={1440}
             height={700}
@@ -97,7 +98,7 @@ export default function Galereya() {
         <section className={styles.section6}>
           <div className={styles.section6ImgWrap}>
             <Image
-              src="/projects-pages/galereya/section4_1.png"
+              src={getMediaUrl("/projects-pages/galereya/section4_1.png")}
               alt="Galereya"
               width={350}
               height={675}
@@ -106,7 +107,7 @@ export default function Galereya() {
           </div>
           <div className={styles.section6ImgWrap}>
             <Image
-              src="/projects-pages/galereya/section4_2.png"
+              src={getMediaUrl("/projects-pages/galereya/section4_2.png")}
               alt="Galereya"
               width={350}
               height={675}
@@ -115,7 +116,7 @@ export default function Galereya() {
           </div>
           <div className={styles.section6ImgWrap}>
             <Image
-              src="/projects-pages/galereya/section4_3.png"
+              src={getMediaUrl("/projects-pages/galereya/section4_3.png")}
               alt="Galereya"
               width={350}
               height={675}
@@ -124,7 +125,7 @@ export default function Galereya() {
           </div>
           <div className={styles.section6ImgWrap}>
             <Image
-              src="/projects-pages/galereya/section4_4.png"
+              src={getMediaUrl("/projects-pages/galereya/section4_4.png")}
               alt="Galereya"
               width={350}
               height={675}
@@ -146,7 +147,7 @@ export default function Galereya() {
 
         <section className={styles.section8}>
           <Image
-            src="/projects-pages/galereya/section5.png"
+            src={getMediaUrl("/projects-pages/galereya/section5.png")}
             alt="Galereya"
             width={1440}
             height={660}
@@ -166,7 +167,7 @@ export default function Galereya() {
           </div>
           <div className={styles.section9ImgWrap}>
             <Image
-              src="/projects-pages/galereya/section6.png"
+              src={getMediaUrl("/projects-pages/galereya/section6.png")}
               alt="Galereya"
               width={630}
               height={870}

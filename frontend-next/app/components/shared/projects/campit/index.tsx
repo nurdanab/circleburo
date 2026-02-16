@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./campit.module.scss";
 
 export default function Campit() {
@@ -9,7 +10,7 @@ export default function Campit() {
       <section className={`${styles.section}`}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/campit/hero.png"
+            src={getMediaUrl("/projects-pages/campit/hero.png")}
             alt="Campit hero"
             fill
             className={styles.sectionBg}
@@ -32,7 +33,7 @@ export default function Campit() {
           </div>
           <div className={styles.section2VideoWrap}>
             <video
-              src="/projects-pages/campit/section1.mp4"
+              src={getMediaUrl("/projects-pages/campit/section1.mp4")}
               autoPlay
               muted
               loop
@@ -46,7 +47,7 @@ export default function Campit() {
         <section className={styles.section3}>
           <div className={styles.section3VideoWrap}>
             <video
-              src="/projects-pages/campit/section2.mp4"
+              src={getMediaUrl("/projects-pages/campit/section2.mp4")}
               autoPlay
               muted
               loop
@@ -83,7 +84,7 @@ export default function Campit() {
           </div>
           <div className={styles.section4ImgWrap}>
             <Image
-              src="/projects-pages/campit/section3.png"
+              src={getMediaUrl("/projects-pages/campit/section3.png")}
               alt="Campit"
               width={800}
               height={600}
@@ -96,7 +97,7 @@ export default function Campit() {
         <section className={styles.section5}>
           <div className={styles.section5ImgWrap}>
             <Image
-              src="/projects-pages/campit/section4.png"
+              src={getMediaUrl("/projects-pages/campit/section4.png")}
               alt="Campit"
               width={600}
               height={900}

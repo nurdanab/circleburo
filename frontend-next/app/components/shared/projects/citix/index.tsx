@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./citix.module.scss";
 
 export default function SteppeCoffeeProject() {
@@ -9,7 +10,7 @@ export default function SteppeCoffeeProject() {
       <section className={`${styles.section}`}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/citix/hero.png"
+            src={getMediaUrl("/projects-pages/citix/hero.png")}
             alt="Citix hero"
             width={520}
             height={920}
@@ -32,7 +33,7 @@ export default function SteppeCoffeeProject() {
 
         <div>
           <Image
-            src="/projects-pages/citix/citix-logo.png"
+            src={getMediaUrl("/projects-pages/citix/citix-logo.png")}
             alt="Citix logo"
             width={520}
             height={920}
@@ -53,7 +54,7 @@ export default function SteppeCoffeeProject() {
 
         <div>
           <Image
-            src="/projects-pages/citix/citix-logo.png"
+            src={getMediaUrl("/projects-pages/citix/citix-logo.png")}
             alt="Citix logo"
             width={520}
             height={920}

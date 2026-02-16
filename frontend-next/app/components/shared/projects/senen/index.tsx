@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { getMediaUrl } from "@/app/lib/media";
 import styles from "./senen.module.scss";
 
 export default function SenenProject() {
@@ -9,7 +10,7 @@ export default function SenenProject() {
       <section className={`${styles.section}`}>
         <div className={styles.heroInner}>
           <Image
-            src="/projects-pages/steppe-coffee/hero.png"
+            src={getMediaUrl("/projects-pages/steppe-coffee/hero.png")}
             alt="Steppe Coffee hero"
             fill
             className={styles.sectionBg}
@@ -33,7 +34,7 @@ export default function SenenProject() {
         </div>
         <div>
           <Image
-            src="/projects-pages/senen/senen-logo.png"
+            src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
             alt="Senen logo"
             fill
             className={styles.sectionBg}
@@ -43,7 +44,7 @@ export default function SenenProject() {
 
       <section className={styles.section3}>
         <Image
-          src="/projects-pages/senen/senen-logo.png"
+          src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
           alt="Senen logo"
           fill
           className={styles.sectionBg}
@@ -70,7 +71,7 @@ export default function SenenProject() {
       <section className={styles.section5}>
         <div>
           <Image
-            src="/projects-pages/senen/senen-logo.png"
+            src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
             alt="Senen logo"
             fill
             className={styles.sectionBg}
@@ -88,7 +89,7 @@ export default function SenenProject() {
       <section className={styles.section6}>
         <div>
           <Image
-            src="/projects-pages/senen/senen-logo.png"
+            src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
             alt="Senen logo"
             fill
             className={styles.sectionBg}
