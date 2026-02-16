@@ -371,6 +371,10 @@
     opacity: 0.4;
     cursor: not-allowed;
     text-decoration: line-through;
+    pointer-events: none;
+    background: #e0e0e0;
+    border-color: #ccc;
+    color: #999;
   }
 
   @include mobile-down {
