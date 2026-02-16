@@ -80,8 +80,8 @@ export default function ProjectSection({
                       <Image
                         src={getMediaUrl("/projects-video/icons/arrow-up-right-video.svg")}
                         alt=""
-                        width={24}
-                        height={24}
+                        width={32}
+                        height={32}
                       />
                     </button>
                   </div>
@@ -92,8 +92,8 @@ export default function ProjectSection({
                       <Image
                         src={getMediaUrl("/projects-video/icons/arrow-right-video.svg")}
                         alt=""
-                        width={20}
-                        height={20}
+                        width={28}
+                        height={28}
                         className={styles.nextIcon}
                       />
                     </span>
