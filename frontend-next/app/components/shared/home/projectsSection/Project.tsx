@@ -57,11 +57,11 @@ export default function ProjectSection({
                     playsInline
                     preload="metadata"
                   >
-                    <source src={project.src} type="video/mp4" />
+                    <source src={getMediaUrl(project.src)} type="video/mp4" />
                   </video>
                 ) : (
                   <Image
-                    src={project.src}
+                    src={getMediaUrl(project.src)}
                     alt={project.name}
                     fill
                     sizes="(max-width: 1023px) 50vw, 25vw"
@@ -78,7 +78,7 @@ export default function ProjectSection({
                       aria-label={`Перейти к проекту ${project.name}`}
                     >
                       <Image
-                        src="/projects-video/icons/arrow-up-right-video.svg"
+                        src={getMediaUrl("/projects-video/icons/arrow-up-right-video.svg")}
                         alt=""
                         width={8}
                         height={8}
@@ -90,7 +90,7 @@ export default function ProjectSection({
                     <span className={styles.nextButton}>
                       <span>Next</span>
                       <Image
-                        src="/projects-video/icons/arrow-right-video.svg"
+                        src={getMediaUrl("/projects-video/icons/arrow-right-video.svg")}
                         alt=""
                         width={16}
                         height={16}
@@ -124,11 +124,11 @@ export default function ProjectSection({
                   playsInline
                   preload="metadata"
                 >
-                  <source src={PROJECTS[currentSlide].src} type="video/mp4" />
+                  <source src={getMediaUrl(PROJECTS[currentSlide].src)} type="video/mp4" />
                 </video>
               ) : (
                 <Image
-                  src={PROJECTS[currentSlide].src}
+                  src={getMediaUrl(PROJECTS[currentSlide].src)}
                   alt={PROJECTS[currentSlide].name}
                   fill
                   sizes="(max-width: 767px) 100vw, 220px"

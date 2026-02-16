@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import styles from "./calendar.module.scss";
-import SuccessCalendar from "../success-calendar/SuccessCalendar";
 import { api } from "@/app/lib/api";
 import { getMediaUrl } from "@/app/lib/media";
 
@@ -38,7 +37,6 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [bookedTimes, setBookedTimes] = useState<string[]>([]);
   const [isLoadingSlots, setIsLoadingSlots] = useState(false);
 
@@ -101,45 +99,34 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
 
   const handleConfirm = () => {
     if (selectedDate && selectedTime) {
-      setShowSuccess(true);
+      onConfirm(selectedDate, selectedTime);
+      onClose();
+      setSelectedDate(null);
+      setSelectedTime(null);
+      setBookedTimes([]);
     }
-  };
-
-  const handleSuccessClose = () => {
-    setShowSuccess(false);
-    onConfirm(selectedDate!, selectedTime!);
-    onClose();
-    setSelectedDate(null);
-    setSelectedTime(null);
-    setBookedTimes([]);
   };
 
   // Lock body scroll when modal is open
   useEffect(() => {
-    if (isOpen && !showSuccess) {
+    if (isOpen) {
       document.body.style.overflow = "hidden";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, showSuccess]);
+  }, [isOpen]);
 
   // Close on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (showSuccess) {
-          handleSuccessClose();
-        } else {
-          onClose();
-        }
+        onClose();
       }
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showSuccess, onClose]);
-
-  if (!isOpen) return null;
+  }, [onClose]);
 
   // Generate calendar days
   const calendarDays = [];
@@ -169,15 +156,7 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
     );
   }
 
-  // Success Modal
-  if (showSuccess) {
-    return (
-      <SuccessCalendar
-        isOpen={showSuccess}
-        onClose={handleSuccessClose}
-      />
-    );
-  }
+  if (!isOpen) return null;
 
   return (
     <div className={styles.overlay} onClick={onClose}>

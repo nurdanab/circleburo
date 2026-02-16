@@ -4,62 +4,100 @@ import Image from "next/image";
 import { useState } from "react";
 import styles from "./contact.module.scss";
 import Calendar from "@/app/components/ui/calendar/calendar";
+import SuccessCalendar from "@/app/components/ui/success-calendar/SuccessCalendar";
 import { api } from "@/app/lib/api";
 import { getMediaUrl } from "@/app/lib/media";
+
+// Phone mask formatter for Kazakhstan numbers
+const formatPhone = (value: string): string => {
+  const digits = value.replace(/\D/g, '');
+
+  if (digits.length === 0) return '';
+
+  // Handle +7 or 8 at the start
+  let normalized = digits;
+  if (digits.startsWith('8') && digits.length > 1) {
+    normalized = '7' + digits.slice(1);
+  } else if (!digits.startsWith('7') && digits.length > 0) {
+    normalized = '7' + digits;
+  }
+
+  // Format: +7 (XXX) XXX-XX-XX
+  let result = '+7';
+  if (normalized.length > 1) {
+    result += ' (' + normalized.slice(1, 4);
+  }
+  if (normalized.length >= 4) {
+    result += ') ' + normalized.slice(4, 7);
+  }
+  if (normalized.length >= 7) {
+    result += '-' + normalized.slice(7, 9);
+  }
+  if (normalized.length >= 9) {
+    result += '-' + normalized.slice(9, 11);
+  }
+
+  return result;
+};
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    date: "",
-    time: "",
   });
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      setFormData((prev) => ({ ...prev, phone: formatPhone(value) }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+    setSubmitError(null);
   };
 
-  const handleDateSelect = (date: Date, time: string) => {
-    const formattedDate = date.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-    setFormData((prev) => ({ ...prev, date: formattedDate, time }));
-  };
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleDateSelect = async (date: Date, time: string) => {
     setIsSubmitting(true);
-    setSubmitMessage(null);
+    setSubmitError(null);
 
-    // Convert date from DD.MM.YYYY to YYYY-MM-DD format for API
-    const [day, month, year] = formData.date.split(".");
-    const apiDate = `${year}-${month}-${day}`;
+    const isoDate = date.toISOString().split('T')[0];
 
     const result = await api.createLead({
       name: formData.name,
-      phone: formData.phone,
-      meeting_date: apiDate,
-      meeting_time: formData.time,
+      phone: formData.phone.replace(/\D/g, ''),
+      meeting_date: isoDate,
+      meeting_time: time,
     });
 
     setIsSubmitting(false);
 
     if (result.error) {
-      setSubmitMessage({ type: "error", text: "Ошибка при отправке. Попробуйте еще раз." });
-    } else {
-      setSubmitMessage({ type: "success", text: "Заявка успешно отправлена!" });
-      setFormData({ name: "", phone: "", date: "", time: "" });
+      if (result.error.includes('already booked')) {
+        setSubmitError('Это время уже занято. Пожалуйста, выберите другое время.');
+      } else {
+        setSubmitError('Произошла ошибка. Попробуйте позже.');
+      }
+      return;
     }
+
+    setShowSuccess(true);
+    setFormData({ name: "", phone: "" });
   };
 
   const openCalendar = () => {
+    if (!formData.name.trim()) {
+      setSubmitError('Пожалуйста, введите ваше имя');
+      return;
+    }
+    if (!formData.phone.trim()) {
+      setSubmitError('Пожалуйста, введите номер телефона');
+      return;
+    }
+    setSubmitError(null);
     setIsCalendarOpen(true);
   };
 
@@ -80,7 +118,7 @@ export default function ContactPage() {
           <br />к вашему проекту и получить индивидуальные рекомендации
         </p>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.form}>
           <div className={styles.field}>
             <label className={styles.label}>Ваше имя</label>
             <input
@@ -90,7 +128,7 @@ export default function ContactPage() {
               value={formData.name}
               onChange={handleChange}
               className={styles.input}
-              required
+              disabled={isSubmitting}
             />
           </div>
 
@@ -99,59 +137,41 @@ export default function ContactPage() {
             <input
               type="tel"
               name="phone"
-              placeholder="Введите Номер телефона"
+              placeholder="+7 (___) ___-__-__"
               value={formData.phone}
               onChange={handleChange}
               className={styles.input}
-              required
+              disabled={isSubmitting}
             />
           </div>
 
-          <div className={styles.field}>
-            <label className={styles.label}>Выберите дату</label>
-            <div className={styles.dateWrapper} onClick={openCalendar}>
-              <Image
-                src="/Calendar.svg"
-                alt="Calendar"
-                width={20}
-                height={20}
-                className={styles.calendarIcon}
-              />
-              <input
-                type="text"
-                name="date"
-                placeholder="Выберите дату"
-                value={formData.date ? `${formData.date} ${formData.time}` : ""}
-                className={styles.input}
-                readOnly
-                required
-              />
-            </div>
-          </div>
-
-          <button type="submit" className={styles.btn} disabled={isSubmitting}>
-            <span className={styles.checkIcon}>
-              <Image src="/Check.svg" alt="Check" width={14} height={14} />
-            </span>
-            {isSubmitting ? "отправка..." : "записаться на консультацию"}
-          </button>
-
-          {submitMessage && (
-            <p style={{
-              textAlign: "center",
-              color: submitMessage.type === "success" ? "#4ade80" : "#f87171",
-              marginTop: "8px"
-            }}>
-              {submitMessage.text}
-            </p>
+          {submitError && (
+            <div className={styles.errorMessage}>{submitError}</div>
           )}
-        </form>
+
+          <button
+            type="button"
+            className={styles.btn}
+            onClick={openCalendar}
+            disabled={isSubmitting}
+          >
+            <span className={styles.checkIcon}>
+              <Image src={getMediaUrl("/Check.svg")} alt="Check" width={14} height={14} />
+            </span>
+            {isSubmitting ? 'Отправка...' : 'записаться на консультацию'}
+          </button>
+        </div>
       </div>
 
       <Calendar
         isOpen={isCalendarOpen}
         onClose={() => setIsCalendarOpen(false)}
         onConfirm={handleDateSelect}
+      />
+
+      <SuccessCalendar
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
       />
     </section>
   );

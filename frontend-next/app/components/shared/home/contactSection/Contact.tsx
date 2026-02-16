@@ -4,49 +4,74 @@ import Image from "next/image";
 import { useState } from "react";
 import styles from "./Contact.module.scss";
 import Calendar from "@/app/components/ui/calendar/calendar";
+import SuccessCalendar from "@/app/components/ui/success-calendar/SuccessCalendar";
 import { api } from "@/app/lib/api";
 import { getMediaUrl } from "@/app/lib/media";
+
+// Phone mask formatter for Kazakhstan numbers
+const formatPhone = (value: string): string => {
+  const digits = value.replace(/\D/g, '');
+
+  if (digits.length === 0) return '';
+
+  // Handle +7 or 8 at the start
+  let normalized = digits;
+  if (digits.startsWith('8') && digits.length > 1) {
+    normalized = '7' + digits.slice(1);
+  } else if (!digits.startsWith('7') && digits.length > 0) {
+    normalized = '7' + digits;
+  }
+
+  // Format: +7 (XXX) XXX-XX-XX
+  let result = '+7';
+  if (normalized.length > 1) {
+    result += ' (' + normalized.slice(1, 4);
+  }
+  if (normalized.length >= 4) {
+    result += ') ' + normalized.slice(4, 7);
+  }
+  if (normalized.length >= 7) {
+    result += '-' + normalized.slice(7, 9);
+  }
+  if (normalized.length >= 9) {
+    result += '-' + normalized.slice(9, 11);
+  }
+
+  return result;
+};
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    date: "",
-    time: "",
-    rawDate: "", // ISO format for API
   });
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      setFormData((prev) => ({ ...prev, phone: formatPhone(value) }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
     setSubmitError(null);
   };
 
-  const handleDateSelect = (date: Date, time: string) => {
-    const formattedDate = date.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-    // ISO format for API: YYYY-MM-DD
-    const isoDate = date.toISOString().split('T')[0];
-    setFormData((prev) => ({ ...prev, date: formattedDate, time, rawDate: isoDate }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleDateSelect = async (date: Date, time: string) => {
+    // Auto-submit when date/time is selected
     setIsSubmitting(true);
     setSubmitError(null);
 
+    const isoDate = date.toISOString().split('T')[0];
+
     const result = await api.createLead({
       name: formData.name,
-      phone: formData.phone.replace(/\D/g, ''), // Remove non-digits
-      meeting_date: formData.rawDate,
-      meeting_time: formData.time,
+      phone: formData.phone.replace(/\D/g, ''),
+      meeting_date: isoDate,
+      meeting_time: time,
     });
 
     setIsSubmitting(false);
@@ -60,14 +85,21 @@ export default function ContactSection() {
       return;
     }
 
-    setIsSuccess(true);
-    setFormData({ name: "", phone: "", date: "", time: "", rawDate: "" });
-
-    // Reset success state after 5 seconds
-    setTimeout(() => setIsSuccess(false), 5000);
+    setShowSuccess(true);
+    setFormData({ name: "", phone: "" });
   };
 
   const openCalendar = () => {
+    // Validate name and phone before opening calendar
+    if (!formData.name.trim()) {
+      setSubmitError('Пожалуйста, введите ваше имя');
+      return;
+    }
+    if (!formData.phone.trim()) {
+      setSubmitError('Пожалуйста, введите номер телефона');
+      return;
+    }
+    setSubmitError(null);
     setIsCalendarOpen(true);
   };
 
@@ -88,81 +120,60 @@ export default function ContactSection() {
           <br />к вашему проекту и получить индивидуальные рекомендации
         </p>
 
-        {isSuccess ? (
-          <div className={styles.successMessage}>
-            Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.
+        <div className={styles.form}>
+          <div className={styles.field}>
+            <label className={styles.label}>Ваше имя</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Введите Ваше имя"
+              value={formData.name}
+              onChange={handleChange}
+              className={styles.input}
+              disabled={isSubmitting}
+            />
           </div>
-        ) : (
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.field}>
-              <label className={styles.label}>Ваше имя</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Введите Ваше имя"
-                value={formData.name}
-                onChange={handleChange}
-                className={styles.input}
-                required
-                disabled={isSubmitting}
-              />
-            </div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>Номер телефона</label>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Введите Номер телефона"
-                value={formData.phone}
-                onChange={handleChange}
-                className={styles.input}
-                required
-                disabled={isSubmitting}
-              />
-            </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Номер телефона</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="+7 (___) ___-__-__"
+              value={formData.phone}
+              onChange={handleChange}
+              className={styles.input}
+              disabled={isSubmitting}
+            />
+          </div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>Выберите дату</label>
-              <div className={styles.dateWrapper} onClick={isSubmitting ? undefined : openCalendar}>
-                <Image
-                  src="/Calendar.svg"
-                  alt="Calendar"
-                  width={20}
-                  height={20}
-                  className={styles.calendarIcon}
-                />
-                <input
-                  type="text"
-                  name="date"
-                  placeholder="Выберите дату"
-                  value={formData.date ? `${formData.date} ${formData.time}` : ""}
-                  className={styles.input}
-                  readOnly
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-            </div>
+          {submitError && (
+            <div className={styles.errorMessage}>{submitError}</div>
+          )}
 
-            {submitError && (
-              <div className={styles.errorMessage}>{submitError}</div>
-            )}
-
-            <button type="submit" className={styles.btn} disabled={isSubmitting}>
-              <span className={styles.checkIcon}>
-                <Image src="/Check.svg" alt="Check" width={14} height={14} />
-              </span>
-              {isSubmitting ? 'Отправка...' : 'записаться на консультацию'}
-            </button>
-          </form>
-        )}
+          <button
+            type="button"
+            className={styles.btn}
+            onClick={openCalendar}
+            disabled={isSubmitting}
+          >
+            <span className={styles.checkIcon}>
+              <Image src={getMediaUrl("/Check.svg")} alt="Check" width={14} height={14} />
+            </span>
+            {isSubmitting ? 'Отправка...' : 'записаться на консультацию'}
+          </button>
+        </div>
       </div>
 
       <Calendar
         isOpen={isCalendarOpen}
         onClose={() => setIsCalendarOpen(false)}
         onConfirm={handleDateSelect}
+      />
+
+      <SuccessCalendar
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
       />
     </section>
   );

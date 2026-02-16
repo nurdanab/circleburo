@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./Footer.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function Footer() {
   return (
@@ -8,7 +9,7 @@ export default function Footer() {
       <div className={styles.inner}>
         <div className={styles.left}>
           <Image
-            src="/footer-icon.svg"
+            src={getMediaUrl("/footer-icon.svg")}
             alt="CIRCLE creative buro"
             width={180}
             height={60}
@@ -27,12 +28,12 @@ export default function Footer() {
 
           <ul className={styles.contactsList}>
             <li className={styles.contactItem}>
-              <Image src="/Call.svg" alt="Phone" width={20} height={20} />
+              <Image src={getMediaUrl("/Call.svg")} alt="Phone" width={20} height={20} />
               <a href="tel:+77082686982">+7 708 268 69 82</a>
             </li>
             <li className={styles.contactItem}>
               <Image
-                src="/Location.svg"
+                src={getMediaUrl("/Location.svg")}
                 alt="Location"
                 width={20}
                 height={20}
@@ -40,7 +41,7 @@ export default function Footer() {
               <span>ул. Байзакова 280, Алматы</span>
             </li>
             <li className={styles.contactItem}>
-              <Image src="/Mail.svg" alt="Email" width={20} height={20} />
+              <Image src={getMediaUrl("/Mail.svg")} alt="Email" width={20} height={20} />
               <a href="mailto:info@circleburo.kz">info@circleburo.kz</a>
             </li>
           </ul>

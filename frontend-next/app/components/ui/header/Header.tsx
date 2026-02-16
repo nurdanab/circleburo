@@ -6,6 +6,7 @@ import { useState } from "react";
 import styles from "./Header.module.scss";
 import { MobileMenu } from "../mobileBar/MobileMenu";
 import ShowCaseTabs from "../showCaseTabs/ShowCaseTabs";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,7 @@ export default function Header() {
         <div className={styles.inner}>
           <Link href="/" className={styles.logoBlock}>
             <Image
-              src="/Logo.svg"
+              src={getMediaUrl("/Logo.svg")}
               alt="CIRCLE creative buro"
               width={48}
               height={48}
@@ -56,6 +57,9 @@ export default function Header() {
               aria-label="Язык"
             >
               <option value="ru">РУС</option>
+              <option value="kz">ҚАЗ</option>
+              <option value="en">ENG</option>
+              <option value="cn">中文</option>
             </select>
             <Link href="/contact" className={styles.ctaButton}>
               Связаться с нами
@@ -66,7 +70,7 @@ export default function Header() {
               aria-label="Открыть меню"
               onClick={() => setIsMenuOpen(true)}
             >
-              <Image src="/burger-menu.svg" alt="Меню" width={32} height={32} />
+              <Image src={getMediaUrl("/burger-menu.svg")} alt="Меню" width={32} height={32} />
             </button>
           </div>
           <MobileMenu
