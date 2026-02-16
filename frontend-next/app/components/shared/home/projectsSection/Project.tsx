@@ -80,8 +80,8 @@ export default function ProjectSection({
                       <Image
                         src={getMediaUrl("/projects-video/icons/arrow-up-right-video.svg")}
                         alt=""
-                        width={20}
-                        height={20}
+                        width={14}
+                        height={14}
                       />
                     </button>
                   </div>
