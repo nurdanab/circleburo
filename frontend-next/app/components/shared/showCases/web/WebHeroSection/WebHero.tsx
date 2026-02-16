@@ -1,4 +1,5 @@
 import styles from "./WebHero.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function WebHero() {
   return (
@@ -11,7 +12,7 @@ export default function WebHero() {
         playsInline
         preload="metadata"
       >
-        <source src="/show-cases/web/video-web.mp4" type="video/mp4" />
+        <source src={getMediaUrl("/show-cases/web/video-web.mp4")} type="video/mp4" />
       </video>
     </section>
   );

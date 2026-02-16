@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./Package.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 const packagesData = [
   {
@@ -198,7 +199,7 @@ export default function Package() {
   return (
     <section className={styles.packages}>
       <Image
-        src="/services/package-bg.png"
+        src={getMediaUrl("/services/package-bg.png")}
         alt=""
         fill
         className={styles.bgImage}
@@ -232,7 +233,7 @@ export default function Package() {
 
                 <div className={styles.imageBlock}>
                   <Image
-                    src={pkg.image}
+                    src={getMediaUrl(pkg.image)}
                     alt={pkg.title}
                     fill
                     className={styles.packageImage}

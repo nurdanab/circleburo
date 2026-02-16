@@ -1,12 +1,13 @@
 import Image from "next/image";
 import styles from "./Manifest.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function Manifest() {
   return (
     <section className={styles.manifest}>
       <div className={styles.manifestInner}>
         <Image
-          src="/home/manifest.png"
+          src={getMediaUrl("/home/manifest.png")}
           alt="Manifest background"
           fill
           className={styles.bgImage}

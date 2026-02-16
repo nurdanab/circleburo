@@ -5,6 +5,7 @@ import { useState } from "react";
 import styles from "./Contact.module.scss";
 import Calendar from "@/app/components/ui/calendar/calendar";
 import { api } from "@/app/lib/api";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -73,7 +74,7 @@ export default function ContactSection() {
   return (
     <section className={styles.contact} id="contact">
       <Image
-        src="/home/contact.png"
+        src={getMediaUrl("/home/contact.png")}
         alt="Contact background"
         fill
         className={styles.bgImage}

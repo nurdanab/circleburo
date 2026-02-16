@@ -1,4 +1,5 @@
 import styles from "./prodBlocks.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function ProdBlocks() {
   return (
@@ -12,7 +13,7 @@ export default function ProdBlocks() {
           playsInline
           preload="metadata"
         >
-          <source src="/show-cases/prod/block1.mp4" type="video/mp4" />
+          <source src={getMediaUrl("/show-cases/prod/block1.mp4")} type="video/mp4" />
         </video>
       </div>
 
@@ -25,7 +26,7 @@ export default function ProdBlocks() {
           playsInline
           preload="metadata"
         >
-          <source src="/show-cases/prod/block2.mp4" type="video/mp4" />
+          <source src={getMediaUrl("/show-cases/prod/block2.mp4")} type="video/mp4" />
         </video>
       </div>
 
@@ -38,7 +39,7 @@ export default function ProdBlocks() {
           playsInline
           preload="metadata"
         >
-          <source src="/show-cases/prod/block3.mp4" type="video/mp4" />
+          <source src={getMediaUrl("/show-cases/prod/block3.mp4")} type="video/mp4" />
         </video>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import styles from "./prodHero.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function ProdHero() {
   return (
@@ -11,7 +12,7 @@ export default function ProdHero() {
         playsInline
         preload="metadata"
       >
-        <source src="/show-cases/prod/prod-hero.mp4" type="video/mp4" />
+        <source src={getMediaUrl("/show-cases/prod/prod-hero.mp4")} type="video/mp4" />
       </video>
     </section>
   );

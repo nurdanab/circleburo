@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import styles from "./contact.module.scss";
 import Calendar from "@/app/components/ui/calendar/calendar";
+import { api } from "@/app/lib/api";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -28,10 +30,33 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, date: formattedDate, time }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({ name: "", phone: "", date: "", time: "" });
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    // Convert date from DD.MM.YYYY to YYYY-MM-DD format for API
+    const [day, month, year] = formData.date.split(".");
+    const apiDate = `${year}-${month}-${day}`;
+
+    const result = await api.createLead({
+      name: formData.name,
+      phone: formData.phone,
+      meeting_date: apiDate,
+      meeting_time: formData.time,
+    });
+
+    setIsSubmitting(false);
+
+    if (result.error) {
+      setSubmitMessage({ type: "error", text: "Ошибка при отправке. Попробуйте еще раз." });
+    } else {
+      setSubmitMessage({ type: "success", text: "Заявка успешно отправлена!" });
+      setFormData({ name: "", phone: "", date: "", time: "" });
+    }
   };
 
   const openCalendar = () => {
@@ -41,7 +66,7 @@ export default function ContactPage() {
   return (
     <section className={styles.contact} id="contact">
       <Image
-        src="/home/contact.png"
+        src={getMediaUrl("/home/contact.png")}
         alt="Contact background"
         fill
         className={styles.bgImage}
@@ -104,12 +129,22 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <button type="submit" className={styles.btn}>
+          <button type="submit" className={styles.btn} disabled={isSubmitting}>
             <span className={styles.checkIcon}>
               <Image src="/Check.svg" alt="Check" width={14} height={14} />
             </span>
-            записаться на консультацию
+            {isSubmitting ? "отправка..." : "записаться на консультацию"}
           </button>
+
+          {submitMessage && (
+            <p style={{
+              textAlign: "center",
+              color: submitMessage.type === "success" ? "#4ade80" : "#f87171",
+              marginTop: "8px"
+            }}>
+              {submitMessage.text}
+            </p>
+          )}
         </form>
       </div>
 

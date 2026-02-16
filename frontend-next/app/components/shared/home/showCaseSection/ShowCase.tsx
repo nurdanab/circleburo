@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import styles from "./ShowCase.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function ShowCase() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -42,10 +43,10 @@ export default function ShowCase() {
         muted
         playsInline
         preload="metadata"
-        poster="/home/showcase-poster.png"
+        poster={getMediaUrl("/home/showcase-poster.png")}
         onClick={toggleSound}
       >
-        <source src="/home/showcase-video.mp4" type="video/mp4" />
+        <source src={getMediaUrl("/home/showcase-video.mp4")} type="video/mp4" />
       </video>
     </section>
   );

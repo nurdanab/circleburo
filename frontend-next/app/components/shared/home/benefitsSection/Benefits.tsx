@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./Benefits.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 const BENEFITS = [
   {
@@ -22,7 +23,7 @@ export default function Benefits() {
   return (
     <section className={styles.benefits}>
       <Image
-        src="/home/benefits.png"
+        src={getMediaUrl("/home/benefits.png")}
         alt="Benefits background"
         fill
         className={styles.bgImage}

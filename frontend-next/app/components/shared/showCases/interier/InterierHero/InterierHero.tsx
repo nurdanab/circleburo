@@ -1,4 +1,5 @@
 import styles from "./InterierHero.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 export default function InterierHero() {
   return (
@@ -11,7 +12,7 @@ export default function InterierHero() {
         playsInline
         preload="metadata"
       >
-        <source src="/show-cases/interier/video-interier.mp4" type="video/mp4" />
+        <source src={getMediaUrl("/show-cases/interier/video-interier.mp4")} type="video/mp4" />
       </video>
     </section>
   );

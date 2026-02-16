@@ -3,6 +3,7 @@
 import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import styles from "./InterierSlider.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 const SLIDES = [
   { id: 1, src: "/show-cases/interier/block-1.png", alt: "Интерьер — слайд 1" },
@@ -36,7 +37,7 @@ export default function InterierSlider() {
           aria-label="Предыдущий слайд"
         >
           <Image
-            src="/show-cases/interier/left.svg"
+            src={getMediaUrl("/show-cases/interier/left.svg")}
             alt=""
             width={21}
             height={43}
@@ -52,7 +53,7 @@ export default function InterierSlider() {
             {SLIDES.map((slide) => (
               <div key={slide.id} className={styles.slideItem}>
                 <Image
-                  src={slide.src}
+                  src={getMediaUrl(slide.src)}
                   alt={slide.alt}
                   fill
                   sizes="(min-width: 1024px) 1440px, 100vw"
@@ -84,7 +85,7 @@ export default function InterierSlider() {
           aria-label="Следующий слайд"
         >
           <Image
-            src="/show-cases/interier/right.svg"
+            src={getMediaUrl("/show-cases/interier/right.svg")}
             alt=""
             width={21}
             height={43}

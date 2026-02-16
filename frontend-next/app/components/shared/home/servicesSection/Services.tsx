@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./Services.module.scss";
 import Link from "next/link";
+import { getMediaUrl } from "@/app/lib/media";
 
 const SERVICES = [
   {
@@ -37,7 +38,7 @@ export default function Services() {
   return (
     <section className={styles.services} id="services">
       <Image
-        src="/home/services.png"
+        src={getMediaUrl("/home/services.png")}
         alt="Services background"
         fill
         className={styles.bgImage}

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./PriceList.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
 
 const priceData = [
   {
@@ -53,7 +54,7 @@ export default function PriceList() {
   return (
     <section className={styles.priceList}>
       <Image
-        src="/services/priceList-bg.png"
+        src={getMediaUrl("/services/priceList-bg.png")}
         alt=""
         fill
         className={styles.bgImage}
