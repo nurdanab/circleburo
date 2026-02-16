@@ -9,7 +9,7 @@ export default function Footer() {
       <div className={styles.inner}>
         <div className={styles.left}>
           <Image
-            src={getMediaUrl("/footer-icon.svg")}
+            src={getMediaUrl("/footer-logo.png")}
             alt="CIRCLE creative buro"
             width={180}
             height={60}

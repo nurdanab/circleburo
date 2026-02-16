@@ -38,13 +38,14 @@ const DIRS_TO_UPLOAD = [
   'show-cases'       // design/interier/prod/web showcases
 ];
 
-// Корневые файлы (SVG иконки)
+// Корневые файлы (SVG иконки и логотипы)
 const ROOT_FILES = [
   'burger-menu.svg',
   'Calendar.svg',
   'Call.svg',
   'Check.svg',
   'footer-icon.svg',
+  'footer-logo.png',
   'Location.svg',
   'Logo.svg',
   'Mail.svg'

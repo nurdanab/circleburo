@@ -8,7 +8,7 @@ const packagesData = [
     title: "Основа продукта",
     price: "1 500 000 тнг",
     duration: "Срок 45 рабочих дней",
-    image: "/services/1.png",
+    image: "/services/package-1.png",
     services: [
       {
         num: "01",
@@ -42,7 +42,7 @@ const packagesData = [
     title: "Брендинг 360",
     price: "3 000 000 тнг",
     duration: "Срок 45 рабочих дней",
-    image: "/services/2.png",
+    image: "/services/package-2.png",
     services: [
       {
         num: "01",
@@ -81,7 +81,7 @@ const packagesData = [
     title: "Мост на рынок",
     price: "2 000 000 тнг",
     duration: "Срок 23 рабочих дня",
-    image: "/services/3.png",
+    image: "/services/package-3.png",
     services: [
       {
         num: "01",
@@ -110,7 +110,7 @@ const packagesData = [
     title: "пакет circle",
     price: "5 000 000 тнг",
     duration: "Срок 45 рабочих дней",
-    image: "/services/4.png",
+    image: "/services/package-4.png",
     services: [
       {
         num: "01",
@@ -154,7 +154,7 @@ const packagesData = [
     title: "Креативный консалтинг",
     price: "Индивидуальная цена",
     isIndividual: true,
-    image: "/services/5.png",
+    image: "/services/package-5.png",
     services: [
       {
         num: "01",
