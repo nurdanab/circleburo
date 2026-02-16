@@ -108,14 +108,30 @@
 
 .langSelect {
   display: none;
-  padding: 8px 12px;
-  font-size: 16px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
   color: #393939;
-  background: #fff;
-  border: 1px solid #393939;
-  border-radius: 26px;
+  background: transparent;
+  border: none;
   cursor: pointer;
   font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23393939' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  padding-right: 24px;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
   @media (min-width: 768px) {
     display: block;
   }

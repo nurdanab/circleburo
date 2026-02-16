@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./Package.module.scss";
 import { getMediaUrl } from "@/app/lib/media";
 
@@ -245,9 +246,9 @@ export default function Package() {
                         <span className={styles.duration}>{pkg.duration}</span>
                       )}
                     </div>
-                    <button className={styles.consultBtn}>
+                    <Link href="/contact" className={styles.consultBtn}>
                       Записаться на консультацию
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -11,8 +11,8 @@ export default function Footer() {
           <Image
             src={getMediaUrl("/footer-logo.png")}
             alt="CIRCLE creative buro"
-            width={180}
-            height={60}
+            width={90}
+            height={30}
             className={styles.logo}
           />
 

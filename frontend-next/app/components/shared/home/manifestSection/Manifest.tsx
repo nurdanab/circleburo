@@ -7,7 +7,7 @@ export default function Manifest() {
     <section className={styles.manifest}>
       <div className={styles.manifestInner}>
         <Image
-          src={getMediaUrl("/home/manifest.png")}
+          src={getMediaUrl("/about/about-history-bg.png")}
           alt="Manifest background"
           fill
           className={styles.bgImage}
