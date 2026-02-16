@@ -1,0 +1,83 @@
+@use "../../../styles/shared/mixins" as *;
+
+.tabsBar {
+  position: fixed;
+  top: 85px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 50;
+  width: auto;
+
+  @include mobile-down {
+    top: 70px;
+  }
+}
+
+.tabsNav {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include mobile-down {
+    padding: 0px 20px;
+    width: 100%;
+  }
+}
+
+.tabsList {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+
+  @include mobile-down {
+    gap: 1px;
+    justify-content: space-between;
+    overflow-x: auto;
+  }
+}
+
+.tabLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #393939;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    color: #1f2933;
+  }
+
+  @include mobile-down {
+    padding: 10px 5px;
+    font-size: clamp(12px, 3.5vw, 18px);
+  }
+}
+
+.tabLinkActive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 52.9px rgba(255, 235, 220, 1);
+  color: #fffcf0;
+
+  @include mobile-down {
+    box-shadow: none;
+    color: #393939;
+  }
+}

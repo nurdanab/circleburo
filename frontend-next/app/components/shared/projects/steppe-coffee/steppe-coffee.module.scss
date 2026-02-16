@@ -1,0 +1,336 @@
+@use "../../../../styles/shared/mixins" as *;
+
+.hero {
+  @include section-height;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  @include mobile-down {
+    height: 50vh;
+    min-height: 300px;
+    max-height: 400px;
+  }
+
+  .heroInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.sectionsWrapper {
+  background-image: url("/projects-pages/steppe-coffee/bg-sections.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 48px;
+  margin-top: 40px;
+}
+
+.section2 {
+  width: 100%;
+  padding: 40px 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section2Text {
+    @include text-container-blur;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4% 2%;
+
+    span {
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 20px;
+      line-height: 22px;
+    }
+  }
+
+  .section2video {
+    min-width: 400px;
+    max-height: 670px;
+
+    video {
+      border-radius: 40px;
+      border: 1px solid #fff;
+      object-fit: cover;
+    }
+  }
+}
+
+.section3 {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding: 0 24px;
+
+  .section3container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    span {
+      font-size: 64px;
+    }
+
+    .section3ImgWrap {
+      width: 100%;
+      height: 100%;
+      @include text-container-blur;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 60px 27.5px;
+    }
+  }
+}
+
+// SECTION 4 — телефон слева, текст и интерьер справа (grid)
+.section4 {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  gap: 24px;
+  padding: 40px 40px 0px 40px;
+  align-items: stretch;
+
+  .section4PhoneWrap {
+    display: flex;
+    height: 100%;
+
+    img {
+      border-radius: 40px;
+      object-fit: cover;
+    }
+  }
+
+  .section4Right {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .section4TextBlock {
+    @include text-container-blur;
+    border-radius: 16px;
+    padding: 40px 24px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #2d2d2d;
+  }
+
+  .section4ImgWrap {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+
+    img {
+      object-fit: cover;
+    }
+  }
+}
+
+// SECTION 5 — одна картинка
+.section5 {
+  margin-top: 40px;
+  .section5Img {
+    object-fit: cover;
+  }
+}
+
+// SECTION 6 — две картинки
+.section6 {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+
+  .section6ImgWrap {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .section6ImgWrap img {
+    border-radius: 40px;
+  }
+}
+
+// SECTION 7 — карточка с текстом + телефон
+.section7 {
+  margin-top: 70px;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  .section7Card {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .section7Text {
+      font-size: 20px;
+      line-height: 1.5;
+      @include text-container-blur;
+      padding: 40px 24px;
+    }
+  }
+
+  .section7PhoneWrap {
+    width: 40%;
+    display: flex;
+
+    .phoneInner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+// SECTION 8 — текст + картинка
+.section8 {
+  margin-top: 70px;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 24px;
+
+  .section8Text {
+    width: 30%;
+    @include text-container-blur;
+    padding: 65px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    span {
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
+  .section8Chart {
+    width: 70%;
+  }
+}
+
+// SECTION 9 — флаер + текст
+.section9 {
+  margin-top: 40px;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section9ImgWrap {
+    width: 35%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .section9Text {
+    @include text-container-blur;
+    width: 65%;
+    font-size: 20px;
+    padding: 40px 24px;
+  }
+}
+
+// SECTION 10 — текст + постер
+.section10 {
+  margin-top: 40px;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section10ImgWrap {
+    width: 40%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .section10Text {
+    @include text-container-blur;
+    width: 60%;
+    font-size: 20px;
+    padding: 40px 24px;
+  }
+}
+
+// SECTION 11 — два изображения сверху + итоги снизу
+.section11 {
+  margin-top: 40px;
+  padding: 0 8px 0 80px;
+  gap: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  .section11Img1Wrap {
+    width: 35%;
+    display: flex;
+  }
+
+  .section11Img2Wrap {
+    width: 65%;
+    display: flex;
+  }
+
+  .section11Img1Wrap img,
+  .section11Img2Wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 40px;
+  }
+}
+
+.section12 {
+  @include text-container-blur;
+  margin: 40px 22%;
+  padding: 60px 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+
+  span {
+    font-size: 40px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+}
+
+// SECTION 12 — иллюстрация кофейни
+.section13 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+}

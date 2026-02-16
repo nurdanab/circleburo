@@ -1,0 +1,58 @@
+export const PROJECTS = [
+  {
+    slug: "steppe-coffee",
+    name: "Stepe coffee",
+    label: "Stepe coffee",
+    src: "/projects-video/project1.mp4",
+    isVideo: true,
+  },
+  {
+    slug: "galeriya",
+    name: "Galeriya",
+    label: "Galeriya",
+    src: "/projects-video/project2.mp4",
+    isVideo: true,
+  },
+  {
+    slug: "campit",
+    name: "CAMPIT",
+    label: "CAMPIT",
+    src: "/projects-video/project3.mp4",
+    isVideo: true,
+  },
+  {
+    slug: "sany",
+    name: "SANY",
+    label: "SANY",
+    src: "/projects-video/project4.png",
+    isVideo: false,
+  },
+  {
+    slug: "dive",
+    name: "DIVE",
+    label: "DIVE",
+    src: "/projects-video/project5.mp4",
+    isVideo: true,
+  },
+  {
+    slug: "senen",
+    name: "Senen",
+    label: "Senen",
+    src: "/projects-video/project6.png",
+    isVideo: false,
+  },
+  {
+    slug: "citix",
+    name: "CITIX",
+    label: "CITIX",
+    src: "/projects-video/project7.mp4",
+    isVideo: true,
+  },
+  {
+    slug: "home-bank",
+    name: "Home Bank",
+    label: "Home Bank",
+    src: "/projects-video/project8.mp4",
+    isVideo: true,
+  },
+];

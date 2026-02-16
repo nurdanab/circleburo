@@ -1,0 +1,107 @@
+@use "../../../styles/shared/mixins" as *;
+
+.card {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  @include text-container-blur;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  h2 {
+    font-size: clamp(22px, 3vw, 40px);
+  }
+
+  span {
+    font-size: 20px;
+  }
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.chart {
+  width: min(260px, 50vw);
+  aspect-ratio: 1;
+}
+
+.totalSvg {
+  font-size: 40px;
+}
+
+.labelSvg {
+  font-size: 18px;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.dotA {
+  background: #ff8a7a;
+}
+
+.dotB {
+  background: #ac8eef4d;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+
+  span {
+    font-size: 20px;
+  }
+
+  .reach {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    b {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 16px;
+    }
+  }
+}
+
+.neg {
+  color: #6d7f8b;
+}
+
+.pos {
+  color: #2aa96b;
+}

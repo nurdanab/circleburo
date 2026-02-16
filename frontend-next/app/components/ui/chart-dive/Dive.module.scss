@@ -1,0 +1,77 @@
+@use "../../../styles/shared/mixins" as *;
+
+.card {
+  width: 100%;
+  padding: 40px;
+  @include text-container-blur;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  h2 {
+    font-size: clamp(24px, 3vw, 44px);
+  }
+
+  span {
+    font-size: 20px;
+  }
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.chart {
+  width: min(260px, 50vw);
+  aspect-ratio: 1;
+}
+
+.total {
+  font-size: 42px;
+  font-weight: 600;
+  fill: #2d2d2d;
+}
+
+.subLabel {
+  font-size: 18px;
+  fill: #2d2d2d;
+  opacity: 0.7;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  b {
+    font-size: 22px;
+  }
+
+  span {
+    font-size: 18px;
+  }
+}
+
+.dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}

@@ -1,0 +1,98 @@
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 60;
+}
+
+.menuModal {
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px 32px;
+  overflow: hidden;
+}
+
+.menuLangSelect {
+  padding: 1px 5px;
+  font-size: 12px;
+  color: #393939;
+  background: #fff;
+  border: 1px solid #393939;
+  border-radius: 26px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.menuTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.menuLogo {
+  display: block;
+  width: 100px;
+  height: 50px;
+}
+
+.menuTopRight {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.menuCloseButton {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: #393939;
+}
+
+.menuNav {
+  margin-top: 40px;
+}
+
+.menuNavList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menuNavLink {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: #393939;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.menuBottom {
+  margin-top: 32px;
+}
+
+.menuContactButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #fa4c19;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  max-width: 260px;
+  width: auto;
+}
+

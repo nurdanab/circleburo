@@ -1,0 +1,295 @@
+@use "../../../../styles/shared/mixins" as *;
+
+$sany-accent: #fa4c19;
+
+.hero {
+  @include section-height;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0 0 48px 48px;
+
+  @include mobile-down {
+    height: 50vh;
+    min-height: 300px;
+    max-height: 400px;
+  }
+
+  .heroInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .heroImage {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.sectionsWrapper {
+  background-color: #f3f2f6;
+  margin-top: 0;
+  padding: 40px 80px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  @include mobile-down {
+    padding: 24px 24px 48px;
+  }
+}
+
+// SECTION 2 — текст слева (белая карточка), фото справа
+.section2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section2Text {
+    width: 50%;
+    @include text-container-blur;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 60px 24px;
+
+    span {
+      font-size: 40px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    p {
+      font-size: 20px;
+      line-height: 1.5;
+      color: #333333;
+    }
+  }
+
+  .section2ImgWrap {
+    width: 50%;
+    border-radius: 24px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 24px;
+      object-fit: cover;
+    }
+  }
+
+  @include mobile-down {
+    flex-direction: column;
+
+    .section2Text,
+    .section2ImgWrap {
+      width: 100%;
+    }
+  }
+}
+
+// SECTION 3 — слайдер + точки (активная заливка #FA4C19, неактивная только border)
+.section3 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.section3SliderWrap {
+  width: 100%;
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #e8eaf0 0%, #dde0e8 100%);
+  aspect-ratio: 16 / 10;
+  max-height: 600px;
+
+  @include mobile-down {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.section3Track {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.35s ease-out;
+  will-change: transform;
+}
+
+.section3Slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+
+.section3SlideImage {
+  object-fit: contain;
+  object-position: center;
+}
+
+.section3Dots {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.section3Dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid $sany-accent;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba($sany-accent, 0.3);
+  }
+}
+
+.section3DotActive {
+  background: $sany-accent;
+}
+
+// SECTION 4 — одна карточка по центру
+.section4 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 10%;
+}
+
+.section4Card {
+  max-width: 85%;
+  @include text-container-blur;
+  padding: 48px 40px;
+
+  p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #333333;
+    margin: 0;
+  }
+
+  @include mobile-down {
+    max-width: 100%;
+    padding: 32px 24px;
+
+    p {
+      font-size: 18px;
+    }
+  }
+}
+
+// SECTION 5 — баннер слева, текст справа
+.section5 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section5BannerWrap {
+    width: 50%;
+    border-radius: 24px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 24px;
+      object-fit: cover;
+    }
+  }
+
+  .section5Text {
+    width: 50%;
+    @include text-container-blur;
+    padding: 48px 32px;
+
+    p {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #333333;
+      margin: 0;
+    }
+  }
+
+  @include mobile-down {
+    flex-direction: column;
+
+    .section5BannerWrap,
+    .section5Text {
+      width: 100%;
+    }
+  }
+}
+
+// SECTION 6 — итоги слева, приглашение справа
+.section6 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 0;
+
+  .section6Text {
+    width: 50%;
+    @include text-container-blur;
+    padding: 60px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+
+    span {
+      font-size: 40px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    p {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #333333;
+      margin: 0;
+    }
+  }
+
+  .section6ImgWrap {
+    width: 50%;
+    border-radius: 24px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 24px;
+      object-fit: cover;
+    }
+  }
+
+  @include mobile-down {
+    flex-direction: column;
+
+    .section6Text,
+    .section6ImgWrap {
+      width: 100%;
+    }
+  }
+}

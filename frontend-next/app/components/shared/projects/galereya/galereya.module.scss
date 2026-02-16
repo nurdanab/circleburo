@@ -1,0 +1,191 @@
+@use "../../../../styles/shared/mixins" as *;
+
+.section {
+  @include section-height;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  @include mobile-down {
+  }
+}
+
+.heroInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.sectionsWrapper {
+  background-color: #f1f3ff;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.section2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section2Text {
+    width: 50%;
+    @include text-container-blur;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 60px 24px;
+
+    span {
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
+  .section2ImgWrap {
+    width: 50%;
+    height: 100%;
+    min-height: 980px;
+
+    img {
+      border-radius: 40px;
+      min-height: 980px;
+    }
+  }
+}
+
+.section3 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section3VideoWrapper {
+    width: 50%;
+  }
+
+  .section3VideoWrapper video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 40px;
+  }
+
+  .section3Text {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    p {
+      @include text-container-blur;
+      display: block;
+      font-size: 20px;
+      padding: 40px 24px;
+    }
+  }
+}
+
+.section4 {
+  width: 100%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.section5 {
+  @include text-container-blur;
+  padding: 40px 24px;
+  margin: 0 20%;
+
+  p {
+    font-size: 20px;
+  }
+}
+
+.section6 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+
+  .section6ImgWrap {
+    width: 25%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 33px;
+    }
+  }
+}
+
+.section7 {
+  @include text-container-blur;
+  padding: 40px 24px;
+  margin: 0 20%;
+
+  p {
+    font-size: 20px;
+  }
+}
+
+.section8 {
+  width: 100%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 48px;
+  }
+}
+
+.section9 {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section9Text {
+    @include text-container-blur;
+    width: 50%;
+    padding: 60px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    span {
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
+  .section9ImgWrap {
+    width: 50%;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 40px;
+    }
+  }
+}

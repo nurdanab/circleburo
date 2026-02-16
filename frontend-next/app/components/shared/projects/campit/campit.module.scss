@@ -1,0 +1,167 @@
+@use "../../../../styles/shared/mixins" as *;
+
+.campit {
+  background-color: #f1f3ff;
+}
+
+.section {
+  @include section-height;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  @include mobile-down {
+    height: 50vh;
+    min-height: 300px;
+    max-height: 400px;
+  }
+}
+
+.heroInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.heroImage {
+  @include section-bg-image;
+}
+
+.sectionsWrapper {
+  background-image: url("/projects-pages/campit/bg-sections.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin-top: 40px;
+  padding: 40px 0;
+  border-radius: 48px 48px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.section2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  padding: 0 80px;
+
+  .section2Text {
+    @include text-container-blur;
+    width: 50%;
+    padding: 60px 24px;
+
+    span {
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
+  .section2VideoWrap {
+    width: 50%;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 48px;
+    }
+  }
+}
+
+.section3 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  padding: 0 80px;
+
+  .section3VideoWrap {
+    width: 50%;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 48px;
+    }
+  }
+
+  .section3Text {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .section3TextBlock {
+      @include text-container-blur;
+      padding: 60px 24px;
+      font-size: 20px;
+    }
+  }
+}
+
+.section4 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  padding: 0 80px;
+
+  .section4Text {
+    @include text-container-blur;
+    width: 50%;
+    padding: 60px 24px;
+    font-size: 20px;
+  }
+
+  .section4ImgWrap {
+    width: 50%;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 48px;
+    }
+  }
+}
+
+.section5 {
+  width: 100%;
+  height: 100%;
+
+  .section5ImgWrap {
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 48px;
+    }
+  }
+}
+
+.section6 {
+  @include text-container-blur;
+  margin: 0 20% 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 60px 24px;
+
+  span {
+    font-size: 40px;
+  }
+
+  p {
+    font-size: 20px;
+    text-align: center;
+  }
+}
