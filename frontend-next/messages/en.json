@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "title": "CIRCLE — Full-Cycle Creative Agency",
+    "description": "A full-cycle creative agency where marketing and design unlock the creative and conceptual potential of brands."
+  },
+  "nav": {
+    "about": "About",
+    "services": "Services",
+    "projects": "Projects",
+    "showCases": "Showcases",
+    "contact": "Contact Us"
+  },
+  "footer": {
+    "description": "Circle Creative Buro is a full-cycle creative bureau and advertising agency in Almaty. We develop brands in the digital space and beyond: strategy, creative, web, motion, turnkey interiors.",
+    "contacts": "Contacts",
+    "address": "280 Baizakov St., Almaty"
+  },
+  "home": {
+    "heroTitle": "Full-Cycle Creative Agency",
+    "heroSubtitle": "Marketing, design and development for your brand",
+    "viewProjects": "View Projects",
+    "learnMore": "Learn More"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "Circle Creative Buro is a team of professionals helping brands grow and develop."
+  },
+  "services": {
+    "title": "Services",
+    "strategy": "Strategy",
+    "branding": "Branding",
+    "web": "Web Development",
+    "motion": "Motion Design",
+    "interior": "Interiors"
+  },
+  "projects": {
+    "title": "Projects",
+    "viewProject": "View Project",
+    "results": "Results"
+  },
+  "showCases": {
+    "title": "Showcases",
+    "design": "Design",
+    "web": "Web",
+    "production": "Production",
+    "interior": "Interior"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send",
+    "success": "Message sent!",
+    "error": "Sending error"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "back": "Back",
+    "next": "Next",
+    "prev": "Previous",
+    "close": "Close",
+    "openMenu": "Open menu"
+  }
+}

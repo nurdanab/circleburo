@@ -4,15 +4,15 @@ import InterierSlider from "@/app/components/shared/showCases/interier/interierB
 import { getMediaUrl } from "@/app/lib/media";
 import styles from "./homeBank.module.scss";
 
-export default function SteppeCoffeeProject() {
+export default function HomeBankProject() {
   return (
     <main className={styles.steppeCoffeePage}>
       {/* SECTION 1 – HERO */}
       <section className={`${styles.section}`}>
         <div className={styles.heroInner}>
           <Image
-            src={getMediaUrl("/projects-pages/steppe-coffee/hero.png")}
-            alt="Steppe Coffee hero"
+            src={getMediaUrl("/projects-pages/homeBank/hero.png")}
+            alt="Home Bank hero"
             fill
             className={styles.sectionBg}
             priority
@@ -23,10 +23,9 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section2}>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section1.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
@@ -44,19 +43,17 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section3}>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section2_1.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section2_2.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
@@ -65,7 +62,7 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section4}>
         <div>
           <p>
-            В качестве основы проекта были выбраны  потребительское
+            В качестве основы проекта были выбраны  потребительское
             исследование. В опросе приняли участие 110 респондентов из разных
             городов Казахстана. Анализ показал, что у 58% аудитории отсутствует
             сформированное восприятие бренда, а уровень доверия находится на
@@ -77,10 +74,9 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section3.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
@@ -89,10 +85,9 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section5}>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section4.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
@@ -124,10 +119,9 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section5.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
@@ -135,10 +129,9 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section7}>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section6.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
@@ -168,10 +161,9 @@ export default function SteppeCoffeeProject() {
         </div>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section7.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
@@ -182,19 +174,17 @@ export default function SteppeCoffeeProject() {
       <section className={styles.section10}>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section9_1.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/home-bank/home-bank-logo.png")}
-            alt="Home Bank logo"
-            width={520}
-            height={920}
+            src={getMediaUrl("/projects-pages/homeBank/section9_2.png")}
+            alt="Home Bank section"
+            fill
             className={styles.sectionBg}
           />
         </div>

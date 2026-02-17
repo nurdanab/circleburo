@@ -1,8 +1,13 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import styles from "./Footer.module.scss";
 import { getMediaUrl } from "@/app/lib/media";
 
 export default function Footer() {
+  const t = useTranslations("footer");
+
   return (
     <footer className={styles.footer}>
 
@@ -17,14 +22,12 @@ export default function Footer() {
           />
 
           <p className={styles.description}>
-            Circle Creative Buro – креативное бюро и рекламное агентство полного
-            цикла в Алматы. Развиваем бренды в цифровом пространстве и за его
-            пределами: стратегия, креатив, веб, моушн, интерьеры под ключ.
+            {t("description")}
           </p>
         </div>
 
         <div className={styles.right}>
-          <h3 className={styles.contactsTitle}>Контакты</h3>
+          <h3 className={styles.contactsTitle}>{t("contacts")}</h3>
 
           <ul className={styles.contactsList}>
             <li className={styles.contactItem}>
@@ -38,7 +41,7 @@ export default function Footer() {
                 width={20}
                 height={20}
               />
-              <span>ул. Байзакова 280, Алматы</span>
+              <span>{t("address")}</span>
             </li>
             <li className={styles.contactItem}>
               <Image src={getMediaUrl("/Mail.svg")} alt="Email" width={20} height={20} />

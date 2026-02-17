@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getMediaUrl } from "@/app/lib/media";
 import styles from "./citix.module.scss";
 
-export default function SteppeCoffeeProject() {
+export default function CitixProject() {
   return (
     <main className={styles.citixPage}>
       {/* SECTION 1 – HERO */}
@@ -12,8 +12,7 @@ export default function SteppeCoffeeProject() {
           <Image
             src={getMediaUrl("/projects-pages/citix/hero.png")}
             alt="Citix hero"
-            width={520}
-            height={920}
+            fill
             className={styles.sectionBg}
             priority
           />
@@ -32,13 +31,12 @@ export default function SteppeCoffeeProject() {
         </div>
 
         <div>
-          <Image
-            src={getMediaUrl("/projects-pages/citix/citix-logo.png")}
-            alt="Citix logo"
-            width={520}
-            height={920}
-            className={styles.sectionBg}
-          />
+          <video autoPlay muted loop playsInline className={styles.sectionBg}>
+            <source
+              src={getMediaUrl("/projects-pages/citix/section1.mp4")}
+              type="video/mp4"
+            />
+          </video>
         </div>
       </section>
 
@@ -53,13 +51,12 @@ export default function SteppeCoffeeProject() {
         </div>
 
         <div>
-          <Image
-            src={getMediaUrl("/projects-pages/citix/citix-logo.png")}
-            alt="Citix logo"
-            width={520}
-            height={920}
-            className={styles.sectionBg}
-          />
+          <video autoPlay muted loop playsInline className={styles.sectionBg}>
+            <source
+              src={getMediaUrl("/projects-pages/citix/section2.mp4")}
+              type="video/mp4"
+            />
+          </video>
         </div>
       </section>
     </main>

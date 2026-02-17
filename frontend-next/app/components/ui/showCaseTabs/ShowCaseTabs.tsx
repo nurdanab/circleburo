@@ -1,18 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import styles from "./ShowCaseTabs.module.scss";
-
-const TABS = [
-  { href: "/show-cases/design", label: "Дизайн" },
-  { href: "/show-cases/web", label: "Веб-разработка" },
-  { href: "/show-cases/interier", label: "Интерьер" },
-  { href: "/show-cases/prod", label: "Продакшн" },
-] as const;
 
 export default function ShowCaseTabs() {
   const pathname = usePathname();
+  const t = useTranslations("showCases");
+
+  const TABS = [
+    { href: "/show-cases/design", label: t("design") },
+    { href: "/show-cases/web", label: t("web") },
+    { href: "/show-cases/interier", label: t("interior") },
+    { href: "/show-cases/prod", label: t("production") },
+  ] as const;
 
   if (!pathname.startsWith("/show-cases")) return null;
 

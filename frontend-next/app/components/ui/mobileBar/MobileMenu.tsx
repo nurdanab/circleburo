@@ -1,13 +1,36 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import styles from "./MobileMenu.module.scss";
+import { getMediaUrl } from "@/app/lib/media";
+import type { Locale } from "@/i18n/routing";
 
 type MobileMenuProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
+const LOCALE_LABELS: Record<Locale, string> = {
+  ru: "РУС",
+  kz: "ҚАЗ",
+  en: "ENG",
+  cn: "中文",
+};
+
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const t = useTranslations("nav");
+  const tCommon = useTranslations("common");
+  const locale = useLocale() as Locale;
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleLocaleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLocale = e.target.value as Locale;
+    router.replace(pathname, { locale: newLocale });
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -19,7 +42,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         <div className={styles.menuTop}>
           <Link href="/" onClick={onClose}>
             <Image
-              src="/Logo.svg"
+              src={getMediaUrl("/Logo.svg")}
               alt="CIRCLE creative buro"
               width={40}
               height={40}
@@ -30,15 +53,20 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <div className={styles.menuTopRight}>
             <select
               className={styles.menuLangSelect}
-              defaultValue="ru"
-              aria-label="Язык"
+              value={locale}
+              onChange={handleLocaleChange}
+              aria-label="Language"
             >
-              <option value="ru">РУС</option>
+              {Object.entries(LOCALE_LABELS).map(([code, label]) => (
+                <option key={code} value={code}>
+                  {label}
+                </option>
+              ))}
             </select>
             <button
               type="button"
               className={styles.menuCloseButton}
-              aria-label="Закрыть меню"
+              aria-label={tCommon("close")}
               onClick={onClose}
             >
               ✕
@@ -54,7 +82,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={onClose}
                 className={styles.menuNavLink}
               >
-                Услуги
+                {t("services")}
               </Link>
             </li>
             <li>
@@ -63,7 +91,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={onClose}
                 className={styles.menuNavLink}
               >
-                О нас
+                {t("about")}
               </Link>
             </li>
             <li>
@@ -72,7 +100,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={onClose}
                 className={styles.menuNavLink}
               >
-                Работы
+                {t("projects")}
               </Link>
             </li>
             <li>
@@ -81,7 +109,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={onClose}
                 className={styles.menuNavLink}
               >
-                Шоу кейсы
+                {t("showCases")}
               </Link>
             </li>
             <li>
@@ -90,7 +118,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={onClose}
                 className={styles.menuNavLink}
               >
-                Контакты
+                {t("contact")}
               </Link>
             </li>
           </ul>
@@ -102,11 +130,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             onClick={onClose}
             className={styles.menuContactButton}
           >
-            Связаться с нами
+            {t("contact")}
           </Link>
         </div>
       </div>
     </div>
   );
 }
-

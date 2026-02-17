@@ -1,15 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import styles from "./Header.module.scss";
 import { MobileMenu } from "../mobileBar/MobileMenu";
 import ShowCaseTabs from "../showCaseTabs/ShowCaseTabs";
 import { getMediaUrl } from "@/app/lib/media";
+import type { Locale } from "@/i18n/routing";
+
+const LOCALE_LABELS: Record<Locale, string> = {
+  ru: "РУС",
+  kz: "ҚАЗ",
+  en: "ENG",
+  cn: "中文",
+};
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const t = useTranslations("nav");
+  const locale = useLocale() as Locale;
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleLocaleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLocale = e.target.value as Locale;
+    router.replace(pathname, { locale: newLocale });
+  };
 
   return (
     <>
@@ -29,22 +47,22 @@ export default function Header() {
             <ul className={styles.navList}>
               <li>
                 <Link href="/about" className={styles.navLink}>
-                  О нас
+                  {t("about")}
                 </Link>
               </li>
               <li>
                 <Link href="/services" className={styles.navLink}>
-                  Услуги
+                  {t("services")}
                 </Link>
               </li>
               <li>
                 <Link href="/projects" className={styles.navLink}>
-                  Проекты
+                  {t("projects")}
                 </Link>
               </li>
               <li>
                 <Link href="/show-cases" className={styles.navLink}>
-                  Шоу кейсы
+                  {t("showCases")}
                 </Link>
               </li>
             </ul>
@@ -53,24 +71,26 @@ export default function Header() {
           <div className={styles.actions}>
             <select
               className={styles.langSelect}
-              defaultValue="ru"
-              aria-label="Язык"
+              value={locale}
+              onChange={handleLocaleChange}
+              aria-label="Language"
             >
-              <option value="ru">РУС</option>
-              <option value="kz">ҚАЗ</option>
-              <option value="en">ENG</option>
-              <option value="cn">中文</option>
+              {Object.entries(LOCALE_LABELS).map(([code, label]) => (
+                <option key={code} value={code}>
+                  {label}
+                </option>
+              ))}
             </select>
             <Link href="/contact" className={styles.ctaButton}>
-              Связаться с нами
+              {t("contact")}
             </Link>
             <button
               type="button"
               className={styles.burgerButton}
-              aria-label="Открыть меню"
+              aria-label="Open menu"
               onClick={() => setIsMenuOpen(true)}
             >
-              <Image src={getMediaUrl("/burger-menu.svg")} alt="Меню" width={32} height={32} />
+              <Image src={getMediaUrl("/burger-menu.svg")} alt="Menu" width={32} height={32} />
             </button>
           </div>
           <MobileMenu

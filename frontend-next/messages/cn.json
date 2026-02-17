@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "title": "CIRCLE — 全周期创意机构",
+    "description": "全周期创意机构，营销和设计在这里释放品牌的创意和概念潜力。"
+  },
+  "nav": {
+    "about": "关于我们",
+    "services": "服务",
+    "projects": "项目",
+    "showCases": "案例展示",
+    "contact": "联系我们"
+  },
+  "footer": {
+    "description": "Circle Creative Buro是阿拉木图的全周期创意局和广告代理公司。我们在数字空间及其之外发展品牌：战略、创意、网络、动态设计、交钥匙室内设计。",
+    "contacts": "联系方式",
+    "address": "阿拉木图，拜扎科夫街280号"
+  },
+  "home": {
+    "heroTitle": "全周期创意机构",
+    "heroSubtitle": "为您的品牌提供营销、设计和开发",
+    "viewProjects": "查看项目",
+    "learnMore": "了解更多"
+  },
+  "about": {
+    "title": "关于我们",
+    "description": "Circle Creative Buro是一支帮助品牌成长和发展的专业团队。"
+  },
+  "services": {
+    "title": "服务",
+    "strategy": "战略",
+    "branding": "品牌建设",
+    "web": "网站开发",
+    "motion": "动态设计",
+    "interior": "室内设计"
+  },
+  "projects": {
+    "title": "项目",
+    "viewProject": "查看项目",
+    "results": "成果"
+  },
+  "showCases": {
+    "title": "案例展示",
+    "design": "设计",
+    "web": "网络",
+    "production": "制作",
+    "interior": "室内"
+  },
+  "contact": {
+    "title": "联系方式",
+    "name": "姓名",
+    "email": "电子邮件",
+    "phone": "电话",
+    "message": "留言",
+    "send": "发送",
+    "success": "消息已发送！",
+    "error": "发送错误"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "back": "返回",
+    "next": "下一个",
+    "prev": "上一个",
+    "close": "关闭",
+    "openMenu": "打开菜单"
+  }
+}

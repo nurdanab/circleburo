@@ -10,8 +10,8 @@ export default function SenenProject() {
       <section className={`${styles.section}`}>
         <div className={styles.heroInner}>
           <Image
-            src={getMediaUrl("/projects-pages/steppe-coffee/hero.png")}
-            alt="Steppe Coffee hero"
+            src={getMediaUrl("/projects-pages/senen/hero.png")}
+            alt="Senen hero"
             fill
             className={styles.sectionBg}
             priority
@@ -34,8 +34,8 @@ export default function SenenProject() {
         </div>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
-            alt="Senen logo"
+            src={getMediaUrl("/projects-pages/senen/section1.png")}
+            alt="Senen section"
             fill
             className={styles.sectionBg}
           />
@@ -44,8 +44,8 @@ export default function SenenProject() {
 
       <section className={styles.section3}>
         <Image
-          src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
-          alt="Senen logo"
+          src={getMediaUrl("/projects-pages/senen/section2.png")}
+          alt="Senen section"
           fill
           className={styles.sectionBg}
         />
@@ -71,8 +71,8 @@ export default function SenenProject() {
       <section className={styles.section5}>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
-            alt="Senen logo"
+            src={getMediaUrl("/projects-pages/senen/section3.png")}
+            alt="Senen section"
             fill
             className={styles.sectionBg}
           />
@@ -89,8 +89,8 @@ export default function SenenProject() {
       <section className={styles.section6}>
         <div>
           <Image
-            src={getMediaUrl("/projects-pages/senen/senen-logo.png")}
-            alt="Senen logo"
+            src={getMediaUrl("/projects-pages/senen/section4.png")}
+            alt="Senen section"
             fill
             className={styles.sectionBg}
           />
