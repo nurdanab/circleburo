@@ -63,5 +63,210 @@
     "prev": "Previous",
     "close": "Close",
     "openMenu": "Open menu"
+  },
+  "dive": {
+    "title": "Dive",
+    "description1": "Dive is a brand of cassette and cassette-free blinds, for which we built a social media presence from scratch. The project started at the end of December, and the key task at the first stage was to launch the account, build a basic audience, and test demand through content and advertising.",
+    "description2": "We immediately focused on a simple and clear presentation: product explanation, real faces, short formats, and a focus on customer benefits. This allowed us to start gaining views and first subscribers without a long preparatory stage.",
+    "description3": "In parallel, the foundation of the account was built. We developed a unified visual style, designed the profile header, adjusted the account name for promotion tasks, and created highlights that addressed the main customer questions: assortment, installation, reasons to choose the brand. As a result, the profile began to look like a full-fledged digital catalog and sales point.",
+    "description4": "During the work, we established regular content and publication planning. The content combined educational videos, product presentation, and simple explanations of the ordering and installation process. This allowed us to reach not only subscribers but also a cold audience that was previously unfamiliar with the brand. Additionally, targeted advertising was launched. It provided not only metric growth but also direct response in the form of incoming requests and subscriptions from advertisements.",
+    "results": "Dive project result: In a short time, a packaged account was created, content logic was built, formats were tested, and first confirmations of demand were received through reach, views, and advertising responses. The project laid the foundation for further scaling and turning social networks into a stable lead generation channel.",
+    "views": "VIEWS",
+    "period": "Nov 28 - Dec 27",
+    "fromAds": "from ads",
+    "nonSubscribers": "Non-subscribers",
+    "subscribers": "Subscribers"
+  },
+  "senen": {
+    "title": "Senen",
+    "description1": "Senen is a company specializing in the production of corporate gift boxes and personalized gift solutions for business. Circle joined the project with the task of systematically designing the visual part of the product and accompanying materials used in working with corporate clients. It was important to preserve the brand character while making communication more understandable and structured.",
+    "description2": "The next stage was the development of the commercial proposal design. The document was structured to clearly and consistently convey the product value, reflecting the style and positioning of the brand.",
+    "description3": "Additionally, Circle developed visual solutions for packaging elements. The project included postcards, wrappers, as well as labels for tea and chocolate. All elements were executed in a unified visual style and coordinated with each other so that the packaging was perceived as a complete product.",
+    "results": "As a result, Senen received a structured set of visual and printed materials that enhance the product and support the brand at all stages of interaction with corporate clients."
+  },
+  "citix": {
+    "title": "Citix",
+    "description1": "Circle worked with Citix on motion design development for the brand's marketing and communication tasks. The project was aimed at visualizing the company's key ideas and technological solutions through dynamic animation formats.",
+    "results": "As a result, Citix received motion content that organically fit into the brand's communication strategy and enhanced the visual representation of its technological solutions."
+  },
+  "homeBank": {
+    "title": "Home Bank",
+    "description1": "This project was executed as a research and strategic brand diagnostic to understand why the bank does not build trust and how its perception can be changed through rebranding, space, and digital experience.",
+    "description2": "Consumer research was chosen as the project foundation. 110 respondents from different cities of Kazakhstan participated in the survey. The analysis showed that 58% of the audience lacks a formed brand perception, and the level of trust is at a critically low level - about 9-12% compared to market leaders. The problem was not active distrust, but the absence of a clear image and experience that could form this trust.",
+    "description3": "Customer behavior research revealed a key pattern. Deposits turned out to be the main indicator of long-term relationships with the bank, and the presence of trust increases the probability of choosing deposits by about 30 times. It also turned out that despite the development of online channels, more than 67% of respondents either prefer branches or are willing to interact with them. However, a positive branch visit experience was recorded in less than a third of the audience, except for the group with a high level of trust, where this indicator reached 78%.",
+    "description4": "Based on this data, a strategic conclusion was formed. To change brand perception, it is not enough to strengthen communications or promote products. The key factor is experience - physical and digital. Branch space and app interface directly affect the level of trust and customers' readiness for more complex financial products.",
+    "description5": "Within the project, an evolutionary rebranding concept under the name HomeBank was proposed. The name and visual system are based on associations with safety, stability, and clarity. The color palette is built around blue as a basic marker of reliability. The interior is considered as a brand tool: a calm environment, clear navigation, and comfort reduce tension and strengthen trust at a subconscious level.",
+    "description6": "A separate diagnostic block was dedicated to the mobile application. The analysis showed that with standard functionality, the application does not work on building trust and long-term financial decisions. As a strategic direction, UX improvements and the introduction of financial planning and education tools were proposed, which strengthen the bank's position as a partner, not just a service for operations.",
+    "results": "A structured diagnostic model showing how through a combination of research, branding, interior, and digital experience, it is possible to change the bank's perception and create a foundation for trust growth and long-term customer value."
+  },
+  "aboutPage": {
+    "metaTitle": "About Us",
+    "metaDescription": "CIRCLE — a creative agency that unlocks brands' potential through design and marketing.",
+    "heroAlt": "About Us — CIRCLE Creative Buro",
+    "heroTitlePart1": "About",
+    "heroTitlePart2": " Us",
+    "heroDescription": "It all started with a small coffee shop where people's potential began to unfold.\nFive people gathered chaos into a single rhythm. Different people, but equally passionate\nand each added their point to the circle. The points began to connect.\nDesign. Marketing. Strategy. Meaning. Drive.",
+    "missionAlt": "Our Mission",
+    "missionTitle": "our mission",
+    "missionDescription": "Creating unique solutions through teamwork and a creative approach,\nuniting talents and ideas to achieve outstanding results.\nWe believe that collaboration inspires, and together we can overcome\nany boundaries, turning bold thoughts into bright and impactful projects.",
+    "historyAlt": "Our Team",
+    "historyTitle": "our history",
+    "historyDescription": "Starting as a small team, we founded our agency in August 2025 and continue to grow. We started with the Steppe Coffee project, which showed us the real scale of our capabilities. One successful case led to the next, and that's how we grew into a full-fledged agency. Now we have several departments and ambitious plans for the future, but the goal remains the same: create cool projects and constantly grow."
+  },
+  "servicesPage": {
+    "metaTitle": "Services",
+    "metaDescription": "Branding, visual identity, web design, content and other services from CIRCLE creative agency.",
+    "priceListTitle": "semisircle prices",
+    "individualPrice": "Individual price",
+    "packagesTitle": "packages",
+    "bookConsultation": "Book a consultation",
+    "workingDays": "working days",
+    "term": "Term",
+    "categories": {
+      "marketing": "MARKETING",
+      "design": "DESIGN",
+      "smm": "SMM",
+      "production": "PRODUCTION"
+    },
+    "marketingServices": {
+      "concept": "Concept / visualization",
+      "miniEvents": "Mini-events",
+      "audit": "Audit and analysis"
+    },
+    "designServices": {
+      "miniGuidebook": "Mini-guidebook (6 pages)",
+      "presentation": "Presentation (1 page)",
+      "packaging": "Packaging and branding (1 pc.)",
+      "animation2d": "2D animation (1 sec.)",
+      "animation3d": "3D animation (1 sec.)",
+      "visualization3d": "3D concept visualization (1 sec.)",
+      "posters": "Posters, banners, illustrations (1 pc.)",
+      "socialDesign": "Social media design",
+      "websiteReact": "Website development (React) / Pro",
+      "websiteTilda": "Website development (Tilda) / Business",
+      "websiteSupport": "Website support",
+      "interiorDesign": "Interior design (1 m²)",
+      "interiorTurnkey": "Turnkey interior design (1 m²)"
+    },
+    "smmServices": {
+      "contentPlan": "Content plan",
+      "profileDesign": "Profile design (10 posts)",
+      "reels": "Reels / TikTok shooting (12 pcs.)",
+      "stories": "Stories (20 pcs.)",
+      "targetedAds": "Targeted advertising"
+    },
+    "productionServices": {
+      "videoEditing": "Video editing (1 video)",
+      "videoProduction": "Video production (1 hour)",
+      "photoShooting": "Photo shooting (1 hour)"
+    },
+    "packages": {
+      "productBase": {
+        "title": "Product Base",
+        "price": "1,500,000 KZT",
+        "duration": "45",
+        "services": {
+          "s1title": "Packaging Design",
+          "s1desc": "Primary packaging design, Label and regulatory information layout development, Mockup preparation, Revisions",
+          "s2title": "Mini Visual Identity Kit",
+          "s2desc": "Logo (main and secondary), Color palette, Typography, Layout system, Application, Mini VI-book",
+          "s3title": "One-page Website",
+          "s3desc": "UX wireframe, Interface design, Development, Mobile adaptation, Analytics",
+          "s4title": "Commercial Presentation",
+          "s4desc": "Product presentation (Pitch Deck)",
+          "s5title": "Social Media Content",
+          "s5desc": "Static posts, Short videos, Stories"
+        }
+      },
+      "branding360": {
+        "title": "Branding 360",
+        "price": "3,000,000 KZT",
+        "duration": "45",
+        "services": {
+          "s1title": "Brand Strategy",
+          "s1desc": "Brand study workshops, Brand strategy document",
+          "s2title": "Brandbook",
+          "s2desc": "Complete brand identity guidelines",
+          "s3title": "Full Visual Identity System",
+          "s3desc": "Logo system, Color palette, Typography system, Iconography, Photo and art direction, Application, Revisions",
+          "s4title": "Packaging System (MULTI-SKU)",
+          "s4desc": "Design master template, SKU adaptation, Mockups",
+          "s5title": "Corporate Website",
+          "s5desc": "UX wireframes, Interface design, Development, SEO basics, Multilingual",
+          "s6title": "Distributor Package",
+          "s6desc": "Full commercial presentation"
+        }
+      },
+      "marketBridge": {
+        "title": "Market Bridge",
+        "price": "2,000,000 KZT",
+        "duration": "23",
+        "services": {
+          "s1title": "Market Localization",
+          "s1desc": "Kazakhstan cultural specifics, Consumer behavior adaptation, Competitor analysis, Communication recommendations",
+          "s2title": "SMM Full Content Production",
+          "s2desc": "Content strategy, Monthly calendar, Stories, Reels/Video, Video shooting, Covers, Post captions",
+          "s3title": "Social Media Account Setup and Optimization",
+          "s3desc": "Profile profiling, Grid layout plan, Hashtag/topic clusters",
+          "s4title": "Analytics and Reporting",
+          "s4desc": "One month results report"
+        }
+      },
+      "circlePackage": {
+        "title": "circle package",
+        "price": "5,000,000 KZT",
+        "duration": "45",
+        "services": {
+          "s1title": "Brand and Business Strategy",
+          "s1desc": "Brand positioning and key value framework, Consumer portrait summary, Competitive environment overview",
+          "s2title": "Brand Identity Creation",
+          "s2desc": "Logo and visual identity system, Brand guidelines (standard), Business and brand assets",
+          "s3title": "Product and Packaging Design",
+          "s3desc": "Packaging design for product(s), Product line visual system, Packaging localization (if needed)",
+          "s4title": "Website and Digital Presence",
+          "s4desc": "Landing page / Full website, UX/UI wireframes, Website copywriting",
+          "s5title": "Market Entry and Local Adaptation",
+          "s5desc": "Brand localization strategy, Cultural audit",
+          "s6title": "SMM Strategy and Creative Execution",
+          "s6desc": "Content strategy, Stories design, Reels content creation, Professional video shooting, SMM copywriting, Visual covers/thumbnails system, Results analysis and optimization",
+          "s7title": "Commercial Presentation and Investor Materials",
+          "s7desc": "Corporate/investor presentation, Product demo video"
+        }
+      },
+      "creativeConsulting": {
+        "title": "Creative Consulting",
+        "price": "Individual price",
+        "services": {
+          "s1title": "Brand Strategy Consulting",
+          "s1desc": "Brand positioning workshop, Brand core values system development, Competitive environment analysis, Consumer portrait mapping, Brand architecture consulting",
+          "s2title": "Advertising and Creative Consulting",
+          "s2desc": "Creative direction system, Campaign concept development, OOH advertising concept design, Content direction strategy, Visual communication audit",
+          "s3title": "Product and Packaging Consulting",
+          "s3desc": "Product-market fit assessment, Packaging usability and aesthetics audit, Product line expansion strategy",
+          "s4title": "Growth and Market Entry Strategy",
+          "s4desc": "Market entry roadmap, Pricing and sales channel strategy, Brand localization strategy, Sales funnel optimization",
+          "s5title": "B2B and Tender Support",
+          "s5desc": "Information and design support for tender documentation, Media partnership guide, Local partnership and co-branding proposals, Promo-mix strategy",
+          "s6title": "E-commerce Strategy (Kaspi | Wildberries | Flip.kz)",
+          "s6desc": "Marketplace store setup, SEO and product card optimization, Product photo/video optimization, Sales analysis",
+          "s7title": "Data and Analytics Consulting",
+          "s7desc": "Market data analysis, Competitor digital activity study, Customer behavior analytics, Advertising effectiveness diagnostics, Dashboard setup (optional)"
+        }
+      }
+    }
+  },
+  "contactPage": {
+    "title": "contact us",
+    "subtitle": "Book a consultation with our expert to discuss your project requirements\nand receive personalized recommendations",
+    "nameLabel": "Your name",
+    "namePlaceholder": "Enter your name",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "+7 (___) ___-__-__",
+    "submitButton": "book a consultation",
+    "submitting": "Sending...",
+    "errorName": "Please enter your name",
+    "errorPhone": "Please enter your phone number",
+    "errorTimeBooked": "This time is already booked. Please choose another time.",
+    "errorGeneral": "An error occurred. Please try again later."
   }
 }

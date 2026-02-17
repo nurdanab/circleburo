@@ -1,9 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { getMediaUrl } from "@/app/lib/media";
 import styles from "./senen.module.scss";
 
 export default function SenenProject() {
+  const t = useTranslations("senen");
+  const tProjects = useTranslations("projects");
+
   return (
     <main className={styles.senenPage}>
       {/* SECTION 1 – HERO */}
@@ -11,7 +17,7 @@ export default function SenenProject() {
         <div className={styles.heroInner}>
           <Image
             src={getMediaUrl("/projects-pages/senen/hero.png")}
-            alt="Senen hero"
+            alt={t("title")}
             fill
             className={styles.sectionBg}
             priority
@@ -21,21 +27,13 @@ export default function SenenProject() {
 
       <section className={styles.section2}>
         <div>
-          <span>Senen</span>
-          <p>
-            Senen – компания, специализирующаяся на производстве корпоративных
-            подарочных боксов и персонализированных подарочных решений для
-            бизнеса. Circle подключился к проекту с задачей системно оформить
-            визуальную часть продукта и сопутствующие материалы, которые
-            используются в работе с корпоративными клиентами. Важно было
-            сохранить характер бренда и одновременно сделать коммуникацию более
-            понятной и структурированной.
-          </p>
+          <span>{t("title")}</span>
+          <p>{t("description1")}</p>
         </div>
         <div>
           <Image
             src={getMediaUrl("/projects-pages/senen/section1.png")}
-            alt="Senen section"
+            alt={t("title")}
             fill
             className={styles.sectionBg}
           />
@@ -45,52 +43,34 @@ export default function SenenProject() {
       <section className={styles.section3}>
         <Image
           src={getMediaUrl("/projects-pages/senen/section2.png")}
-          alt="Senen section"
+          alt={t("title")}
           fill
           className={styles.sectionBg}
         />
       </section>
 
       <section className={styles.section4}>
-        <p>
-          Senen – компания, специализирующаяся на производстве корпоративных
-          подарочных боксов и персонализированных подарочных решений для
-          бизнеса. Circle подключился к проекту с задачей системно оформить
-          визуальную часть продукта и сопутствующие материалы, которые
-          используются в работе с корпоративными клиентами. Важно было сохранить
-          характер бренда и одновременно сделать коммуникацию более понятной и
-          структурированной.
-        </p>
-        <p>
-          Следующим этапом стала разработка дизайна коммерческого предложения.
-          Документ был выстроен так, чтобы четко и последовательно доносить
-          ценность продукта, отражая стиль и позиционирование бренда.
-        </p>
+        <p>{t("description1")}</p>
+        <p>{t("description2")}</p>
       </section>
 
       <section className={styles.section5}>
         <div>
           <Image
             src={getMediaUrl("/projects-pages/senen/section3.png")}
-            alt="Senen section"
+            alt={t("title")}
             fill
             className={styles.sectionBg}
           />
         </div>
-        <p>
-          Дополнительно Circle разработал визуальные решения для элементов
-          упаковки. В проект вошли открытки, обертки, а также этикетки для чая и
-          шоколада. Все элементы были выполнены в едином визуальном ключе и
-          согласованы между собой, чтобы упаковка воспринималась как цельный
-          продукт.
-        </p>
+        <p>{t("description3")}</p>
       </section>
 
       <section className={styles.section6}>
         <div>
           <Image
             src={getMediaUrl("/projects-pages/senen/section4.png")}
-            alt="Senen section"
+            alt={t("title")}
             fill
             className={styles.sectionBg}
           />
@@ -98,12 +78,8 @@ export default function SenenProject() {
       </section>
 
       <section className={styles.section7}>
-        <span>Итоги</span>
-        <p>
-          В результате Senen получил структурированный набор визуальных и
-          печатных материалов, усиливающих продукт и поддерживающих бренд на
-          всех этапах взаимодействия с корпоративными клиентами.
-        </p>
+        <span>{tProjects("results")}</span>
+        <p>{t("results")}</p>
       </section>
     </main>
   );

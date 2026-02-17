@@ -1,202 +1,207 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import styles from "./Package.module.scss";
 import { getMediaUrl } from "@/app/lib/media";
 
-const packagesData = [
-  {
-    id: 1,
-    title: "Основа продукта",
-    price: "1 500 000 тнг",
-    duration: "Срок 45 рабочих дней",
-    image: "/services/package-1.png",
-    services: [
-      {
-        num: "01",
-        title: "Дизайн упаковки",
-        desc: "Дизайн первичной упаковки, Разработка макета этикетки и регуляторной информации, Подготовка мокапов, Внесение правок",
-      },
-      {
-        num: "02",
-        title: "Мини кит визуальной идентичности",
-        desc: "Логотип (основной и дополнительный), Цветовая палитра, Типографика, Система верстки, Применение, Мини VI-бук",
-      },
-      {
-        num: "03",
-        title: "Одностраничный сайт",
-        desc: "Каркас UX, Дизайн интерфейса, Разработка, Адаптация под мобильные устройства, Аналитика",
-      },
-      {
-        num: "04",
-        title: "Коммерческая презентация",
-        desc: "Презентация продукта (Pitch Deck)",
-      },
-      {
-        num: "05",
-        title: "Контент для соцсетей",
-        desc: "Статичные посты, Короткие видео, Истории",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Брендинг 360",
-    price: "3 000 000 тнг",
-    duration: "Срок 45 рабочих дней",
-    image: "/services/package-2.png",
-    services: [
-      {
-        num: "01",
-        title: "Стратегия бренда",
-        desc: "Воркшопы по изучению бренда, Документ стратегии бренда",
-      },
-      {
-        num: "02",
-        title: "Брендбук",
-        desc: "Полные правила бренд-айдентики",
-      },
-      {
-        num: "03",
-        title: "Полная система визуальной идентичности",
-        desc: "Система логотипов, Цветовая палитра, Система типографики, Иконография, Фото- и арт-направление, Применение, Правки",
-      },
-      {
-        num: "04",
-        title: "Система упаковки (МУЛЬТИ-SKU)",
-        desc: "Мастер-шаблон дизайна, Адаптация под SKU, Мокапы",
-      },
-      {
-        num: "05",
-        title: "Корпоративный сайт",
-        desc: "Каркасы UX, Дизайн интерфейса, Разработка, Основы SEO, Многоязычность",
-      },
-      {
-        num: "06",
-        title: "Дистрибьюторский пакет",
-        desc: "Полная коммерческая презентация",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Мост на рынок",
-    price: "2 000 000 тнг",
-    duration: "Срок 23 рабочих дня",
-    image: "/services/package-3.png",
-    services: [
-      {
-        num: "01",
-        title: "Локализация на рынок",
-        desc: "Культурные особенности Казахстана, Адаптация под поведение потребителей, Анализ конкурентов, Рекомендации по коммуникации",
-      },
-      {
-        num: "02",
-        title: "SMM полное производство контента",
-        desc: "Контент-стратегия, Ежемесячный календарь, Истории, Reels/Видео, Видеосъёмка, Обложки, Подписи к постам",
-      },
-      {
-        num: "03",
-        title: "Настройка и оптимизация аккаунтов в соцсетях",
-        desc: "Профилирование профиля, План сетки (Grid layout), Кластеры хештегов/тем",
-      },
-      {
-        num: "04",
-        title: "Аналитика и отчетность",
-        desc: "Отчёт о результатах за один месяц",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "пакет circle",
-    price: "5 000 000 тнг",
-    duration: "Срок 45 рабочих дней",
-    image: "/services/package-4.png",
-    services: [
-      {
-        num: "01",
-        title: "Стратегия бренда и бизнеса",
-        desc: "Позиционирование бренда и ключевая ценностная рамка, Сводка по портретам потребителей, Обзор конкурентной среды",
-      },
-      {
-        num: "02",
-        title: "Создание идентичности бренда",
-        desc: "Логотип и система визуальной идентичности, Руководство по бренду (стандартное), Бизнес- и бренд-активы",
-      },
-      {
-        num: "03",
-        title: "Дизайн продукта и упаковки",
-        desc: "Дизайн упаковки для продукта(ов), Визуальная система продуктовой линейки, Локализация упаковки (при необходимости)",
-      },
-      {
-        num: "04",
-        title: "Веб-сайт и цифровое присутствие",
-        desc: "Лендинг / Полноценный сайт, Каркасы UX/UI, Копирайтинг для сайта",
-      },
-      {
-        num: "05",
-        title: "Выход на рынок и локальная адаптация",
-        desc: "Стратегия локализации бренда, Культурный аудит",
-      },
-      {
-        num: "06",
-        title: "SMM стратегия и креативное исполнение",
-        desc: "Контент-стратегия, Дизайн историй, Создание контента для Reels, Профессиональная видеосъёмка, Копирайтинг для SMM, Система визуальных обложек/миниатюр, Анализ результатов и оптимизация",
-      },
-      {
-        num: "07",
-        title: "Коммерческая презентация и материалы для инвесторов",
-        desc: "Корпоративная/инвесторская презентация, Демонстрационное видео продукта",
-      },
-    ],
-  },
-  {
-    id: 5,
-    title: "Креативный консалтинг",
-    price: "Индивидуальная цена",
-    isIndividual: true,
-    image: "/services/package-5.png",
-    services: [
-      {
-        num: "01",
-        title: "Консалтинг стратегии бренда",
-        desc: "Воркшоп по позиционированию бренда, Разработка системы ключевых ценностей бренда, Анализ конкурентной среды, Картирование портретов потребителей, Консалтинг по архитектуре бренда",
-      },
-      {
-        num: "02",
-        title: "Рекламный и креативный консалтинг",
-        desc: "Система креативного направления, Разработка концепции кампании, Дизайн концепции наружной рекламы (OOH), Стратегия контентных направлений, Аудит визуальной коммуникации",
-      },
-      {
-        num: "03",
-        title: "Консалтинг продукта и упаковки",
-        desc: "Оценка соответствия продукта рынку, Аудит удобства использования и эстетики упаковки, Стратегия расширения продуктовой линейки",
-      },
-      {
-        num: "04",
-        title: "Стратегия роста и выхода на рынок",
-        desc: "Дорожная карта выхода на рынок, Стратегия ценообразования и каналов продаж, Стратегия локализации бренда, Оптимизация воронки продаж",
-      },
-      {
-        num: "05",
-        title: "B2B и тендерная поддержка",
-        desc: "Информационная и дизайнерская поддержка тендерной документации, Руководство по медиа-партнёрствам, Предложения по локальным партнёрствам и кобрендингу, Стратегия промо-микса",
-      },
-      {
-        num: "06",
-        title: "E-commerce стратегия (Kaspi | Wildberries | Flip.kz)",
-        desc: "Настройка магазина на маркетплейсе, SEO и оптимизация карточек товаров, Оптимизация фото/видео продуктов, Анализ продаж",
-      },
-      {
-        num: "07",
-        title: "Консалтинг по данным и аналитике",
-        desc: "Анализ рыночных данных, Изучение цифровой активности конкурентов, Аналитика поведения клиентов, Диагностика эффективности рекламы, Настройка дашборда (по желанию)",
-      },
-    ],
-  },
-];
-
 export default function Package() {
+  const t = useTranslations("servicesPage");
+
+  const packagesData = [
+    {
+      id: 1,
+      title: t("packages.productBase.title"),
+      price: t("packages.productBase.price"),
+      duration: `${t("term")} ${t("packages.productBase.duration")} ${t("workingDays")}`,
+      image: "/services/package-1.png",
+      services: [
+        {
+          num: "01",
+          title: t("packages.productBase.services.s1title"),
+          desc: t("packages.productBase.services.s1desc"),
+        },
+        {
+          num: "02",
+          title: t("packages.productBase.services.s2title"),
+          desc: t("packages.productBase.services.s2desc"),
+        },
+        {
+          num: "03",
+          title: t("packages.productBase.services.s3title"),
+          desc: t("packages.productBase.services.s3desc"),
+        },
+        {
+          num: "04",
+          title: t("packages.productBase.services.s4title"),
+          desc: t("packages.productBase.services.s4desc"),
+        },
+        {
+          num: "05",
+          title: t("packages.productBase.services.s5title"),
+          desc: t("packages.productBase.services.s5desc"),
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: t("packages.branding360.title"),
+      price: t("packages.branding360.price"),
+      duration: `${t("term")} ${t("packages.branding360.duration")} ${t("workingDays")}`,
+      image: "/services/package-2.png",
+      services: [
+        {
+          num: "01",
+          title: t("packages.branding360.services.s1title"),
+          desc: t("packages.branding360.services.s1desc"),
+        },
+        {
+          num: "02",
+          title: t("packages.branding360.services.s2title"),
+          desc: t("packages.branding360.services.s2desc"),
+        },
+        {
+          num: "03",
+          title: t("packages.branding360.services.s3title"),
+          desc: t("packages.branding360.services.s3desc"),
+        },
+        {
+          num: "04",
+          title: t("packages.branding360.services.s4title"),
+          desc: t("packages.branding360.services.s4desc"),
+        },
+        {
+          num: "05",
+          title: t("packages.branding360.services.s5title"),
+          desc: t("packages.branding360.services.s5desc"),
+        },
+        {
+          num: "06",
+          title: t("packages.branding360.services.s6title"),
+          desc: t("packages.branding360.services.s6desc"),
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: t("packages.marketBridge.title"),
+      price: t("packages.marketBridge.price"),
+      duration: `${t("term")} ${t("packages.marketBridge.duration")} ${t("workingDays")}`,
+      image: "/services/package-3.png",
+      services: [
+        {
+          num: "01",
+          title: t("packages.marketBridge.services.s1title"),
+          desc: t("packages.marketBridge.services.s1desc"),
+        },
+        {
+          num: "02",
+          title: t("packages.marketBridge.services.s2title"),
+          desc: t("packages.marketBridge.services.s2desc"),
+        },
+        {
+          num: "03",
+          title: t("packages.marketBridge.services.s3title"),
+          desc: t("packages.marketBridge.services.s3desc"),
+        },
+        {
+          num: "04",
+          title: t("packages.marketBridge.services.s4title"),
+          desc: t("packages.marketBridge.services.s4desc"),
+        },
+      ],
+    },
+    {
+      id: 4,
+      title: t("packages.circlePackage.title"),
+      price: t("packages.circlePackage.price"),
+      duration: `${t("term")} ${t("packages.circlePackage.duration")} ${t("workingDays")}`,
+      image: "/services/package-4.png",
+      services: [
+        {
+          num: "01",
+          title: t("packages.circlePackage.services.s1title"),
+          desc: t("packages.circlePackage.services.s1desc"),
+        },
+        {
+          num: "02",
+          title: t("packages.circlePackage.services.s2title"),
+          desc: t("packages.circlePackage.services.s2desc"),
+        },
+        {
+          num: "03",
+          title: t("packages.circlePackage.services.s3title"),
+          desc: t("packages.circlePackage.services.s3desc"),
+        },
+        {
+          num: "04",
+          title: t("packages.circlePackage.services.s4title"),
+          desc: t("packages.circlePackage.services.s4desc"),
+        },
+        {
+          num: "05",
+          title: t("packages.circlePackage.services.s5title"),
+          desc: t("packages.circlePackage.services.s5desc"),
+        },
+        {
+          num: "06",
+          title: t("packages.circlePackage.services.s6title"),
+          desc: t("packages.circlePackage.services.s6desc"),
+        },
+        {
+          num: "07",
+          title: t("packages.circlePackage.services.s7title"),
+          desc: t("packages.circlePackage.services.s7desc"),
+        },
+      ],
+    },
+    {
+      id: 5,
+      title: t("packages.creativeConsulting.title"),
+      price: t("packages.creativeConsulting.price"),
+      isIndividual: true,
+      image: "/services/package-5.png",
+      services: [
+        {
+          num: "01",
+          title: t("packages.creativeConsulting.services.s1title"),
+          desc: t("packages.creativeConsulting.services.s1desc"),
+        },
+        {
+          num: "02",
+          title: t("packages.creativeConsulting.services.s2title"),
+          desc: t("packages.creativeConsulting.services.s2desc"),
+        },
+        {
+          num: "03",
+          title: t("packages.creativeConsulting.services.s3title"),
+          desc: t("packages.creativeConsulting.services.s3desc"),
+        },
+        {
+          num: "04",
+          title: t("packages.creativeConsulting.services.s4title"),
+          desc: t("packages.creativeConsulting.services.s4desc"),
+        },
+        {
+          num: "05",
+          title: t("packages.creativeConsulting.services.s5title"),
+          desc: t("packages.creativeConsulting.services.s5desc"),
+        },
+        {
+          num: "06",
+          title: t("packages.creativeConsulting.services.s6title"),
+          desc: t("packages.creativeConsulting.services.s6desc"),
+        },
+        {
+          num: "07",
+          title: t("packages.creativeConsulting.services.s7title"),
+          desc: t("packages.creativeConsulting.services.s7desc"),
+        },
+      ],
+    },
+  ];
+
   return (
     <section className={styles.packages}>
       <Image
@@ -206,7 +211,7 @@ export default function Package() {
         className={styles.bgImage}
       />
       <div className={styles.container}>
-        <h1 className={styles.mainTitle}>пакеты</h1>
+        <h1 className={styles.mainTitle}>{t("packagesTitle")}</h1>
 
         <div className={styles.packagesList}>
           {packagesData.map((pkg) => {
@@ -247,7 +252,7 @@ export default function Package() {
                       )}
                     </div>
                     <Link href="/contact" className={styles.consultBtn}>
-                      Записаться на консультацию
+                      {t("bookConsultation")}
                     </Link>
                   </div>
                 </div>

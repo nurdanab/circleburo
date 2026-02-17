@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import styles from "./contact.module.scss";
 import Calendar from "@/app/components/ui/calendar/calendar";
 import SuccessCalendar from "@/app/components/ui/success-calendar/SuccessCalendar";
@@ -41,6 +42,7 @@ const formatPhone = (value: string): string => {
 };
 
 export default function ContactPage() {
+  const t = useTranslations("contactPage");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -77,9 +79,9 @@ export default function ContactPage() {
 
     if (result.error) {
       if (result.error.includes('already booked')) {
-        setSubmitError('Это время уже занято. Пожалуйста, выберите другое время.');
+        setSubmitError(t("errorTimeBooked"));
       } else {
-        setSubmitError('Произошла ошибка. Попробуйте позже.');
+        setSubmitError(t("errorGeneral"));
       }
       return;
     }
@@ -90,11 +92,11 @@ export default function ContactPage() {
 
   const openCalendar = () => {
     if (!formData.name.trim()) {
-      setSubmitError('Пожалуйста, введите ваше имя');
+      setSubmitError(t("errorName"));
       return;
     }
     if (!formData.phone.trim()) {
-      setSubmitError('Пожалуйста, введите номер телефона');
+      setSubmitError(t("errorPhone"));
       return;
     }
     setSubmitError(null);
@@ -111,20 +113,23 @@ export default function ContactPage() {
       />
 
       <div className={styles.inner}>
-        <h2 className={styles.title}>свяжитесь с нами</h2>
+        <h2 className={styles.title}>{t("title")}</h2>
         <p className={styles.subtitle}>
-          Запишитесь на консультацию к нашему эксперту, чтобы обсудить
-          требования
-          <br />к вашему проекту и получить индивидуальные рекомендации
+          {t("subtitle").split("\n").map((line, i) => (
+            <span key={i}>
+              {line}
+              {i < t("subtitle").split("\n").length - 1 && <br />}
+            </span>
+          ))}
         </p>
 
         <div className={styles.form}>
           <div className={styles.field}>
-            <label className={styles.label}>Ваше имя</label>
+            <label className={styles.label}>{t("nameLabel")}</label>
             <input
               type="text"
               name="name"
-              placeholder="Введите Ваше имя"
+              placeholder={t("namePlaceholder")}
               value={formData.name}
               onChange={handleChange}
               className={styles.input}
@@ -133,11 +138,11 @@ export default function ContactPage() {
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label}>Номер телефона</label>
+            <label className={styles.label}>{t("phoneLabel")}</label>
             <input
               type="tel"
               name="phone"
-              placeholder="+7 (___) ___-__-__"
+              placeholder={t("phonePlaceholder")}
               value={formData.phone}
               onChange={handleChange}
               className={styles.input}
@@ -158,7 +163,7 @@ export default function ContactPage() {
             <span className={styles.checkIcon}>
               <Image src={getMediaUrl("/Check.svg")} alt="Check" width={14} height={14} />
             </span>
-            {isSubmitting ? 'Отправка...' : 'записаться на консультацию'}
+            {isSubmitting ? t("submitting") : t("submitButton")}
           </button>
         </div>
       </div>

@@ -1,56 +1,61 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import styles from "./PriceList.module.scss";
 import { getMediaUrl } from "@/app/lib/media";
 
-const priceData = [
-  {
-    category: "МАРКЕТИНГ",
-    services: [
-      { name: "Концепция / визуализация", price: "250 000" },
-      { name: "Мини-ивенты", price: "Индивидуальная цена" },
-      { name: "Аудит и анализ", price: "250 000" },
-    ],
-  },
-  {
-    category: "ДИЗАЙН",
-    services: [
-      { name: "Мини-гайдбук (6 страниц)", price: "500 000" },
-      { name: "Презентация (1 страница)", price: "10 000" },
-      { name: "Упаковка и брендинг (1 шт.)", price: "Индивидуальная цена" },
-      { name: "2D-анимация (1 сек.)", price: "10 000" },
-      { name: "3D-анимация (1 сек.)", price: "20 000" },
-      { name: "3D-визуализация концепции (1 сек.)", price: "35 000" },
-      { name: "Постеры, баннеры, иллюстрации (1 шт.)", price: "20 000" },
-      { name: "Дизайн для социальных сетей", price: "10 000" },
-      { name: "Разработка сайта (React) / Pro", price: "2,500,000-5,000,000" },
-      { name: "Разработка сайта (Tilda) / Business", price: "1 000 000" },
-      { name: "Поддержка сайта", price: "150 000" },
-      { name: "Дизайн интерьера (1 м²)", price: "30 000" },
-      { name: "Дизайн интерьера «под ключ» (1 м²)", price: "50 000" },
-    ],
-  },
-  {
-    category: "SMM",
-    showIndividualPrice: true,
-    services: [
-      { name: "Контент-план", price: "" },
-      { name: "Оформление профиля (10 постов)", price: "" },
-      { name: "Съёмка Reels / TikTok (12 шт.)", price: "" },
-      { name: "Stories (20 шт.)", price: "" },
-      { name: "Таргетированная реклама", price: "" },
-    ],
-  },
-  {
-    category: "ПРОДАКШН",
-    services: [
-      { name: "Видеомонтаж (1 ролик)", price: "100 000" },
-      { name: "Видеопроизводство (1 час)", price: "50 000" },
-      { name: "Фотосъёмка (1 час)", price: "35 000" },
-    ],
-  },
-];
-
 export default function PriceList() {
+  const t = useTranslations("servicesPage");
+
+  const priceData = [
+    {
+      category: t("categories.marketing"),
+      services: [
+        { name: t("marketingServices.concept"), price: "250 000" },
+        { name: t("marketingServices.miniEvents"), price: t("individualPrice") },
+        { name: t("marketingServices.audit"), price: "250 000" },
+      ],
+    },
+    {
+      category: t("categories.design"),
+      services: [
+        { name: t("designServices.miniGuidebook"), price: "500 000" },
+        { name: t("designServices.presentation"), price: "10 000" },
+        { name: t("designServices.packaging"), price: t("individualPrice") },
+        { name: t("designServices.animation2d"), price: "10 000" },
+        { name: t("designServices.animation3d"), price: "20 000" },
+        { name: t("designServices.visualization3d"), price: "35 000" },
+        { name: t("designServices.posters"), price: "20 000" },
+        { name: t("designServices.socialDesign"), price: "10 000" },
+        { name: t("designServices.websiteReact"), price: "2,500,000-5,000,000" },
+        { name: t("designServices.websiteTilda"), price: "1 000 000" },
+        { name: t("designServices.websiteSupport"), price: "150 000" },
+        { name: t("designServices.interiorDesign"), price: "30 000" },
+        { name: t("designServices.interiorTurnkey"), price: "50 000" },
+      ],
+    },
+    {
+      category: t("categories.smm"),
+      showIndividualPrice: true,
+      services: [
+        { name: t("smmServices.contentPlan"), price: "" },
+        { name: t("smmServices.profileDesign"), price: "" },
+        { name: t("smmServices.reels"), price: "" },
+        { name: t("smmServices.stories"), price: "" },
+        { name: t("smmServices.targetedAds"), price: "" },
+      ],
+    },
+    {
+      category: t("categories.production"),
+      services: [
+        { name: t("productionServices.videoEditing"), price: "100 000" },
+        { name: t("productionServices.videoProduction"), price: "50 000" },
+        { name: t("productionServices.photoShooting"), price: "35 000" },
+      ],
+    },
+  ];
+
   return (
     <section className={styles.priceList}>
       <Image
@@ -60,7 +65,7 @@ export default function PriceList() {
         className={styles.bgImage}
       />
       <div className={styles.container}>
-        <h1 className={styles.mainTitle}>цены semisircle</h1>
+        <h1 className={styles.mainTitle}>{t("priceListTitle")}</h1>
 
         <div className={styles.categories}>
           {priceData.map((category, idx) => (
@@ -68,7 +73,7 @@ export default function PriceList() {
               <div className={styles.cardHeader}>
                 <h2 className={styles.categoryTitle}>{category.category}</h2>
                 {category.showIndividualPrice && (
-                  <span className={styles.individualNote}>Индивидуальная цена</span>
+                  <span className={styles.individualNote}>{t("individualPrice")}</span>
                 )}
               </div>
               <ul className={styles.servicesList}>
@@ -89,4 +94,3 @@ export default function PriceList() {
     </section>
   );
 }
-

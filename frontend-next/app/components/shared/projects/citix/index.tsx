@@ -1,9 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { getMediaUrl } from "@/app/lib/media";
 import styles from "./citix.module.scss";
 
 export default function CitixProject() {
+  const t = useTranslations("citix");
+  const tProjects = useTranslations("projects");
+
   return (
     <main className={styles.citixPage}>
       {/* SECTION 1 – HERO */}
@@ -11,7 +17,7 @@ export default function CitixProject() {
         <div className={styles.heroInner}>
           <Image
             src={getMediaUrl("/projects-pages/citix/hero.png")}
-            alt="Citix hero"
+            alt={t("title")}
             fill
             className={styles.sectionBg}
             priority
@@ -21,13 +27,8 @@ export default function CitixProject() {
 
       <section className={styles.section2}>
         <div>
-          <span>Citix</span>
-          <p>
-            Circle работал с Citix в рамках разработки моушн-дизайна для
-            маркетинговых и коммуникационных задач бренда. Проект был направлен
-            на визуализацию ключевых идей и технологических решений компании
-            через динамичные анимационные форматы.
-          </p>
+          <span>{t("title")}</span>
+          <p>{t("description1")}</p>
         </div>
 
         <div>
@@ -42,12 +43,8 @@ export default function CitixProject() {
 
       <section className={styles.section3}>
         <div>
-          <span>Итоги</span>
-          <p>
-            В результате Citix получил моушн-контент, который органично
-            встроился в коммуникационную стратегию бренда и усилил визуальное
-            представление его технологических решений.
-          </p>
+          <span>{tProjects("results")}</span>
+          <p>{t("results")}</p>
         </div>
 
         <div>
