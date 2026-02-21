@@ -63,8 +63,6 @@ services:
         NEXT_PUBLIC_MEDIA_URL: https://media.circleburo.kz
     container_name: circle-buro-frontend-next
     restart: unless-stopped
-    extra_hosts:
-      - "media.circleburo.kz:host-gateway"
     ports:
       - "8083:3000"
     networks:
