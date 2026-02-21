@@ -1,0 +1,116 @@
+@use "../../../../styles/shared/mixins" as *;
+
+.priceList {
+  position: relative;
+  width: 100%;
+  padding: 100px 80px;
+
+  @include tablet-down {
+    padding: 100px 60px;
+  }
+
+  @include mobile-down {
+    padding: 60px 10px;
+  }
+}
+
+.bgImage {
+  @include section-bg-image;
+  z-index: 0;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.mainTitle {
+  font-family: "Gothic 60", sans-serif;
+  font-size: clamp(48px, 4vw, 96px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: #393939;
+  margin-bottom: 40px;
+  text-transform: lowercase;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  padding: 32px 40px;
+
+  // Glassmorphism
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #ffffff;
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 53px 0 rgba(255, 235, 220, 0.5);
+
+  @include mobile-down {
+    padding: 24px 20px;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.categoryTitle {
+  font-family: "Gothic 60", sans-serif;
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 400;
+  color: #393939;
+}
+
+.individualNote {
+  font-size: clamp(14px, 1.15vw, 16px);
+  color: #393939;
+}
+
+.servicesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.serviceItem {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: clamp(14px, 1.5vw, 16px);
+  color: #393939;
+  max-width: 300px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
+}
+
+.serviceName {
+  flex-shrink: 0;
+}
+
+.dots {
+  flex: 1;
+  border-bottom: 1px dashed rgba(57, 57, 57, 0.3);
+  min-width: 20px;
+  margin-bottom: 4px;
+}
+
+.servicePrice {
+  flex-shrink: 0;
+  text-align: right;
+}

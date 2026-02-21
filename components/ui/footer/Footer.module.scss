@@ -1,0 +1,108 @@
+@use "../../../styles/shared/mixins" as *;
+
+.footer {
+  position: relative;
+  width: 100%;
+  background: #ac8eef;
+  padding: 120px 10% 120px 5%;
+  overflow: hidden;
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left {
+  max-width: 550px;
+}
+
+.logo {
+  width: clamp(100px, 30vw, 300px);
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: clamp(14px, 1.43vw, 20px);
+  color: #000000;
+  line-height: 1.4;
+}
+
+.right {
+  min-width: 280px;
+}
+
+.contactsTitle {
+  font-family: "Gothic 60", sans-serif;
+  font-size: clamp(19px, 1.83vw, 26px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.contactsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(14px, 1.43vw, 20px);
+  color: #000000;
+  line-height: 1.35;
+
+  a {
+    color: #000000;
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  img {
+    flex-shrink: 0;
+  }
+}
+
+@include tablet-down {
+  .inner {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .left {
+    max-width: 100%;
+  }
+}
+
+@include mobile-down {
+  .footer {
+    padding: 40px 20px;
+  }
+
+  .logo {
+    max-width: 140px;
+  }
+
+  .contactsTitle {
+    margin-bottom: 16px;
+  }
+
+  .inner {
+    gap: 32px;
+  }
+}

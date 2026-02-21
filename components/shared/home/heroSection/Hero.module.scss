@@ -1,0 +1,24 @@
+@use "../../../../styles/shared/mixins" as *;
+
+.hero {
+  @include section-height;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  @include mobile-down {
+    @include section-height-mobile;
+  }
+}
+
+.heroInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  @include section-bg-image;
+}

@@ -1,57 +1,52 @@
-# Logs
-logs
-*.log
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+.pnpm-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# env files (can opt-in for committing if needed)
+.env*
 
-# Next.js
-.next/
-out/
+# vercel
+.vercel
 
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-!.env.example
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
-# Media files (hosted on MinIO)
-# Keep local copies for development, but don't commit to git
-public/img/
-public/videos/
-public/cover/
-public/fonts/
+/design
+/docs
 
-# Keep important icons and manifests
-!public/img/favicon*.png
-!public/img/favicon.ico
-!public/img/favicon.svg
-!public/img/apple-touch-icon.png
-!public/img/web-app-manifest-*.png
+# server
+/server/node_modules
+/server/backend/node_modules
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-cloudflare-worker.js
-
-# Optimized media files
-public/backup/
-public/optimized/
-public\/backup/
-public\/optimized/
+# IDE
+.idea/
+.vscode/

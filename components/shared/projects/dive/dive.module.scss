@@ -1,0 +1,308 @@
+@use "../../../../styles/shared/mixins" as *;
+
+.hero {
+  @include section-height;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 100px;
+
+  @include mobile-down {
+    height: 50vh;
+    min-height: 300px;
+    max-height: 400px;
+  }
+
+  .heroInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .heroImage {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 40px;
+  }
+
+  @include mobile-down {
+    .heroImage {
+      border-radius: 24px;
+    }
+  }
+}
+
+.sectionsWrapper {
+  background-color: #f1f3ff;
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  @include mobile-down {
+    padding: 24px 20px 40px;
+    margin-top: 24px;
+  }
+}
+
+// SECTION 2 — текст слева, видео справа
+.section2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section2Text {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    span {
+      font-family: "Gothic 60", sans-serif;
+      font-size: clamp(19px, 2.29vw, 32px);
+    }
+
+    p {
+      font-size: clamp(14px, 1.43vw, 20px);
+      line-height: 1.5;
+    }
+
+    .section2TextBlock {
+      @include text-container-blur;
+      padding: 60px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .section2TextBlock2 {
+      @include text-container-blur;
+      padding: 40px 24px;
+    }
+  }
+
+  .section2VideoWrap {
+    width: 35%;
+    border-radius: 40px;
+    overflow: hidden;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  @include mobile-down {
+    flex-direction: column;
+
+    .section2Text,
+    .section2VideoWrap {
+      width: 100%;
+    }
+
+    .section2Text span {
+      font-family: "Gothic 60", sans-serif;
+      font-size: clamp(14px, 1.6vw, 22px);
+    }
+
+    .section2Text p {
+      font-size: clamp(13px, 1.15vw, 16px);
+    }
+
+    .section2VideoWrap video {
+      border-radius: 24px;
+    }
+  }
+}
+
+// SECTION 3 — 4 фото: 3 полностью + 4-е видно ~10%
+.section3 {
+  width: 100%;
+  overflow: hidden;
+
+  .photosContainer {
+    display: flex;
+    gap: 24px;
+    overflow-x: hidden;
+
+    .photo {
+      flex: 0 0 calc((100% - 72px) / 3.1);
+      min-width: 0;
+      border-radius: 24px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+        vertical-align: bottom;
+      }
+    }
+  }
+
+  @include mobile-down {
+    .photosContainer {
+      gap: 16px;
+    }
+
+    .photosContainer .photo {
+      flex: 0 0 calc((100% - 16px) / 2.1);
+    }
+  }
+}
+
+// SECTION 4 — изображение слева, текст справа
+.section4 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section4ImgWrap {
+    width: 35%;
+    border-radius: 24px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+  }
+
+  .section4Text {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    p {
+      @include text-container-blur;
+      padding: 40px 24px;
+      font-size: clamp(14px, 1.43vw, 20px);
+      line-height: 1.5;
+    }
+  }
+
+  @include mobile-down {
+    flex-direction: column;
+
+    .section4ImgWrap,
+    .section4Text {
+      width: 100%;
+    }
+
+    .section4Text p {
+      padding: 24px 20px;
+      font-size: clamp(13px, 1.15vw, 16px);
+    }
+
+    .section4ImgWrap img {
+      border-radius: 24px;
+    }
+  }
+}
+
+// SECTION 5 — текст + чарт
+.section5 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .section5Text {
+    width: 30%;
+
+    p {
+      @include text-container-blur;
+      padding: 40px 24px;
+      font-size: clamp(14px, 1.43vw, 20px);
+      line-height: 1.5;
+    }
+  }
+
+  .section5Chart {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @include mobile-down {
+    flex-direction: column;
+
+    .section5Text,
+    .section5Chart {
+      width: 100%;
+    }
+
+    .section5Text p {
+      padding: 24px 20px;
+      font-size: clamp(13px, 1.15vw, 16px);
+    }
+  }
+}
+
+// SECTION 6 — полноширинное изображение
+.section6 {
+  width: 100%;
+
+  .section6ImgWrap {
+    width: 100%;
+    border-radius: 40px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+  }
+
+  @include mobile-down {
+    .section6ImgWrap img {
+      border-radius: 24px;
+    }
+  }
+}
+
+// SECTION 7 — итоги
+.section7 {
+  @include text-container-blur;
+  margin: 0 15%;
+  padding: 60px 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+
+  span {
+    font-family: "Gothic 60", sans-serif;
+    font-size: clamp(19px, 2.29vw, 32px);
+  }
+
+  p {
+    font-size: clamp(14px, 1.43vw, 20px);
+    line-height: 1.5;
+  }
+
+  @include mobile-down {
+    margin: 0 5%;
+    padding: 32px 20px;
+
+    span {
+      font-family: "Gothic 60", sans-serif;
+      font-size: clamp(14px, 1.6vw, 22px);
+    }
+
+    p {
+      font-size: clamp(13px, 1.15vw, 16px);
+    }
+  }
+}

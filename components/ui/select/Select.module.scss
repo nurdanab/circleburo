@@ -1,0 +1,123 @@
+.root {
+  position: relative;
+  display: inline-block;
+  min-width: 80px;
+
+  &[data-disabled="true"] {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &[data-variant="compact"] {
+    min-width: 56px;
+
+    .trigger {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 26px;
+    }
+
+    .dropdown {
+      padding: 2px 0;
+      border-radius: 16px;
+    }
+
+    .option {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .iconImage {
+      width: 6px;
+      height: 4px;
+    }
+  }
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: inherit;
+  font-family: inherit;
+  color: #393939;
+  background: #fff;
+  border: 1px solid #393939;
+  border-radius: 26px;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover:not(:disabled) {
+    border-color: #1a1a1a;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(57, 57, 57, 0.3);
+  }
+}
+
+.value {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.root[data-open="true"] .icon {
+  transform: rotate(180deg);
+}
+
+.iconImage {
+  display: block;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  min-width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #393939;
+  border-radius: 26px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.option {
+  padding: 8px 12px;
+  font-size: inherit;
+  font-family: inherit;
+  color: #393939;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(57, 57, 57, 0.08);
+  }
+
+  &[aria-selected="true"] {
+    background: rgba(57, 57, 57, 0.12);
+  }
+}
