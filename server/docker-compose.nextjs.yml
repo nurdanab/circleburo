@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
   postgres:
     image: postgres:16-alpine
     container_name: circle-buro-db
@@ -27,7 +26,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Node.js Backend API
   backend:
     build:
       context: ./backend
@@ -48,8 +46,6 @@ services:
       G_CAL_ID: ${G_CAL_ID}
       G_CAL_SERVICE_ACCOUNT_KEY: ${G_CAL_SERVICE_ACCOUNT_KEY}
       CORS_ORIGIN: ${CORS_ORIGIN:-https://circleburo.kz}
-    ports:
-      - "3000:3000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -58,10 +54,9 @@ services:
     volumes:
       - ./backend/logs:/app/logs
 
-  # Frontend (Next.js)
   frontend:
     build:
-      context: ../frontend-next
+      context: ..
       dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_API_URL: https://api.circleburo.kz
@@ -69,7 +64,7 @@ services:
     container_name: circle-buro-frontend-next
     restart: unless-stopped
     ports:
-      - "8080:3000"
+      - "8083:3000"
     networks:
       - circle-network
     healthcheck:
@@ -78,9 +73,10 @@ services:
       timeout: 3s
       retries: 3
 
-  # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     container_name: circle-buro-nginx
     restart: unless-stopped
     ports:
@@ -95,13 +91,44 @@ services:
       - frontend
     networks:
       - circle-network
+      - galeriya-network
+      - econo-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: circle-buro-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - circle-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
 
 volumes:
   postgres_data:
     driver: local
   nginx_logs:
     driver: local
+  minio_data:
+    driver: local
 
 networks:
   circle-network:
     driver: bridge
+  galeriya-network:
+    external: true
+    name: the-galeriya_galeriya-network
+  econo-network:
+    external: true
+    name: econo-auto_default
