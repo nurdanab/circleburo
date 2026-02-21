@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 1080, 1920],
     imageSizes: [16, 64, 128, 256],
     minimumCacheTTL: 60 * 60 * 24,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.circleburo.kz",
+      },
+    ],
   },
   compress: true,
 
