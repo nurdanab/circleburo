@@ -17,6 +17,11 @@ const AVAILABLE_TIMES = [
   "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"
 ];
 
+// Normalize time format: "09:00" -> "9:00", "9:00" -> "9:00"
+const normalizeTime = (time: string): string => {
+  return time.replace(/^0/, "");
+};
+
 // Simulated unavailable dates (weekends and some random dates)
 const isDateUnavailable = (date: Date): boolean => {
   const day = date.getDay();
@@ -73,7 +78,7 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
       if (result.data) {
         const booked = result.data
           .filter(lead => lead.status === "pending" || lead.status === "confirmed")
-          .map(lead => lead.meeting_time);
+          .map(lead => normalizeTime(lead.meeting_time));
         setBookedTimes(booked);
       } else {
         setBookedTimes([]);
