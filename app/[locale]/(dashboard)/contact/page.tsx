@@ -1,6 +1,7 @@
 "use client";
 
 import Calendar from "@/components/ui/calendar/calendar";
+import SuccessCalendar from "@/components/ui/success-calendar/SuccessCalendar";
 import { getMediaUrl } from "@/lib/media";
 import { api } from "@/lib/api";
 import { useLocale, useTranslations } from "next-intl";
@@ -31,7 +32,7 @@ export default function ContactPage() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -78,10 +79,8 @@ export default function ContactPage() {
       return;
     }
 
-    setIsSuccess(true);
+    setShowSuccessModal(true);
     setFormData({ name: "", phone: "", date: "", time: "", rawDate: "" });
-
-    setTimeout(() => setIsSuccess(false), 5000);
   };
 
   const openCalendar = () => {
@@ -103,85 +102,84 @@ export default function ContactPage() {
         <h2 className={styles.title}>{t("title")}</h2>
         <p className={styles.subtitle}>{t("subtitle")}</p>
 
-        {isSuccess ? (
-          <div className={styles.successMessage}>
-            Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label className={styles.label}>{t("labelName")}</label>
+            <input
+              type="text"
+              name="name"
+              placeholder={t("placeholderName")}
+              value={formData.name}
+              onChange={handleChange}
+              className={styles.input}
+              required
+            />
           </div>
-        ) : (
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.field}>
-              <label className={styles.label}>{t("labelName")}</label>
+
+          <div className={styles.field}>
+            <label className={styles.label}>{t("labelPhone")}</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder={t("placeholderPhone")}
+              value={formData.phone}
+              onChange={handleChange}
+              className={styles.input}
+              required
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.label}>{t("labelDate")}</label>
+            <div className={styles.dateWrapper} onClick={openCalendar}>
+              <Image
+                src={getMediaUrl("/Calendar.svg")}
+                unoptimized
+                alt={t("altCalendar")}
+                width={20}
+                height={20}
+                className={styles.calendarIcon}
+              />
               <input
                 type="text"
-                name="name"
-                placeholder={t("placeholderName")}
-                value={formData.name}
-                onChange={handleChange}
+                name="date"
+                placeholder={t("placeholderDate")}
+                value={formData.date ? `${formData.date} ${formData.time}` : ""}
                 className={styles.input}
+                readOnly
                 required
               />
             </div>
+          </div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>{t("labelPhone")}</label>
-              <input
-                type="tel"
-                name="phone"
-                placeholder={t("placeholderPhone")}
-                value={formData.phone}
-                onChange={handleChange}
-                className={styles.input}
-                required
+          {submitError && (
+            <div className={styles.errorMessage}>{submitError}</div>
+          )}
+
+          <button type="submit" className={styles.btn} disabled={isSubmitting}>
+            <span className={styles.checkIcon}>
+              <Image
+                src={getMediaUrl("/Check.svg")}
+                alt={t("altCheck")}
+                width={14}
+                height={14}
+                unoptimized
               />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>{t("labelDate")}</label>
-              <div className={styles.dateWrapper} onClick={openCalendar}>
-                <Image
-                  src={getMediaUrl("/Calendar.svg")}
-                  unoptimized
-                  alt={t("altCalendar")}
-                  width={20}
-                  height={20}
-                  className={styles.calendarIcon}
-                />
-                <input
-                  type="text"
-                  name="date"
-                  placeholder={t("placeholderDate")}
-                  value={formData.date ? `${formData.date} ${formData.time}` : ""}
-                  className={styles.input}
-                  readOnly
-                  required
-                />
-              </div>
-            </div>
-
-            {submitError && (
-              <div className={styles.errorMessage}>{submitError}</div>
-            )}
-
-            <button type="submit" className={styles.btn} disabled={isSubmitting}>
-              <span className={styles.checkIcon}>
-                <Image
-                  src={getMediaUrl("/Check.svg")}
-                  alt={t("altCheck")}
-                  width={14}
-                  height={14}
-                  unoptimized
-                />
-              </span>
-              {isSubmitting ? "Отправка..." : t("submit")}
-            </button>
-          </form>
-        )}
+            </span>
+            {isSubmitting ? "Отправка..." : t("submit")}
+          </button>
+        </form>
       </div>
 
       <Calendar
         isOpen={isCalendarOpen}
         onClose={() => setIsCalendarOpen(false)}
         onConfirm={handleDateSelect}
+      />
+
+      <SuccessCalendar
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
       />
     </section>
   );

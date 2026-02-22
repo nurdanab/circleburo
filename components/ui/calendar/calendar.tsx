@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { getMediaUrl } from "@/lib/media";
 import { api } from "@/lib/api";
 import styles from "./calendar.module.scss";
-import SuccessCalendar from "../success-calendar/SuccessCalendar";
 
 interface CalendarProps {
   isOpen: boolean;
@@ -35,7 +34,6 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [bookedTimes, setBookedTimes] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
@@ -90,43 +88,34 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
 
   const handleConfirm = () => {
     if (selectedDate && selectedTime) {
-      setShowSuccess(true);
+      onConfirm(selectedDate, selectedTime);
+      onClose();
+      setSelectedDate(null);
+      setSelectedTime(null);
+      setBookedTimes([]);
     }
-  };
-
-  const handleSuccessClose = () => {
-    setShowSuccess(false);
-    onConfirm(selectedDate!, selectedTime!);
-    onClose();
-    setSelectedDate(null);
-    setSelectedTime(null);
-    setBookedTimes([]);
   };
 
   // Lock body scroll when modal is open
   useEffect(() => {
-    if (isOpen && !showSuccess) {
+    if (isOpen) {
       document.body.style.overflow = "hidden";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, showSuccess]);
+  }, [isOpen]);
 
   // Close on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (showSuccess) {
-          handleSuccessClose();
-        } else {
-          onClose();
-        }
+        onClose();
       }
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showSuccess, onClose]);
+  }, [onClose]);
 
   if (!isOpen) return null;
 
@@ -155,16 +144,6 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
       >
         {day}
       </button>
-    );
-  }
-
-  // Success Modal
-  if (showSuccess) {
-    return (
-      <SuccessCalendar 
-        isOpen={showSuccess} 
-        onClose={handleSuccessClose} 
-      />
     );
   }
 
