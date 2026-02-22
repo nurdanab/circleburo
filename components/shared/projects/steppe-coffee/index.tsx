@@ -17,6 +17,7 @@ export default async function SteppeCoffeeProject() {
             fill
             sizes="100vw"
             quality={80}
+            priority
           />
         </div>
       </section>
@@ -36,6 +37,7 @@ export default async function SteppeCoffeeProject() {
               muted
               loop
               autoPlay
+              preload="metadata"
               style={{ width: "100%", height: "100%" }}
             />
           </div>
@@ -78,6 +80,7 @@ export default async function SteppeCoffeeProject() {
               muted
               loop
               autoPlay
+              preload="metadata"
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
           </div>
@@ -164,6 +167,7 @@ export default async function SteppeCoffeeProject() {
                 muted
                 loop
                 autoPlay
+                preload="metadata"
                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
             </div>

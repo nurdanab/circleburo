@@ -16,6 +16,7 @@ export default async function Campit() {
             fill
             sizes="100vw"
             quality={80}
+            priority
             className={styles.sectionBg}
           />
         </div>

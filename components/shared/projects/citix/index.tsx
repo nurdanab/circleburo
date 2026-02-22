@@ -16,6 +16,7 @@ export default async function CitixProject() {
             fill
             sizes="100vw"
             quality={80}
+            priority
             className={styles.heroImage}
           />
         </div>
@@ -36,6 +37,7 @@ export default async function CitixProject() {
               muted
               loop
               autoPlay
+              preload="metadata"
               style={{ width: "100%", height: "100%" }}
             />
           </div>
@@ -50,6 +52,7 @@ export default async function CitixProject() {
               muted
               loop
               autoPlay
+              preload="metadata"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
@@ -72,6 +75,7 @@ export default async function CitixProject() {
               muted
               loop
               autoPlay
+              preload="metadata"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>

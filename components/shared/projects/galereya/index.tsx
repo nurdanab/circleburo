@@ -16,6 +16,7 @@ export default async function Galereya() {
             fill
             sizes="100vw"
             quality={80}
+            priority
           />
         </div>
       </section>

@@ -17,6 +17,7 @@ export default async function HomeBankProject() {
             fill
             sizes="100vw"
             quality={80}
+            priority
             className={styles.heroImage}
           />
         </div>
