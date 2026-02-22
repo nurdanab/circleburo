@@ -6,11 +6,15 @@ import { useTranslations } from "next-intl";
 import { getMediaUrl } from "@/lib/media";
 import styles from "./InterierSlider.module.scss";
 
-// Each slide has a unique image: block-1.png, block-2.png, etc.
-const SLIDES = Array.from({ length: 8 }, (_, i) => ({
-  id: i + 1,
-  src: `/show-cases/interier/block-${i + 1}.png`,
-}));
+// Interier carousel slides
+const SLIDES = [
+  { id: 1, src: "/show-cases/interier/block-1.webp" },
+  { id: 2, src: "/show-cases/interier/block2.webp" },
+  { id: 3, src: "/show-cases/interier/block3.webp" },
+  { id: 4, src: "/show-cases/interier/block4.webp" },
+  { id: 5, src: "/show-cases/interier/block5.webp" },
+  { id: 6, src: "/show-cases/interier/block6.webp" },
+];
 
 export default function InterierSlider() {
   const t = useTranslations("showCaseInterior");
