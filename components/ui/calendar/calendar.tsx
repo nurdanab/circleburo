@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { getMediaUrl } from "@/lib/media";
+import { api } from "@/lib/api";
 import styles from "./calendar.module.scss";
 import SuccessCalendar from "../success-calendar/SuccessCalendar";
 
@@ -35,6 +36,8 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
 
   const weekdays = [0, 1, 2, 3, 4, 5, 6].map((i) => t(`weekday${i}`));
   const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => t(`month${i}`));
@@ -58,10 +61,26 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
     setCurrentDate(new Date(year, month + 1, 1));
   };
 
-  const handleDateClick = (day: number) => {
+  const handleDateClick = async (day: number) => {
     const date = new Date(year, month, day);
     if (!isDateUnavailable(date)) {
       setSelectedDate(date);
+      setSelectedTime(null); // Reset time when date changes
+
+      // Fetch booked slots for this date
+      setLoadingSlots(true);
+      const isoDate = date.toISOString().split("T")[0];
+      const result = await api.getBookedSlots(isoDate);
+
+      if (result.data) {
+        const booked = result.data
+          .filter(lead => lead.status === "pending" || lead.status === "confirmed")
+          .map(lead => lead.meeting_time);
+        setBookedTimes(booked);
+      } else {
+        setBookedTimes([]);
+      }
+      setLoadingSlots(false);
     }
   };
 
@@ -81,6 +100,7 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
     onClose();
     setSelectedDate(null);
     setSelectedTime(null);
+    setBookedTimes([]);
   };
 
   // Lock body scroll when modal is open
@@ -220,15 +240,19 @@ export default function Calendar({ isOpen, onClose, onConfirm }: CalendarProps) 
                   <span>{t("availableTime")}</span>
                 </div>
                 <div className={styles.timeGrid}>
-                  {AVAILABLE_TIMES.map((time, idx) => (
-                    <button
-                      key={idx}
-                      className={`${styles.timeBtn} ${selectedTime === time ? styles.timeSelected : ""}`}
-                      onClick={() => handleTimeClick(time)}
-                    >
-                      {time}
-                    </button>
-                  ))}
+                  {AVAILABLE_TIMES.map((time, idx) => {
+                    const isBooked = bookedTimes.includes(time);
+                    return (
+                      <button
+                        key={idx}
+                        className={`${styles.timeBtn} ${selectedTime === time ? styles.timeSelected : ""} ${isBooked ? styles.timeBooked : ""}`}
+                        onClick={() => handleTimeClick(time)}
+                        disabled={isBooked || loadingSlots}
+                      >
+                        {time}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
