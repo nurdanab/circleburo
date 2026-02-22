@@ -18,6 +18,7 @@ export default function Manifest() {
           fill
           sizes="100vw"
           quality={75}
+          loading="lazy"
           className={styles.bgImage}
         />
 

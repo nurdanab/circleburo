@@ -7,10 +7,15 @@ const nextConfig: NextConfig = {
   output: "standalone",
   images: {
     formats: ["image/webp"],
-    deviceSizes: [640, 1080, 1920],
-    imageSizes: [16, 64, 128, 256],
+    deviceSizes: [640, 750, 1080, 1920],
+    imageSizes: [16, 32, 64, 128, 256],
     minimumCacheTTL: 60 * 60 * 24,
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.circleburo.kz",
+      },
+    ],
   },
   compress: true,
 

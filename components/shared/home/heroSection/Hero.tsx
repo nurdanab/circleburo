@@ -26,7 +26,7 @@ export default function Hero() {
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           onClick={handleVideoClick}
           style={{ cursor: "pointer" }}
         />

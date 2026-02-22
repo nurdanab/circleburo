@@ -6,7 +6,7 @@ import { getMediaUrl } from "@/lib/media";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styles from "./Project.module.scss";
 
 type Project = {
@@ -21,6 +21,39 @@ const sectionVariants = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0 },
 };
+
+// Video card that plays on hover only (desktop)
+function VideoCard({ src, name }: { src: string; name: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  return (
+    <video
+      ref={videoRef}
+      className={styles.cardMediaContent}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <source src={getMediaUrl(src)} type="video/mp4" />
+    </video>
+  );
+}
 
 export default function ProjectSection({
   PROJECTS = PROJECTS_DATA,
@@ -67,16 +100,7 @@ export default function ProjectSection({
             >
               <div className={styles.cardMedia}>
                 {project.isVideo ? (
-                  <video
-                    className={styles.cardMediaContent}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  >
-                    <source src={getMediaUrl(project.src)} type="video/mp4" />
-                  </video>
+                  <VideoCard src={project.src} name={project.name} />
                 ) : (
                   <Image
                     src={getMediaUrl(project.src)}
