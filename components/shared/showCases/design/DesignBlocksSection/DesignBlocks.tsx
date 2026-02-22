@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getMediaUrl } from "@/lib/media";
 import styles from "./DesignBlocks.module.scss";
 
 export default function DesignBlocks() {
@@ -6,7 +7,7 @@ export default function DesignBlocks() {
     <section className={styles.section}>
       <div className={styles.item}>
         <Image
-          src="/show-cases/design/block-1.png"
+          src={getMediaUrl("/show-cases/design/block-1.png")}
           alt="Design case block 1"
           className={styles.image}
           fill
@@ -24,7 +25,7 @@ export default function DesignBlocks() {
           playsInline
           preload="metadata"
         >
-          <source src="/show-cases/design/block2.mp4" type="video/mp4" />
+          <source src={getMediaUrl("/show-cases/design/block2.mp4")} type="video/mp4" />
         </video>
       </div>
 
@@ -37,7 +38,7 @@ export default function DesignBlocks() {
           playsInline
           preload="metadata"
         >
-          <source src="/show-cases/design/block3.mp4" type="video/mp4" />
+          <source src={getMediaUrl("/show-cases/design/block3.mp4")} type="video/mp4" />
         </video>
       </div>
     </section>

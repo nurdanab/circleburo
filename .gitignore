@@ -50,3 +50,16 @@ next-env.d.ts
 # IDE
 .idea/
 .vscode/
+
+# Media files (stored in MinIO CDN)
+/public/home/*.mp4
+/public/home/*.png
+/public/show-cases/
+/public/projects-pages/
+/public/projects-video/*.mp4
+/public/projects-video/*.png
+/public/about/
+/public/contact/
+/public/services/*.png
+/public/calendar/*.png
+/public/fonts/

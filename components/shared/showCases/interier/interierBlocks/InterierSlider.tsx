@@ -3,11 +3,13 @@
 import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { getMediaUrl } from "@/lib/media";
 import styles from "./InterierSlider.module.scss";
 
+// Each slide has a unique image: block-1.png, block-2.png, etc.
 const SLIDES = Array.from({ length: 8 }, (_, i) => ({
   id: i + 1,
-  src: "/show-cases/interier/block-1.png",
+  src: `/show-cases/interier/block-${i + 1}.png`,
 }));
 
 export default function InterierSlider() {
@@ -32,7 +34,7 @@ export default function InterierSlider() {
           aria-label={t("prevSlide")}
         >
           <Image
-            src="/show-cases/interier/left.svg"
+            src={getMediaUrl("/show-cases/interier/left.svg")}
             alt=""
             width={21}
             height={43}
@@ -49,7 +51,7 @@ export default function InterierSlider() {
             {SLIDES.map((slide) => (
               <div key={slide.id} className={styles.slideItem}>
                 <Image
-                  src={slide.src}
+                  src={getMediaUrl(slide.src)}
                   alt={t("slideAlt", { n: slide.id })}
                   fill
                   sizes="(min-width: 1024px) 1440px, 100vw"
@@ -61,7 +63,7 @@ export default function InterierSlider() {
           </div>
 
           <div className={styles.dots}>
-            {Array.from({ length: 8 }).map((_, index) => (
+            {SLIDES.map((_, index) => (
               <button
                 key={index}
                 type="button"
@@ -82,7 +84,7 @@ export default function InterierSlider() {
           aria-label={t("nextSlide")}
         >
           <Image
-            src="/show-cases/interier/right.svg"
+            src={getMediaUrl("/show-cases/interier/right.svg")}
             alt=""
             width={21}
             height={43}

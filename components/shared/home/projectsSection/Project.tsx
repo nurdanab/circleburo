@@ -140,7 +140,11 @@ export default function ProjectSection({
             />
           </button>
 
-          <div className={styles.slideWrapper}>
+          <Link
+            href={`/projects/${PROJECTS[currentSlide].slug}`}
+            className={styles.slideWrapper}
+            aria-label={`${t("goToProject")} ${PROJECTS[currentSlide].name}`}
+          >
             <article className={styles.slide}>
               {PROJECTS[currentSlide].isVideo ? (
                 <video
@@ -164,7 +168,7 @@ export default function ProjectSection({
                 />
               )}
             </article>
-          </div>
+          </Link>
 
           <button
             className={styles.arrowBtn}

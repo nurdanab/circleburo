@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getMediaUrl } from "@/lib/media";
 import styles from "./WebBlocks.module.scss";
 
 const blocks = [
@@ -33,7 +34,7 @@ export default function WebBlocks() {
         {row1.map((block) => (
           <div key={block.id} className={styles.item}>
             <Image
-              src={block.image}
+              src={getMediaUrl(block.image)}
               alt={block.alt}
               className={styles.image}
               fill
@@ -47,7 +48,7 @@ export default function WebBlocks() {
         {row2.map((block) => (
           <div key={block.id} className={styles.item}>
             <Image
-              src={block.image}
+              src={getMediaUrl(block.image)}
               alt={block.alt}
               className={styles.image}
               fill

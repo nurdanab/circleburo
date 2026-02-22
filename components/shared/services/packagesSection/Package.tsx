@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { getMediaUrl } from "@/lib/media";
 import styles from "./Package.module.scss";
 
@@ -118,9 +119,9 @@ export default function Package() {
                         <span className={styles.duration}>{duration}</span>
                       )}
                     </div>
-                    <button className={styles.consultBtn}>
+                    <Link href="/contact" className={styles.consultBtn}>
                       {t("consultBtn")}
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

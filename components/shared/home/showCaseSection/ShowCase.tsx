@@ -30,6 +30,11 @@ export default function ShowCase() {
     return () => observer.disconnect();
   }, [hasPlayed]);
 
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (video) video.muted = !video.muted;
+  };
+
   return (
     <section className={styles.showCase}>
       <video
@@ -38,6 +43,8 @@ export default function ShowCase() {
         muted
         playsInline
         preload="metadata"
+        onClick={toggleSound}
+        style={{ cursor: "pointer" }}
       >
         <source src={getMediaUrl("/home/show-case-viseo.mp4")} type="video/mp4" />
       </video>
