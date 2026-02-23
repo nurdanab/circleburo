@@ -95,14 +95,6 @@ export default function PriceList() {
                         `${category.categoryKey}.${service.nameKey}` as "marketing.concept"
                       )}
                     </span>
-                    <span className={styles.dots}></span>
-                    {(service.price || service.price === "individual" || (category.showIndividualPrice && service.price === "")) ? (
-                      <span className={styles.servicePrice}>
-                        {service.price === "individual" || (category.showIndividualPrice && service.price === "")
-                          ? t("individualPrice")
-                          : service.price}
-                      </span>
-                    ) : null}
                   </li>
                 ))}
               </ul>

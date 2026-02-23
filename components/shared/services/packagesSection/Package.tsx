@@ -72,10 +72,6 @@ export default function Package() {
           {PACKAGE_KEYS.map((pkg) => {
             const isReversed = pkg.id % 2 === 0;
             const title = tPackages(pkg.titleKey);
-            const duration = pkg.durationKey
-              ? tPackages(pkg.durationKey)
-              : null;
-            const price = pkg.price === "" ? t("individualPrice") : pkg.price;
 
             return (
               <div
@@ -113,12 +109,6 @@ export default function Package() {
                     className={styles.packageImage}
                   />
                   <div className={styles.priceBlock}>
-                    <div className={styles.priceInfo}>
-                      <span className={styles.price}>{price}</span>
-                      {duration && (
-                        <span className={styles.duration}>{duration}</span>
-                      )}
-                    </div>
                     <Link href="/contact" className={styles.consultBtn}>
                       {t("consultBtn")}
                     </Link>
