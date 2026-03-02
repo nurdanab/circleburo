@@ -698,6 +698,40 @@ adminRouter.delete('/upload', async (req, res) => {
   }
 });
 
+// Delete category
+adminRouter.delete('/categories/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check if category has articles
+    const articlesResult = await pool.query(
+      'SELECT COUNT(*) FROM blog_articles WHERE category_id = $1',
+      [id]
+    );
+
+    if (parseInt(articlesResult.rows[0].count) > 0) {
+      return res.status(400).json({
+        error: 'Cannot delete category with articles. Remove articles first.'
+      });
+    }
+
+    const result = await pool.query(
+      'DELETE FROM blog_categories WHERE id = $1 RETURNING id',
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    logger.info(`Blog category deleted: ${id}`);
+    res.json({ message: 'Category deleted successfully' });
+  } catch (error) {
+    logger.error('Error deleting category:', error);
+    res.status(500).json({ error: 'Failed to delete category' });
+  }
+});
+
 // Delete article
 adminRouter.delete('/articles/:id', async (req, res) => {
   try {

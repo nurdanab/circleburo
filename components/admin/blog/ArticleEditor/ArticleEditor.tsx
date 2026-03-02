@@ -135,6 +135,24 @@ export default function ArticleEditor({ articleId }: ArticleEditorProps) {
     }
   };
 
+  // Delete category
+  const handleDeleteCategory = async (catId: number) => {
+    if (!window.confirm("Удалить категорию? Это действие нельзя отменить.")) {
+      return;
+    }
+
+    const result = await blogAdminApi.deleteCategory(catId);
+
+    if (result.error) {
+      setError(result.error);
+    } else {
+      setCategories((prev) => prev.filter((c) => c.id !== catId));
+      if (categoryId === catId) {
+        setCategoryId(null);
+      }
+    }
+  };
+
   // Create new category
   const handleCreateCategory = async () => {
     if (!newCategorySlug.trim()) {
@@ -310,6 +328,25 @@ export default function ArticleEditor({ articleId }: ArticleEditorProps) {
                 </option>
               ))}
             </select>
+
+            {/* Category management */}
+            {categories.length > 0 && (
+              <div className={styles.categoryList}>
+                {categories.map((cat) => (
+                  <div key={cat.id} className={styles.categoryItem}>
+                    <span>{cat.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteCategory(cat.id)}
+                      className={styles.deleteCategoryBtn}
+                      title="Удалить категорию"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {!showCategoryForm ? (
               <button

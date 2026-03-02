@@ -323,4 +323,23 @@ export const blogAdminApi = {
       return { data: null, error: (error as Error).message };
     }
   },
+
+  // Delete category
+  async deleteCategory(id: number): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response = await fetch(`${API_URL}/api/admin/blog/categories/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return { data: null, error: errorData.error || 'Failed to delete category' };
+      }
+
+      const data = await response.json();
+      return { data, error: null };
+    } catch (error) {
+      return { data: null, error: (error as Error).message };
+    }
+  },
 };
