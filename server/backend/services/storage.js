@@ -47,8 +47,11 @@ const uploadFile = async (file, filename) => {
     );
 
     // Generate public URL
-    const baseUrl = process.env.MINIO_PUBLIC_URL || `http://${process.env.MINIO_ENDPOINT || '78.109.18.11'}:${process.env.MINIO_PORT || '9000'}`;
-    const publicUrl = `${baseUrl}/${BUCKET_NAME}/${objectName}`;
+    // Note: nginx already proxies media.circleburo.kz to /media bucket, so don't include bucket name
+    const baseUrl = process.env.MINIO_PUBLIC_URL || `http://${process.env.MINIO_ENDPOINT || '78.109.18.11'}:${process.env.MINIO_PORT || '9000'}/${BUCKET_NAME}`;
+    const publicUrl = process.env.MINIO_PUBLIC_URL
+      ? `${baseUrl}/${objectName}`  // For public URL, don't add bucket (nginx handles it)
+      : `${baseUrl}/${objectName}`; // For internal URL, bucket is in baseUrl
 
     logger.info(`File uploaded: ${objectName}`);
     return {
@@ -164,10 +167,10 @@ const cleanupUnusedImages = async (pool, daysOld = 1) => {
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
 
     const filesToDelete = [];
-    const baseUrl = process.env.MINIO_PUBLIC_URL || `http://${process.env.MINIO_ENDPOINT || '78.109.18.11'}:${process.env.MINIO_PORT || '9000'}`;
+    const baseUrl = process.env.MINIO_PUBLIC_URL || `http://${process.env.MINIO_ENDPOINT || '78.109.18.11'}:${process.env.MINIO_PORT || '9000'}/${BUCKET_NAME}`;
 
     for (const file of allFiles) {
-      const fileUrl = `${baseUrl}/${BUCKET_NAME}/${file.name}`;
+      const fileUrl = `${baseUrl}/${file.name}`;
 
       // Check if file is unused and old enough
       if (!usedUrls.has(fileUrl) && file.lastModified < cutoffDate) {
