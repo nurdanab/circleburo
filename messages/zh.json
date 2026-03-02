@@ -4,6 +4,7 @@
     "navServices": "服务",
     "navProjects": "项目",
     "navShowCases": "案例展示",
+    "navBlog": "博客",
     "navContacts": "联系方式",
     "navWorks": "作品",
     "cta": "联系我们",
@@ -100,7 +101,7 @@
     "production": "制作"
   },
   "services": {
-    "pricesTitle": "semisircle 服务",
+    "pricesTitle": "semicircle 服务",
     "individualPrice": "个性化价格",
     "packagesTitle": "套餐",
     "consultBtn": "预约咨询",
@@ -349,6 +350,37 @@
       "s5Desc": "市场店铺设置、SEO和产品卡片优化、产品照片/视频优化、销售分析",
       "s6Title": "数据和分析咨询",
       "s6Desc": "市场数据分析、竞争对手数字活动研究、客户行为分析、广告效果诊断、仪表板设置（可选）"
+    }
+  },
+  "blog": {
+    "title": "Circle Blog",
+    "subtitle": "来自创意机构团队的品牌、营销和设计专业见解",
+    "searchPlaceholder": "搜索文章...",
+    "search": "搜索",
+    "sortNewest": "最新优先",
+    "sortOldest": "最早优先",
+    "viewGrid": "网格",
+    "viewList": "列表",
+    "allCategories": "全部",
+    "readMore": "阅读更多",
+    "relatedArticles": "相关文章",
+    "noArticles": "暂无文章",
+    "categories": {
+      "branding": "品牌建设",
+      "marketing": "市场营销",
+      "design": "设计",
+      "research": "研究",
+      "case-studies": "案例研究"
+    },
+    "cta": {
+      "title": "想打造强大的品牌吗？",
+      "subtitle": "我们将帮助为您的企业开发独特的身份",
+      "button": "查看服务"
+    },
+    "pagination": {
+      "previous": "上一页",
+      "next": "下一页",
+      "page": "第 {current} 页，共 {total} 页"
     }
   }
 }

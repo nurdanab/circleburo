@@ -1,0 +1,51 @@
+@use "@/styles/shared/variables" as *;
+@use "@/styles/shared/mixins" as *;
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+
+  @include mobile-down {
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.button {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #393939;
+  border-radius: 999px;
+  font-family: $font-primary;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 500;
+  color: #393939;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover:not(.active) {
+    background: rgba(57, 57, 57, 0.05);
+  }
+
+  &.active {
+    background: #fa4c19;
+    border-color: #fa4c19;
+    color: #fff;
+  }
+
+  @include mobile-down {
+    padding: 8px 16px;
+    flex-shrink: 0;
+  }
+}

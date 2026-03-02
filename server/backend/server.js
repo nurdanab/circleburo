@@ -2,9 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const cron = require('node-cron');
 const { Pool } = require('pg');
 const logger = require('./utils/logger');
 const calendarService = require('./services/calendar');
+const blogRoutes = require('./routes/blog');
+const storage = require('./services/storage');
 
 // Initialize Express
 const app = express();
@@ -26,6 +29,9 @@ pool.query('SELECT NOW()', (err, res) => {
   }
   logger.info('Database connected successfully');
 });
+
+// Initialize blog routes with database pool
+blogRoutes.setPool(pool);
 
 // Middleware
 app.use(helmet());
@@ -293,6 +299,20 @@ ID: ${lead.id}
     logger.error('Error sending Telegram notification:', error);
   }
 }
+
+// ==================== BLOG API ROUTES ====================
+
+app.use('/api/blog', blogRoutes.public);
+app.use('/api/admin/blog', blogRoutes.admin);
+
+// ==================== SCHEDULED TASKS ====================
+
+// Run daily cleanup of unused blog images at 3:00 AM
+cron.schedule('0 3 * * *', async () => {
+  logger.info('Running scheduled cleanup of unused blog images...');
+  const result = await storage.cleanupUnusedImages(pool, 1);
+  logger.info(`Cleanup complete: ${result.deleted} unused images deleted`);
+});
 
 // ==================== ERROR HANDLING ====================
 

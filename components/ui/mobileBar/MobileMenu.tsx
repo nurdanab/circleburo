@@ -42,6 +42,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     { href: "/about" as const, label: t("navAbout") },
     { href: "/projects" as const, label: t("navWorks") },
     { href: "/show-cases" as const, label: t("navShowCases") },
+    { href: "/circle-blog" as const, label: t("navBlog") },
     { href: "/contact" as const, label: t("navContacts") },
   ];
 

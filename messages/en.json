@@ -4,6 +4,7 @@
     "navServices": "Services",
     "navProjects": "Projects",
     "navShowCases": "Show cases",
+    "navBlog": "Blog",
     "navContacts": "Contacts",
     "navWorks": "Works",
     "cta": "Contact us",
@@ -100,7 +101,7 @@
     "production": "Production"
   },
   "services": {
-    "pricesTitle": "semisircle services",
+    "pricesTitle": "semicircle services",
     "individualPrice": "Individual price",
     "packagesTitle": "packages",
     "consultBtn": "Book a consultation",
@@ -349,6 +350,37 @@
       "s5Desc": "Marketplace store setup, SEO and product card optimization, Product photo/video optimization, Sales analysis",
       "s6Title": "Data and analytics consulting",
       "s6Desc": "Market data analysis, Competitor digital activity research, Customer behavior analytics, Ad performance diagnostics, Dashboard setup (optional)"
+    }
+  },
+  "blog": {
+    "title": "Circle Blog",
+    "subtitle": "Expert insights on branding, marketing, and design from our creative agency team",
+    "searchPlaceholder": "Search articles...",
+    "search": "Search",
+    "sortNewest": "Newest first",
+    "sortOldest": "Oldest first",
+    "viewGrid": "Grid",
+    "viewList": "List",
+    "allCategories": "All",
+    "readMore": "Read more",
+    "relatedArticles": "Related Articles",
+    "noArticles": "No articles yet",
+    "categories": {
+      "branding": "Branding",
+      "marketing": "Marketing",
+      "design": "Design",
+      "research": "Research",
+      "case-studies": "Case Studies"
+    },
+    "cta": {
+      "title": "Want to build a strong brand?",
+      "subtitle": "We will help develop a unique identity for your business",
+      "button": "View services"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current} of {total}"
     }
   }
 }

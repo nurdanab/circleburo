@@ -1,0 +1,207 @@
+@use "@/styles/shared/variables" as *;
+@use "@/styles/shared/mixins" as *;
+
+.article {
+  min-height: 100vh;
+  background: #F1F3FF;
+  padding-top: 100px;
+
+  @include mobile-down {
+    padding-top: 80px;
+  }
+}
+
+// Hero Section with decorative elements
+.hero {
+  position: relative;
+  padding: 60px 5% 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  @include mobile-down {
+    padding: 32px 20px 0;
+  }
+}
+
+.heroDecoration {
+  display: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto 48px;
+  text-align: center;
+
+  @include mobile-down {
+    margin-bottom: 32px;
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  font-size: clamp(13px, 1vw, 15px);
+
+  a {
+    color: #929292;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #393939;
+    }
+  }
+
+  @include mobile-down {
+    margin-bottom: 20px;
+  }
+}
+
+.separator {
+  color: #d1d5db;
+}
+
+.title {
+  font-family: "Gothic 60", sans-serif;
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 400;
+  color: #393939;
+  margin: 0 0 24px;
+  line-height: 1.15;
+
+  @include mobile-down {
+    margin-bottom: 16px;
+  }
+}
+
+.lead {
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include mobile-down {
+    margin-bottom: 24px;
+  }
+}
+
+// Meta section (author, category, date)
+.metaSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+  font-size: clamp(13px, 1vw, 15px);
+
+  @include mobile-down {
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+}
+
+.authorName {
+  color: #393939;
+  font-weight: 500;
+}
+
+.category {
+  color: #FA4C19;
+  font-weight: 500;
+}
+
+.date {
+  color: #929292;
+}
+
+.divider {
+  color: #d1d5db;
+}
+
+// Hero image
+.heroImage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 8;
+  overflow: hidden;
+  border-radius: 24px;
+
+  @include mobile-down {
+    margin-left: -20px;
+    margin-right: -20px;
+    width: calc(100% + 40px);
+    max-width: none;
+    aspect-ratio: 16 / 10;
+    border-radius: 0;
+  }
+}
+
+.coverImage {
+  object-fit: cover;
+}
+
+// Content wrapper
+.contentWrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 5%;
+
+  @include mobile-down {
+    padding: 48px 20px;
+  }
+}
+
+// Related Articles section
+.relatedSection {
+  background: #f5f0e8;
+  padding: 80px 5%;
+  margin-top: 40px;
+
+  @include mobile-down {
+    padding: 48px 20px;
+    margin-top: 24px;
+  }
+}
+
+.relatedTitle {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(24px, 2.5vw, 36px);
+  font-weight: 700;
+  color: #393939;
+  text-align: center;
+  margin: 0 0 48px;
+
+  @include mobile-down {
+    margin-bottom: 32px;
+  }
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include tablet-down {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile-down {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

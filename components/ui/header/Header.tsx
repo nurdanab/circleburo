@@ -67,6 +67,11 @@ export default function Header() {
                   {t("navShowCases")}
                 </Link>
               </li>
+              <li>
+                <Link href="/circle-blog" className={styles.navLink}>
+                  {t("navBlog")}
+                </Link>
+              </li>
             </ul>
           </nav>
 

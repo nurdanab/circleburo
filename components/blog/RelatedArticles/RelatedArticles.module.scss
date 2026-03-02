@@ -1,0 +1,41 @@
+@use "@/styles/shared/variables" as *;
+@use "@/styles/shared/mixins" as *;
+
+.section {
+  padding: 60px 5%;
+  border-top: 1px solid rgba(57, 57, 57, 0.1);
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @include mobile-down {
+    padding: 40px 20px;
+  }
+}
+
+.title {
+  font-family: "Gothic 60", sans-serif;
+  font-size: clamp(24px, 2vw, 32px);
+  font-weight: 400;
+  color: #393939;
+  margin: 0 0 32px;
+  text-align: center;
+
+  @include mobile-down {
+    margin-bottom: 24px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+
+  @include tablet-down {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile-down {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

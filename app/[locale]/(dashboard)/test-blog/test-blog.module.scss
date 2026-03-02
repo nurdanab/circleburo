@@ -1,0 +1,62 @@
+@use "@/styles/shared/variables" as *;
+@use "@/styles/shared/mixins" as *;
+
+.page {
+  min-height: 100vh;
+  background: #F1F3FF;
+  padding: 120px 0 80px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 5%;
+
+  @include mobile-down {
+    padding: 0 20px;
+  }
+}
+
+.title {
+  font-family: "Playfair Display", serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #393939;
+  margin: 0 0 60px;
+  text-align: center;
+}
+
+.section {
+  margin-bottom: 80px;
+}
+
+.sectionTitle {
+  font-family: "Gothic 60", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #393939;
+  margin: 0 0 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+
+  @include tablet-down {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile-down {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

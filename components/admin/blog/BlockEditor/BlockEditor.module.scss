@@ -1,0 +1,402 @@
+.editor {
+  min-height: 300px;
+}
+
+.empty {
+  padding: 3rem;
+  text-align: center;
+  background: #f9fafb;
+  border: 2px dashed #e5e7eb;
+  border-radius: 0.5rem;
+
+  p {
+    font-size: 1rem;
+    color: #374151;
+    margin-bottom: 0.25rem;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+}
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.blockWrapper {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:hover {
+    border-color: #d1d5db;
+  }
+
+  &.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+  }
+
+  &.dragOver {
+    border-color: #374151;
+    border-style: dashed;
+    background: #fff;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #374151;
+      border-radius: 2px;
+    }
+  }
+}
+
+.blockControls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.dragHandle {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  cursor: grab;
+  border-radius: 0.25rem;
+  transition: all 0.15s;
+
+  &:hover {
+    color: #374151;
+    background: #e5e7eb;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.controlBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #e5e7eb;
+    color: #374151;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &.deleteBtn {
+    color: #ef4444;
+
+    &:hover:not(:disabled) {
+      background: #fee2e2;
+    }
+  }
+}
+
+.blockContent {
+  flex: 1;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.blockLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.formatToolbar {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.formatBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+.hint {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.headingHeader,
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.levelSelect {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  background: #fff;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: #6b7280;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background: #fff;
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: #6b7280;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.listIndex {
+  width: 20px;
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+.listInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: #6b7280;
+  }
+}
+
+.removeItemBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: #9ca3af;
+  cursor: pointer;
+
+  &:hover {
+    background: #fee2e2;
+    color: #ef4444;
+  }
+}
+
+.addItemBtn {
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #9ca3af;
+    color: #374151;
+  }
+}
+
+.addBlockWrapper {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.addBlockBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #fff;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #fa4c19;
+    color: #fa4c19;
+  }
+}
+
+.addMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.5rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.addMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  font-size: 0.875rem;
+  color: #374151;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #f9fafb;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #f3f4f6;
+  }
+}
+
+.menuIcon {
+  width: 24px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+// Mobile responsiveness
+@media (max-width: 640px) {
+  .blockWrapper {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .blockControls {
+    flex-direction: row;
+    justify-content: flex-end;
+    order: -1;
+  }
+
+  .formatToolbar {
+    flex-wrap: wrap;
+  }
+
+  .addMenu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    margin: 0;
+    border-radius: 1rem 1rem 0 0;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .addMenuItem {
+    padding: 1rem;
+  }
+}
