@@ -12,6 +12,11 @@ const MEDIA_CDN_URL = process.env.NEXT_PUBLIC_MEDIA_URL || "";
  * @returns полный URL для development или CDN URL для production
  */
 export function getMediaUrl(path: string): string {
+  // Если путь уже является полным URL, возвращаем как есть
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
   // В development возвращаем локальный путь
   if (!MEDIA_CDN_URL || process.env.NODE_ENV === "development") {
     return path;
