@@ -298,8 +298,19 @@ adminRouter.get('/articles', async (req, res) => {
 
     query += ` ORDER BY a.updated_at DESC`;
 
-    // Get total count
-    const countQuery = query.replace(/SELECT[\s\S]*?FROM/, 'SELECT COUNT(*) FROM').split('ORDER BY')[0];
+    // Get total count - build a separate simpler query
+    let countQuery = `
+      SELECT COUNT(*) FROM blog_articles a
+      LEFT JOIN blog_categories c ON a.category_id = c.id
+      WHERE 1=1
+    `;
+    if (status) {
+      countQuery += ` AND a.status = $1`;
+    }
+    if (category) {
+      const catParam = status ? '$2' : '$1';
+      countQuery += ` AND c.slug = ${catParam}`;
+    }
     const countResult = await pool.query(countQuery, params);
     const total = parseInt(countResult.rows[0].count);
 
