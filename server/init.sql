@@ -142,7 +142,7 @@ VALUES (
     1,
     'kak-sozdat-silnyi-brend',
     1,
-    'http://78.109.18.11:9000/media/blog/test-cover.jpg',
+    '/home/Manifest.png',
     'published',
     CURRENT_TIMESTAMP
 ) ON CONFLICT (id) DO NOTHING;
