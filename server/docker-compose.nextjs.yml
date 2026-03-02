@@ -46,7 +46,7 @@ services:
       G_CAL_ID: ${G_CAL_ID}
       G_CAL_SERVICE_ACCOUNT_KEY: ${G_CAL_SERVICE_ACCOUNT_KEY}
       CORS_ORIGIN: ${CORS_ORIGIN:-https://circleburo.kz}
-      MINIO_ENDPOINT: minio
+      MINIO_ENDPOINT: host.docker.internal
       MINIO_PORT: 9000
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin123}
@@ -54,8 +54,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      minio:
-        condition: service_started
     networks:
       - circle-network
     volumes:
@@ -101,34 +99,16 @@ services:
       - galeriya-network
       - econo-network
 
-  minio:
-    image: minio/minio:latest
-    container_name: circle-buro-minio
-    restart: unless-stopped
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
-    volumes:
-      - minio_data:/data
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    networks:
-      - circle-network
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-      start_period: 30s
+  # MinIO runs as system service, not in Docker
+  # minio:
+  #   image: minio/minio:latest
+  #   container_name: circle-buro-minio
+  #   ...
 
 volumes:
   postgres_data:
     driver: local
   nginx_logs:
-    driver: local
-  minio_data:
     driver: local
 
 networks:
