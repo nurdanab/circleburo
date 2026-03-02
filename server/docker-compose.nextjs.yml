@@ -53,6 +53,7 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin123}
       MINIO_BUCKET: media
+      MINIO_PUBLIC_URL: https://media.circleburo.kz
     depends_on:
       postgres:
         condition: service_healthy
