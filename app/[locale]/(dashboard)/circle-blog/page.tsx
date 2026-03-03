@@ -10,7 +10,7 @@ const DEFAULT_LOCALE = "ru";
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string; page?: string }>;
+  searchParams: Promise<{ category?: string; page?: string; search?: string; sort?: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPage({ params, searchParams }: Props) {
   const { locale } = await params;
-  const { category, page } = await searchParams;
+  const { category, page, search, sort } = await searchParams;
   setRequestLocale(locale);
 
   const currentPage = page ? parseInt(page) : 1;
@@ -80,6 +80,8 @@ export default async function BlogPage({ params, searchParams }: Props) {
       category: category || undefined,
       page: currentPage,
       limit: 9,
+      search: search || undefined,
+      sort: sort as 'newest' | 'oldest' | undefined,
     }),
     blogApi.getCategories(locale as BlogLocale),
   ]);

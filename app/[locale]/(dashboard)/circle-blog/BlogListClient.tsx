@@ -28,9 +28,12 @@ export default function BlogListClient({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
+  const initialSort = searchParams.get("sort");
+  const [sortOrder, setSortOrder] = useState<SortOrder>(
+    initialSort === "oldest" ? "oldest" : "newest"
+  );
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());

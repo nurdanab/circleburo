@@ -56,7 +56,7 @@ publicRouter.get('/articles/slugs', async (req, res) => {
 // Get all published articles with pagination
 publicRouter.get('/articles', async (req, res) => {
   try {
-    const { locale = 'ru', category, page = 1, limit = 9 } = req.query;
+    const { locale = 'ru', category, page = 1, limit = 9, search, sort = 'newest' } = req.query;
     const offset = (parseInt(page) - 1) * parseInt(limit);
 
     // Validate locale
@@ -94,7 +94,16 @@ publicRouter.get('/articles', async (req, res) => {
       paramCount++;
     }
 
-    query += ` ORDER BY a.published_at DESC NULLS LAST, a.created_at DESC`;
+    // Search by title or lead
+    if (search && search.trim()) {
+      query += ` AND (t.title ILIKE $${paramCount} OR t.lead ILIKE $${paramCount})`;
+      params.push(`%${search.trim()}%`);
+      paramCount++;
+    }
+
+    // Sort order
+    const sortOrder = sort === 'oldest' ? 'ASC' : 'DESC';
+    query += ` ORDER BY a.published_at ${sortOrder} NULLS LAST, a.created_at ${sortOrder}`;
 
     // Get total count
     const countQuery = query.replace(/SELECT[\s\S]*?FROM/, 'SELECT COUNT(*) FROM');

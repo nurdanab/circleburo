@@ -44,6 +44,8 @@ export const blogApi = {
       category?: string;
       page?: number;
       limit?: number;
+      search?: string;
+      sort?: 'newest' | 'oldest';
     }
   ): Promise<ApiResponse<ArticlesResponse>> {
     try {
@@ -52,6 +54,8 @@ export const blogApi = {
       if (options?.category) params.append('category', options.category);
       if (options?.page) params.append('page', options.page.toString());
       if (options?.limit) params.append('limit', options.limit.toString());
+      if (options?.search) params.append('search', options.search);
+      if (options?.sort) params.append('sort', options.sort);
 
       const response = await fetch(`${API_URL}/api/blog/articles?${params}`);
 
